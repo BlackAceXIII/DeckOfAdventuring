@@ -1,0 +1,71 @@
+{
+    "name": "Card Name",
+    "source": "Source",
+    "set": "Set Name",
+    "page": 0,
+    "face": {
+        "type": "image",
+        "href": {
+            "type": "internal",
+            "path": "path/to/image.webp"
+        },
+        "credit": "Credit Name",
+        "width": 0,
+        "height": 0
+    },
+    "entries": [
+        "{@i Description of the card.}",
+        {
+            "type": "entries",
+            "name": "Meanings",
+            "entries": [
+                {
+                    "type": "list",
+                    "style": "list-hang-notitle",
+                    "items": [
+                        {
+                            "type": "item",
+                            "name": "Person",
+                            "entry": {
+                                "Upright": "",
+                                "Reversed": ""
+                            }
+                        },
+                        {
+                            "type": "item",
+                            "name": "Creature or Trap",
+                            "entry": {
+                                "Upright": "",
+                                "Reversed": ""
+                            }
+                        },
+                        {
+                            "type": "item",
+                            "name": "Place",
+                            "entry": {
+                                "Upright": "",
+                                "Reversed": ""
+                            }
+                        },
+                        {
+                            "type": "item",
+                            "name": "Treasure",
+                            "entry": {
+                                "Upright": "",
+                                "Reversed": ""
+                            }
+                        },
+                        {
+                            "type": "item",
+                            "name": "Situation",
+                            "entry": {
+                                "Upright": "",
+                                "Reversed": ""
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
