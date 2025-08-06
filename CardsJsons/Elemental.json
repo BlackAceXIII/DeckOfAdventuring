@@ -1,26 +1,26 @@
 {
-    "name": "placeholder",
-    "description": "placeholder",
+    "name": "Elemental",
+    "description": "A hungry Xorn feeds in an Underdark cavern. This card suggests an Elemental creature or reducing a thing to its essence.",
     "meanings": {
         "person": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A person who uses magic tied to the elements or who is cartoonishly two-dimensional.",
+            "A person driven by an internal conflict between two opposed tendencies or influences."
         ],
         "creatureTrap": [
-            "upright placeholder",
-            "reversed placeholder"
+            "An Elemental creature, or a creature that uses air, earth, fire, or water magic.",
+            "A creature (such as a mephit) that combines the substance of two Elemental Planes, or creatures from opposing Elemental Planes."
         ],
         "place": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A place influenced by the Elemental Planes or associated with an element (such as a cave, a mountain, a volcano, or a river).",
+            "A place where forces of the Elemental Planes are in opposition to each other."
         ],
         "treasure": [
-            "upright placeholder",
-            "reversed placeholder"
+            "An art object that incorporates material from an Elemental Plane or imagery of the elements, or a magic item that conjures or controls Elementals (such as a Ring of Elemental Command).",
+            "An art object that incorporates material from multiple Elemental Planes or imagery of elements in opposition; a magic item useful against Elementals."
         ],
         "situation": [
-            "upright placeholder",
-            "reversed placeholder"
+            "Forces from the Elemental Planes spilling into the world.",
+            "Opposed forces from two or more Elemental Planes entering the world."
         ]
     }
 }

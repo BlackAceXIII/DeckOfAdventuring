@@ -1,26 +1,26 @@
 {
-    "name": "placeholder",
-    "description": "placeholder",
+    "name": "Bridge",
+    "description": "A stone bridge arcs across a waterway. A shadowy figure lurks under the bridge, only its gleaming eyes clearly visible. This card reflects the effort required to overcome obstacles.",
     "meanings": {
         "person": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A mediator who enjoys helping others overcome misunderstandings or grievances.",
+            "A person who is part of a longstanding feud between two families or groups."
         ],
         "creatureTrap": [
-            "upright placeholder",
-            "reversed placeholder"
+            "Someone who coordinates the efforts of different kinds of creatures, such as a mind flayer mastermind using grimlocks and trolls as agents.",
+            "A creature that lairs near, on, or under a bridge and either collects tolls from those using the bridge or tries to eat them."
         ],
         "place": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A bridge across a river or chasm.",
+            "A river or chasm with no bridge, or where the bridge is unsafe or has collapsed."
         ],
         "treasure": [
-            "upright placeholder",
-            "reversed placeholder"
+            "An art object depicting a bridge, or a magic item intended to help overcome obstacles (such as Boots of Striding and Springing).",
+            "An art object depicting walls, barriers. or a labyrinth; alternatively, a magic item that creates magical walls (such as a Cube of Force)."
         ],
         "situation": [
-            "upright placeholder",
-            "reversed placeholder"
+            "An urgent need for bridges between long-opposed factions.",
+            "Open conflict between two families or groups."
         ]
     }
 }

@@ -1,26 +1,26 @@
 {
-    "name": "placeholder",
-    "description": "placeholder",
+    "name": "Fey",
+    "description": "A blink dog runs through the wild. When upright; this card can refer to a Fey creature or a sense of whimsy; reversed, it points to the gloomy Shadowfell.",
     "meanings": {
         "person": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A person with Fey ancestry or some other connection to the Fey (such as a warlock of the Archfey), or a person with a whimsical sense of humor.",
+            "A gloomy person with no sense of humor, or a person who uses shadow-based magic."
         ],
         "creatureTrap": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A Fey creature, or some other creature with connections to the Feywild.",
+            "A creature from the Shadowfell, or one transformed by shadow energy (such as a shadow dragon)."
         ],
         "place": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A place in the Feywild, somewhere that allows passage to the Feywild, or a location where Fey magic is active.",
+            "A place in the Shadowfell, somewhere that allows passage to the Shadowfell, or a location where shadow magic is active."
         ],
         "treasure": [
-            "upright placeholder",
-            "reversed placeholder"
+            "An art object depicting Fey or the Feywild, or a magic item made by Fey.",
+            "An art object depicting the Shadowfell, or a magic item that uses shadow magic."
         ],
         "situation": [
-            "upright placeholder",
-            "reversed placeholder"
+            "An absurd situation that shouldn't be taken too seriously.",
+            "A gloomy situation that offers little hope of success or escape."
         ]
     }
 }

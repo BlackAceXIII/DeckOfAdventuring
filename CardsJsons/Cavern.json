@@ -1,26 +1,26 @@
 {
-    "name": "placeholder",
-    "description": "placeholder",
+    "name": "Cavern",
+    "description": "A vast cavern is adorned with glowing fungi and striking stone formations. The Cavern card suggests exploration and delving into hidden secrets.",
     "meanings": {
         "person": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A person who asks probing questions but shares little.",
+            "A person who lives for the moment, avoiding introspection."
         ],
         "creatureTrap": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A creature (such as a piercer or a roper) that mimics the features of natural caverns.",
+            "A creature that swallows prey whole, or a trap that causes a ceiling or roof to collapse."
         ],
         "place": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A cavern or a cavernous building such as a large temple.",
+            "A small niche or cave."
         ],
         "treasure": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A geode, jewelry made from gems and precious metals, or a magic item that grants darkvision (such as Goggles of Night).",
+            "An art object that lacks a sense of depth or perspective."
         ],
         "situation": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A situation that requires delving into hidden motivations and secrets.",
+            "Everyone's motivations exposed for all to see."
         ]
     }
 }

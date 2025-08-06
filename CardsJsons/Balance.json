@@ -1,26 +1,26 @@
 {
-    "name": "placeholder",
-    "description": "placeholder",
+    "name": "Balance",
+    "description": "A set of scales holds day and night in balance. This card deals with many aspects of balance, or with things being out of balance.",
     "meanings": {
         "person": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A fair-minded person who can see multiple perspectives and judge impartially.",
+            "A judgmental or biased person willfully ignoring one perspective in favor of another."
         ],
         "creatureTrap": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A trap, a Beast, a Construct, or an otherwise impartial foe.",
+            "A Celestial, a Fiend, or some other creature strongly associated with a particular alignment or ideology."
         ],
         "place": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A place where different forces exist in balance—such as a civilization in balance with nature, a land in balance with water, or chaos in balance with order.",
+            "A place where the balance of elemental or natural forces has been upset, with negative consequences."
         ],
         "treasure": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A treasure with value to two competing factions, or with two equal magical powers.",
+            "A treasure valuable only to certain people, or that can be used only in a very specific way."
         ],
         "situation": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A situation where maintaining balance is important: keeping rivals satisfied, preserving the balance of power among different authorities, or rejecting false dichotomies and forced choices.",
+            "Something being over- or undervalued."
         ]
     }
 }

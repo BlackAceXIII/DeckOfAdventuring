@@ -1,26 +1,26 @@
 {
-    "name": "placeholder",
-    "description": "placeholder",
+    "name": "Comet",
+    "description": "A comet with an enormous tail streaks across the winter sky at night, outshining the stars. The Comet card brings dire warnings or devastation.",
     "meanings": {
         "person": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A serious person with a gloomy outlook, perhaps carrying bad news.",
+            "A person who is grieving or delights in the suffering of others."
         ],
         "creatureTrap": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A creature regarded as an ill omen, or signs that a dire creature approaches; alternatively, a trap marked by clear signs, perhaps surrounded by the corpses of its victims.",
+            "The destruction left in the wake ofa rampaging creature, or smaller creatures fleeing from a larger one."
         ],
         "place": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A place with a connection to astronomical events: perhaps an observatory or a meteorite's crater.",
+            "A ruin where a terrible event occurred in the past and that might now be haunted."
         ],
         "treasure": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A treasure that carries a curse, or one whose power is destined to be used for destructive ends.",
+            ". A treasure formed or shaped by disaster, bloodstained or haunted by former owners: alternatively, something good arising from a bad situation."
         ],
         "situation": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A crisis about to spiral out of control.",
+            "The calm after a devastating storm: a situation where people are reeling from awful news or events."
         ]
     }
 }

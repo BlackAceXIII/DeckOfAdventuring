@@ -1,26 +1,26 @@
 {
-    "name": "placeholder",
-    "description": "placeholder",
+    "name": "Campfire",
+    "description": "A large campfire offers safety and comfort in the night. This card suggests a need for rest.",
     "meanings": {
         "person": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A person on vacation, enjoying time away from work and pursuing activities they enjoy.",
+            "An exhausted person."
         ],
         "creatureTrap": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A creature that alternates brief periods of activity with long periods of rest (as many reptiles and Dragons do); alternatively, a trap that requires a long time to reset between activations.",
+            "A creature immune to exhaustion (such as an angel, a golem, an Ooze, or an Undead), or a trap or hazard with a constant, ongoing effect."
         ],
         "place": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A place recently used as a campsite.",
+            "Somewhere not conducive to rest, such as a busy marketplace active at all hours."
         ],
         "treasure": [
-            "upright placeholder",
-            "reversed placeholder"
+            "An art object depicting a peaceful scene, or a magic item that facilitates safe rest (such as a Rod of Security).",
+            "An art object that suggests frenetic activity, or a magic item that helps its user remain alert (such as a Sentinel Shield),"
         ],
         "situation": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A period of rest in the middle of a journey or an adventure.",
+            "A situation that demands unrelenting activity."
         ]
     }
 }

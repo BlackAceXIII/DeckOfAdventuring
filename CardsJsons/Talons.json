@@ -1,26 +1,26 @@
 {
-    "name": "placeholder",
-    "description": "placeholder",
+    "name": "Talons",
+    "description": "A clawed hand reaches to grab an emerald ring which disintegrates at the claw's approach. The Talons card indicates greed or the rapacious hunger of a predator.",
     "meanings": {
         "person": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A person who preys on other folk to acquire wealth or power.",
+            "A person trapped by predatory debt or victimized by a monster that slowly drains the person's life."
         ],
         "creatureTrap": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A predator, especially one that preys on people or slowly drains their life (such as a vampire).",
+            "A creature hunted for parts of its body that are considered valuable, or for the treasure it hoards."
         ],
         "place": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A place where the rich benefit from the labor of the poor.",
+            "A tenement or workhouse where oppressed victims of the rich live in squalor."
         ],
         "treasure": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A treasure that is a collector's prized possession or the object of a heist.",
+            "A treasure that was stolen from its rightful owner."
         ],
         "situation": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A situation driven by someone's avarice.",
+            "A situation driven by a desperate individual victimized by the greedy."
         ]
     }
 }

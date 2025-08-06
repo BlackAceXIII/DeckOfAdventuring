@@ -1,26 +1,26 @@
 {
-    "name": "placeholder",
-    "description": "placeholder",
+    "name": "Flames",
+    "description": "A chain devil, wreathed in flames, looks menacing and angry. The Flames card brings enemies and vengeance.",
     "meanings": {
         "person": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A person carrying a bitter, possibly violent, grudge that poisons their outlook.",
+            "A person who is being hunted or persecuted unjustly."
         ],
         "creatureTrap": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A Fiend, a vengeful Undead (such as a ghost or revenant), or a creature dedicated to pursuing designated prey (such as an invisible stalker).",
+            "A creature fleeing from a larger or more dangerous foe."
         ],
         "place": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A place of bloodshed, or a place with a connection to the Lower Planes.",
+            "A place of sanctuary for refugees and fugitives."
         ],
         "treasure": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A treasure that has been the subject of intense discord or rivalry, or a magic item originating on the Lower Planes.",
+            "A treasure symbolizing or commemorating the end of a feud or war, or a magic item that can charm or calm creatures (such as a Rod of Rulership)."
         ],
         "situation": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A deep-seated enmity that clouds the judgment of those involved, or someone's thirst for revenge.",
+            "Unjust persecution or prejudicial hatred."
         ]
     }
 }

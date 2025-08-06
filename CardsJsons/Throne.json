@@ -1,26 +1,26 @@
 {
-    "name": "placeholder",
-    "description": "placeholder",
+    "name": "Throne",
+    "description": "An ostentatious throne stands on a dais, with a crown on the seat and a ceremonial sword leaning against one armrest. This card represents the authority of worldly rulers.",
     "meanings": {
         "person": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A person who enjoys exercising authority over others and expects to be obeyed.",
+            "A person who resents authority imposed on them."
         ],
         "creatureTrap": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A creature that leads others of its kind; alternatively, one with magical powers of influence or command.",
+            "A creature that unwillingly serves another."
         ],
         "place": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A place of authority, such as a palace or a mayor's office.",
+            "A place at the edge of a ruler's authority or on the border between rival nations."
         ],
         "treasure": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A ruler's regalia, or a magic item (such as a Rod of Rulership) that imparts magical authority.",
+            "An art object created as an act of resistance to tyranny, or a magic item that protects against restraint (such as a Ring of Free Action)."
         ],
         "situation": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A contest over who rightfully holds authority.",
+            "A group of people rebelling against a ruler or an authority figure."
         ]
     }
 }

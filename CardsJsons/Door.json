@@ -1,26 +1,26 @@
 {
-    "name": "placeholder",
-    "description": "placeholder",
+    "name": "Door",
+    "description": "A large wooden door bars the path ahead. The card offers an opportunity to change.",
     "meanings": {
         "person": [
-            "upright placeholder",
-            "reversed placeholder"
+            "Someone trying to make amends for past misdeeds and adopt a better way of life.",
+            "A person who keeps repeating the same mistakes and misdeeds."
         ],
         "creatureTrap": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A creature that changes form, or a trapped door.",
+            "A creature that causes its prey or enemies to change, such as a lycanthrope or slaad."
         ],
         "place": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A door, an open doorway, or a passage from one place to another.",
+            "A locked door or barricaded passage."
         ],
         "treasure": [
-            "upright placeholder",
-            "reversed placeholder"
+            "An art object that looks very different from various perspectives, or a magic item that creates portals or allows teleportation (such as an Amulet of the Planes).",
+            "A jeweled chest or lockbox, or a magic item that resists change (such as an Immovable Rod)."
         ],
         "situation": [
-            "upright placeholder",
-            "reversed placeholder"
+            "An opportunity to deal with a situation differently than you have in the past.",
+            "A situation that keeps recurring."
         ]
     }
 }

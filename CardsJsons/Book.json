@@ -1,26 +1,26 @@
 {
-    "name": "placeholder",
-    "description": "placeholder",
+    "name": "Book",
+    "description": "An enormous book rests among scrolls and parchment, with a quill and ink nearby. The Book card embodies written information.",
     "meanings": {
         "person": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A writer, poet, or compulsive note-taker.",
+            "A well-educated person who reads often."
         ],
         "creatureTrap": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A creature that keeps an exhaustive diary in some form, or that seeks a scribe to record its deeds.",
+            "A trap involving written runes (such as a Glyph of Warding or Symbol spell)."
         ],
         "place": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A scriptorium or printing press.",
+            "A library or another storehouse of written knowledge."
         ],
         "treasure": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A valuable or magical pen, an ink vial, or a set of pigments (such as Nolzur's Marvelous Pigments).",
+            "A valuable or magical written work, such as a book or scroll."
         ],
         "situation": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A situation that requires gleaning information from written clues.",
+            "Secrets that should never have been discovered but were written down."
         ]
     }
 }

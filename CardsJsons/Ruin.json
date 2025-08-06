@@ -1,26 +1,26 @@
 {
-    "name": "placeholder",
-    "description": "placeholder",
+    "name": "Ruin",
+    "description": "An elegant sword and crown disintegrate into eddies of ash. The Ruin card warns of the inevitability of decay and the danger of material attachments.",
     "meanings": {
         "person": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A person who has renounced material attachments, such as a religious ascetic.",
+            "A person excessively attached to material goods (not necessarily excessive wealth)."
         ],
         "creatureTrap": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A creature that destroys equipment, such as a rust monster or a black pudding.",
+            "A Construct, especially an animated object."
         ],
         "place": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A ruin, or a retreat for ascetics.",
+            "A place meant to store goods, such as a warehouse or an armory."
         ],
         "treasure": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A treasure that is broken or in disrepair.",
+            "Valuable trade goods, well-made equipment, or a deed to property."
         ],
         "situation": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A situation involving the decay of objects or relationships over a long period of time.",
+            "A situation involving the production or transportation of goods for sale."
         ]
     }
 }

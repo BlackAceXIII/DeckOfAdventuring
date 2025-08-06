@@ -1,26 +1,26 @@
 {
-    "name": "placeholder",
-    "description": "placeholder",
+    "name": "Vizier",
+    "description": "The mind of a sage is filled with obscure lore gained through exhaustive research. This card represents well-intentioned advice.",
     "meanings": {
         "person": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A person who offers helpful advice in difficult circumstances.",
+            "Someone who helpfully offers bad advice."
         ],
         "creatureTrap": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A helpful creature that leads the way to safety or a goal.",
+            "A creature that tries to lead the way into danger or a trap."
         ],
         "place": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A place dedicated to knowledge and wisdom, such as a library or university.",
+            "A place whose structural flaws threaten its integrity."
         ],
         "treasure": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A valuable or magical book or scroll, or a sentient magic item that is known to provide helpful advice.",
+            "A device valuable for its components that doesn't function as intended, or a sentient magic item that provides bad but well-intentioned advice."
         ],
         "situation": [
-            "upright placeholder",
-            "reversed placeholder"
+            "An opportunity to provide valuable advice on a familiar subject.",
+            "An opportunity to provide advice on a completely unfamiliar subject."
         ]
     }
 }

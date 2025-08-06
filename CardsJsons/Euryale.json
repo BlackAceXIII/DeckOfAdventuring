@@ -1,26 +1,26 @@
 {
-    "name": "placeholder",
-    "description": "placeholder",
+    "name": "Euryale",
+    "description": "A female medusa with a serpentine tail instead of legs is surrounded by flowers and herbs. The Euryale card points to vision, insight, and observation,",
     "meanings": {
         "person": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A person who observes without becoming involved or attached,",
+            "A nosy person vho inserts themself into situations where they don't belong."
         ],
         "creatureTrap": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A medusa or another creature with the power to petrify or a gaze attack.",
+            "A creature made of or associated with stone."
         ],
         "place": [
-            "upright placeholder",
-            "reversed placeholder"
+            "Somewhere with commanding views, such as a watchtower or a high promontory.",
+            "A place with narrow windows (perhaps arrow slits) or with a limited view, perhaps underground."
         ],
         "treasure": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A landscape painting or tapestry, or a magic item that enhances vision (such as Goggles of Night).",
+            "A valuable sculpture or statue, a gemstone, or a magic item made from stone, such as a Figurine of Wondrous Power."
         ],
         "situation": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A situation that rewards or requires careful observation, such as a surveillance operation.",
+            "A situation arising from people's unwillingness to observe things as they are, or their tendency to project their own feelings and opinions onto others."
         ]
     }
 }

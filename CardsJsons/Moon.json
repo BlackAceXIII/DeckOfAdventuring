@@ -1,26 +1,26 @@
 {
-    "name": "placeholder",
-    "description": "placeholder",
+    "name": "Moon",
+    "description": "A crescent moon looms large in the autumn sky. The Moon card points to hidden potential.",
     "meanings": {
         "person": [
-            "upright placeholder",
-            "reversed placeholder"
+            "Someone whose fine qualities are masked by one annoying trait.",
+            "A person who seems competent but bungles everything they attempt."
         ],
         "creatureTrap": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A lycanthrope, or a creature that appears to be an inanimate object until it strikes (such as a gargoyle).",
+            "A creature that uses its fearsome appearance to frighten away others because it is too weak to fight."
         ],
         "place": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A secret chamber or a place concealed by terrain; alternatively, a place larger or more elaborate on the inside than it seems from outside.",
+            "A place with an impressive exterior but a dingy, poorly maintained interior."
         ],
         "treasure": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A treasure whose value isn't immediately apparent, or a magic item that appears to be a worthless object.",
+            "A treasure that seems more valuable than it is, perhaps an ordinary item that falsely appears magical."
         ],
         "situation": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A problem that requires investigation and is more complicated than it appears.",
+            "A situation that seems—and is—too good to be true."
         ]
     }
 }

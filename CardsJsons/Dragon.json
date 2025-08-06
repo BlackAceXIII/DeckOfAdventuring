@@ -1,26 +1,26 @@
 {
-    "name": "placeholder",
-    "description": "placeholder",
+    "name": "Dragon",
+    "description": "A menacing red dragon perches atop its treasure hoard inside a cave. This card can point to things connected to Dragons, but it also suggests hoarding, reed, and places rich in magical energy.",
     "meanings": {
         "person": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A dragonborn, a person who uses draconic magic, a person who is fascinated by dragons, or a person who hoards wealth or other goods.",
+            "Someone with a grudge against a particular Dragon or against Dragons in general."
         ],
         "creatureTrap": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A Dragon or similar creature.",
+            "A dracolich or another Undead dragon, a Construct that resembles a Dragon, or another Dragon-like creature."
         ],
         "place": [
-            "upright placeholder",
-            "reversed placeholder"
+            "The lair of a Dragon or some other impressive creature, or a site of great magical power.",
+            "A place where a Dragon was slain, leaving a magical or physical scar on the land."
         ],
         "treasure": [
-            "upright placeholder",
-            "reversed placeholder"
+            "Large quantities of treasure, though not necessarily of great monetary value (for example, many copper coins or a large collection of cheap statuettes).",
+            "An art object depicting the death of a Dragon, or a magic item useful against Dragons (such as a Dragon Slayer)."
         ],
         "situation": [
-            "upright placeholder",
-            "reversed placeholder"
+            "Someone hoarding resources that are widely needed or desired.",
+            "A group that plans to drive a Dragon from its lair, steal from its hoard, or kill it."
         ]
     }
 }

@@ -1,26 +1,26 @@
 {
-    "name": "placeholder",
-    "description": "placeholder",
+    "name": "Beast",
+    "description": "The Beast card points to creatures of the animal kingdom and foul, cruel, or bad-tempered behavior in people.",
     "meanings": {
         "person": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A person who avoids the comforts of civilization or indulges predatory attitudes.",
+            "A person who fiercely represses urges they deem \"bestial\" in themselves or others."
         ],
         "creatureTrap": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A Beast, or a similar creature (such as a Fey or a Monstrosity) that is animal-like; alternatively, a pit or other confined space with a trapped animal within.",
+            "A domesticated animal or a familiar."
         ],
         "place": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A place where animals roam freely.",
+            "A place where animals are contained, such as a farm or a zoo."
         ],
         "treasure": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A treasure that incorporates fur, feathers, bones, or claws from a Beast, or a magic item that allows transformation into a Beast (such as a Cloak of the Bat or Staff of the Python).",
+            "An ornate saddle, a goad, or another item related to the use of domestic animals, or a magic item that allows control of Beasts (such as a Potion of Animal Friendship)."
         ],
         "situation": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A situation involving hunting animals or animals preying on people.",
+            "Domestic animals rebelling against people's control."
         ]
     }
 }

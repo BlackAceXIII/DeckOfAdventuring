@@ -1,26 +1,26 @@
 {
-    "name": "placeholder",
-    "description": "placeholder",
+    "name": "Star",
+    "description": "A brilliant star shines in the spring sky at twilight. The Star card represents inherent ability and training working in concert—nature allied with nurture.",
     "meanings": {
         "person": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A person focused on improving a particular area of skill or behavior.",
+            "A person with natural ability but little patience for training or study."
         ],
         "creatureTrap": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A creature that has trained to improve itself (perhaps having several skill or saving throw proficiencies), or a trap that requires teamwork to avoid or escape.",
+            "A creature that relies on its natural abilities instead of training (perhaps with no skill or saving throw proficiencies)."
         ],
         "place": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A place dedicated to study or training, such as a university or gymnasium.",
+            "A place of untouched natural beauty."
         ],
         "treasure": [
-            "upright placeholder",
-            "reversed placeholder"
+            "An art object that reflects the skill of its creator, or a magic item that grants proficiency.",
+            "Unrefined ore or uncut gems, or a magic item that improves an ability score."
         ],
         "situation": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A situation that requires or rewards training and practice.",
+            "A situation resulting from someone's refusal to practice or train."
         ]
     }
 }

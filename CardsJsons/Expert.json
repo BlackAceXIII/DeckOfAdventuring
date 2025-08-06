@@ -1,26 +1,26 @@
 {
-    "name": "placeholder",
-    "description": "placeholder",
+    "name": "Expert",
+    "description": "A bard plays a musical instrument. This card implies expertise, rightly or wrongly applied.",
     "meanings": {
         "person": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A person (perhaps a bard, a rogue, a ranger, or an artificer) with exactly the right skills for the task at hand.",
+            "A person who believes themself an expert but isn't actually helpful."
         ],
         "creatureTrap": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A creature with abilities similar to those of a bard, ranger, or rogue, such as expertise in one or more skills.",
+            "A creature that relies on brute strength instead of skill or stealth."
         ],
         "place": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A place (such as a guild hall) where skilled folk gather to share their expertise.",
+            "A place where children learn the basics of useful skills."
         ],
         "treasure": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A treasure with practical use, such as a musical instrument or a tool.",
+            "A wildly impractical treasure with no actual use, unwieldy to wear or display."
         ],
         "situation": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A situation that requires and rewards the expert application of practical skills.",
+            "A situation stemming from someone's expertise being overlooked or ignored."
         ]
     }
 }

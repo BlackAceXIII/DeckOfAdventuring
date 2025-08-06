@@ -1,26 +1,26 @@
 {
-    "name": "placeholder",
-    "description": "placeholder",
+    "name": "Rogue",
+    "description": "A roguish kenku lurking in the shadows holds a dagger, poised to strike. This card suggests treachery and deception.",
     "meanings": {
         "person": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A deceptive person hiding a sinister secret; pursuit of their own aims trumps any friendship or loyalty.",
+            "A good-hearted person entangled in a criminal or evil organization who is desperate for a way out."
         ],
         "creatureTrap": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A dangerous creature that strikes by surprise or from darkness.",
+            "A creature unwillingly bound to the service of villains."
         ],
         "place": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A front for a criminal operation, or a monster's lair.",
+            "An oasis of compassion surrounded by violence."
         ],
         "treasure": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A treasure that hides a deadly secret, such as a ring with a spring-loaded poison needle, a Dagger of Venom, or a cursed magic item.",
+            "A treasure caked in grime or hidden in a filthy place."
         ],
         "situation": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A situation rooted in or destined for betrayal.",
+            "Good characters who are part of an evil organization or who plot to subvert it."
         ]
     }
 }

@@ -1,26 +1,26 @@
 {
-    "name": "placeholder",
-    "description": "placeholder",
+    "name": "Celestial",
+    "description": "A beautiful couatl twines through the clouds. This card suggests the involvement of celestial beings and service to the divine.",
     "meanings": {
         "person": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A devout person who looks for miracles and the presence of the divine in all parts of life.",
+            "Someone who carries a grudge over a real or perceived injury caused by a god or Celestial."
         ],
         "creatureTrap": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A Celestial or other creature that has connections to the gods, or a trap that deals radiant damage.",
+            "A fallen Celestial or similar creature that has lost its connection to the divine,"
         ],
         "place": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A location on the upper planes, or a place suffused with their influence.",
+            "A place intended to ward off Celestials and influence from the Upper Planes."
         ],
         "treasure": [
-            "upright placeholder",
-            "reversed placeholder"
+            "An art object depicting angels or other Celestials, treasure from the Upper Planes, or magic items made by Celestials.",
+            "A treasure depicting a Celestial's fall, or a magic item useful against Celestials."
         ],
         "situation": [
-            "upright placeholder",
-            "reversed placeholder"
+            "Communication between the Upper Planes and the Material Plane—perhaps in dreams or visions, or with Celestials as intermediaries.",
+            "A situation involving Celestials' unwelcome interference in mortal affairs."
         ]
     }
 }

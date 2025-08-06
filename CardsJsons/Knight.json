@@ -1,26 +1,26 @@
 {
-    "name": "placeholder",
-    "description": "placeholder",
+    "name": "Knight",
+    "description": "A knight formed of folded cards offers a sword also made from cards. The Knight card signifies trust and loyalty.",
     "meanings": {
         "person": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A trustworthy person who _honors their commitments.",
+            "A person who can't be trusted, or a traitor posing as a loyal friend."
         ],
         "creatureTrap": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A creature bound by oaths or who serves someone else.",
+            "A knight who has failed to live up to their code of honor (such as a death knight)."
         ],
         "place": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A place of sanctuary, where strong traditions protect those who take shelter inside.",
+            "A place where a great betrayal took place, or a location with treacherous terrain or traps."
         ],
         "treasure": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A treasure celebrating or commemorating an oath (such as a wedding ring), or magic weapons or armor associated with knights or paladins.",
+            "A treasure that carries a hidden curse, or a magic item that fails when it's needed most."
         ],
         "situation": [
-            "upright placeholder",
-            "reversed placeholder"
+            "A situation that requires loyalty in one's companions and faithfulness to them.",
+            "A situation involving the betrayal of trust, or rampant suspicion."
         ]
     }
 }
