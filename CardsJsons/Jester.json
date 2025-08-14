@@ -1,0 +1,26 @@
+{
+    "name": "Jester",
+    "description": "A colorful entertainer or trickster, representing humor, chaos, and unexpected wisdom through folly.",
+    "meanings": {
+        "person": [
+            "A wise individual who teaches through humor and unconventional methods",
+            "A chaotic troublemaker who causes confusion and mischief"
+        ],
+        "creatureTrap": [
+            "A playful creature that tests adventurers with riddles or tricks",
+            "A malicious entity that uses humor to mask dangerous intent"
+        ],
+        "place": [
+            "A place of entertainment, festivals, or celebration",
+            "A location where appearances are deceiving and nothing is as it seems"
+        ],
+        "treasure": [
+            "Items that appear worthless but have hidden value or power",
+            "Cursed items that bring both benefit and misfortune"
+        ],
+        "situation": [
+            "Moments where humor or creativity solve serious problems",
+            "Chaotic situations where plans go awry in unexpected ways"
+        ]
+    }
+}

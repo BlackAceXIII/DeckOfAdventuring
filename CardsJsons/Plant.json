@@ -1,0 +1,26 @@
+{
+    "name": "Plant",
+    "description": "A growing plant or tree, representing natural growth, patience, and the cycles of life.",
+    "meanings": {
+        "person": [
+            "Someone who nurtures growth and has patience for natural development",
+            "A person who becomes stagnant or overgrown with bad habits"
+        ],
+        "creatureTrap": [
+            "Plant creatures or beings connected to natural growth",
+            "Entangling vines, poisonous plants, or overgrown hazardous terrain"
+        ],
+        "place": [
+            "Fertile areas rich in natural resources and healing plants",
+            "Overgrown areas where nature has become wild and dangerous"
+        ],
+        "treasure": [
+            "Natural remedies, herbs, or items that grow in value over time",
+            "Resources that are seasonal or require specific conditions to obtain"
+        ],
+        "situation": [
+            "Gradual growth and development leading to positive outcomes",
+            "Stagnation or being overwhelmed by unchecked growth"
+        ]
+    }
+}

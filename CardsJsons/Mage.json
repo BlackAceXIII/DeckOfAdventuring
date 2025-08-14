@@ -1,0 +1,26 @@
+{
+    "name": "Mage",
+    "description": "A robed spellcaster, representing arcane knowledge, magical power, and the pursuit of understanding.",
+    "meanings": {
+        "person": [
+            "A wise scholar or mentor with valuable magical knowledge",
+            "An arrogant or power-hungry individual who abuses magical abilities"
+        ],
+        "creatureTrap": [
+            "Magical creatures or constructs with spellcasting abilities",
+            "Magical traps that require specific knowledge or counterspells to bypass"
+        ],
+        "place": [
+            "A library, tower, or academy where magical knowledge is preserved",
+            "A place corrupted or warped by uncontrolled magical energies"
+        ],
+        "treasure": [
+            "Spell scrolls, magical tomes, or arcane components",
+            "Cursed magical items that corrupt or drain the user"
+        ],
+        "situation": [
+            "Problems that require magical solutions or arcane knowledge",
+            "Situations where magical interference complicates simple matters"
+        ]
+    }
+}

@@ -1,0 +1,26 @@
+{
+    "name": "Map",
+    "description": "A detailed chart or map, representing guidance, navigation, and the knowledge needed to find one's way.",
+    "meanings": {
+        "person": [
+            "A guide or navigator who knows the way forward",
+            "Someone who provides misleading directions or false information"
+        ],
+        "creatureTrap": [
+            "Creatures that can track or navigate expertly through terrain",
+            "Illusory or shape-shifting creatures that lead travelers astray"
+        ],
+        "place": [
+            "A location that serves as a crossroads or navigation point",
+            "A confusing maze or area where normal navigation fails"
+        ],
+        "treasure": [
+            "Charts, maps, or navigational tools of great value",
+            "False maps or misleading documents that lead to danger"
+        ],
+        "situation": [
+            "Clear direction and guidance toward achieving goals",
+            "Confusion about which path to take or being lost"
+        ]
+    }
+}

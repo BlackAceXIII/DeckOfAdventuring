@@ -1,0 +1,26 @@
+{
+    "name": "Lance",
+    "description": "A long spear or lance, representing focused attack, precision, and the ability to strike from a distance.",
+    "meanings": {
+        "person": [
+            "A skilled warrior with focus and precision in combat",
+            "Someone who strikes without warning or consideration for others"
+        ],
+        "creatureTrap": [
+            "Creatures with natural weapons like spikes, horns, or stingers",
+            "Hidden spikes or piercing traps that activate unexpectedly"
+        ],
+        "place": [
+            "A battlefield or arena where combat skills are tested",
+            "A dangerous passage with numerous piercing hazards"
+        ],
+        "treasure": [
+            "Masterwork weapons or armor with exceptional reach or precision",
+            "Weapons that are difficult to wield or come with significant drawbacks"
+        ],
+        "situation": [
+            "Opportunities to strike decisively at the right moment",
+            "Situations where aggressive action leads to unintended consequences"
+        ]
+    }
+}

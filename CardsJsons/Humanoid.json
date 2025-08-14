@@ -1,0 +1,26 @@
+{
+    "name": "Humanoid",
+    "description": "A figure representing civilized peoples, communities, and the bonds of society.",
+    "meanings": {
+        "person": [
+            "A helpful ally, friend, or member of the community",
+            "A deceitful person who hides malicious intent behind a friendly facade"
+        ],
+        "creatureTrap": [
+            "Intelligent creatures that can be reasoned with or befriended",
+            "Shapeshifters or imposters pretending to be allies"
+        ],
+        "place": [
+            "A welcoming settlement, town, or civilized area",
+            "A place where social tensions or conflicts divide the community"
+        ],
+        "treasure": [
+            "Items of cultural or sentimental value to a community",
+            "Stolen goods or items obtained through betrayal"
+        ],
+        "situation": [
+            "Opportunities for cooperation, diplomacy, or building relationships",
+            "Situations involving deception, betrayal, or social conflict"
+        ]
+    }
+}

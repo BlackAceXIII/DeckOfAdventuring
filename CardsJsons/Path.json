@@ -1,0 +1,26 @@
+{
+    "name": "Path",
+    "description": "A winding trail or road, representing journey, choices, and the direction one takes in life.",
+    "meanings": {
+        "person": [
+            "A guide or mentor who helps others find their way",
+            "Someone who leads others down the wrong path or into danger"
+        ],
+        "creatureTrap": [
+            "Creatures that patrol or guard specific routes or territories",
+            "Hazards that block progress or force difficult detours"
+        ],
+        "place": [
+            "A route that leads to important destinations or discoveries",
+            "A path that leads to danger, dead ends, or becomes impassable"
+        ],
+        "treasure": [
+            "Items found along the way that aid in travel or exploration",
+            "Obstacles or tolls that must be paid to continue forward"
+        ],
+        "situation": [
+            "Clear direction and progress toward goals",
+            "Being forced to take difficult detours or face unexpected obstacles"
+        ]
+    }
+}

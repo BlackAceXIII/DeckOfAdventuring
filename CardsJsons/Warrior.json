@@ -1,0 +1,26 @@
+{
+    "name": "Warrior",
+    "description": "An armored fighter with weapon in hand, representing strength, courage, and the willingness to fight for what matters.",
+    "meanings": {
+        "person": [
+            "A brave defender who fights for justice and protects the innocent",
+            "An aggressive individual who resorts to violence too quickly"
+        ],
+        "creatureTrap": [
+            "Martial creatures with fighting skills and combat tactics",
+            "Combat-oriented challenges that require strength and skill to overcome"
+        ],
+        "place": [
+            "Training grounds, battlefields, or fortified positions for combat",
+            "Areas ravaged by conflict where violence has left lasting damage"
+        ],
+        "treasure": [
+            "Masterwork weapons, armor, or items that enhance combat abilities",
+            "Weapons or armor that come with the burden of past conflicts"
+        ],
+        "situation": [
+            "Opportunities to show courage and fight for important causes",
+            "Conflicts that escalate unnecessarily or violence that solves nothing"
+        ]
+    }
+}

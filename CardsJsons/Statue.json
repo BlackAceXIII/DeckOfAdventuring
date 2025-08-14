@@ -1,0 +1,26 @@
+{
+    "name": "Statue",
+    "description": "A carved stone figure frozen in time, representing permanence, memory, and things that endure through ages.",
+    "meanings": {
+        "person": [
+            "Someone who preserves important traditions or serves as a lasting example",
+            "A person who has become rigid, unchanging, or stuck in the past"
+        ],
+        "creatureTrap": [
+            "Creatures made of stone or those that can petrify others",
+            "Ancient guardians or constructs that activate when disturbed"
+        ],
+        "place": [
+            "Memorial sites, ancient ruins, or places that preserve important history",
+            "Locations frozen in time where nothing changes or grows"
+        ],
+        "treasure": [
+            "Ancient artifacts, historical records, or items of lasting value",
+            "Cursed items that turn things to stone or prevent change"
+        ],
+        "situation": [
+            "Establishing something permanent or honoring lasting achievements",
+            "Being stuck in unchanging patterns or refusing to adapt"
+        ]
+    }
+}

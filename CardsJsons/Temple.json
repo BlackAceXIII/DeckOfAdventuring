@@ -1,0 +1,26 @@
+{
+    "name": "Temple",
+    "description": "A sacred building with soaring architecture, representing divine power, spiritual sanctuary, and higher purpose.",
+    "meanings": {
+        "person": [
+            "A holy person who provides spiritual guidance and divine assistance",
+            "A false prophet or corrupted religious figure who misleads the faithful"
+        ],
+        "creatureTrap": [
+            "Divine beings, angels, or creatures blessed with holy power",
+            "Cursed or desecrated areas where divine power has turned malevolent"
+        ],
+        "place": [
+            "Sacred sanctuaries that offer healing, protection, and divine blessing",
+            "Corrupted holy sites where divine power has been twisted or lost"
+        ],
+        "treasure": [
+            "Holy relics, blessed weapons, or items imbued with divine power",
+            "Cursed religious artifacts that punish those who misuse them"
+        ],
+        "situation": [
+            "Divine intervention, spiritual awakening, or receiving higher guidance",
+            "Religious conflict, loss of faith, or punishment for sacrilege"
+        ]
+    }
+}

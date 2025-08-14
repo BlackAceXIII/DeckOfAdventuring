@@ -1,0 +1,26 @@
+{
+    "name": "Giant",
+    "description": "A massive humanoid figure, representing overwhelming power, strength, and forces beyond normal scale.",
+    "meanings": {
+        "person": [
+            "A powerful leader or authority figure with great influence",
+            "Someone who abuses their power or acts as a bully"
+        ],
+        "creatureTrap": [
+            "A massive creature of incredible strength and endurance",
+            "A seemingly powerful foe that is actually weak in some way"
+        ],
+        "place": [
+            "A vast stronghold or mountain fortress",
+            "Unstable terrain that could collapse under great weight"
+        ],
+        "treasure": [
+            "Massive wealth or artifacts of great size and power",
+            "Treasure that is too large or heavy to be practical"
+        ],
+        "situation": [
+            "A challenge that requires great strength or resources to overcome",
+            "Being overwhelmed by forces too large to handle"
+        ]
+    }
+}

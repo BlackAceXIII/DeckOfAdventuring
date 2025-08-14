@@ -1,0 +1,26 @@
+{
+    "name": "Tower",
+    "description": "A tall stone structure reaching toward the sky, representing ambition, isolation, and lofty goals.",
+    "meanings": {
+        "person": [
+            "An ambitious visionary who reaches for great heights and achievements",
+            "Someone who becomes isolated through pride or builds barriers around themselves"
+        ],
+        "creatureTrap": [
+            "Flying creatures or beings that control high places",
+            "Defenses that require climbing or flying abilities to overcome"
+        ],
+        "place": [
+            "High vantage points that offer great views and strategic advantage",
+            "Isolated locations that are difficult to reach or escape from"
+        ],
+        "treasure": [
+            "Valuable items placed in high, secure locations",
+            "Treasures that are impressive but impractical or isolating"
+        ],
+        "situation": [
+            "Achieving great heights through ambition and careful planning",
+            "Becoming isolated through pride or setting goals too high to reach"
+        ]
+    }
+}

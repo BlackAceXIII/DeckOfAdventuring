@@ -572,6 +572,32 @@
         ]
       }
     },
+    "Fool": {
+      "name": "Fool",
+      "description": "A jester or fool figure, representing new beginnings, innocence, and taking leaps of faith.",
+      "meanings": {
+        "person": [
+          "A naive or innocent individual starting a new journey",
+          "Someone making reckless or foolish decisions"
+        ],
+        "creatureTrap": [
+          "A harmless creature that appears threatening but is actually benign",
+          "A dangerous trap disguised as something innocent"
+        ],
+        "place": [
+          "A new territory or unexplored area full of possibilities",
+          "A dangerous cliff or precipice where one might fall"
+        ],
+        "treasure": [
+          "A simple item with unexpected magical properties",
+          "A cursed item that brings misfortune to the unwary"
+        ],
+        "situation": [
+          "The beginning of a new adventure or quest",
+          "A situation where hasty action leads to trouble"
+        ]
+      }
+    },
     "Gem": {
       "name": "Gem",
       "description": "A large, faceted gemstone set in intricate filigree gleams invitingly. The Gem card brings vast wealth.",
@@ -595,6 +621,84 @@
         "situation": [
           "A situation driven by greed, such as siblings vying for an inheritance or someone hunting for a lost treasure.",
           "A situation stemming from the loss of wealth, such as a person trying to recover money given to a con artist or stolen by a thief."
+        ]
+      }
+    },
+    "Giant": {
+      "name": "Giant",
+      "description": "A massive humanoid figure, representing overwhelming power, strength, and forces beyond normal scale.",
+      "meanings": {
+        "person": [
+          "A powerful leader or authority figure with great influence",
+          "Someone who abuses their power or acts as a bully"
+        ],
+        "creatureTrap": [
+          "A massive creature of incredible strength and endurance",
+          "A seemingly powerful foe that is actually weak in some way"
+        ],
+        "place": [
+          "A vast stronghold or mountain fortress",
+          "Unstable terrain that could collapse under great weight"
+        ],
+        "treasure": [
+          "Massive wealth or artifacts of great size and power",
+          "Treasure that is too large or heavy to be practical"
+        ],
+        "situation": [
+          "A challenge that requires great strength or resources to overcome",
+          "Being overwhelmed by forces too large to handle"
+        ]
+      }
+    },
+    "Humanoid": {
+      "name": "Humanoid",
+      "description": "A figure representing civilized peoples, communities, and the bonds of society.",
+      "meanings": {
+        "person": [
+          "A helpful ally, friend, or member of the community",
+          "A deceitful person who hides malicious intent behind a friendly facade"
+        ],
+        "creatureTrap": [
+          "Intelligent creatures that can be reasoned with or befriended",
+          "Shapeshifters or imposters pretending to be allies"
+        ],
+        "place": [
+          "A welcoming settlement, town, or civilized area",
+          "A place where social tensions or conflicts divide the community"
+        ],
+        "treasure": [
+          "Items of cultural or sentimental value to a community",
+          "Stolen goods or items obtained through betrayal"
+        ],
+        "situation": [
+          "Opportunities for cooperation, diplomacy, or building relationships",
+          "Situations involving deception, betrayal, or social conflict"
+        ]
+      }
+    },
+    "Jester": {
+      "name": "Jester",
+      "description": "A colorful entertainer or trickster, representing humor, chaos, and unexpected wisdom through folly.",
+      "meanings": {
+        "person": [
+          "A wise individual who teaches through humor and unconventional methods",
+          "A chaotic troublemaker who causes confusion and mischief"
+        ],
+        "creatureTrap": [
+          "A playful creature that tests adventurers with riddles or tricks",
+          "A malicious entity that uses humor to mask dangerous intent"
+        ],
+        "place": [
+          "A place of entertainment, festivals, or celebration",
+          "A location where appearances are deceiving and nothing is as it seems"
+        ],
+        "treasure": [
+          "Items that appear worthless but have hidden value or power",
+          "Cursed items that bring both benefit and misfortune"
+        ],
+        "situation": [
+          "Moments where humor or creativity solve serious problems",
+          "Chaotic situations where plans go awry in unexpected ways"
         ]
       }
     },
@@ -650,6 +754,162 @@
         ]
       }
     },
+    "Lance": {
+      "name": "Lance",
+      "description": "A long spear or lance, representing focused attack, precision, and the ability to strike from a distance.",
+      "meanings": {
+        "person": [
+          "A skilled warrior with focus and precision in combat",
+          "Someone who strikes without warning or consideration for others"
+        ],
+        "creatureTrap": [
+          "Creatures with natural weapons like spikes, horns, or stingers",
+          "Hidden spikes or piercing traps that activate unexpectedly"
+        ],
+        "place": [
+          "A battlefield or arena where combat skills are tested",
+          "A dangerous passage with numerous piercing hazards"
+        ],
+        "treasure": [
+          "Masterwork weapons or armor with exceptional reach or precision",
+          "Weapons that are difficult to wield or come with significant drawbacks"
+        ],
+        "situation": [
+          "Opportunities to strike decisively at the right moment",
+          "Situations where aggressive action leads to unintended consequences"
+        ]
+      }
+    },
+    "Mage": {
+      "name": "Mage",
+      "description": "A robed spellcaster, representing arcane knowledge, magical power, and the pursuit of understanding.",
+      "meanings": {
+        "person": [
+          "A wise scholar or mentor with valuable magical knowledge",
+          "An arrogant or power-hungry individual who abuses magical abilities"
+        ],
+        "creatureTrap": [
+          "Magical creatures or constructs with spellcasting abilities",
+          "Magical traps that require specific knowledge or counterspells to bypass"
+        ],
+        "place": [
+          "A library, tower, or academy where magical knowledge is preserved",
+          "A place corrupted or warped by uncontrolled magical energies"
+        ],
+        "treasure": [
+          "Spell scrolls, magical tomes, or arcane components",
+          "Cursed magical items that corrupt or drain the user"
+        ],
+        "situation": [
+          "Problems that require magical solutions or arcane knowledge",
+          "Situations where magical interference complicates simple matters"
+        ]
+      }
+    },
+    "Map": {
+      "name": "Map",
+      "description": "A detailed chart or map, representing guidance, navigation, and the knowledge needed to find one's way.",
+      "meanings": {
+        "person": [
+          "A guide or navigator who knows the way forward",
+          "Someone who provides misleading directions or false information"
+        ],
+        "creatureTrap": [
+          "Creatures that can track or navigate expertly through terrain",
+          "Illusory or shape-shifting creatures that lead travelers astray"
+        ],
+        "place": [
+          "A location that serves as a crossroads or navigation point",
+          "A confusing maze or area where normal navigation fails"
+        ],
+        "treasure": [
+          "Charts, maps, or navigational tools of great value",
+          "False maps or misleading documents that lead to danger"
+        ],
+        "situation": [
+          "Clear direction and guidance toward achieving goals",
+          "Confusion about which path to take or being lost"
+        ]
+      }
+    },
+    "Maze": {
+      "name": "Maze",
+      "description": "A complex labyrinth with winding passages, representing confusion, complexity, and the challenge of finding the right path.",
+      "meanings": {
+        "person": [
+          "Someone with deep knowledge who can navigate complex situations",
+          "A person who creates confusion or deliberately complicates matters"
+        ],
+        "creatureTrap": [
+          "Creatures that excel at creating or navigating complex environments",
+          "Traps that involve multiple steps or misdirection to overcome"
+        ],
+        "place": [
+          "A complex dungeon or structure with multiple paths and secrets",
+          "A place where one easily becomes lost or trapped"
+        ],
+        "treasure": [
+          "Rewards hidden in the most difficult to reach locations",
+          "Treasures that are surrounded by complex puzzles or obstacles"
+        ],
+        "situation": [
+          "Complex problems that require careful navigation and patience",
+          "Overwhelming confusion where every choice seems to lead to more problems"
+        ]
+      }
+    },
+    "Mine": {
+      "name": "Mine",
+      "description": "A deep excavation site, representing hidden wealth, dangerous depths, and the rewards of hard work.",
+      "meanings": {
+        "person": [
+          "A hardworking individual who uncovers hidden value through persistence",
+          "Someone who exploits others' labor or takes credit for others' work"
+        ],
+        "creatureTrap": [
+          "Creatures that burrow or live in underground environments",
+          "Cave-ins, gas pockets, or structural collapses in underground areas"
+        ],
+        "place": [
+          "Rich underground deposits of valuable materials or information",
+          "Dangerous underground areas prone to collapse or toxic conditions"
+        ],
+        "treasure": [
+          "Raw materials, gems, or precious metals of great value",
+          "Resources that require dangerous or expensive extraction methods"
+        ],
+        "situation": [
+          "Opportunities that require hard work but promise great rewards",
+          "Situations where pursuing gain leads to dangerous or unstable conditions"
+        ]
+      }
+    },
+    "Monstrosity": {
+      "name": "Monstrosity",
+      "description": "An aberrant creature of unnatural origin, representing chaos, mutation, and things that defy natural order.",
+      "meanings": {
+        "person": [
+          "An individual with unique abilities who stands apart from normal society",
+          "Someone whose actions or nature have become corrupted and inhuman"
+        ],
+        "creatureTrap": [
+          "Bizarre creatures with unusual abilities that defy expectations",
+          "Unnatural hazards or phenomena that operate by unknown rules"
+        ],
+        "place": [
+          "Locations touched by chaos or unnatural forces",
+          "Areas where reality is unstable or dangerous mutations occur"
+        ],
+        "treasure": [
+          "Unique items with strange properties that normal magic cannot explain",
+          "Cursed or tainted items that corrupt those who use them"
+        ],
+        "situation": [
+          "Unique challenges that require unconventional solutions",
+          "Situations that spiral into chaos beyond anyone's control"
+        ]
+      }
+    },
     "Moon": {
       "name": "Moon",
       "description": "A crescent moon looms large in the autumn sky. The Moon card points to hidden potential.",
@@ -673,6 +933,214 @@
         "situation": [
           "A problem that requires investigation and is more complicated than it appears.",
           "A situation that seems\u2014and is\u2014too good to be true."
+        ]
+      }
+    },
+    "Ooze": {
+      "name": "Ooze",
+      "description": "A gelatinous, amorphous creature, representing adaptability, persistence, and slow but inevitable progress.",
+      "meanings": {
+        "person": [
+          "Someone who adapts to any situation and persists despite obstacles",
+          "A person who slowly corrupts or consumes everything around them"
+        ],
+        "creatureTrap": [
+          "Creatures that are difficult to harm with conventional weapons",
+          "Slow-acting hazards that gradually become more dangerous over time"
+        ],
+        "place": [
+          "Locations that slowly change or adapt to circumstances",
+          "Areas that are slowly being consumed or corrupted by some force"
+        ],
+        "treasure": [
+          "Items that improve or adapt based on how they are used",
+          "Treasures that slowly degrade or corrupt over time"
+        ],
+        "situation": [
+          "Gradual progress that eventually leads to significant change",
+          "Slow-building problems that become serious if not addressed"
+        ]
+      }
+    },
+    "Path": {
+      "name": "Path",
+      "description": "A winding trail or road, representing journey, choices, and the direction one takes in life.",
+      "meanings": {
+        "person": [
+          "A guide or mentor who helps others find their way",
+          "Someone who leads others down the wrong path or into danger"
+        ],
+        "creatureTrap": [
+          "Creatures that patrol or guard specific routes or territories",
+          "Hazards that block progress or force difficult detours"
+        ],
+        "place": [
+          "A route that leads to important destinations or discoveries",
+          "A path that leads to danger, dead ends, or becomes impassable"
+        ],
+        "treasure": [
+          "Items found along the way that aid in travel or exploration",
+          "Obstacles or tolls that must be paid to continue forward"
+        ],
+        "situation": [
+          "Clear direction and progress toward goals",
+          "Being forced to take difficult detours or face unexpected obstacles"
+        ]
+      }
+    },
+    "Pit": {
+      "name": "Pit",
+      "description": "A deep hole or chasm, representing hidden dangers, sudden setbacks, and the risk of falling.",
+      "meanings": {
+        "person": [
+          "Someone who helps others avoid hidden dangers or pitfalls",
+          "A person who creates traps or leads others into dangerous situations"
+        ],
+        "creatureTrap": [
+          "Creatures that attack from below or use burrowing tactics",
+          "Hidden pits, spike traps, or other concealed ground hazards"
+        ],
+        "place": [
+          "Deep caverns or chasms that lead to hidden areas",
+          "Unstable ground where one might fall into hidden dangers"
+        ],
+        "treasure": [
+          "Valuable items hidden in deep or hard-to-reach places",
+          "Treasures that are trapped or guarded by hidden dangers"
+        ],
+        "situation": [
+          "Opportunities to avoid or overcome hidden obstacles",
+          "Sudden setbacks or falling into unexpected difficulties"
+        ]
+      }
+    },
+    "Plant": {
+      "name": "Plant",
+      "description": "A growing plant or tree, representing natural growth, patience, and the cycles of life.",
+      "meanings": {
+        "person": [
+          "Someone who nurtures growth and has patience for natural development",
+          "A person who becomes stagnant or overgrown with bad habits"
+        ],
+        "creatureTrap": [
+          "Plant creatures or beings connected to natural growth",
+          "Entangling vines, poisonous plants, or overgrown hazardous terrain"
+        ],
+        "place": [
+          "Fertile areas rich in natural resources and healing plants",
+          "Overgrown areas where nature has become wild and dangerous"
+        ],
+        "treasure": [
+          "Natural remedies, herbs, or items that grow in value over time",
+          "Resources that are seasonal or require specific conditions to obtain"
+        ],
+        "situation": [
+          "Gradual growth and development leading to positive outcomes",
+          "Stagnation or being overwhelmed by unchecked growth"
+        ]
+      }
+    },
+    "Priest": {
+      "name": "Priest",
+      "description": "A religious figure in ceremonial robes, representing divine power, healing, and spiritual guidance.",
+      "meanings": {
+        "person": [
+          "A healer or spiritual guide who provides wisdom and comfort",
+          "A fanatic or false prophet who uses religion to manipulate others"
+        ],
+        "creatureTrap": [
+          "Divine creatures or beings blessed with healing powers",
+          "Cursed or corrupted religious sites with dangerous spiritual energy"
+        ],
+        "place": [
+          "Sacred temples or shrines that offer sanctuary and healing",
+          "Desecrated holy sites where divine power has been corrupted"
+        ],
+        "treasure": [
+          "Holy relics, blessed items, or divine magic that aids the faithful",
+          "Cursed religious artifacts that punish the unworthy"
+        ],
+        "situation": [
+          "Opportunities for healing, redemption, or spiritual growth",
+          "Religious conflicts or divine judgment that brings hardship"
+        ]
+      }
+    },
+    "Prisoner": {
+      "name": "Prisoner",
+      "description": "A figure bound in chains or behind bars, representing confinement, limitation, and the need for freedom.",
+      "meanings": {
+        "person": [
+          "Someone who has been wrongly confined and deserves rescue",
+          "A dangerous individual who should remain imprisoned for everyone's safety"
+        ],
+        "creatureTrap": [
+          "Creatures that have been bound or imprisoned by ancient magic",
+          "Restraining devices or magical bindings that prevent escape"
+        ],
+        "place": [
+          "Prisons, dungeons, or secure facilities holding valuable captives",
+          "Places of confinement that have become corrupted or dangerous"
+        ],
+        "treasure": [
+          "Items that grant freedom or help overcome constraints",
+          "Cursed items that bind or constrain the user"
+        ],
+        "situation": [
+          "Opportunities to gain freedom or help others escape oppression",
+          "Being trapped by circumstances or bound by unbreakable obligations"
+        ]
+      }
+    },
+    "Puzzle": {
+      "name": "Puzzle",
+      "description": "An intricate mechanical device or riddle, representing challenges that require intellect and patience to solve.",
+      "meanings": {
+        "person": [
+          "A clever individual who enjoys solving complex problems",
+          "Someone who makes things unnecessarily complicated or confusing"
+        ],
+        "creatureTrap": [
+          "Intelligent creatures that challenge adventurers with riddles or tests",
+          "Complex mechanical traps that require multiple steps to disarm"
+        ],
+        "place": [
+          "Locations with hidden mechanisms or secret knowledge to discover",
+          "Areas where simple actions have unexpected and complex consequences"
+        ],
+        "treasure": [
+          "Items that require skill or knowledge to unlock their true potential",
+          "Complex devices that are difficult to use or understand"
+        ],
+        "situation": [
+          "Problems that can be solved through careful thought and analysis",
+          "Overly complex situations where simple solutions are overlooked"
+        ]
+      }
+    },
+    "Ring": {
+      "name": "Ring",
+      "description": "A circular band of metal, representing bonds, commitments, and things that come full circle.",
+      "meanings": {
+        "person": [
+          "Someone who honors commitments and maintains strong relationships",
+          "A person trapped in cycles of behavior or bound by unwanted obligations"
+        ],
+        "creatureTrap": [
+          "Creatures that form protective circles or work in connected groups",
+          "Magical barriers or binding circles that prevent movement or escape"
+        ],
+        "place": [
+          "Circular or enclosed areas that offer protection and unity",
+          "Places where one becomes trapped in endless cycles or routines"
+        ],
+        "treasure": [
+          "Items that strengthen bonds between allies or enhance cooperation",
+          "Cursed items that create unwanted bonds or dependencies"
+        ],
+        "situation": [
+          "Completion of cycles, fulfillment of promises, or strengthened alliances",
+          "Being trapped in repetitive patterns or bound by restrictive agreements"
         ]
       }
     },
@@ -728,6 +1196,84 @@
         ]
       }
     },
+    "Sage": {
+      "name": "Sage",
+      "description": "The mind of a sage is filled with obscure lore gained through exhaustive research. This card represents well-intentioned advice.",
+      "meanings": {
+        "person": [
+          "A person who offers helpful advice in difficult circumstances.",
+          "Someone who helpfully offers bad advice."
+        ],
+        "creatureTrap": [
+          "A helpful creature that leads the way to safety or a goal.",
+          "A creature that tries to lead the way into danger or a trap."
+        ],
+        "place": [
+          "A place dedicated to knowledge and wisdom, such as a library or university.",
+          "A place whose structural flaws threaten its integrity."
+        ],
+        "treasure": [
+          "A valuable or magical book or scroll, or a sentient magic item that is known to provide helpful advice.",
+          "A device valuable for its components that doesn't function as intended, or a sentient magic item that provides bad but well-intentioned advice."
+        ],
+        "situation": [
+          "An opportunity to provide valuable advice on a familiar subject.",
+          "An opportunity to provide advice on a completely unfamiliar subject."
+        ]
+      }
+    },
+    "Shield": {
+      "name": "Shield",
+      "description": "A protective barrier held in defense, representing protection, security, and the ability to guard against harm.",
+      "meanings": {
+        "person": [
+          "A protector or guardian who defends others from harm",
+          "Someone who hides behind defenses and avoids taking necessary risks"
+        ],
+        "creatureTrap": [
+          "Creatures with natural armor or defensive abilities",
+          "Barriers or defensive mechanisms that protect valuable areas"
+        ],
+        "place": [
+          "Fortified locations that offer safety and protection",
+          "Overly defensive places that become isolated or stagnant"
+        ],
+        "treasure": [
+          "Protective items, armor, or wards that defend against specific threats",
+          "Defensive items that hinder mobility or prevent necessary action"
+        ],
+        "situation": [
+          "Successfully defending against threats or protecting what matters",
+          "Being overly cautious and missing opportunities due to excessive caution"
+        ]
+      }
+    },
+    "Ship": {
+      "name": "Ship",
+      "description": "A sailing vessel on the water, representing journeys, exploration, and crossing into unknown territories.",
+      "meanings": {
+        "person": [
+          "An experienced traveler or explorer who opens new possibilities",
+          "Someone who abandons responsibilities or flees from commitments"
+        ],
+        "creatureTrap": [
+          "Aquatic creatures or beings that control waterways",
+          "Hazards related to water travel like storms, reefs, or whirlpools"
+        ],
+        "place": [
+          "Harbors, ports, or coastal areas that connect to distant lands",
+          "Dangerous waters or areas cut off from safe passage"
+        ],
+        "treasure": [
+          "Exotic goods from distant lands or navigational instruments",
+          "Cargo that is difficult to transport or contraband that brings trouble"
+        ],
+        "situation": [
+          "New opportunities for exploration and discovering distant possibilities",
+          "Being cut off from familiar support or facing uncertain journeys"
+        ]
+      }
+    },
     "Skull": {
       "name": "Skull",
       "description": "A skeletal figure is shrouded in a swirling robe, though its skull is clearly visible. The Skull card is a reminder of the universality of death\u2014and the fact that everyone must confront death alone.",
@@ -754,6 +1300,58 @@
         ]
       }
     },
+    "Staff": {
+      "name": "Staff",
+      "description": "A long wooden rod or magical staff, representing authority, magical power, and the ability to direct energy.",
+      "meanings": {
+        "person": [
+          "A leader or authority figure who guides others with wisdom and power",
+          "Someone who abuses their position of authority or magical abilities"
+        ],
+        "creatureTrap": [
+          "Creatures that wield magical or supernatural powers",
+          "Magical wards or energy-based traps that require specific countermeasures"
+        ],
+        "place": [
+          "Seats of power, magical academies, or places where authority is exercised",
+          "Areas where power has been corrupted or magical energies are unstable"
+        ],
+        "treasure": [
+          "Magical implements, symbols of authority, or items that focus power",
+          "Items that grant power but corrupt the user or demand a price"
+        ],
+        "situation": [
+          "Opportunities to exercise leadership or channel power effectively",
+          "Situations where power is misused or authority is challenged"
+        ]
+      }
+    },
+    "Stairway": {
+      "name": "Stairway",
+      "description": "A set of steps leading upward or downward, representing progress, elevation, and transitions between levels.",
+      "meanings": {
+        "person": [
+          "Someone who helps others advance or reach higher levels of achievement",
+          "A person who looks down on others or creates barriers to advancement"
+        ],
+        "creatureTrap": [
+          "Creatures that control vertical spaces or have climbing abilities",
+          "Traps triggered by movement between different levels or elevations"
+        ],
+        "place": [
+          "Multi-level structures that lead to important upper or lower areas",
+          "Dangerous vertical passages where falling poses significant risk"
+        ],
+        "treasure": [
+          "Rewards that become available only after achieving certain levels",
+          "Items that are difficult to transport between different elevations"
+        ],
+        "situation": [
+          "Clear progression toward higher goals or deeper understanding",
+          "Setbacks that force retreat to lower levels or starting over"
+        ]
+      }
+    },
     "Star": {
       "name": "Star",
       "description": "A brilliant star shines in the spring sky at twilight. The Star card represents inherent ability and training working in concert\u2014nature allied with nurture.",
@@ -777,6 +1375,32 @@
         "situation": [
           "A situation that requires or rewards training and practice.",
           "A situation resulting from someone's refusal to practice or train."
+        ]
+      }
+    },
+    "Statue": {
+      "name": "Statue",
+      "description": "A carved stone figure frozen in time, representing permanence, memory, and things that endure through ages.",
+      "meanings": {
+        "person": [
+          "Someone who preserves important traditions or serves as a lasting example",
+          "A person who has become rigid, unchanging, or stuck in the past"
+        ],
+        "creatureTrap": [
+          "Creatures made of stone or those that can petrify others",
+          "Ancient guardians or constructs that activate when disturbed"
+        ],
+        "place": [
+          "Memorial sites, ancient ruins, or places that preserve important history",
+          "Locations frozen in time where nothing changes or grows"
+        ],
+        "treasure": [
+          "Ancient artifacts, historical records, or items of lasting value",
+          "Cursed items that turn things to stone or prevent change"
+        ],
+        "situation": [
+          "Establishing something permanent or honoring lasting achievements",
+          "Being stuck in unchanging patterns or refusing to adapt"
         ]
       }
     },
@@ -832,6 +1456,58 @@
         ]
       }
     },
+    "Tavern": {
+      "name": "Tavern",
+      "description": "A welcoming inn with warm light and gathered patrons, representing hospitality, information, and social gathering.",
+      "meanings": {
+        "person": [
+          "A hospitable host who provides comfort and valuable information",
+          "Someone who spreads gossip or uses social situations for manipulation"
+        ],
+        "creatureTrap": [
+          "Social creatures that gather in groups or communities",
+          "Situations where social pressure or group dynamics create danger"
+        ],
+        "place": [
+          "Gathering places where information, rest, and supplies are available",
+          "Places where too much revelry leads to poor decisions or conflict"
+        ],
+        "treasure": [
+          "Information, contacts, or social connections of great value",
+          "Items obtained through questionable deals or drunken wagers"
+        ],
+        "situation": [
+          "Opportunities to gather information, make allies, or find rest",
+          "Social complications, overindulgence, or information that proves unreliable"
+        ]
+      }
+    },
+    "Temple": {
+      "name": "Temple",
+      "description": "A sacred building with soaring architecture, representing divine power, spiritual sanctuary, and higher purpose.",
+      "meanings": {
+        "person": [
+          "A holy person who provides spiritual guidance and divine assistance",
+          "A false prophet or corrupted religious figure who misleads the faithful"
+        ],
+        "creatureTrap": [
+          "Divine beings, angels, or creatures blessed with holy power",
+          "Cursed or desecrated areas where divine power has turned malevolent"
+        ],
+        "place": [
+          "Sacred sanctuaries that offer healing, protection, and divine blessing",
+          "Corrupted holy sites where divine power has been twisted or lost"
+        ],
+        "treasure": [
+          "Holy relics, blessed weapons, or items imbued with divine power",
+          "Cursed religious artifacts that punish those who misuse them"
+        ],
+        "situation": [
+          "Divine intervention, spiritual awakening, or receiving higher guidance",
+          "Religious conflict, loss of faith, or punishment for sacrilege"
+        ]
+      }
+    },
     "Throne": {
       "name": "Throne",
       "description": "An ostentatious throne stands on a dais, with a crown on the seat and a ceremonial sword leaning against one armrest. This card represents the authority of worldly rulers.",
@@ -858,29 +1534,107 @@
         ]
       }
     },
-    "Vizier": {
-      "name": "Vizier",
-      "description": "The mind of a sage is filled with obscure lore gained through exhaustive research. This card represents well-intentioned advice.",
+    "Tomb": {
+      "name": "Tomb",
+      "description": "An ancient burial chamber filled with shadows, representing death, endings, and the wisdom of the past.",
       "meanings": {
         "person": [
-          "A person who offers helpful advice in difficult circumstances.",
-          "Someone who helpfully offers bad advice."
+          "A wise elder who shares knowledge from past experiences",
+          "Someone dwelling on past failures or unable to move beyond old wounds"
         ],
         "creatureTrap": [
-          "A helpful creature that leads the way to safety or a goal.",
-          "A creature that tries to lead the way into danger or a trap."
+          "Undead creatures or spirits that guard ancient secrets",
+          "Ancient traps or curses designed to protect burial sites"
         ],
         "place": [
-          "A place dedicated to knowledge and wisdom, such as a library or university.",
-          "A place whose structural flaws threaten its integrity."
+          "Ancient burial sites containing valuable historical knowledge",
+          "Cursed or haunted areas where the dead do not rest peacefully"
         ],
         "treasure": [
-          "A valuable or magical book or scroll, or a sentient magic item that is known to provide helpful advice.",
-          "A device valuable for its components that doesn't function as intended, or a sentient magic item that provides bad but well-intentioned advice."
+          "Ancient artifacts, historical records, or items of the deceased",
+          "Cursed grave goods that bring misfortune to those who disturb them"
         ],
         "situation": [
-          "An opportunity to provide valuable advice on a familiar subject.",
-          "An opportunity to provide advice on a completely unfamiliar subject."
+          "Learning from the past to avoid repeating old mistakes",
+          "Being haunted by past failures or unable to let go of what's gone"
+        ]
+      }
+    },
+    "Tower": {
+      "name": "Tower",
+      "description": "A tall stone structure reaching toward the sky, representing ambition, isolation, and lofty goals.",
+      "meanings": {
+        "person": [
+          "An ambitious visionary who reaches for great heights and achievements",
+          "Someone who becomes isolated through pride or builds barriers around themselves"
+        ],
+        "creatureTrap": [
+          "Flying creatures or beings that control high places",
+          "Defenses that require climbing or flying abilities to overcome"
+        ],
+        "place": [
+          "High vantage points that offer great views and strategic advantage",
+          "Isolated locations that are difficult to reach or escape from"
+        ],
+        "treasure": [
+          "Valuable items placed in high, secure locations",
+          "Treasures that are impressive but impractical or isolating"
+        ],
+        "situation": [
+          "Achieving great heights through ambition and careful planning",
+          "Becoming isolated through pride or setting goals too high to reach"
+        ]
+      }
+    },
+    "Tree": {
+      "name": "Tree",
+      "description": "A mighty tree with deep roots and spreading branches, representing growth, stability, and connection to nature.",
+      "meanings": {
+        "person": [
+          "Someone with deep wisdom who provides shelter and guidance to others",
+          "A person who becomes rigid or unwilling to adapt to changing circumstances"
+        ],
+        "creatureTrap": [
+          "Nature spirits, dryads, or creatures that protect forest areas",
+          "Natural hazards like falling branches or entangling roots"
+        ],
+        "place": [
+          "Ancient groves or forests that offer wisdom and natural resources",
+          "Overgrown areas where nature has become wild and impassable"
+        ],
+        "treasure": [
+          "Natural remedies, wooden items of great craftsmanship, or druidic magic",
+          "Resources that require patience to cultivate or are tied to natural cycles"
+        ],
+        "situation": [
+          "Steady growth and development with strong foundations",
+          "Stagnation or being too rooted in place to adapt to new circumstances"
+        ]
+      }
+    },
+    "Undead": {
+      "name": "Undead",
+      "description": "A skeletal or ghostly figure from beyond death, representing persistence beyond endings and unfinished business.",
+      "meanings": {
+        "person": [
+          "Someone who perseveres despite overwhelming obstacles or setbacks",
+          "A person who cannot let go of the past or move on from old grievances"
+        ],
+        "creatureTrap": [
+          "Undead creatures that rise again even when defeated",
+          "Curses or negative energy that drains life or prevents healing"
+        ],
+        "place": [
+          "Areas touched by death that hold important secrets or unfinished business",
+          "Cursed locations where negative energy prevents rest or peace"
+        ],
+        "treasure": [
+          "Items that persist beyond their normal limits or provide protection from death",
+          "Cursed items that bind the user to unpleasant obligations or drain vitality"
+        ],
+        "situation": [
+          "Persistence and determination that overcomes seemingly impossible odds",
+          "Being unable to move on or being haunted by unresolved issues"
         ]
       }
     },
@@ -907,6 +1661,58 @@
         "situation": [
           "A situation that seems to have no good or even survivable outcome.",
           "The aftermath of a destructive event, where the few survivors must figure out how to go on living."
+        ]
+      }
+    },
+    "Warrior": {
+      "name": "Warrior",
+      "description": "An armored fighter with weapon in hand, representing strength, courage, and the willingness to fight for what matters.",
+      "meanings": {
+        "person": [
+          "A brave defender who fights for justice and protects the innocent",
+          "An aggressive individual who resorts to violence too quickly"
+        ],
+        "creatureTrap": [
+          "Martial creatures with fighting skills and combat tactics",
+          "Combat-oriented challenges that require strength and skill to overcome"
+        ],
+        "place": [
+          "Training grounds, battlefields, or fortified positions for combat",
+          "Areas ravaged by conflict where violence has left lasting damage"
+        ],
+        "treasure": [
+          "Masterwork weapons, armor, or items that enhance combat abilities",
+          "Weapons or armor that come with the burden of past conflicts"
+        ],
+        "situation": [
+          "Opportunities to show courage and fight for important causes",
+          "Conflicts that escalate unnecessarily or violence that solves nothing"
+        ]
+      }
+    },
+    "Well": {
+      "name": "Well",
+      "description": "A stone-lined water source, representing depth, hidden resources, and the source of life and wisdom.",
+      "meanings": {
+        "person": [
+          "Someone who provides essential resources or deep wisdom to others",
+          "A person who hoards resources or keeps important information hidden"
+        ],
+        "creatureTrap": [
+          "Creatures that live in or guard water sources",
+          "Hidden depths or underwater hazards that pose drowning risks"
+        ],
+        "place": [
+          "Sources of clean water, healing springs, or places of spiritual renewal",
+          "Polluted or cursed water sources that bring sickness or misfortune"
+        ],
+        "treasure": [
+          "Items that provide sustenance or have been preserved in deep waters",
+          "Treasures that are difficult to retrieve or come with water-related curses"
+        ],
+        "situation": [
+          "Discovering deep resources or wisdom that sustains through difficult times",
+          "Running dry of essential resources or finding that trusted sources are contaminated"
         ]
       }
     }

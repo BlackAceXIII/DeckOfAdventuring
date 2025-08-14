@@ -1,0 +1,26 @@
+{
+    "name": "Tree",
+    "description": "A mighty tree with deep roots and spreading branches, representing growth, stability, and connection to nature.",
+    "meanings": {
+        "person": [
+            "Someone with deep wisdom who provides shelter and guidance to others",
+            "A person who becomes rigid or unwilling to adapt to changing circumstances"
+        ],
+        "creatureTrap": [
+            "Nature spirits, dryads, or creatures that protect forest areas",
+            "Natural hazards like falling branches or entangling roots"
+        ],
+        "place": [
+            "Ancient groves or forests that offer wisdom and natural resources",
+            "Overgrown areas where nature has become wild and impassable"
+        ],
+        "treasure": [
+            "Natural remedies, wooden items of great craftsmanship, or druidic magic",
+            "Resources that require patience to cultivate or are tied to natural cycles"
+        ],
+        "situation": [
+            "Steady growth and development with strong foundations",
+            "Stagnation or being too rooted in place to adapt to new circumstances"
+        ]
+    }
+}

@@ -1,0 +1,26 @@
+{
+    "name": "Well",
+    "description": "A stone-lined water source, representing depth, hidden resources, and the source of life and wisdom.",
+    "meanings": {
+        "person": [
+            "Someone who provides essential resources or deep wisdom to others",
+            "A person who hoards resources or keeps important information hidden"
+        ],
+        "creatureTrap": [
+            "Creatures that live in or guard water sources",
+            "Hidden depths or underwater hazards that pose drowning risks"
+        ],
+        "place": [
+            "Sources of clean water, healing springs, or places of spiritual renewal",
+            "Polluted or cursed water sources that bring sickness or misfortune"
+        ],
+        "treasure": [
+            "Items that provide sustenance or have been preserved in deep waters",
+            "Treasures that are difficult to retrieve or come with water-related curses"
+        ],
+        "situation": [
+            "Discovering deep resources or wisdom that sustains through difficult times",
+            "Running dry of essential resources or finding that trusted sources are contaminated"
+        ]
+    }
+}

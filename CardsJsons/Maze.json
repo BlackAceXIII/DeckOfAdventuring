@@ -1,0 +1,26 @@
+{
+    "name": "Maze",
+    "description": "A complex labyrinth with winding passages, representing confusion, complexity, and the challenge of finding the right path.",
+    "meanings": {
+        "person": [
+            "Someone with deep knowledge who can navigate complex situations",
+            "A person who creates confusion or deliberately complicates matters"
+        ],
+        "creatureTrap": [
+            "Creatures that excel at creating or navigating complex environments",
+            "Traps that involve multiple steps or misdirection to overcome"
+        ],
+        "place": [
+            "A complex dungeon or structure with multiple paths and secrets",
+            "A place where one easily becomes lost or trapped"
+        ],
+        "treasure": [
+            "Rewards hidden in the most difficult to reach locations",
+            "Treasures that are surrounded by complex puzzles or obstacles"
+        ],
+        "situation": [
+            "Complex problems that require careful navigation and patience",
+            "Overwhelming confusion where every choice seems to lead to more problems"
+        ]
+    }
+}

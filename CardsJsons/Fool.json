@@ -1,0 +1,26 @@
+{
+    "name": "Fool",
+    "description": "A jester or fool figure, representing new beginnings, innocence, and taking leaps of faith.",
+    "meanings": {
+        "person": [
+            "A naive or innocent individual starting a new journey",
+            "Someone making reckless or foolish decisions"
+        ],
+        "creatureTrap": [
+            "A harmless creature that appears threatening but is actually benign",
+            "A dangerous trap disguised as something innocent"
+        ],
+        "place": [
+            "A new territory or unexplored area full of possibilities",
+            "A dangerous cliff or precipice where one might fall"
+        ],
+        "treasure": [
+            "A simple item with unexpected magical properties",
+            "A cursed item that brings misfortune to the unwary"
+        ],
+        "situation": [
+            "The beginning of a new adventure or quest",
+            "A situation where hasty action leads to trouble"
+        ]
+    }
+}

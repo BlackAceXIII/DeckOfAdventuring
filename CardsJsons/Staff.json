@@ -1,0 +1,26 @@
+{
+    "name": "Staff",
+    "description": "A long wooden rod or magical staff, representing authority, magical power, and the ability to direct energy.",
+    "meanings": {
+        "person": [
+            "A leader or authority figure who guides others with wisdom and power",
+            "Someone who abuses their position of authority or magical abilities"
+        ],
+        "creatureTrap": [
+            "Creatures that wield magical or supernatural powers",
+            "Magical wards or energy-based traps that require specific countermeasures"
+        ],
+        "place": [
+            "Seats of power, magical academies, or places where authority is exercised",
+            "Areas where power has been corrupted or magical energies are unstable"
+        ],
+        "treasure": [
+            "Magical implements, symbols of authority, or items that focus power",
+            "Items that grant power but corrupt the user or demand a price"
+        ],
+        "situation": [
+            "Opportunities to exercise leadership or channel power effectively",
+            "Situations where power is misused or authority is challenged"
+        ]
+    }
+}

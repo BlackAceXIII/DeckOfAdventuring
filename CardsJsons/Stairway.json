@@ -1,0 +1,26 @@
+{
+    "name": "Stairway",
+    "description": "A set of steps leading upward or downward, representing progress, elevation, and transitions between levels.",
+    "meanings": {
+        "person": [
+            "Someone who helps others advance or reach higher levels of achievement",
+            "A person who looks down on others or creates barriers to advancement"
+        ],
+        "creatureTrap": [
+            "Creatures that control vertical spaces or have climbing abilities",
+            "Traps triggered by movement between different levels or elevations"
+        ],
+        "place": [
+            "Multi-level structures that lead to important upper or lower areas",
+            "Dangerous vertical passages where falling poses significant risk"
+        ],
+        "treasure": [
+            "Rewards that become available only after achieving certain levels",
+            "Items that are difficult to transport between different elevations"
+        ],
+        "situation": [
+            "Clear progression toward higher goals or deeper understanding",
+            "Setbacks that force retreat to lower levels or starting over"
+        ]
+    }
+}

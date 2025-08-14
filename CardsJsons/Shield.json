@@ -1,0 +1,26 @@
+{
+    "name": "Shield",
+    "description": "A protective barrier held in defense, representing protection, security, and the ability to guard against harm.",
+    "meanings": {
+        "person": [
+            "A protector or guardian who defends others from harm",
+            "Someone who hides behind defenses and avoids taking necessary risks"
+        ],
+        "creatureTrap": [
+            "Creatures with natural armor or defensive abilities",
+            "Barriers or defensive mechanisms that protect valuable areas"
+        ],
+        "place": [
+            "Fortified locations that offer safety and protection",
+            "Overly defensive places that become isolated or stagnant"
+        ],
+        "treasure": [
+            "Protective items, armor, or wards that defend against specific threats",
+            "Defensive items that hinder mobility or prevent necessary action"
+        ],
+        "situation": [
+            "Successfully defending against threats or protecting what matters",
+            "Being overly cautious and missing opportunities due to excessive caution"
+        ]
+    }
+}

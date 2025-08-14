@@ -1,0 +1,26 @@
+{
+    "name": "Ooze",
+    "description": "A gelatinous, amorphous creature, representing adaptability, persistence, and slow but inevitable progress.",
+    "meanings": {
+        "person": [
+            "Someone who adapts to any situation and persists despite obstacles",
+            "A person who slowly corrupts or consumes everything around them"
+        ],
+        "creatureTrap": [
+            "Creatures that are difficult to harm with conventional weapons",
+            "Slow-acting hazards that gradually become more dangerous over time"
+        ],
+        "place": [
+            "Locations that slowly change or adapt to circumstances",
+            "Areas that are slowly being consumed or corrupted by some force"
+        ],
+        "treasure": [
+            "Items that improve or adapt based on how they are used",
+            "Treasures that slowly degrade or corrupt over time"
+        ],
+        "situation": [
+            "Gradual progress that eventually leads to significant change",
+            "Slow-building problems that become serious if not addressed"
+        ]
+    }
+}

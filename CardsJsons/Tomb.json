@@ -1,0 +1,26 @@
+{
+    "name": "Tomb",
+    "description": "An ancient burial chamber filled with shadows, representing death, endings, and the wisdom of the past.",
+    "meanings": {
+        "person": [
+            "A wise elder who shares knowledge from past experiences",
+            "Someone dwelling on past failures or unable to move beyond old wounds"
+        ],
+        "creatureTrap": [
+            "Undead creatures or spirits that guard ancient secrets",
+            "Ancient traps or curses designed to protect burial sites"
+        ],
+        "place": [
+            "Ancient burial sites containing valuable historical knowledge",
+            "Cursed or haunted areas where the dead do not rest peacefully"
+        ],
+        "treasure": [
+            "Ancient artifacts, historical records, or items of the deceased",
+            "Cursed grave goods that bring misfortune to those who disturb them"
+        ],
+        "situation": [
+            "Learning from the past to avoid repeating old mistakes",
+            "Being haunted by past failures or unable to let go of what's gone"
+        ]
+    }
+}

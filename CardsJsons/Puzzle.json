@@ -1,0 +1,26 @@
+{
+    "name": "Puzzle",
+    "description": "An intricate mechanical device or riddle, representing challenges that require intellect and patience to solve.",
+    "meanings": {
+        "person": [
+            "A clever individual who enjoys solving complex problems",
+            "Someone who makes things unnecessarily complicated or confusing"
+        ],
+        "creatureTrap": [
+            "Intelligent creatures that challenge adventurers with riddles or tests",
+            "Complex mechanical traps that require multiple steps to disarm"
+        ],
+        "place": [
+            "Locations with hidden mechanisms or secret knowledge to discover",
+            "Areas where simple actions have unexpected and complex consequences"
+        ],
+        "treasure": [
+            "Items that require skill or knowledge to unlock their true potential",
+            "Complex devices that are difficult to use or understand"
+        ],
+        "situation": [
+            "Problems that can be solved through careful thought and analysis",
+            "Overly complex situations where simple solutions are overlooked"
+        ]
+    }
+}

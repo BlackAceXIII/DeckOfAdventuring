@@ -1,0 +1,26 @@
+{
+    "name": "Ring",
+    "description": "A circular band of metal, representing bonds, commitments, and things that come full circle.",
+    "meanings": {
+        "person": [
+            "Someone who honors commitments and maintains strong relationships",
+            "A person trapped in cycles of behavior or bound by unwanted obligations"
+        ],
+        "creatureTrap": [
+            "Creatures that form protective circles or work in connected groups",
+            "Magical barriers or binding circles that prevent movement or escape"
+        ],
+        "place": [
+            "Circular or enclosed areas that offer protection and unity",
+            "Places where one becomes trapped in endless cycles or routines"
+        ],
+        "treasure": [
+            "Items that strengthen bonds between allies or enhance cooperation",
+            "Cursed items that create unwanted bonds or dependencies"
+        ],
+        "situation": [
+            "Completion of cycles, fulfillment of promises, or strengthened alliances",
+            "Being trapped in repetitive patterns or bound by restrictive agreements"
+        ]
+    }
+}

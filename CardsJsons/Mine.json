@@ -1,0 +1,26 @@
+{
+    "name": "Mine",
+    "description": "A deep excavation site, representing hidden wealth, dangerous depths, and the rewards of hard work.",
+    "meanings": {
+        "person": [
+            "A hardworking individual who uncovers hidden value through persistence",
+            "Someone who exploits others' labor or takes credit for others' work"
+        ],
+        "creatureTrap": [
+            "Creatures that burrow or live in underground environments",
+            "Cave-ins, gas pockets, or structural collapses in underground areas"
+        ],
+        "place": [
+            "Rich underground deposits of valuable materials or information",
+            "Dangerous underground areas prone to collapse or toxic conditions"
+        ],
+        "treasure": [
+            "Raw materials, gems, or precious metals of great value",
+            "Resources that require dangerous or expensive extraction methods"
+        ],
+        "situation": [
+            "Opportunities that require hard work but promise great rewards",
+            "Situations where pursuing gain leads to dangerous or unstable conditions"
+        ]
+    }
+}

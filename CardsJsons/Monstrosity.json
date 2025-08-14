@@ -1,0 +1,26 @@
+{
+    "name": "Monstrosity",
+    "description": "An aberrant creature of unnatural origin, representing chaos, mutation, and things that defy natural order.",
+    "meanings": {
+        "person": [
+            "An individual with unique abilities who stands apart from normal society",
+            "Someone whose actions or nature have become corrupted and inhuman"
+        ],
+        "creatureTrap": [
+            "Bizarre creatures with unusual abilities that defy expectations",
+            "Unnatural hazards or phenomena that operate by unknown rules"
+        ],
+        "place": [
+            "Locations touched by chaos or unnatural forces",
+            "Areas where reality is unstable or dangerous mutations occur"
+        ],
+        "treasure": [
+            "Unique items with strange properties that normal magic cannot explain",
+            "Cursed or tainted items that corrupt those who use them"
+        ],
+        "situation": [
+            "Unique challenges that require unconventional solutions",
+            "Situations that spiral into chaos beyond anyone's control"
+        ]
+    }
+}

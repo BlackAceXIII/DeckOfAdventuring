@@ -1,0 +1,26 @@
+{
+    "name": "Pit",
+    "description": "A deep hole or chasm, representing hidden dangers, sudden setbacks, and the risk of falling.",
+    "meanings": {
+        "person": [
+            "Someone who helps others avoid hidden dangers or pitfalls",
+            "A person who creates traps or leads others into dangerous situations"
+        ],
+        "creatureTrap": [
+            "Creatures that attack from below or use burrowing tactics",
+            "Hidden pits, spike traps, or other concealed ground hazards"
+        ],
+        "place": [
+            "Deep caverns or chasms that lead to hidden areas",
+            "Unstable ground where one might fall into hidden dangers"
+        ],
+        "treasure": [
+            "Valuable items hidden in deep or hard-to-reach places",
+            "Treasures that are trapped or guarded by hidden dangers"
+        ],
+        "situation": [
+            "Opportunities to avoid or overcome hidden obstacles",
+            "Sudden setbacks or falling into unexpected difficulties"
+        ]
+    }
+}

@@ -1,0 +1,26 @@
+{
+    "name": "Undead",
+    "description": "A skeletal or ghostly figure from beyond death, representing persistence beyond endings and unfinished business.",
+    "meanings": {
+        "person": [
+            "Someone who perseveres despite overwhelming obstacles or setbacks",
+            "A person who cannot let go of the past or move on from old grievances"
+        ],
+        "creatureTrap": [
+            "Undead creatures that rise again even when defeated",
+            "Curses or negative energy that drains life or prevents healing"
+        ],
+        "place": [
+            "Areas touched by death that hold important secrets or unfinished business",
+            "Cursed locations where negative energy prevents rest or peace"
+        ],
+        "treasure": [
+            "Items that persist beyond their normal limits or provide protection from death",
+            "Cursed items that bind the user to unpleasant obligations or drain vitality"
+        ],
+        "situation": [
+            "Persistence and determination that overcomes seemingly impossible odds",
+            "Being unable to move on or being haunted by unresolved issues"
+        ]
+    }
+}

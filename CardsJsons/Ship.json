@@ -1,0 +1,26 @@
+{
+    "name": "Ship",
+    "description": "A sailing vessel on the water, representing journeys, exploration, and crossing into unknown territories.",
+    "meanings": {
+        "person": [
+            "An experienced traveler or explorer who opens new possibilities",
+            "Someone who abandons responsibilities or flees from commitments"
+        ],
+        "creatureTrap": [
+            "Aquatic creatures or beings that control waterways",
+            "Hazards related to water travel like storms, reefs, or whirlpools"
+        ],
+        "place": [
+            "Harbors, ports, or coastal areas that connect to distant lands",
+            "Dangerous waters or areas cut off from safe passage"
+        ],
+        "treasure": [
+            "Exotic goods from distant lands or navigational instruments",
+            "Cargo that is difficult to transport or contraband that brings trouble"
+        ],
+        "situation": [
+            "New opportunities for exploration and discovering distant possibilities",
+            "Being cut off from familiar support or facing uncertain journeys"
+        ]
+    }
+}
