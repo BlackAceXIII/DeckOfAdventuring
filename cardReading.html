@@ -15,82 +15,224 @@
 				<p id="dropdown"></p>
 			</div>
 		</div>
-		<h2>List of Cards Drawn</h2>
-		<table class="card-list" border="1">
-			<tr>
-				<th>Card Slot</th>
-				<th>Card Name</th>
-				<th>Orientation</th>
-			</tr>
-			<tr>
-				<td>C.00</td>
-				<td id="card-list-C.00">—</td>
-				<td id="card-orientation-list-C.00">—</td>
-			</tr>
-			<tr>
-				<td>C.01</td>
-				<td id="card-list-C.01">—</td>
-				<td id="card-orientation-list-C.01">—</td>
-			</tr>
-			<tr>
-				<td>C.02</td>
-				<td id="card-list-C.02">—</td>
-				<td id="card-orientation-list-C.02">—</td>
-			</tr>
-			<tr>
-				<td>C.03</td>
-				<td id="card-list-C.03">—</td>
-				<td id="card-orientation-list-C.03">—</td>
-			</tr>
-			<tr>
-				<td>C.04</td>
-				<td id="card-list-C.04">—</td>
-				<td id="card-orientation-list-C.04">—</td>
-			</tr>
-			<tr>
-				<td>C.05</td>
-				<td id="card-list-C.05">—</td>
-				<td id="card-orientation-list-C.05">—</td>
-			</tr>
-			<tr>
-				<td>C.06</td>
-				<td id="card-list-C.06">—</td>
-				<td id="card-orientation-list-C.06">—</td>
-			</tr>
-			<tr>
-				<td>C.07</td>
-				<td id="card-list-C.07">—</td>
-				<td id="card-orientation-list-C.07">—</td>
-			</tr>
-			<tr>
-				<td>C.08</td>
-				<td id="card-list-C.08">—</td>
-				<td id="card-orientation-list-C.08">—</td>
-			</tr>
-			<tr>
-				<td>C.09</td>
-				<td id="card-list-C.09">—</td>
-				<td id="card-orientation-list-C.09">—</td>
-			</tr>
-		</table>
-        <p>Click on the x button in the top right corner to close the current tab:</p>
-        <p id="FILLER">FILLER</p><div class="tab">
-			<button class="tablinks" onclick="openCard(event, 'C.00')" id="defaultOpen">Card 00</button>
-			<button class="tablinks" onclick="openCard(event, 'C.01')">Card 01</button>
-            <button class="tablinks" onclick="openCard(event, 'C.02')">Card 02</button>
-            <button class="tablinks" onclick="openCard(event, 'C.03')">Card 03</button>
-            <button class="tablinks" onclick="openCard(event, 'C.04')">Card 04</button>
-            <button class="tablinks" onclick="openCard(event, 'C.05')">Card 05</button>
-            <button class="tablinks" onclick="openCard(event, 'C.06')">Card 06</button>
-            <button class="tablinks" onclick="openCard(event, 'C.07')">Card 07</button>
-            <button class="tablinks" onclick="openCard(event, 'C.08')">Card 08</button>
-            <button class="tablinks" onclick="openCard(event, 'C.09')">Card 09</button>
 		</div>
-		<!-- Reroll button -->
-		<div>
-			<button class="button button1" onclick="redrawAll()">Redraw All Cards</button>
+		
+		<!-- Spread Selection Tabs -->
+		<div class="spread-tabs">
+			<button class="spread-tablinks" onclick="openSpread(event, 'adventure-spread')" id="defaultSpreadOpen">Adventure Spread</button>
+			<button class="spread-tablinks" onclick="openSpread(event, 'five-card-spread')">Five-Card Spread</button>
+			<button class="spread-tablinks" onclick="openSpread(event, 'three-card-spread')">Three-Card Spread</button>
 		</div>
-		<!-- Card Content: one tab per card slot C.00..C.09 -->
+
+		<!-- Adventure Spread -->
+		<div id="adventure-spread" class="spread-tabcontent">
+			<h2>Adventure Spread - List of Cards Drawn</h2>
+			<div class="table-grid-container">
+				<div class="table-section">
+					<table class="card-list" border="1">
+						<tr>
+							<th>Card Slot</th>
+							<th>Card Name</th>
+							<th>Orientation</th>
+						</tr>
+						<tr>
+							<td>C.00</td>
+							<td id="card-list-C.00">—</td>
+							<td id="card-orientation-list-C.00">—</td>
+						</tr>
+						<tr>
+							<td>C.01</td>
+							<td id="card-list-C.01">—</td>
+							<td id="card-orientation-list-C.01">—</td>
+						</tr>
+						<tr>
+							<td>C.02</td>
+							<td id="card-list-C.02">—</td>
+							<td id="card-orientation-list-C.02">—</td>
+						</tr>
+						<tr>
+							<td>C.03</td>
+							<td id="card-list-C.03">—</td>
+							<td id="card-orientation-list-C.03">—</td>
+						</tr>
+						<tr>
+							<td>C.04</td>
+							<td id="card-list-C.04">—</td>
+							<td id="card-orientation-list-C.04">—</td>
+						</tr>
+						<tr>
+							<td>C.05</td>
+							<td id="card-list-C.05">—</td>
+							<td id="card-orientation-list-C.05">—</td>
+						</tr>
+						<tr>
+							<td>C.06</td>
+							<td id="card-list-C.06">—</td>
+							<td id="card-orientation-list-C.06">—</td>
+						</tr>
+						<tr>
+							<td>C.07</td>
+							<td id="card-list-C.07">—</td>
+							<td id="card-orientation-list-C.07">—</td>
+						</tr>
+						<tr>
+							<td>C.08</td>
+							<td id="card-list-C.08">—</td>
+							<td id="card-orientation-list-C.08">—</td>
+						</tr>
+					</table>
+				</div>
+				<div class="grid-section">
+					<p>Click on the x button in the top right corner to close the current tab:</p>
+					<div class="tab-grid">
+						<!-- Row 1: ■□□■■ -->
+						<div class="tab-row">
+							<button class="tablinks" onclick="openCard(event, 'C.00')" id="defaultOpen">Card 00</button>
+							<span class="tab-spacer"></span>
+							<span class="tab-spacer"></span>
+							<button class="tablinks" onclick="openCard(event, 'C.03')">Card 03</button>
+							<button class="tablinks" onclick="openCard(event, 'C.04')">Card 04</button>
+						</div>
+						<!-- Row 2: ■■■■■ -->
+						<div class="tab-row">
+							<button class="tablinks" onclick="openCard(event, 'C.01')">Card 01</button>
+							<button class="tablinks" onclick="openCard(event, 'C.05')">Card 05</button>
+							<button class="tablinks" onclick="openCard(event, 'C.06')">Card 06</button>
+							<button class="tablinks" onclick="openCard(event, 'C.07')">Card 07</button>
+							<button class="tablinks" onclick="openCard(event, 'C.08')">Card 08</button>
+						</div>
+						<!-- Row 3: □□■□□ -->
+						<div class="tab-row">
+							<span class="tab-spacer"></span>
+							<span class="tab-spacer"></span>
+							<button class="tablinks" onclick="openCard(event, 'C.02')">Card 02</button>
+							<span class="tab-spacer"></span>
+							<span class="tab-spacer"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Reroll button -->
+			<div>
+				<button class="button button1" onclick="redrawAll()">Redraw All Cards</button>
+			</div>
+		</div>
+
+		<!-- Five-Card Spread -->
+		<div id="five-card-spread" class="spread-tabcontent">
+			<h2>Five-Card Spread - List of Cards Drawn</h2>
+			<div class="table-grid-container">
+				<div class="table-section">
+					<table class="card-list" border="1">
+						<tr>
+							<th>Card Slot</th>
+							<th>Card Name</th>
+							<th>Orientation</th>
+						</tr>
+						<tr>
+							<td>C.00</td>
+							<td id="card-list-five-C.00">—</td>
+							<td id="card-orientation-list-five-C.00">—</td>
+						</tr>
+						<tr>
+							<td>C.01</td>
+							<td id="card-list-five-C.01">—</td>
+							<td id="card-orientation-list-five-C.01">—</td>
+						</tr>
+						<tr>
+							<td>C.02</td>
+							<td id="card-list-five-C.02">—</td>
+							<td id="card-orientation-list-five-C.02">—</td>
+						</tr>
+						<tr>
+							<td>C.03</td>
+							<td id="card-list-five-C.03">—</td>
+							<td id="card-orientation-list-five-C.03">—</td>
+						</tr>
+						<tr>
+							<td>C.04</td>
+							<td id="card-list-five-C.04">—</td>
+							<td id="card-orientation-list-five-C.04">—</td>
+						</tr>
+					</table>
+				</div>
+				<div class="grid-section">
+					<p>Five-Card Cross Pattern:</p>
+					<div class="tab-grid">
+						<!-- Row 1: □■□ -->
+						<div class="tab-row">
+							<span class="tab-spacer"></span>
+							<button class="tablinks" onclick="openCard(event, 'C.01')">Card 01</button>
+							<span class="tab-spacer"></span>
+						</div>
+						<!-- Row 2: ■■■ -->
+						<div class="tab-row">
+							<button class="tablinks" onclick="openCard(event, 'C.03')">Card 03</button>
+							<button class="tablinks" onclick="openCard(event, 'C.00')">Card 00</button>
+							<button class="tablinks" onclick="openCard(event, 'C.04')">Card 04</button>
+						</div>
+						<!-- Row 3: □■□ -->
+						<div class="tab-row">
+							<span class="tab-spacer"></span>
+							<button class="tablinks" onclick="openCard(event, 'C.02')">Card 02</button>
+							<span class="tab-spacer"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Reroll button -->
+			<div>
+				<button class="button button1" onclick="redrawAll()">Redraw All Cards</button>
+			</div>
+		</div>
+
+		<!-- Three-Card Spread -->
+		<div id="three-card-spread" class="spread-tabcontent">
+			<h2>Three-Card Spread - List of Cards Drawn</h2>
+			<div class="table-grid-container">
+				<div class="table-section">
+					<table class="card-list" border="1">
+						<tr>
+							<th>Card Slot</th>
+							<th>Card Name</th>
+							<th>Orientation</th>
+						</tr>
+						<tr>
+							<td>C.00 (Past)</td>
+							<td id="card-list-three-C.00">—</td>
+							<td id="card-orientation-list-three-C.00">—</td>
+						</tr>
+						<tr>
+							<td>C.01 (Present)</td>
+							<td id="card-list-three-C.01">—</td>
+							<td id="card-orientation-list-three-C.01">—</td>
+						</tr>
+						<tr>
+							<td>C.02 (Future)</td>
+							<td id="card-list-three-C.02">—</td>
+							<td id="card-orientation-list-three-C.02">—</td>
+						</tr>
+					</table>
+				</div>
+				<div class="grid-section">
+					<p>Past - Present - Future:</p>
+					<div class="tab-grid">
+						<!-- Single row: ■■■ -->
+						<div class="tab-row">
+							<button class="tablinks" onclick="openCard(event, 'C.00')">Past</button>
+							<button class="tablinks" onclick="openCard(event, 'C.01')">Present</button>
+							<button class="tablinks" onclick="openCard(event, 'C.02')">Future</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Reroll button -->
+			<div>
+				<button class="button button1" onclick="redrawAll()">Redraw All Cards</button>
+			</div>
+		</div>
+
+		<!-- Card Content: one tab per card slot C.00..C.08 -->
 		<div id="C.00" class="tabcontent">
 			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
 			<h3>Card: <span id="card-name-C.00">Card Name</span></h3>

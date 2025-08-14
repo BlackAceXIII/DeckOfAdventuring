@@ -86,3 +86,105 @@ body {
 .dropdown:hover .dropdown-content {
   display: block;
 }
+
+/* Spread selection tabs */
+.spread-tabs {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+  margin-bottom: 20px;
+}
+
+.spread-tabs button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 16px;
+}
+
+.spread-tabs button:hover {
+  background-color: #ddd;
+}
+
+.spread-tabs button.active {
+  background-color: #ccc;
+}
+
+/* Spread tab content */
+.spread-tabcontent {
+  display: none;
+  padding: 0;
+  border-top: none;
+}
+
+/* Container for table and grid side by side */
+.table-grid-container {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  margin: 10px 0;
+}
+
+.table-section {
+  flex: 0 0 auto; /* Don't grow, don't shrink, auto size */
+}
+
+.grid-section {
+  flex: 1; /* Take remaining space */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Tab grid layout styles */
+.tab-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  margin: 10px 0;
+}
+
+.tab-row {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.tab-spacer {
+  width: 80px; /* Same width as tab buttons */
+  height: 45px; /* Same height as tab buttons */
+  display: inline-block;
+}
+
+/* Override tab button styles for grid layout */
+.tab-grid .tablinks {
+  background-color: #0000f1;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+  width: 80px;
+  height: 160px;
+  display: inline-block;
+}
+
+.tab-grid .tablinks:hover {
+  background-color: #ffd000;
+}
+
+.tab-grid .tablinks.active {
+  background-color: #ff0000;
+}
+
+/* Special styling for three-card spread */
+.tab-grid .tablinks.three-card {
+  width: 100px;
+  font-size: 14px;
+}

@@ -100,6 +100,57 @@ function openCard(evt, cardNum) {
   evt.currentTarget.className += " active";
 }
 
+function openSpread(evt, spreadName) {
+  var i, spreadTabcontent, spreadTablinks;
+  spreadTabcontent = document.getElementsByClassName("spread-tabcontent");
+  for (i = 0; i < spreadTabcontent.length; i++) {
+    spreadTabcontent[i].style.display = "none";
+  }
+  spreadTablinks = document.getElementsByClassName("spread-tablinks");
+  for (i = 0; i < spreadTablinks.length; i++) {
+    spreadTablinks[i].className = spreadTablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(spreadName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+// Helper function to get the currently active spread
+function getActiveSpread() {
+  const spreadTabcontent = document.getElementsByClassName("spread-tabcontent");
+  for (let i = 0; i < spreadTabcontent.length; i++) {
+    if (spreadTabcontent[i].style.display === "block") {
+      return spreadTabcontent[i].id;
+    }
+  }
+  return "adventure-spread"; // default
+}
+
+// Helper function to get table ID prefix based on active spread
+function getTablePrefix() {
+  const activeSpread = getActiveSpread();
+  switch(activeSpread) {
+    case "five-card-spread":
+      return "card-list-five-";
+    case "three-card-spread":
+      return "card-list-three-";
+    default:
+      return "card-list-";
+  }
+}
+
+// Helper function to get orientation table ID prefix based on active spread
+function getOrientationTablePrefix() {
+  const activeSpread = getActiveSpread();
+  switch(activeSpread) {
+    case "five-card-spread":
+      return "card-orientation-list-five-";
+    case "three-card-spread":
+      return "card-orientation-list-three-";
+    default:
+      return "card-orientation-list-";
+  }
+}
+
 function redrawAll() {
   for (let i = 0; i <= 9; i++) {
     const cardNum = i < 10 ? `C.0${i}` : `C.${i}`;
@@ -223,17 +274,41 @@ function generateCard(cardNum) {
   setText(`meaning-treasure-${cardNum}`, getMeaning(cardData.meanings?.treasure));
   setText(`meaning-situation-${cardNum}`, getMeaning(cardData.meanings?.situation));
 
-  // Also update the summary table for this card slot if present
-  const listNameEl = document.getElementById(`card-list-${cardNum}`);
-  const listOrientEl = document.getElementById(`card-orientation-list-${cardNum}`);
-  if (listNameEl) listNameEl.textContent = cardData.name || cardName;
-  if (listOrientEl) listOrientEl.textContent = orientationText;
+  // Update ALL spread tables simultaneously (not just the active one)
+  const cardNameText = cardData.name || cardName;
+  
+  // Adventure Spread table
+  const adventureNameEl = document.getElementById(`card-list-${cardNum}`);
+  const adventureOrientEl = document.getElementById(`card-orientation-list-${cardNum}`);
+  if (adventureNameEl) adventureNameEl.textContent = cardNameText;
+  if (adventureOrientEl) adventureOrientEl.textContent = orientationText;
+  
+  // Five-Card Spread table (only for C.00-C.04)
+  if (cardNum <= 'C.04') {
+    const fiveNameEl = document.getElementById(`card-list-five-${cardNum}`);
+    const fiveOrientEl = document.getElementById(`card-orientation-list-five-${cardNum}`);
+    if (fiveNameEl) fiveNameEl.textContent = cardNameText;
+    if (fiveOrientEl) fiveOrientEl.textContent = orientationText;
+  }
+  
+  // Three-Card Spread table (only for C.00-C.02)
+  if (cardNum <= 'C.02') {
+    const threeNameEl = document.getElementById(`card-list-three-${cardNum}`);
+    const threeOrientEl = document.getElementById(`card-orientation-list-three-${cardNum}`);
+    if (threeNameEl) threeNameEl.textContent = cardNameText;
+    if (threeOrientEl) threeOrientEl.textContent = orientationText;
+  }
 
   console.log(`Generated card: ${cardData.name} (${orientationText}) for slot ${cardNum}`);
 }
 
 // Initialize data
 fetchData();
+
+// Get the element with id="defaultSpreadOpen" and click on it to show default spread
+if (document.getElementById("defaultSpreadOpen")) {
+  document.getElementById("defaultSpreadOpen").click();
+}
 
 // Get the element with id="defaultOpen" and click on it
 if (document.getElementById("defaultOpen")) {
