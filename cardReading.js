@@ -1,8 +1,10 @@
-let deckLists;
+let allDecks = {}; // Combined deck lists from all sources
+let allCards = null; // Card data from AllCards.json
 let selectedDeck = null; // Default deck selection
-let cardData = null; // This will hold the data from deckLists.json
 let cardName = null; // This will hold the name of the card
 let deckName = null; // This will hold the name of the deck
+
+const CARD_DIR = './CardsJsons';
 
 const drawData = {
   "C.00": { cType: "" },
@@ -18,23 +20,54 @@ const drawData = {
 };
 
 async function fetchData() {
-  const responseDeckList = await fetch('../JSON_Folder/deckLists.json'); //delayed fetch
-  //const aberration = await fetch('../JSON_Folder/CardsJsons/Aberrations2.json');//temporary to test a card
-  //cardAberration =  await aberration.json(); //temporary to test a card
-  console.log(responseDeckList);
-  deckLists = await responseDeckList.json(); //This stores the info from the JSON so the generate function can use it and the button can reference it.
-  populateDropdown(deckLists);
-  return deckLists;// cardAberration;//temporary to test a card
+  try {
+    // Load cards and default decks in parallel
+    const [cardsResponse, defaultDecksResponse] = await Promise.all([
+      fetch(`${CARD_DIR}/AllCards.json`),
+      fetch(`${CARD_DIR}/deckLists.json`)
+    ]);
+
+    if (!cardsResponse.ok) throw new Error('Failed to load AllCards.json');
+    if (!defaultDecksResponse.ok) throw new Error('Failed to load deckLists.json');
+
+    allCards = await cardsResponse.json();
+    const defaultDecks = await defaultDecksResponse.json();
+
+    // Try to load custom decks (optional - may not exist)
+    let customDecks = {};
+    try {
+      const customResponse = await fetch(`${CARD_DIR}/customDecks.json`);
+      if (customResponse.ok) {
+        customDecks = await customResponse.json();
+      }
+    } catch (e) {
+      console.log('No custom decks found (this is fine)');
+    }
+
+    // Combine all deck sources (custom decks override defaults)
+    allDecks = { ...defaultDecks, ...customDecks };
+
+    console.log(`Loaded ${Object.keys(allCards.cards).length} cards`);
+    console.log(`Loaded ${Object.keys(allDecks).length} deck types`);
+
+    populateDropdown(allDecks);
+    return allDecks;
+
+  } catch (error) {
+    console.error('Failed to load card data:', error);
+    throw error;
+  }
 }
 
-async function fetchCardData(cardName) {
-  const responseCard = await fetch(`../JSON_Folder/CardsJsons/${cardName}.json`); // Fetch the card data from the JSON file
-  if (!responseCard.ok) { // Check if the response is OK
-    throw new Error(`HTTP error! status: ${responseCard.status}`); // Throw an error if the fetch fails
-  }
-  const cardData = await responseCard.json(); // Parse the JSON data
-  return cardData; // Return the card data
-}
+// No longer needed - cards are preloaded in allCards
+// async function fetchCardData(cardName) {
+//   const responseCard = await fetch(`${CARD_DIR}/${cardName}.json`);
+//   if (!responseCard.ok) {
+//     throw new Error(`HTTP error! status: ${responseCard.status}`);
+//   }
+//   const cardData = await responseCard.json();
+//   return cardData;
+// }
 
 function populateDropdown(deckLists) {
   let dropdown = "<select id='deck-select' onchange='redrawAll()'>"; // Create a dropdown menu
@@ -69,7 +102,8 @@ function openCard(evt, cardNum) {
 
 function redrawAll() {
   for (let i = 0; i <= 9; i++) {
-    generateCard(`C.0${i}`, deckLists.deckName.cardName);
+    const cardNum = i < 10 ? `C.0${i}` : `C.${i}`;
+    generateCard(cardNum);
   }
   return;
 }
@@ -81,37 +115,9 @@ document.querySelectorAll('button').forEach(button => {
 });
 
 function handleButtonClick(id) {
-  switch (id) {
-    case 'generate-button-C.00':
-      generateCard("C.00", cardAberration);
-      break;
-    case 'generate-button-C.01':
-      generateCard("C.01", deckLists.deckName.cardName);
-      break;
-    case 'generate-button-C.02':
-      generateCard("C.02", deckLists.deckName.cardName);
-      break;
-    case 'generate-button-C.03':
-      generateCard("C.03", deckLists.deckName.cardName);
-      break;
-    case 'generate-button-C.04':
-      generateCard("C.04", deckLists.deckName.cardName);
-      break;
-    case 'generate-button-C.05':
-      generateCard("C.05", deckLists.deckName.cardName);
-      break;
-    case 'generate-button-C.06':
-      generateCard("C.06", deckLists.deckName.cardName);
-      break;
-    case 'generate-button-C.07':
-      generateCard("C.07", deckLists.deckName.cardName);
-      break;
-    case 'generate-button-C.08':
-      generateCard("C.08", deckLists.deckName.cardName);
-      break;
-    case 'generate-button-C.09':
-      generateCard("C.09", deckLists.deckName.cardName);
-      break;
+  const match = id.match(/^generate-button-(C\.\d{2})$/);
+  if (match) {
+    generateCard(match[1]);
   }
 }
 /*
@@ -162,43 +168,58 @@ function generateCard(cardNum, cardAberration) {
   document.getElementById("meaning-situation-C.00").textContent = cardAberration.meanings.situation[cardOrientation];
 }
 */
-function generateCard(cardNum, deckName) {
-  if (!deckLists || !selectedDeck || !deckLists[selectedDeck] || deckLists[selectedDeck].length === 0) {
+function generateCard(cardNum) {
+  if (!allCards || !allDecks || !selectedDeck || !allDecks[selectedDeck]) {
     console.error("No data available or selected deck is empty.");
     return;
   }
-  // Get the card data from the selected deck
-  cardName = deckLists[selectedDeck][cardNum]; // Assuming deckLists[selectedDeck] is an array of card objects
-  //const responseCard = fetch('../JSON_Folder/CardsJsons/${cardName}.json');//temporary to test a card
-  cardData = fetchCardData(cardName);
-  //cardData =  responseCard.json(); //temporary to test a card
+
+  // Get the deck array for the selected deck
+  const deck = allDecks[selectedDeck];
+  
+  // Get random card from the deck
+  const randomIndex = Math.floor(Math.random() * deck.length);
+  const cardName = deck[randomIndex];
+  
+  if (!cardName) {
+    console.error(`No card found at index ${randomIndex} in deck ${selectedDeck}`);
+    return;
+  }
+
+  // Get the card data from allCards
+  const cardData = allCards.cards[cardName];
+  
+  if (!cardData) {
+    console.error(`Card data for "${cardName}" not found in AllCards.json`);
+    return;
+  }
+
   // Determines if the card is upright or reversed
   let cardOrientation = Math.floor(Math.random() * 2);
+  const orientationText = cardOrientation === 0 ? "Upright" : "Reverse";
 
-    // Update card name and description
+  // Update card name and description
   document.getElementById("card-name").textContent = cardData.name;
   document.getElementById("card-description-C.00").textContent = cardData.description;
-  if (cardOrientation == 0) {
-    document.getElementById("card-orientation-C.00").textContent = "Upright";
-  }
-  else {
-    document.getElementById("card-orientation-C.00").textContent = "Reverse";
-  }
+  document.getElementById("card-orientation-C.00").textContent = orientationText;
 
-  // Update meanings based on orientation (Upright or Reversed)
-  if (cardOrientation == 0) {
-    document.getElementById("meaning-person-C.00").textContent = cardData.meanings.person.upright;
-  }
-  else {
-    document.getElementById("meaning-person-C.00").textContent = cardData.meanings.person.reverse;
-  }
-  document.getElementById("meaning-person-C.00").textContent = cardData.meanings.person[cardOrientation];
-  document.getElementById("meaning-creature-C.00").textContent = cardData.meanings.creatureTrap[cardOrientation];
-  document.getElementById("meaning-place-C.00").textContent = cardData.meanings.place[cardOrientation];
-  document.getElementById("meaning-treasure-C.00").textContent = cardData.meanings.treasure[cardOrientation];
-  document.getElementById("meaning-situation-C.00").textContent = cardData.meanings.situation[cardOrientation];
+  // Helper function to get the right meaning based on orientation
+  const getMeaning = (meaningArray) => {
+    if (Array.isArray(meaningArray)) {
+      return meaningArray[cardOrientation] || meaningArray[0];
+    }
+    // Handle object format like { upright: "...", reverse: "..." }
+    return cardOrientation === 0 ? meaningArray.upright : meaningArray.reverse;
+  };
 
+  // Update meanings based on orientation
+  document.getElementById("meaning-person-C.00").textContent = getMeaning(cardData.meanings.person);
+  document.getElementById("meaning-creature-C.00").textContent = getMeaning(cardData.meanings.creatureTrap);
+  document.getElementById("meaning-place-C.00").textContent = getMeaning(cardData.meanings.place);
+  document.getElementById("meaning-treasure-C.00").textContent = getMeaning(cardData.meanings.treasure);
+  document.getElementById("meaning-situation-C.00").textContent = getMeaning(cardData.meanings.situation);
 
+  console.log(`Generated card: ${cardData.name} (${orientationText})`);
 }
 
 fetchData();

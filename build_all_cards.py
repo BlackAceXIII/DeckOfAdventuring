@@ -4,18 +4,14 @@ import json
 def build_all_cards():
     base_dir = r'c:\Users\sbawaney\Documents\VSCode Files\DeckOfAdventuring\CardsJsons'
     
-    # Load deckLists.json
-    with open(os.path.join(base_dir, 'deckLists.json'), 'r', encoding='utf-8') as f:
-        deck_lists = json.load(f)
-    
     # Initialize the cards dictionary
     cards = {}
     
     # Get all JSON files in the directory
     json_files = [f for f in os.listdir(base_dir) if f.endswith('.json')]
     
-    # Exclude the files we don't want to include
-    exclude_files = ['CardFormat.json', 'deckLists.json', 'AllCards.json']
+    # Exclude the files we don't want to include in AllCards.json
+    exclude_files = ['CardFormat.json', 'deckLists.json', 'AllCards.json', 'customDecks.json', 'seasonalDecks.json']
     
     for filename in json_files:
         if filename in exclude_files:
@@ -32,9 +28,8 @@ def build_all_cards():
         except Exception as e:
             print(f"Error reading {filename}: {e}")
     
-    # Create the combined structure
+    # Create AllCards.json with only card data (no deckLists)
     all_cards = {
-        "deckLists": deck_lists,
         "cards": cards
     }
     
@@ -44,7 +39,15 @@ def build_all_cards():
         json.dump(all_cards, f, indent=2)
     
     print(f"\nSuccessfully created AllCards.json with {len(cards)} cards")
+    print(f"DeckLists remain in separate deckLists.json file")
     print(f"Excluded files: {exclude_files}")
+    
+    # Optional: Create empty customDecks.json if it doesn't exist
+    custom_decks_path = os.path.join(base_dir, 'customDecks.json')
+    if not os.path.exists(custom_decks_path):
+        with open(custom_decks_path, 'w', encoding='utf-8') as f:
+            json.dump({}, f, indent=2)
+        print("Created empty customDecks.json for user customizations")
 
 if __name__ == "__main__":
     build_all_cards()
