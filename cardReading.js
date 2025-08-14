@@ -197,32 +197,52 @@ function generateCard(cardNum) {
   // Determines if the card is upright or reversed
   let cardOrientation = Math.floor(Math.random() * 2);
   const orientationText = cardOrientation === 0 ? "Upright" : "Reverse";
+  // Update card detail fields for this card slot (per-card IDs)
+  function setText(id, value) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
+  }
 
-  // Update card name and description
-  document.getElementById("card-name").textContent = cardData.name;
-  document.getElementById("card-description-C.00").textContent = cardData.description;
-  document.getElementById("card-orientation-C.00").textContent = orientationText;
+  setText(`card-name-${cardNum}`, cardData.name || cardName);
+  const imgEl = document.getElementById(`card-image-${cardNum}`);
+  if (imgEl && cardData.image) imgEl.src = CARD_DIR + '/' + cardData.image;
+  setText(`card-credit-${cardNum}`, cardData.credit || '');
+  setText(`card-description-${cardNum}`, cardData.description || '');
+  setText(`card-orientation-${cardNum}`, orientationText);
 
-  // Helper function to get the right meaning based on orientation
+  // Helper to resolve meanings which may be arrays or {upright,reverse}
   const getMeaning = (meaningArray) => {
-    if (Array.isArray(meaningArray)) {
-      return meaningArray[cardOrientation] || meaningArray[0];
-    }
-    // Handle object format like { upright: "...", reverse: "..." }
-    return cardOrientation === 0 ? meaningArray.upright : meaningArray.reverse;
+    if (!meaningArray) return '';
+    if (Array.isArray(meaningArray)) return meaningArray[cardOrientation] || meaningArray[0] || '';
+    return cardOrientation === 0 ? (meaningArray.upright || '') : (meaningArray.reverse || '');
   };
 
-  // Update meanings based on orientation
-  document.getElementById("meaning-person-C.00").textContent = getMeaning(cardData.meanings.person);
-  document.getElementById("meaning-creature-C.00").textContent = getMeaning(cardData.meanings.creatureTrap);
-  document.getElementById("meaning-place-C.00").textContent = getMeaning(cardData.meanings.place);
-  document.getElementById("meaning-treasure-C.00").textContent = getMeaning(cardData.meanings.treasure);
-  document.getElementById("meaning-situation-C.00").textContent = getMeaning(cardData.meanings.situation);
+  setText(`meaning-person-${cardNum}`, getMeaning(cardData.meanings?.person));
+  setText(`meaning-creature-${cardNum}`, getMeaning(cardData.meanings?.creatureTrap));
+  setText(`meaning-place-${cardNum}`, getMeaning(cardData.meanings?.place));
+  setText(`meaning-treasure-${cardNum}`, getMeaning(cardData.meanings?.treasure));
+  setText(`meaning-situation-${cardNum}`, getMeaning(cardData.meanings?.situation));
 
-  console.log(`Generated card: ${cardData.name} (${orientationText})`);
+  // Also update the summary table for this card slot if present
+  const listNameEl = document.getElementById(`card-list-${cardNum}`);
+  const listOrientEl = document.getElementById(`card-orientation-list-${cardNum}`);
+  if (listNameEl) listNameEl.textContent = cardData.name || cardName;
+  if (listOrientEl) listOrientEl.textContent = orientationText;
+
+  console.log(`Generated card: ${cardData.name} (${orientationText}) for slot ${cardNum}`);
 }
 
+// Initialize data
 fetchData();
 
 // Get the element with id="defaultOpen" and click on it
-document.getElementById("defaultOpen").click();
+if (document.getElementById("defaultOpen")) {
+  document.getElementById("defaultOpen").click();
+}
+
+// Wire per-card Random buttons for C.00..C.09
+for (let i = 0; i <= 9; i++) {
+  const cardNum = i < 10 ? `C.0${i}` : `C.${i}`;
+  const btn = document.getElementById(`generate-button-${cardNum}`);
+  if (btn) btn.addEventListener('click', () => generateCard(cardNum));
+}

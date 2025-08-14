@@ -15,6 +15,64 @@
 				<p id="dropdown"></p>
 			</div>
 		</div>
+		<h2>List of Cards Drawn</h2>
+		<table class="card-list" border="1">
+			<tr>
+				<th>Card Slot</th>
+				<th>Card Name</th>
+				<th>Orientation</th>
+			</tr>
+			<tr>
+				<td>C.00</td>
+				<td id="card-list-C.00">—</td>
+				<td id="card-orientation-list-C.00">—</td>
+			</tr>
+			<tr>
+				<td>C.01</td>
+				<td id="card-list-C.01">—</td>
+				<td id="card-orientation-list-C.01">—</td>
+			</tr>
+			<tr>
+				<td>C.02</td>
+				<td id="card-list-C.02">—</td>
+				<td id="card-orientation-list-C.02">—</td>
+			</tr>
+			<tr>
+				<td>C.03</td>
+				<td id="card-list-C.03">—</td>
+				<td id="card-orientation-list-C.03">—</td>
+			</tr>
+			<tr>
+				<td>C.04</td>
+				<td id="card-list-C.04">—</td>
+				<td id="card-orientation-list-C.04">—</td>
+			</tr>
+			<tr>
+				<td>C.05</td>
+				<td id="card-list-C.05">—</td>
+				<td id="card-orientation-list-C.05">—</td>
+			</tr>
+			<tr>
+				<td>C.06</td>
+				<td id="card-list-C.06">—</td>
+				<td id="card-orientation-list-C.06">—</td>
+			</tr>
+			<tr>
+				<td>C.07</td>
+				<td id="card-list-C.07">—</td>
+				<td id="card-orientation-list-C.07">—</td>
+			</tr>
+			<tr>
+				<td>C.08</td>
+				<td id="card-list-C.08">—</td>
+				<td id="card-orientation-list-C.08">—</td>
+			</tr>
+			<tr>
+				<td>C.09</td>
+				<td id="card-list-C.09">—</td>
+				<td id="card-orientation-list-C.09">—</td>
+			</tr>
+		</table>
         <p>Click on the x button in the top right corner to close the current tab:</p>
         <p id="FILLER">FILLER</p><div class="tab">
 			<button class="tablinks" onclick="openCard(event, 'C.00')" id="defaultOpen">Card 00</button>
@@ -32,30 +90,205 @@
 		<div>
 			<button class="button button1" onclick="redrawAll()">Redraw All Cards</button>
 		</div>
-		<!-- Card Content -->
+		<!-- Card Content: one tab per card slot C.00..C.09 -->
 		<div id="C.00" class="tabcontent">
 			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
-			<h3>Card: <span id="card-name">Card Name</span></h3>
-			<!-- Face Image -->
+			<h3>Card: <span id="card-name-C.00">Card Name</span></h3>
 			<div>
 				<img id="card-image-C.00" src="../JSON_Folder/Generic Soldier 4.png" alt="Card Image" width="100" height="100" style="margin-top: 10px;">
-				<p style="font-size: 0.9em; margin: 5px 0;">Credit: <span id="card-credit">Credit Name</span></p>
+				<p style="font-size: 0.9em; margin: 5px 0;">Credit: <span id="card-credit-C.00">Credit Name</span></p>
 			</div>
-			<!-- Card Orientation -->
 			<h4>Card Orientation: <span id="card-orientation-C.00">Upright or Reversed</span></h4>
-			<!-- Card Description -->
 			<h4>Description: <span id="card-description-C.00">{@i Description of the card.}</span></h4>
-			<!-- Meanings (Only Upright or Reversed based on Orientation) -->
 			<h4>Meanings</h4>
-			<div id="meanings">
+			<div id="meanings-C.00">
 				<h5>Person: <span id="meaning-person-C.00">Meaning for orientation</span></h5>
 				<h5>Creature or Trap: <span id="meaning-creature-C.00">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.00">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.00">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.00">Meaning for orientation</span></h5>
 			</div>
-			<!-- Random button -->
 			<button id="generate-button-C.00">Random</button>
+		</div>
+
+		<div id="C.01" class="tabcontent">
+			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+			<h3>Card: <span id="card-name-C.01">Card Name</span></h3>
+			<div>
+				<img id="card-image-C.01" src="../JSON_Folder/Generic Soldier 4.png" alt="Card Image" width="100" height="100" style="margin-top: 10px;">
+				<p style="font-size: 0.9em; margin: 5px 0;">Credit: <span id="card-credit-C.01">Credit Name</span></p>
+			</div>
+			<h4>Card Orientation: <span id="card-orientation-C.01">Upright or Reversed</span></h4>
+			<h4>Description: <span id="card-description-C.01">{@i Description of the card.}</span></h4>
+			<h4>Meanings</h4>
+			<div id="meanings-C.01">
+				<h5>Person: <span id="meaning-person-C.01">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature-C.01">Meaning for orientation</span></h5>
+				<h5>Place: <span id="meaning-place-C.01">Meaning for orientation</span></h5>
+				<h5>Treasure: <span id="meaning-treasure-C.01">Meaning for orientation</span></h5>
+				<h5>Situation: <span id="meaning-situation-C.01">Meaning for orientation</span></h5>
+			</div>
+			<button id="generate-button-C.01">Random</button>
+		</div>
+
+		<div id="C.02" class="tabcontent">
+			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+			<h3>Card: <span id="card-name-C.02">Card Name</span></h3>
+			<div>
+				<img id="card-image-C.02" src="../JSON_Folder/Generic Soldier 4.png" alt="Card Image" width="100" height="100" style="margin-top: 10px;">
+				<p style="font-size: 0.9em; margin: 5px 0;">Credit: <span id="card-credit-C.02">Credit Name</span></p>
+			</div>
+			<h4>Card Orientation: <span id="card-orientation-C.02">Upright or Reversed</span></h4>
+			<h4>Description: <span id="card-description-C.02">{@i Description of the card.}</span></h4>
+			<h4>Meanings</h4>
+			<div id="meanings-C.02">
+				<h5>Person: <span id="meaning-person-C.02">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature-C.02">Meaning for orientation</span></h5>
+				<h5>Place: <span id="meaning-place-C.02">Meaning for orientation</span></h5>
+				<h5>Treasure: <span id="meaning-treasure-C.02">Meaning for orientation</span></h5>
+				<h5>Situation: <span id="meaning-situation-C.02">Meaning for orientation</span></h5>
+			</div>
+			<button id="generate-button-C.02">Random</button>
+		</div>
+
+		<div id="C.03" class="tabcontent">
+			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+			<h3>Card: <span id="card-name-C.03">Card Name</span></h3>
+			<div>
+				<img id="card-image-C.03" src="../JSON_Folder/Generic Soldier 4.png" alt="Card Image" width="100" height="100" style="margin-top: 10px;">
+				<p style="font-size: 0.9em; margin: 5px 0;">Credit: <span id="card-credit-C.03">Credit Name</span></p>
+			</div>
+			<h4>Card Orientation: <span id="card-orientation-C.03">Upright or Reversed</span></h4>
+			<h4>Description: <span id="card-description-C.03">{@i Description of the card.}</span></h4>
+			<h4>Meanings</h4>
+			<div id="meanings-C.03">
+				<h5>Person: <span id="meaning-person-C.03">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature-C.03">Meaning for orientation</span></h5>
+				<h5>Place: <span id="meaning-place-C.03">Meaning for orientation</span></h5>
+				<h5>Treasure: <span id="meaning-treasure-C.03">Meaning for orientation</span></h5>
+				<h5>Situation: <span id="meaning-situation-C.03">Meaning for orientation</span></h5>
+			</div>
+			<button id="generate-button-C.03">Random</button>
+		</div>
+
+		<div id="C.04" class="tabcontent">
+			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+			<h3>Card: <span id="card-name-C.04">Card Name</span></h3>
+			<div>
+				<img id="card-image-C.04" src="../JSON_Folder/Generic Soldier 4.png" alt="Card Image" width="100" height="100" style="margin-top: 10px;">
+				<p style="font-size: 0.9em; margin: 5px 0;">Credit: <span id="card-credit-C.04">Credit Name</span></p>
+			</div>
+			<h4>Card Orientation: <span id="card-orientation-C.04">Upright or Reversed</span></h4>
+			<h4>Description: <span id="card-description-C.04">{@i Description of the card.}</span></h4>
+			<h4>Meanings</h4>
+			<div id="meanings-C.04">
+				<h5>Person: <span id="meaning-person-C.04">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature-C.04">Meaning for orientation</span></h5>
+				<h5>Place: <span id="meaning-place-C.04">Meaning for orientation</span></h5>
+				<h5>Treasure: <span id="meaning-treasure-C.04">Meaning for orientation</span></h5>
+				<h5>Situation: <span id="meaning-situation-C.04">Meaning for orientation</span></h5>
+			</div>
+			<button id="generate-button-C.04">Random</button>
+		</div>
+
+		<div id="C.05" class="tabcontent">
+			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+			<h3>Card: <span id="card-name-C.05">Card Name</span></h3>
+			<div>
+				<img id="card-image-C.05" src="../JSON_Folder/Generic Soldier 4.png" alt="Card Image" width="100" height="100" style="margin-top: 10px;">
+				<p style="font-size: 0.9em; margin: 5px 0;">Credit: <span id="card-credit-C.05">Credit Name</span></p>
+			</div>
+			<h4>Card Orientation: <span id="card-orientation-C.05">Upright or Reversed</span></h4>
+			<h4>Description: <span id="card-description-C.05">{@i Description of the card.}</span></h4>
+			<h4>Meanings</h4>
+			<div id="meanings-C.05">
+				<h5>Person: <span id="meaning-person-C.05">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature-C.05">Meaning for orientation</span></h5>
+				<h5>Place: <span id="meaning-place-C.05">Meaning for orientation</span></h5>
+				<h5>Treasure: <span id="meaning-treasure-C.05">Meaning for orientation</span></h5>
+				<h5>Situation: <span id="meaning-situation-C.05">Meaning for orientation</span></h5>
+			</div>
+			<button id="generate-button-C.05">Random</button>
+		</div>
+
+		<div id="C.06" class="tabcontent">
+			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+			<h3>Card: <span id="card-name-C.06">Card Name</span></h3>
+			<div>
+				<img id="card-image-C.06" src="../JSON_Folder/Generic Soldier 4.png" alt="Card Image" width="100" height="100" style="margin-top: 10px;">
+				<p style="font-size: 0.9em; margin: 5px 0;">Credit: <span id="card-credit-C.06">Credit Name</span></p>
+			</div>
+			<h4>Card Orientation: <span id="card-orientation-C.06">Upright or Reversed</span></h4>
+			<h4>Description: <span id="card-description-C.06">{@i Description of the card.}</span></h4>
+			<h4>Meanings</h4>
+			<div id="meanings-C.06">
+				<h5>Person: <span id="meaning-person-C.06">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature-C.06">Meaning for orientation</span></h5>
+				<h5>Place: <span id="meaning-place-C.06">Meaning for orientation</span></h5>
+				<h5>Treasure: <span id="meaning-treasure-C.06">Meaning for orientation</span></h5>
+				<h5>Situation: <span id="meaning-situation-C.06">Meaning for orientation</span></h5>
+			</div>
+			<button id="generate-button-C.06">Random</button>
+		</div>
+
+		<div id="C.07" class="tabcontent">
+			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+			<h3>Card: <span id="card-name-C.07">Card Name</span></h3>
+			<div>
+				<img id="card-image-C.07" src="../JSON_Folder/Generic Soldier 4.png" alt="Card Image" width="100" height="100" style="margin-top: 10px;">
+				<p style="font-size: 0.9em; margin: 5px 0;">Credit: <span id="card-credit-C.07">Credit Name</span></p>
+			</div>
+			<h4>Card Orientation: <span id="card-orientation-C.07">Upright or Reversed</span></h4>
+			<h4>Description: <span id="card-description-C.07">{@i Description of the card.}</span></h4>
+			<h4>Meanings</h4>
+			<div id="meanings-C.07">
+				<h5>Person: <span id="meaning-person-C.07">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature-C.07">Meaning for orientation</span></h5>
+				<h5>Place: <span id="meaning-place-C.07">Meaning for orientation</span></h5>
+				<h5>Treasure: <span id="meaning-treasure-C.07">Meaning for orientation</span></h5>
+				<h5>Situation: <span id="meaning-situation-C.07">Meaning for orientation</span></h5>
+			</div>
+			<button id="generate-button-C.07">Random</button>
+		</div>
+
+		<div id="C.08" class="tabcontent">
+			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+			<h3>Card: <span id="card-name-C.08">Card Name</span></h3>
+			<div>
+				<img id="card-image-C.08" src="../JSON_Folder/Generic Soldier 4.png" alt="Card Image" width="100" height="100" style="margin-top: 10px;">
+				<p style="font-size: 0.9em; margin: 5px 0;">Credit: <span id="card-credit-C.08">Credit Name</span></p>
+			</div>
+			<h4>Card Orientation: <span id="card-orientation-C.08">Upright or Reversed</span></h4>
+			<h4>Description: <span id="card-description-C.08">{@i Description of the card.}</span></h4>
+			<h4>Meanings</h4>
+			<div id="meanings-C.08">
+				<h5>Person: <span id="meaning-person-C.08">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature-C.08">Meaning for orientation</span></h5>
+				<h5>Place: <span id="meaning-place-C.08">Meaning for orientation</span></h5>
+				<h5>Treasure: <span id="meaning-treasure-C.08">Meaning for orientation</span></h5>
+				<h5>Situation: <span id="meaning-situation-C.08">Meaning for orientation</span></h5>
+			</div>
+			<button id="generate-button-C.08">Random</button>
+		</div>
+
+		<div id="C.09" class="tabcontent">
+			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+			<h3>Card: <span id="card-name-C.09">Card Name</span></h3>
+			<div>
+				<img id="card-image-C.09" src="../JSON_Folder/Generic Soldier 4.png" alt="Card Image" width="100" height="100" style="margin-top: 10px;">
+				<p style="font-size: 0.9em; margin: 5px 0;">Credit: <span id="card-credit-C.09">Credit Name</span></p>
+			</div>
+			<h4>Card Orientation: <span id="card-orientation-C.09">Upright or Reversed</span></h4>
+			<h4>Description: <span id="card-description-C.09">{@i Description of the card.}</span></h4>
+			<h4>Meanings</h4>
+			<div id="meanings-C.09">
+				<h5>Person: <span id="meaning-person-C.09">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature-C.09">Meaning for orientation</span></h5>
+				<h5>Place: <span id="meaning-place-C.09">Meaning for orientation</span></h5>
+				<h5>Treasure: <span id="meaning-treasure-C.09">Meaning for orientation</span></h5>
+				<h5>Situation: <span id="meaning-situation-C.09">Meaning for orientation</span></h5>
+			</div>
+			<button id="generate-button-C.09">Random</button>
 		</div>
 
         <script type="text/javascript" src="cardReading.js"></script>
