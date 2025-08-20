@@ -2,25 +2,25 @@
     "name": "Fates",
     "description": "Three sisters weave, measure, and cut the threads of fate. This card explores the repercussions of decisions and reflects on the past.",
     "meanings": {
-        "person": [
-            "A person perhaps nearing the end of their life, troubled by past mistakes or reflecting on prior decisions.",
-            "A person driven by the desire to escape whatever fate has in store."
-        ],
-        "creatureTrap": [
-            "A supernatural creature connected to fate, such as a Celestial, modron, or hag.",
-            "A creature strongly associated with chaos, such as a demon or a slaad."
-        ],
-        "place": [
-            "Somewhere meant for literal or metaphorical reflection, such as a room full of mirrors, a still mountain lake, a monastery, a hermitage, or a library.",
-            "A place that discourages reflection, such as a dark place or a noisy, busy one."
-        ],
-        "treasure": [
-            "An ornate or magical mirror, tapestry, or other woven treasure; alternatively, magic that can alter fate.",
-            "An art object depicting the effort to escape fate, or a magic item powered by chaos."
-        ],
-        "situation": [
-            "A situation ordained by fate, perhaps involving a supernatural punishment or reward.",
-            "An unjust situation where evil is rewarded and good is punished."
-        ]
+        "person": {
+            "upright": "A person perhaps nearing the end of their life, troubled by past mistakes or reflecting on prior decisions.",
+            "reverse": "A person driven by the desire to escape whatever fate has in store."
+        },
+        "creatureTrap": {
+            "upright": "A supernatural creature connected to fate, such as a Celestial, modron, or hag.",
+            "reverse": "A creature strongly associated with chaos, such as a demon or a slaad."
+        },
+        "place": {
+            "upright": "Somewhere meant for literal or metaphorical reflection, such as a room full of mirrors, a still mountain lake, a monastery, a hermitage, or a library.",
+            "reverse": "A place that discourages reflection, such as a dark place or a noisy, busy one."
+        },
+        "treasure": {
+            "upright": "An ornate or magical mirror, tapestry, or other woven treasure; alternatively, magic that can alter fate.",
+            "reverse": "An art object depicting the effort to escape fate, or a magic item powered by chaos."
+        },
+        "situation": {
+            "upright": "A situation ordained by fate, perhaps involving a supernatural punishment or reward.",
+            "reverse": "An unjust situation where evil is rewarded and good is punished."
+        }
     }
 }

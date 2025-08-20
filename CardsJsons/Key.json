@@ -2,25 +2,25 @@
     "name": "Key",
     "description": "This large metal key is bizarrely complicated. The Key card represents the perfect solution to a problem or having the right tool for the job.",
     "meanings": {
-        "person": [
-            "A person with the skills or tools needed to solve the current problem.",
-            "A person ill equipped for the challenges they face."
-        ],
-        "creatureTrap": [
-            "A creature that preys on the party's weaknesses, or a trap that can be disarmed only with a key.",
-            "A creature with vulnerabilities, or a trap that's bizarrely complex."
-        ],
-        "place": [
-            "A place through which only certain people are allowed to pass, or where a key is required.",
-            "An open and easily accessed place."
-        ],
-        "treasure": [
-            "A magic item needed to overcome an obstacle or defeat an enemy, or the means to unlock a treasure (such as a Chime of Opening).",
-            "A treasure in a locked container, or magic that slows creatures."
-        ],
-        "situation": [
-            "A situation that be resolved successfully only by taking a specific action.",
-            "A situation stemming from someone's refusal to act or choose."
-        ]
+        "person": {
+            "upright": "A person with the skills or tools needed to solve the current problem.",
+            "reverse": "A person ill equipped for the challenges they face."
+        },
+        "creatureTrap": {
+            "upright": "A creature that preys on the party's weaknesses, or a trap that can be disarmed only with a key.",
+            "reverse": "A creature with vulnerabilities, or a trap that's bizarrely complex."
+        },
+        "place": {
+            "upright": "A place through which only certain people are allowed to pass, or where a key is required.",
+            "reverse": "An open and easily accessed place."
+        },
+        "treasure": {
+            "upright": "A magic item needed to overcome an obstacle or defeat an enemy, or the means to unlock a treasure (such as a Chime of Opening).",
+            "reverse": "A treasure in a locked container, or magic that slows creatures."
+        },
+        "situation": {
+            "upright": "A situation that be resolved successfully only by taking a specific action.",
+            "reverse": "A situation stemming from someone's refusal to act or choose."
+        }
     }
 }

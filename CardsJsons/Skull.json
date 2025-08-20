@@ -1,26 +1,26 @@
 {
     "name": "Skull",
-    "description": "A skeletal figure is shrouded in a swirling robe, though its skull is clearly visible. The Skull card is a reminder of the universality of death—and the fact that everyone must confront death alone.",
+    "description": "A skeletal figure is shrouded in a swirling robe, though its skull is clearly visible. The Skull card is a reminder of the universality of death\u2014and the fact that everyone must confront death alone.",
     "meanings": {
-        "person": [
-            "A person facing imminent death, or one who wields necromantic power.",
-            "Someone haunted by the inevitability of death and seeking to escape it, or a person who has returned from death."
-        ],
-        "creatureTrap": [
-            "An Undead creature, or a trap that deals necrotic damage.",
-            "An immortal creature or one that doesn't age, such as an angel, a Fiend, or a naga."
-        ],
-        "place": [
-            "A place of solitude and isolation, or a place where someone died recently.",
-            "A graveyard or another place where the dead are gathered."
-        ],
-        "treasure": [
-            "A treasure associated with death (perhaps funerary implements), or a magic item with necromantic power.",
-            "An art object that celebrates or depicts deliverance from death, or a magic item that wards off death (such as a Periapt of Wound Closure or a Scarab of Protection)."
-        ],
-        "situation": [
-            "A person's life in peril.",
-            "Many lives at stake."
-        ]
+        "person": {
+            "upright": "A person facing imminent death, or one who wields necromantic power.",
+            "reverse": "Someone haunted by the inevitability of death and seeking to escape it, or a person who has returned from death."
+        },
+        "creatureTrap": {
+            "upright": "An Undead creature, or a trap that deals necrotic damage.",
+            "reverse": "An immortal creature or one that doesn't age, such as an angel, a Fiend, or a naga."
+        },
+        "place": {
+            "upright": "A place of solitude and isolation, or a place where someone died recently.",
+            "reverse": "A graveyard or another place where the dead are gathered."
+        },
+        "treasure": {
+            "upright": "A treasure associated with death (perhaps funerary implements), or a magic item with necromantic power.",
+            "reverse": "An art object that celebrates or depicts deliverance from death, or a magic item that wards off death (such as a Periapt of Wound Closure or a Scarab of Protection)."
+        },
+        "situation": {
+            "upright": "A person's life in peril.",
+            "reverse": "Many lives at stake."
+        }
     }
 }

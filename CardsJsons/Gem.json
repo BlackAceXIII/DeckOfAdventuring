@@ -2,25 +2,25 @@
     "name": "Gem",
     "description": "A large, faceted gemstone set in intricate filigree gleams invitingly. The Gem card brings vast wealth.",
     "meanings": {
-        "person": [
-            "Someone who inherited wealth or whose wealth is the result of good fortune.",
-            "A person who has lost wealth or power through a stroke of bad luck."
-        ],
-        "creatureTrap": [
-            "A creature connected with wealth, such as a Dragon or a Xorn, or a treasure that doubles as a trap.",
-            "A trap or creature that uses the appearance of treasure as bait, such as a mimic."
-        ],
-        "place": [
-            "A mine or a treasure vault.",
-            "A place associated with poverty, such as a tenement or slum."
-        ],
-        "treasure": [
-            "A valuable treasure or a magical gem.",
-            "An item that appears valuable but isn't, or a magic item with a curse."
-        ],
-        "situation": [
-            "A situation driven by greed, such as siblings vying for an inheritance or someone hunting for a lost treasure.",
-            "A situation stemming from the loss of wealth, such as a person trying to recover money given to a con artist or stolen by a thief."
-        ]
+        "person": {
+            "upright": "Someone who inherited wealth or whose wealth is the result of good fortune.",
+            "reverse": "A person who has lost wealth or power through a stroke of bad luck."
+        },
+        "creatureTrap": {
+            "upright": "A creature connected with wealth, such as a Dragon or a Xorn, or a treasure that doubles as a trap.",
+            "reverse": "A trap or creature that uses the appearance of treasure as bait, such as a mimic."
+        },
+        "place": {
+            "upright": "A mine or a treasure vault.",
+            "reverse": "A place associated with poverty, such as a tenement or slum."
+        },
+        "treasure": {
+            "upright": "A valuable treasure or a magical gem.",
+            "reverse": "An item that appears valuable but isn't, or a magic item with a curse."
+        },
+        "situation": {
+            "upright": "A situation driven by greed, such as siblings vying for an inheritance or someone hunting for a lost treasure.",
+            "reverse": "A situation stemming from the loss of wealth, such as a person trying to recover money given to a con artist or stolen by a thief."
+        }
     }
 }

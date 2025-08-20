@@ -2,25 +2,25 @@
     "name": "Flames",
     "description": "A chain devil, wreathed in flames, looks menacing and angry. The Flames card brings enemies and vengeance.",
     "meanings": {
-        "person": [
-            "A person carrying a bitter, possibly violent, grudge that poisons their outlook.",
-            "A person who is being hunted or persecuted unjustly."
-        ],
-        "creatureTrap": [
-            "A Fiend, a vengeful Undead (such as a ghost or revenant), or a creature dedicated to pursuing designated prey (such as an invisible stalker).",
-            "A creature fleeing from a larger or more dangerous foe."
-        ],
-        "place": [
-            "A place of bloodshed, or a place with a connection to the Lower Planes.",
-            "A place of sanctuary for refugees and fugitives."
-        ],
-        "treasure": [
-            "A treasure that has been the subject of intense discord or rivalry, or a magic item originating on the Lower Planes.",
-            "A treasure symbolizing or commemorating the end of a feud or war, or a magic item that can charm or calm creatures (such as a Rod of Rulership)."
-        ],
-        "situation": [
-            "A deep-seated enmity that clouds the judgment of those involved, or someone's thirst for revenge.",
-            "Unjust persecution or prejudicial hatred."
-        ]
+        "person": {
+            "upright": "A person carrying a bitter, possibly violent, grudge that poisons their outlook.",
+            "reverse": "A person who is being hunted or persecuted unjustly."
+        },
+        "creatureTrap": {
+            "upright": "A Fiend, a vengeful Undead (such as a ghost or revenant), or a creature dedicated to pursuing designated prey (such as an invisible stalker).",
+            "reverse": "A creature fleeing from a larger or more dangerous foe."
+        },
+        "place": {
+            "upright": "A place of bloodshed, or a place with a connection to the Lower Planes.",
+            "reverse": "A place of sanctuary for refugees and fugitives."
+        },
+        "treasure": {
+            "upright": "A treasure that has been the subject of intense discord or rivalry, or a magic item originating on the Lower Planes.",
+            "reverse": "A treasure symbolizing or commemorating the end of a feud or war, or a magic item that can charm or calm creatures (such as a Rod of Rulership)."
+        },
+        "situation": {
+            "upright": "A deep-seated enmity that clouds the judgment of those involved, or someone's thirst for revenge.",
+            "reverse": "Unjust persecution or prejudicial hatred."
+        }
     }
 }

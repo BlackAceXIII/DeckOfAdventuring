@@ -1,26 +1,26 @@
 {
     "name": "Sun",
-    "description": "A sun blazes brightly in the summer sky. The Sun card brings hope—either well-founded or deluded.",
+    "description": "A sun blazes brightly in the summer sky. The Sun card brings hope\u2014either well-founded or deluded.",
     "meanings": {
-        "person": [
-            "A person with an unflappable and optimistic outlook, confident in the power of good triumphing over evil and obstacles.",
-            "A naively positive person who spouts empty platitudes about everything turning out for the best."
-        ],
-        "creatureTrap": [
-            "An angel or a similar creature that embodies hope and good.",
-            "A creature (perhaps a flumph or a pixie) that offers aid but is too weak to provide meaningful help."
-        ],
-        "place": [
-            "A place that embodies hope in the face of despair, such as a temple next to a graveyard or a town rebuilding after a natural disaster.",
-            "A desecrated temple or similar place where dirt or corruption has eliminated all evidence of goodness and holiness."
-        ],
-        "treasure": [
-            "A valuable religious object devoted to good, or a holy or protective magic item.",
-            "A religious object or holy magic item that has been desecrated."
-        ],
-        "situation": [
-            "A difficult situation where hope nevertheless continues to shine like a beacon.",
-            "Idealistic optimism that prevents people from responding to real danger."
-        ]
+        "person": {
+            "upright": "A person with an unflappable and optimistic outlook, confident in the power of good triumphing over evil and obstacles.",
+            "reverse": "A naively positive person who spouts empty platitudes about everything turning out for the best."
+        },
+        "creatureTrap": {
+            "upright": "An angel or a similar creature that embodies hope and good.",
+            "reverse": "A creature (perhaps a flumph or a pixie) that offers aid but is too weak to provide meaningful help."
+        },
+        "place": {
+            "upright": "A place that embodies hope in the face of despair, such as a temple next to a graveyard or a town rebuilding after a natural disaster.",
+            "reverse": "A desecrated temple or similar place where dirt or corruption has eliminated all evidence of goodness and holiness."
+        },
+        "treasure": {
+            "upright": "A valuable religious object devoted to good, or a holy or protective magic item.",
+            "reverse": "A religious object or holy magic item that has been desecrated."
+        },
+        "situation": {
+            "upright": "A difficult situation where hope nevertheless continues to shine like a beacon.",
+            "reverse": "Idealistic optimism that prevents people from responding to real danger."
+        }
     }
 }

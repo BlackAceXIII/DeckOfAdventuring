@@ -2,25 +2,25 @@
     "name": "Ruin",
     "description": "An elegant sword and crown disintegrate into eddies of ash. The Ruin card warns of the inevitability of decay and the danger of material attachments.",
     "meanings": {
-        "person": [
-            "A person who has renounced material attachments, such as a religious ascetic.",
-            "A person excessively attached to material goods (not necessarily excessive wealth)."
-        ],
-        "creatureTrap": [
-            "A creature that destroys equipment, such as a rust monster or a black pudding.",
-            "A Construct, especially an animated object."
-        ],
-        "place": [
-            "A ruin, or a retreat for ascetics.",
-            "A place meant to store goods, such as a warehouse or an armory."
-        ],
-        "treasure": [
-            "A treasure that is broken or in disrepair.",
-            "Valuable trade goods, well-made equipment, or a deed to property."
-        ],
-        "situation": [
-            "A situation involving the decay of objects or relationships over a long period of time.",
-            "A situation involving the production or transportation of goods for sale."
-        ]
+        "person": {
+            "upright": "A person who has renounced material attachments, such as a religious ascetic.",
+            "reverse": "A person excessively attached to material goods (not necessarily excessive wealth)."
+        },
+        "creatureTrap": {
+            "upright": "A creature that destroys equipment, such as a rust monster or a black pudding.",
+            "reverse": "A Construct, especially an animated object."
+        },
+        "place": {
+            "upright": "A ruin, or a retreat for ascetics.",
+            "reverse": "A place meant to store goods, such as a warehouse or an armory."
+        },
+        "treasure": {
+            "upright": "A treasure that is broken or in disrepair.",
+            "reverse": "Valuable trade goods, well-made equipment, or a deed to property."
+        },
+        "situation": {
+            "upright": "A situation involving the decay of objects or relationships over a long period of time.",
+            "reverse": "A situation involving the production or transportation of goods for sale."
+        }
     }
 }

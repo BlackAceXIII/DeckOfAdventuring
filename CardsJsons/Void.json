@@ -2,25 +2,25 @@
     "name": "Void",
     "description": "An endless void seems to spiral toward a central hole that devours all. This card spells disaster.",
     "meanings": {
-        "person": [
-            "A person trapped in despair.",
-            "A person who has lost everything and has no place left to go but up."
-        ],
-        "creatureTrap": [
-            "A Fiend or an Undead that threatens annihilation of body and soul, or a trap with no easy exit or escape.",
-            "A skeleton, zombie, or similar Undead remnant of a living creature; alternatively, a trap that's broken and nonfunctional."
-        ],
-        "place": [
-            "A place deep underground, underwater, or in space, where little light and air are available.",
-            "A place of utter carnage, where a terrible battle or massacre took place."
-        ],
-        "treasure": [
-            "An art object that reflects its creator's despair or sadness, or a Sphere of Annihilation.",
-            "A treasure promised but not actually present, such as an empty treasure chest or a looted vault."
-        ],
-        "situation": [
-            "A situation that seems to have no good or even survivable outcome.",
-            "The aftermath of a destructive event, where the few survivors must figure out how to go on living."
-        ]
+        "person": {
+            "upright": "A person trapped in despair.",
+            "reverse": "A person who has lost everything and has no place left to go but up."
+        },
+        "creatureTrap": {
+            "upright": "A Fiend or an Undead that threatens annihilation of body and soul, or a trap with no easy exit or escape.",
+            "reverse": "A skeleton, zombie, or similar Undead remnant of a living creature; alternatively, a trap that's broken and nonfunctional."
+        },
+        "place": {
+            "upright": "A place deep underground, underwater, or in space, where little light and air are available.",
+            "reverse": "A place of utter carnage, where a terrible battle or massacre took place."
+        },
+        "treasure": {
+            "upright": "An art object that reflects its creator's despair or sadness, or a Sphere of Annihilation.",
+            "reverse": "A treasure promised but not actually present, such as an empty treasure chest or a looted vault."
+        },
+        "situation": {
+            "upright": "A situation that seems to have no good or even survivable outcome.",
+            "reverse": "The aftermath of a destructive event, where the few survivors must figure out how to go on living."
+        }
     }
 }

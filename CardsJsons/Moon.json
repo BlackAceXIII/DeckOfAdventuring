@@ -2,25 +2,25 @@
     "name": "Moon",
     "description": "A crescent moon looms large in the autumn sky. The Moon card points to hidden potential.",
     "meanings": {
-        "person": [
-            "Someone whose fine qualities are masked by one annoying trait.",
-            "A person who seems competent but bungles everything they attempt."
-        ],
-        "creatureTrap": [
-            "A lycanthrope, or a creature that appears to be an inanimate object until it strikes (such as a gargoyle).",
-            "A creature that uses its fearsome appearance to frighten away others because it is too weak to fight."
-        ],
-        "place": [
-            "A secret chamber or a place concealed by terrain; alternatively, a place larger or more elaborate on the inside than it seems from outside.",
-            "A place with an impressive exterior but a dingy, poorly maintained interior."
-        ],
-        "treasure": [
-            "A treasure whose value isn't immediately apparent, or a magic item that appears to be a worthless object.",
-            "A treasure that seems more valuable than it is, perhaps an ordinary item that falsely appears magical."
-        ],
-        "situation": [
-            "A problem that requires investigation and is more complicated than it appears.",
-            "A situation that seems—and is—too good to be true."
-        ]
+        "person": {
+            "upright": "Someone whose fine qualities are masked by one annoying trait.",
+            "reverse": "A person who seems competent but bungles everything they attempt."
+        },
+        "creatureTrap": {
+            "upright": "A lycanthrope, or a creature that appears to be an inanimate object until it strikes (such as a gargoyle).",
+            "reverse": "A creature that uses its fearsome appearance to frighten away others because it is too weak to fight."
+        },
+        "place": {
+            "upright": "A secret chamber or a place concealed by terrain; alternatively, a place larger or more elaborate on the inside than it seems from outside.",
+            "reverse": "A place with an impressive exterior but a dingy, poorly maintained interior."
+        },
+        "treasure": {
+            "upright": "A treasure whose value isn't immediately apparent, or a magic item that appears to be a worthless object.",
+            "reverse": "A treasure that seems more valuable than it is, perhaps an ordinary item that falsely appears magical."
+        },
+        "situation": {
+            "upright": "A problem that requires investigation and is more complicated than it appears.",
+            "reverse": "A situation that seems\u2014and is\u2014too good to be true."
+        }
     }
 }

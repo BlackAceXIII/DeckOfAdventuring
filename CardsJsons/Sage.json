@@ -2,25 +2,25 @@
     "name": "Sage",
     "description": "The mind of a sage is filled with obscure lore gained through exhaustive research. This card represents well-intentioned advice.",
     "meanings": {
-        "person": [
-            "A person who offers helpful advice in difficult circumstances.",
-            "Someone who helpfully offers bad advice."
-        ],
-        "creatureTrap": [
-            "A helpful creature that leads the way to safety or a goal.",
-            "A creature that tries to lead the way into danger or a trap."
-        ],
-        "place": [
-            "A place dedicated to knowledge and wisdom, such as a library or university.",
-            "A place whose structural flaws threaten its integrity."
-        ],
-        "treasure": [
-            "A valuable or magical book or scroll, or a sentient magic item that is known to provide helpful advice.",
-            "A device valuable for its components that doesn't function as intended, or a sentient magic item that provides bad but well-intentioned advice."
-        ],
-        "situation": [
-            "An opportunity to provide valuable advice on a familiar subject.",
-            "An opportunity to provide advice on a completely unfamiliar subject."
-        ]
+        "person": {
+            "upright": "A person who offers helpful advice in difficult circumstances.",
+            "reverse": "Someone who helpfully offers bad advice."
+        },
+        "creatureTrap": {
+            "upright": "A helpful creature that leads the way to safety or a goal.",
+            "reverse": "A creature that tries to lead the way into danger or a trap."
+        },
+        "place": {
+            "upright": "A place dedicated to knowledge and wisdom, such as a library or university.",
+            "reverse": "A place whose structural flaws threaten its integrity."
+        },
+        "treasure": {
+            "upright": "A valuable or magical book or scroll, or a sentient magic item that is known to provide helpful advice.",
+            "reverse": "A device valuable for its components that doesn't function as intended, or a sentient magic item that provides bad but well-intentioned advice."
+        },
+        "situation": {
+            "upright": "An opportunity to provide valuable advice on a familiar subject.",
+            "reverse": "An opportunity to provide advice on a completely unfamiliar subject."
+        }
     }
 }

@@ -2,25 +2,25 @@
     "name": "Fiend",
     "description": "A balor strikes from the depths of the Abyss. This card alludes to an actual Fiend or the forces of the Lower Planes.",
     "meanings": {
-        "person": [
-            "A tiefling, warlock of the Fiend, member of a Fiend-worshiping cult, or person who seeks to manipulate others into harmful contracts.",
-            "A person who carries a grudge over a real or perceived injury caused by a Fiend, or a person trapped in a bargain with a Fiend."
-        ],
-        "creatureTrap": [
-            "A Fiend of any sort.",
-            "A redeemed Fiend or similar creature that has lost its connection to the Lower Planes."
-        ],
-        "place": [
-            "A place on the Lower Planes, or a location suffused with their influence.",
-            "A place intended to ward off Fiends and influence from the Lower Planes."
-        ],
-        "treasure": [
-            "An art object depicting Fiends, treasure from the Lower Planes, or magic items made by Fiends.",
-            "A treasure depicting a Fiend's redemption, or a magic item useful against Fiends."
-        ],
-        "situation": [
-            "Interaction between the Lower Planes and the Material Plane perhaps an infernal bargain or demonic destruction.",
-            "A situation involving Fiends' unwelcome interference in mortal affairs."
-        ]
+        "person": {
+            "upright": "A tiefling, warlock of the Fiend, member of a Fiend-worshiping cult, or person who seeks to manipulate others into harmful contracts.",
+            "reverse": "A person who carries a grudge over a real or perceived injury caused by a Fiend, or a person trapped in a bargain with a Fiend."
+        },
+        "creatureTrap": {
+            "upright": "A Fiend of any sort.",
+            "reverse": "A redeemed Fiend or similar creature that has lost its connection to the Lower Planes."
+        },
+        "place": {
+            "upright": "A place on the Lower Planes, or a location suffused with their influence.",
+            "reverse": "A place intended to ward off Fiends and influence from the Lower Planes."
+        },
+        "treasure": {
+            "upright": "An art object depicting Fiends, treasure from the Lower Planes, or magic items made by Fiends.",
+            "reverse": "A treasure depicting a Fiend's redemption, or a magic item useful against Fiends."
+        },
+        "situation": {
+            "upright": "Interaction between the Lower Planes and the Material Plane perhaps an infernal bargain or demonic destruction.",
+            "reverse": "A situation involving Fiends' unwelcome interference in mortal affairs."
+        }
     }
 }

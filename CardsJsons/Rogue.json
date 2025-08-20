@@ -2,25 +2,25 @@
     "name": "Rogue",
     "description": "A roguish kenku lurking in the shadows holds a dagger, poised to strike. This card suggests treachery and deception.",
     "meanings": {
-        "person": [
-            "A deceptive person hiding a sinister secret; pursuit of their own aims trumps any friendship or loyalty.",
-            "A good-hearted person entangled in a criminal or evil organization who is desperate for a way out."
-        ],
-        "creatureTrap": [
-            "A dangerous creature that strikes by surprise or from darkness.",
-            "A creature unwillingly bound to the service of villains."
-        ],
-        "place": [
-            "A front for a criminal operation, or a monster's lair.",
-            "An oasis of compassion surrounded by violence."
-        ],
-        "treasure": [
-            "A treasure that hides a deadly secret, such as a ring with a spring-loaded poison needle, a Dagger of Venom, or a cursed magic item.",
-            "A treasure caked in grime or hidden in a filthy place."
-        ],
-        "situation": [
-            "A situation rooted in or destined for betrayal.",
-            "Good characters who are part of an evil organization or who plot to subvert it."
-        ]
+        "person": {
+            "upright": "A deceptive person hiding a sinister secret; pursuit of their own aims trumps any friendship or loyalty.",
+            "reverse": "A good-hearted person entangled in a criminal or evil organization who is desperate for a way out."
+        },
+        "creatureTrap": {
+            "upright": "A dangerous creature that strikes by surprise or from darkness.",
+            "reverse": "A creature unwillingly bound to the service of villains."
+        },
+        "place": {
+            "upright": "A front for a criminal operation, or a monster's lair.",
+            "reverse": "An oasis of compassion surrounded by violence."
+        },
+        "treasure": {
+            "upright": "A treasure that hides a deadly secret, such as a ring with a spring-loaded poison needle, a Dagger of Venom, or a cursed magic item.",
+            "reverse": "A treasure caked in grime or hidden in a filthy place."
+        },
+        "situation": {
+            "upright": "A situation rooted in or destined for betrayal.",
+            "reverse": "Good characters who are part of an evil organization or who plot to subvert it."
+        }
     }
 }
