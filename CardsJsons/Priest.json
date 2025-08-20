@@ -1,26 +1,26 @@
 {
     "name": "Priest",
-    "description": "A religious figure in ceremonial robes, representing divine power, healing, and spiritual guidance.",
+    "description": "A cleric holds a heavy mace. The Priest card represents wisdom, insight, closeness to the divine, and divine magic.",
     "meanings": {
-        "person": [
-            "A healer or spiritual guide who provides wisdom and comfort",
-            "A fanatic or false prophet who uses religion to manipulate others"
-        ],
-        "creatureTrap": [
-            "Divine creatures or beings blessed with healing powers",
-            "Cursed or corrupted religious sites with dangerous spiritual energy"
-        ],
-        "place": [
-            "Sacred temples or shrines that offer sanctuary and healing",
-            "Desecrated holy sites where divine power has been corrupted"
-        ],
-        "treasure": [
-            "Holy relics, blessed items, or divine magic that aids the faithful",
-            "Cursed religious artifacts that punish the unworthy"
-        ],
-        "situation": [
-            "Opportunities for healing, redemption, or spiritual growth",
-            "Religious conflicts or divine judgment that brings hardship"
-        ]
+        "person": {
+            "upright": "A person (perhaps a cleric, druid, or paladin) who uses divine magic or is very pious.",
+            "reverse": "A person devoted to a false god, or a cause that isn't worthy of devotion."
+        },
+        "creatureTrap": {
+            "upright": "A creature with abilities similar to those of a cleric, druid, or paladin.",
+            "reverse": "A demon or another creature opposed to the gods."
+        },
+        "place": {
+            "upright": "A temple, shrine, or similar place consecrated to a deity or natural force.",
+            "reverse": "A place that was consecrated but that has been abandoned or converted to secular use."
+        },
+        "treasure": {
+            "upright": "A magic item such as a Staff of Healing or a Holy Avenger; alternatively, valuable temple accouterments.",
+            "reverse": "An idol depicting an invented god or a demon lord."
+        },
+        "situation": {
+            "upright": "A problem that requires and rewards piety or the use of divine magic.",
+            "reverse": "A situation caused by impiety or misguided zealotry."
+        }
     }
 }

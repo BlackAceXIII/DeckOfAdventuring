@@ -1,26 +1,26 @@
 {
     "name": "Monstrosity",
-    "description": "An aberrant creature of unnatural origin, representing chaos, mutation, and things that defy natural order.",
+    "description": "An owlbear sits in a sunny glade. This card represents something monstrous, including familiar things that turn strange and threatening.",
     "meanings": {
-        "person": [
-            "An individual with unique abilities who stands apart from normal society",
-            "Someone whose actions or nature have become corrupted and inhuman"
-        ],
-        "creatureTrap": [
-            "Bizarre creatures with unusual abilities that defy expectations",
-            "Unnatural hazards or phenomena that operate by unknown rules"
-        ],
-        "place": [
-            "Locations touched by chaos or unnatural forces",
-            "Areas where reality is unstable or dangerous mutations occur"
-        ],
-        "treasure": [
-            "Unique items with strange properties that normal magic cannot explain",
-            "Cursed or tainted items that corrupt those who use them"
-        ],
-        "situation": [
-            "Unique challenges that require unconventional solutions",
-            "Situations that spiral into chaos beyond anyone's control"
-        ]
+        "person": {
+            "upright": "A familiar person whose behavior suddenly turns threatening.",
+            "reverse": "A person who seems dangerous or bizarre but is friendly and helpful."
+        },
+        "creatureTrap": {
+            "upright": "A Monstrosity, especially one that superficially resembles an ordinary animal or person (such as a displacer beast or doppelganger).",
+            "reverse": "A Monstrosity that is a potential ally, such as a hippogriff."
+        },
+        "place": {
+            "upright": "A familiar place that has become dangerous.",
+            "reverse": "A place that offers refuge in unfamiliar or dangerous terrain."
+        },
+        "treasure": {
+            "upright": "An art object depicting a Monstrosity or that incorporates claws, fur, or feathers from such a creature.",
+            "reverse": "A dead Monstrosity preserved by taxidermy, or a magic item useful against Monstrosities."
+        },
+        "situation": {
+            "upright": "A situation involving something or someone becoming more monstrous (literally or figuratively).",
+            "reverse": "Something that appears monstrous but is actually benign."
+        }
     }
 }

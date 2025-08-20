@@ -1,26 +1,26 @@
 {
     "name": "Ooze",
-    "description": "A gelatinous, amorphous creature, representing adaptability, persistence, and slow but inevitable progress.",
+    "description": "A gelatinous cube with various items suspended inside it creeps through a vaulted sewer. The Ooze card indicates the importance of something that seems lowly or innocuous.",
     "meanings": {
-        "person": [
-            "Someone who adapts to any situation and persists despite obstacles",
-            "A person who slowly corrupts or consumes everything around them"
-        ],
-        "creatureTrap": [
-            "Creatures that are difficult to harm with conventional weapons",
-            "Slow-acting hazards that gradually become more dangerous over time"
-        ],
-        "place": [
-            "Locations that slowly change or adapt to circumstances",
-            "Areas that are slowly being consumed or corrupted by some force"
-        ],
-        "treasure": [
-            "Items that improve or adapt based on how they are used",
-            "Treasures that slowly degrade or corrupt over time"
-        ],
-        "situation": [
-            "Gradual progress that eventually leads to significant change",
-            "Slow-building problems that become serious if not addressed"
-        ]
+        "person": {
+            "upright": "A quiet, unassuming person who has hidden power or secret knowledge.",
+            "reverse": "A quiet, unassuming person completely out of their depth."
+        },
+        "creatureTrap": {
+            "upright": "An Ooze or another creature that seems unimportant, or a trap that is surprisingly simple and straightforward.",
+            "reverse": "An Ooze that has developed curiosity, unexpected intelligence, and a way to communicate, or a dangerous trap that is difficult to detect."
+        },
+        "place": {
+            "upright": "A humble place of surprising comfort or importance.",
+            "reverse": "A humble place with little to offer."
+        },
+        "treasure": {
+            "upright": "A treasure that is valuable but not beautiful, such as a poorly crafted piece of jewelry incorporating precious stones.",
+            "reverse": "An art object depicting an ooze or the destruction of a particularly notable Ooze; alternatively, a magic item useful against Oozes (such as a Ring of Acid Resistance)."
+        },
+        "situation": {
+            "upright": "Something important that has been overlooked because it seems ordinary.",
+            "reverse": "A situation complicated by the sheer number of minor factors tangled within it."
+        }
     }
 }

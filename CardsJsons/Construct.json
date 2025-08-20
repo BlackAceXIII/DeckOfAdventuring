@@ -2,25 +2,25 @@
     "name": "Construct",
     "description": "A modron wields a wrench in the interior of a clockwork machine. This card signifies things made by hand, including Constructs.",
     "meanings": {
-        "person": [
-            "An artisan who delights in handcrafted goods.",
-            "A person who scorns the idea of working with their hands."
-        ],
-        "creatureTrap": [
-            "A construct, particularly designed to be animated (like a golem) as opposed to an ordinary object (like a broom or rug) that has been animated.",
-            "A creature able to destroy buildings and objects, such as one with the Siege Monster trait."
-        ],
-        "place": [
-            "A workshop or art studio.",
-            "A garbage heap or another place where objects are discarded."
-        ],
-        "treasure": [
-            "An exquisitely crafted art object (especially one with practical use) or magical tools.",
-            "An object fashioned with minimum ation of its raw materials, or a magic item useful against Constructs (such as a Mace of Smiting)."
-        ],
-        "situation": [
-            "An artisan attempting to bring a construct to life.",
-            "A rueful artisan attempting to destroy a Construct that has broken free of all restraint."
-        ]
+        "person": {
+            "upright":"An artisan who delights in handcrafted goods.",
+            "reverse": "A person who scorns the idea of working with their hands."
+        },
+        "creatureTrap": {
+            "upright":"A construct, particularly designed to be animated (like a golem) as opposed to an ordinary object (like a broom or rug) that has been animated.",
+            "reverse": "A creature able to destroy buildings and objects, such as one with the Siege Monster trait."
+        },
+        "place": {
+            "upright":"A workshop or art studio.",
+            "reverse": "A garbage heap or another place where objects are discarded."
+        },
+        "treasure": {
+            "upright":"An exquisitely crafted art object (especially one with practical use) or magical tools.",
+            "reverse": "An object fashioned with minimum alteration of its raw materials, or a magic item useful against Constructs (such as a Mace of Smiting)."
+        },
+        "situation": {
+            "upright":"An artisan attempting to bring a construct to life.",
+            "reverse": "A rueful artisan attempting to destroy a Construct that has broken free of all restraint."
+        }
     }
 }

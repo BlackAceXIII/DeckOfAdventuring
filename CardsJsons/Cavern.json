@@ -2,25 +2,25 @@
     "name": "Cavern",
     "description": "A vast cavern is adorned with glowing fungi and striking stone formations. The Cavern card suggests exploration and delving into hidden secrets.",
     "meanings": {
-        "person": [
-            "A person who asks probing questions but shares little.",
-            "A person who lives for the moment, avoiding introspection."
-        ],
-        "creatureTrap": [
-            "A creature (such as a piercer or a roper) that mimics the features of natural caverns.",
-            "A creature that swallows prey whole, or a trap that causes a ceiling or roof to collapse."
-        ],
-        "place": [
-            "A cavern or a cavernous building such as a large temple.",
-            "A small niche or cave."
-        ],
-        "treasure": [
-            "A geode, jewelry made from gems and precious metals, or a magic item that grants darkvision (such as Goggles of Night).",
-            "An art object that lacks a sense of depth or perspective."
-        ],
-        "situation": [
-            "A situation that requires delving into hidden motivations and secrets.",
-            "Everyone's motivations exposed for all to see."
-        ]
+        "person": {
+            "upright": "A person who asks probing questions but shares little.",
+            "reverse": "A person who lives for the moment, avoiding introspection."
+        },
+        "creatureTrap": {
+            "upright": "A creature (such as a piercer or a roper) that mimics the features of natural caverns.",
+            "reverse": "A creature that swallows prey whole, or a trap that causes a ceiling or roof to collapse."
+        },
+        "place": {
+            "upright": "A cavern or a cavernous building such as a large temple.",
+            "reverse": "A small niche or cave."
+        },
+        "treasure": {
+            "upright": "A geode, jewelry made from gems and precious metals, or a magic item that grants darkvision (such as Goggles of Night).",
+            "reverse": "An art object that lacks a sense of depth or perspective."
+        },
+        "situation": {
+            "upright": "A situation that requires delving into hidden motivations and secrets.",
+            "reverse": "Everyone's motivations exposed for all to see."
+        }
     }
 }

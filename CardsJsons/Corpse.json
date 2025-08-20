@@ -2,25 +2,25 @@
     "name": "Corpse",
     "description": "An adventurer lies dead in a dungeon hallway, pierced by arrows. The Corpse card embodies decay and corruption.",
     "meanings": {
-        "person": [
-            "An evil person whose morality has rotted away.",
-            "A good person who remains uncorrupted despite being surrounded by wickedness."
-        ],
-        "creatureTrap": [
-            "A zombie or similar corporeal Undead whose flesh is decaying, or a trapped corpse.",
-            "An Ooze or fungus creature that facilitates the decomposition of corpses."
-        ],
-        "place": [
-            "Somewhere things are left to rot, such as a graveyard or charnel house.",
-            "A place where fungus grows abundantly on a diet of rotting flesh."
-        ],
-        "treasure": [
-            "An art object depicting dead bodies, a corpse just starting to decay, or a magic item that causes decay (such as a Staff of Withering).",
-            "A treasure that remains uncorrupted in the midst of rot."
-        ],
-        "situation": [
-            "An organization or institution overwhelmed by corruption.",
-            "An attempt to corrupt a respected and noble organization."
-        ]
+        "person": {
+            "upright": "An evil person whose morality has rotted away.",
+            "reverse": "A good person who remains uncorrupted despite being surrounded by wickedness."
+        },
+        "creatureTrap": {
+            "upright": "A zombie or similar corporeal Undead whose flesh is decaying, or a trapped corpse.",
+            "reverse": "An Ooze or fungus creature that facilitates the decomposition of corpses."
+        },
+        "place": {
+            "upright": "Somewhere things are left to rot, such as a graveyard or charnel house.",
+            "reverse": "A place where fungus grows abundantly on a diet of rotting flesh."
+        },
+        "treasure": {
+            "upright": "An art object depicting dead bodies, a corpse just starting to decay, or a magic item that causes decay (such as a Staff of Withering).",
+            "reverse": "A treasure that remains uncorrupted in the midst of rot."
+        },
+        "situation": {
+            "upright": "An organization or institution overwhelmed by corruption.",
+            "reverse": "An attempt to corrupt a respected and noble organization."
+        }
     }
 }

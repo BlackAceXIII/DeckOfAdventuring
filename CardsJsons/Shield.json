@@ -1,26 +1,26 @@
 {
     "name": "Shield",
-    "description": "A protective barrier held in defense, representing protection, security, and the ability to guard against harm.",
+    "description": "A circular shield is close at hand in a military barrack. The Shield card is a reminder of the need for protection.",
     "meanings": {
-        "person": [
-            "A protector or guardian who defends others from harm",
-            "Someone who hides behind defenses and avoids taking necessary risks"
-        ],
-        "creatureTrap": [
-            "Creatures with natural armor or defensive abilities",
-            "Barriers or defensive mechanisms that protect valuable areas"
-        ],
-        "place": [
-            "Fortified locations that offer safety and protection",
-            "Overly defensive places that become isolated or stagnant"
-        ],
-        "treasure": [
-            "Protective items, armor, or wards that defend against specific threats",
-            "Defensive items that hinder mobility or prevent necessary action"
-        ],
-        "situation": [
-            "Successfully defending against threats or protecting what matters",
-            "Being overly cautious and missing opportunities due to excessive caution"
-        ]
+        "person": {
+            "upright": "A protective parent or sibling, or a professional protector such as a sentry or guard.",
+            "reverse": "A guarded person who carefully shields themself from physical or emotional harm."
+        },
+        "creatureTrap": {
+            "upright": "A creature that protects others, such as a watchdog or shield guardian, or a warding trap designed to repel invaders.",
+            "reverse": "A heavily armored creature."
+        },
+        "place": {
+            "upright": "A defensive structure, such as a fortress or a castle wall.",
+            "reverse": "A hermitage or retreat meant to isolate one person from others."
+        },
+        "treasure": {
+            "upright": "A valuable or magical shield.",
+            "reverse": "A suit of armor that is valuable or magical."
+        },
+        "situation": {
+            "upright": "Someone who must protect those who can't protect themselves.",
+            "reverse": "A situation arising from someone selfishly protecting themself without heed to others."
+        }
     }
 }

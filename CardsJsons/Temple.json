@@ -1,26 +1,26 @@
 {
     "name": "Temple",
-    "description": "A sacred building with soaring architecture, representing divine power, spiritual sanctuary, and higher purpose.",
+    "description": "A temple invites worshipers into the serene space within. The Temple card suggests the comfort found in ritual and communion with the divine.",
     "meanings": {
-        "person": [
-            "A holy person who provides spiritual guidance and divine assistance",
-            "A false prophet or corrupted religious figure who misleads the faithful"
-        ],
-        "creatureTrap": [
-            "Divine beings, angels, or creatures blessed with holy power",
-            "Cursed or desecrated areas where divine power has turned malevolent"
-        ],
-        "place": [
-            "Sacred sanctuaries that offer healing, protection, and divine blessing",
-            "Corrupted holy sites where divine power has been twisted or lost"
-        ],
-        "treasure": [
-            "Holy relics, blessed weapons, or items imbued with divine power",
-            "Cursed religious artifacts that punish those who misuse them"
-        ],
-        "situation": [
-            "Divine intervention, spiritual awakening, or receiving higher guidance",
-            "Religious conflict, loss of faith, or punishment for sacrilege"
-        ]
+        "person": {
+            "upright": "A devout person who performs frequent rituals to invoke divine favor.",
+            "reverse": "A superstitious person who performs frequent rituals to ward off supernatural evil."
+        },
+        "creatureTrap": {
+            "upright": "A temple guardian—perhaps a Celestial, Construct, or guardian naga.",
+            "reverse": "A creature that bestows curses (such as a fomorian, rakshasa, or mummy)."
+        },
+        "place": {
+            "upright": "A temple, shrine, or other place of worship.",
+            "reverse": "An area where crime, vice, or other impious behaviors are widespread."
+        },
+        "treasure": {
+            "upright": "A valuable ritual object, such as a candelabra or sacrificial knife, or a magic item linked to worship or divine magic (such as a Candle of Invocation).",
+            "reverse": "A treasure with superstitious meaning perhaps an amulet meant to ward off evil (such as a Scarab of Protection)."
+        },
+        "situation": {
+            "upright": "A situation best resolved by an appeal to divine power or spiritual authorities.",
+            "reverse": "A situation stemming from a superstitious fear of curses or bad luck."
+        }
     }
 }

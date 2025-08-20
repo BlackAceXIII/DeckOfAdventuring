@@ -2,25 +2,25 @@
     "name": "Crossroads",
     "description": "A signpost points in many directions at a crossroads. The Crossroads cards warns of a difficult but necessary decision.",
     "meanings": {
-        "person": [
-            "A person agonizing about a difficult decision or who regrets a recent decision.",
-            "A person who refuses to make decisions, relying instead on inaction or random determination."
-        ],
-        "creatureTrap": [
-            "A creature that induces confusion or erratic behavior (such as an umber hulk).",
-            "A creature that prevents others from acting (such as a ghoul)."
-        ],
-        "place": [
-            "A crossroads, or a settlement where trade routes cross.",
-            "A place that constrains movement, such as a narrow ravine or passage."
-        ],
-        "treasure": [
-            "An art object that depicts a crossroads or cross patterns, or a magic item with multiple properties or uses (such as a staff).",
-            "An art object featuring overlapping circular patterns, or a magic item that does only does one thing a limited number of times (such as a wand)."
-        ],
-        "situation": [
-            "A choice between options that are equally appealing—or equally disastrous.",
-            "A situation stemming from someone's refusal to act or choose."
-        ]
+        "person": {
+            "upright": "A person agonizing about a difficult decision or who regrets a recent decision.",
+            "reverse": "A person who refuses to make decisions, relying instead on inaction or random determination."
+        },
+        "creatureTrap": {
+            "upright": "A creature that induces confusion or erratic behavior (such as an umber hulk).",
+            "reverse": "A creature that prevents others from acting (such as a ghoul)."
+        },
+        "place": {
+            "upright": "A crossroads, or a settlement where trade routes cross.",
+            "reverse": "A place that constrains movement, such as a narrow ravine or passage."
+        },
+        "treasure": {
+            "upright": "An art object that depicts a crossroads or cross patterns, or a magic item with multiple properties or uses (such as a staff).",
+            "reverse": "An art object featuring overlapping circular patterns, or a magic item that does only does one thing a limited number of times (such as a wand)."
+        },
+        "situation": {
+            "upright": "A choice between options that are equally appealing—or equally disastrous.",
+            "reverse": "A situation stemming from someone's refusal to act or choose."
+        }
     }
 }

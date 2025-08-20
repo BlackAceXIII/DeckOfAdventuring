@@ -2,25 +2,25 @@
     "name": "Donjon",
     "description": "Underground stairs lead to a heavy door made of iron bars. This card represents both imprisonment and freedom.",
     "meanings": {
-        "person": [
-            "A prisoner, or a person who feels trapped.",
-            "A recently freed or escaped prisoner, or a free thinker who rejects social norms."
-        ],
-        "creatureTrap": [
-            "A creature that grapples or swallows prey whole.",
-            "A creature that has escaped from captivity or gone feral."
-        ],
-        "place": [
-            "A place of imprisonment, such as a literal dungeon or a menagerie.",
-            "A prison broken open, or a place associated with liberation (such as a monument commemorating emancipation)."
-        ],
-        "treasure": [
-            "A treasure locked in a vault, or magic with the power to bind or imprison.",
-            "A treasure that once held a being captive, such as an Efreeti Bottle that has lost its magic or an empty Iron Flask."
-        ],
-        "situation": [
-            "An impasse, a situation that threatens someone's freedom, or a situation where someone's indecision is keeping everyone in suspense.",
-            "A situation that requires creative solutions, or an effort to free people or creatures from captivity."
-        ]
+        "person": {
+            "upright": "A prisoner, or a person who feels trapped.",
+            "reverse": "A recently freed or escaped prisoner, or a free thinker who rejects social norms."
+        },
+        "creatureTrap": {
+            "upright": "A creature that grapples or swallows prey whole.",
+            "reverse": "A creature that has escaped from captivity or gone feral."
+        },
+        "place": {
+            "upright": "A place of imprisonment, such as a literal dungeon or a menagerie.",
+            "reverse": "A prison broken open, or a place associated with liberation (such as a monument commemorating emancipation)."
+        },
+        "treasure": {
+            "upright": "A treasure locked in a vault, or magic with the power to bind or imprison.",
+            "reverse": "A treasure that once held a being captive, such as an Efreeti Bottle that has lost its magic or an empty Iron Flask."
+        },
+        "situation": {
+            "upright": "An impasse, a situation that threatens someone's freedom, or a situation where someone's indecision is keeping everyone in suspense.",
+            "reverse": "A situation that requires creative solutions, or an effort to free people or creatures from captivity."
+        }
     }
 }

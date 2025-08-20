@@ -1,26 +1,26 @@
 {
     "name": "Pit",
-    "description": "A deep hole or chasm, representing hidden dangers, sudden setbacks, and the risk of falling.",
+    "description": "A deep hole studded with spikes gapes in the earth. The Pit card represents a literal or metaphorical fall—losing status, wealth, or position.",
     "meanings": {
-        "person": [
-            "Someone who helps others avoid hidden dangers or pitfalls",
-            "A person who creates traps or leads others into dangerous situations"
-        ],
-        "creatureTrap": [
-            "Creatures that attack from below or use burrowing tactics",
-            "Hidden pits, spike traps, or other concealed ground hazards"
-        ],
-        "place": [
-            "Deep caverns or chasms that lead to hidden areas",
-            "Unstable ground where one might fall into hidden dangers"
-        ],
-        "treasure": [
-            "Valuable items hidden in deep or hard-to-reach places",
-            "Treasures that are trapped or guarded by hidden dangers"
-        ],
-        "situation": [
-            "Opportunities to avoid or overcome hidden obstacles",
-            "Sudden setbacks or falling into unexpected difficulties"
-        ]
+        "person": {
+            "upright": "A person who has lost significant wealth, social status, or favor.",
+            "reverse": "A person in a precarious position who soon will have a calamitous fall."
+        },
+        "creatureTrap": {
+            "upright": "A pit trap, or a scavenger lurking at the bottom of a pit.",
+            "reverse": "A creature (such as a piercer) that attacks by falling on prey."
+        },
+        "place": {
+            "upright": "A pit or cliff that creates the risk of a fall.",
+            "reverse": "An abandoned mansion or palace that is in disrepair due to the owner's downfall."
+        },
+        "treasure": {
+            "upright": "An art object depicting someone's calamitous fall, or a magic item that allows falling safely (such as a Ring of Feather Falling).",
+            "reverse": "An art object depicting flight or incorporating feathers, or a magic item that grants flight (such as Winged Boots or a Cloak of the Bat)."
+        },
+        "situation": {
+            "upright": "A situation involving someone's fall from grace.",
+            "reverse": "A conspiracy to cause the downfall of a wealthy or prominent person."
+        }
     }
 }

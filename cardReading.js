@@ -255,9 +255,9 @@ function generateCard(cardNum) {
   }
 
   setText(`card-name-${cardNum}`, cardData.name || cardName);
-  const imgEl = document.getElementById(`card-image-${cardNum}`);
-  if (imgEl && cardData.image) imgEl.src = CARD_DIR + '/' + cardData.image;
-  setText(`card-credit-${cardNum}`, cardData.credit || '');
+  //const imgEl = document.getElementById(`card-image-${cardNum}`);
+  //if (imgEl && cardData.image) imgEl.src = CARD_DIR + '/' + cardData.image;
+  //setText(`card-credit-${cardNum}`, cardData.credit || '');
   setText(`card-description-${cardNum}`, cardData.description || '');
   setText(`card-orientation-${cardNum}`, orientationText);
 

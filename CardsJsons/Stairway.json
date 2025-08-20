@@ -1,26 +1,26 @@
 {
     "name": "Stairway",
-    "description": "A set of steps leading upward or downward, representing progress, elevation, and transitions between levels.",
+    "description": "A spiral stairway leads both up and down, but the downward stairs are cluttered and dark. This card points to a change in difficulty, either increasing or decreasing.",
     "meanings": {
-        "person": [
-            "Someone who helps others advance or reach higher levels of achievement",
-            "A person who looks down on others or creates barriers to advancement"
-        ],
-        "creatureTrap": [
-            "Creatures that control vertical spaces or have climbing abilities",
-            "Traps triggered by movement between different levels or elevations"
-        ],
-        "place": [
-            "Multi-level structures that lead to important upper or lower areas",
-            "Dangerous vertical passages where falling poses significant risk"
-        ],
-        "treasure": [
-            "Rewards that become available only after achieving certain levels",
-            "Items that are difficult to transport between different elevations"
-        ],
-        "situation": [
-            "Clear progression toward higher goals or deeper understanding",
-            "Setbacks that force retreat to lower levels or starting over"
-        ]
+        "person": {
+            "upright": "A person who makes every task more difficult than it needs to be, adding complications and getting in the way.",
+            "reverse": "A helpful, friendly person who makes everything easier (or at least more pleasant)."
+        },
+        "creatureTrap": {
+            "upright": "A creature that grows in power as battle continues (such as a black pudding or a hydra).",
+            "reverse": "A creature that is difficult to fight at first, but that becomes easier to defeat as the battle proceeds."
+        },
+        "place": {
+            "upright": "A place reached by descending stairs, such as a basement or a lower level of a dungeon.",
+            "reverse": "A place reached by ascending stairs, such as an attic or upper level of a dungeon."
+        },
+        "treasure": {
+            "upright": "An intricate treasure that was difficult to create, or a magic item that helps accomplish difficult tasks (such as an Ioun Stone of Mastery).",
+            "reverse": "A treasure that is simple and elegant."
+        },
+        "situation": {
+            "upright": "A situation more complicated or challenging than it appears.",
+            "reverse": "A situation much simpler than it appears."
+        }
     }
 }

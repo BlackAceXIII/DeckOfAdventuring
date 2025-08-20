@@ -1,26 +1,26 @@
 {
     "name": "Ring",
-    "description": "A circular band of metal, representing bonds, commitments, and things that come full circle.",
+    "description": "An emerald ring glows within a decorative jewelry box. The Ring card suggests both a promise and the honor involved in keeping it.",
     "meanings": {
-        "person": [
-            "Someone who honors commitments and maintains strong relationships",
-            "A person trapped in cycles of behavior or bound by unwanted obligations"
-        ],
-        "creatureTrap": [
-            "Creatures that form protective circles or work in connected groups",
-            "Magical barriers or binding circles that prevent movement or escape"
-        ],
-        "place": [
-            "Circular or enclosed areas that offer protection and unity",
-            "Places where one becomes trapped in endless cycles or routines"
-        ],
-        "treasure": [
-            "Items that strengthen bonds between allies or enhance cooperation",
-            "Cursed items that create unwanted bonds or dependencies"
-        ],
-        "situation": [
-            "Completion of cycles, fulfillment of promises, or strengthened alliances",
-            "Being trapped in repetitive patterns or bound by restrictive agreements"
-        ]
+        "person": {
+            "upright": "Someone scrupulously faithful to a promise.",
+            "reverse": "A person who resents being bound to an oath sworn in haste or duress."
+        },
+        "creatureTrap": {
+            "upright": "A creature that has promised to serve someone.",
+            "reverse": "A creature unwillingly bound to serve someone (such as an invisible stalker)."
+        },
+        "place": {
+            "upright": "A place where oaths are sworn, such as a temple or courthouse.",
+            "reverse": "A place where a legendary figure was coerced into swearing an oath that led to their downfall."
+        },
+        "treasure": {
+            "upright": "A ring, either jewelry or a magic item.",
+            "reverse": "A bracelet or magic bracers."
+        },
+        "situation": {
+            "upright": "A situation complicated by a person's promise to do something.",
+            "reverse": "A situation arising from someone trying to abjure an oath."
+        }
     }
 }

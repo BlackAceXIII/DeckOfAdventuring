@@ -2,25 +2,25 @@
     "name": "Celestial",
     "description": "A beautiful couatl twines through the clouds. This card suggests the involvement of celestial beings and service to the divine.",
     "meanings": {
-        "person": [
-            "A devout person who looks for miracles and the presence of the divine in all parts of life.",
-            "Someone who carries a grudge over a real or perceived injury caused by a god or Celestial."
-        ],
-        "creatureTrap": [
-            "A Celestial or other creature that has connections to the gods, or a trap that deals radiant damage.",
-            "A fallen Celestial or similar creature that has lost its connection to the divine,"
-        ],
-        "place": [
-            "A location on the upper planes, or a place suffused with their influence.",
-            "A place intended to ward off Celestials and influence from the Upper Planes."
-        ],
-        "treasure": [
-            "An art object depicting angels or other Celestials, treasure from the Upper Planes, or magic items made by Celestials.",
-            "A treasure depicting a Celestial's fall, or a magic item useful against Celestials."
-        ],
-        "situation": [
-            "Communication between the Upper Planes and the Material Plane—perhaps in dreams or visions, or with Celestials as intermediaries.",
-            "A situation involving Celestials' unwelcome interference in mortal affairs."
-        ]
+        "person": {
+            "upright": "A devout person who looks for miracles and the presence of the divine in all parts of life.",
+            "reverse": "Someone who carries a grudge over a real or perceived injury caused by a god or Celestial."
+        },
+        "creatureTrap": {
+            "upright": "A Celestial or other creature that has connections to the gods, or a trap that deals radiant damage.",
+            "reverse": "A fallen Celestial or similar creature that has lost its connection to the divine."
+        },
+        "place": {
+            "upright": "A location on the upper planes, or a place suffused with their influence.",
+            "reverse": "A place intended to ward off Celestials and influence from the Upper Planes."
+        },
+        "treasure": {
+            "upright": "An art object depicting angels or other Celestials, treasure from the Upper Planes, or magic items made by Celestials.",
+            "reverse": "A treasure depicting a Celestial's fall, or a magic item useful against Celestials."
+        },
+        "situation": {
+            "upright": "Communication between the Upper Planes and the Material Plane—perhaps in dreams or visions, or with Celestials as intermediaries.",
+            "reverse": "A situation involving Celestials' unwelcome interference in mortal affairs."
+        }
     }
 }

@@ -2,25 +2,25 @@
     "name": "Aberration",
     "description": "A beholder hovers in a cluttered laboratory. The Aberration card embodies things contrary to nature.",
     "meanings": {
-        "person": [
-            "Someone with a distorted view of reality, perhaps a cultist or a warlock of the Great Old One; perhaps simply an eccentric person with a nonconformist style.",
-            "A person (perhaps a druid) dedicated to preserving nature against corrupting influences."
-        ],
-        "creatureTrap": [
-            "A creature corrupted by the influence of the Far Realm, or an Aberration.",
-            "A creature that has resisted the corruption of its nature, or a trap that deals psychic damage."
-        ],
-        "place": [
-            "A place where the laws of physics or magic are suspended or distorted.",
-            "A place where nature has overgrown the remnants of a corrupting influence."
-        ],
-        "treasure": [
-            "An art object that reflects a warped view of reality, or a magic item made by Aberrations.",
-            "An art object depicting the triumph of nature over corruption, or a magic item useful against Aberrations (such as a Ring of Mind Shielding)."
-        ],
-        "situation": [
-            "An incursion of energy or creatures from the Far Realm or the deep Underdark.",
-            "People or creatures fighting against the influence of Aberrations."
-        ]
+        "person": {
+            "upright": "Someone with a distorted view of reality, perhaps a cultist or a warlock of the Great Old One; perhaps simply an eccentric person with a nonconformist style.",
+            "reverse": "A person (perhaps a druid) dedicated to preserving nature against corrupting influences."
+        },
+        "creatureTrap": {
+            "upright": "A creature corrupted by the influence of the Far Realm, or an Aberration.",
+            "reverse": "A creature that has resisted the corruption of its nature, or a trap that deals psychic damage."
+        },
+        "place": {
+            "upright": "A place where the laws of physics or magic are suspended or distorted.",
+            "reverse": "A place where nature has overgrown the remnants of a corrupting influence."
+        },
+        "treasure": {
+            "upright": "An art object that reflects a warped view of reality, or a magic item made by Aberrations.",
+            "reverse": "An art object depicting the triumph of nature over corruption, or a magic item useful against Aberrations (such as a Ring of Mind Shielding)."
+        },
+        "situation": {
+            "upright": "An incursion of energy or creatures from the Far Realm or the deep Underdark.",
+            "reverse": "People or creatures fighting against the influence of Aberrations."
+        }
     }
 }

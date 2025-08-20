@@ -1,26 +1,26 @@
 {
     "name": "Prisoner",
-    "description": "A figure bound in chains or behind bars, representing confinement, limitation, and the need for freedom.",
+    "description": "A rogue begs for release from a dank prison cell. The Prisoner card represents someone or something locked and hidden away.",
     "meanings": {
-        "person": [
-            "Someone who has been wrongly confined and deserves rescue",
-            "A dangerous individual who should remain imprisoned for everyone's safety"
-        ],
-        "creatureTrap": [
-            "Creatures that have been bound or imprisoned by ancient magic",
-            "Restraining devices or magical bindings that prevent escape"
-        ],
-        "place": [
-            "Prisons, dungeons, or secure facilities holding valuable captives",
-            "Places of confinement that have become corrupted or dangerous"
-        ],
-        "treasure": [
-            "Items that grant freedom or help overcome constraints",
-            "Cursed items that bind or constrain the user"
-        ],
-        "situation": [
-            "Opportunities to gain freedom or help others escape oppression",
-            "Being trapped by circumstances or bound by unbreakable obligations"
-        ]
+        "person": {
+            "upright": "A person held captive or bound by expectations.",
+            "reverse": "An individual who defies societal norms and expectations."
+        },
+        "creatureTrap": {
+            "upright": "A creature locked away to prevent it from harming people.",
+            "reverse": "A creature that grapples, swallows, or otherwise binds or imprisons its prey."
+        },
+        "place": {
+            "upright": "A place where things are put to keep them out of reach and memory.",
+            "reverse": "A place where something or someone is kept on public display."
+        },
+        "treasure": {
+            "upright": "A treasure securely locked away, or a magic item that contains a creature (such as an Elemental Gem or an Iron Flask).",
+            "reverse": "A prominently displayed treasure, such as a ruler's regalia."
+        },
+        "situation": {
+            "upright": "A situation arising from efforts to keep a person, an object, or information out of reach.",
+            "reverse": "The theft or liberation of a person, or an object on public display."
+        }
     }
 }

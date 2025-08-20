@@ -1,26 +1,26 @@
 {
     "name": "Maze",
-    "description": "A complex labyrinth with winding passages, representing confusion, complexity, and the challenge of finding the right path.",
+    "description": "Unfortunate souls are trapped in an elaborate and impossible maze of cards. Those who draw the Maze card are lost.",
     "meanings": {
-        "person": [
-            "Someone with deep knowledge who can navigate complex situations",
-            "A person who creates confusion or deliberately complicates matters"
-        ],
-        "creatureTrap": [
-            "Creatures that excel at creating or navigating complex environments",
-            "Traps that involve multiple steps or misdirection to overcome"
-        ],
-        "place": [
-            "A complex dungeon or structure with multiple paths and secrets",
-            "A place where one easily becomes lost or trapped"
-        ],
-        "treasure": [
-            "Rewards hidden in the most difficult to reach locations",
-            "Treasures that are surrounded by complex puzzles or obstacles"
-        ],
-        "situation": [
-            "Complex problems that require careful navigation and patience",
-            "Overwhelming confusion where every choice seems to lead to more problems"
-        ]
+        "person": {
+            "upright": "A person who feels lost in their own life, unsure how to affect change, or a person with a wandering mind who takes their time getting to the point.",
+            "reverse": "A person running from expectations placed on them by family and society, trying to find a new path in life."
+        },
+        "creatureTrap": {
+            "upright": "A minotaur or another creature that hunts in a maze or is imprisoned in a maze.",
+            "reverse": "A creature whose behavior is unpredictable."
+        },
+        "place": {
+            "upright": "A maze, or a region (such as a forest or desert) where becoming lost is very easy.",
+            "reverse": "A simple labyrinth designed for meditation or to provide private nooks, or a location in which one is unlikely to get lost (such as a cave with only one exit)."
+        },
+        "treasure": {
+            "upright": "An art object depicting confusion or disorientation, or a magic item that can cause these states.",
+            "reverse": "An art object incorporating a labyrinth design."
+        },
+        "situation": {
+            "upright": "A confusing situation where it's difficult to perceive all the factors at play.",
+            "reverse": "A search for something or someone that has gone missing."
+        }
     }
 }

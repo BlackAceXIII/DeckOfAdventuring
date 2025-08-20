@@ -2,25 +2,25 @@
     "name": "Book",
     "description": "An enormous book rests among scrolls and parchment, with a quill and ink nearby. The Book card embodies written information.",
     "meanings": {
-        "person": [
-            "A writer, poet, or compulsive note-taker.",
-            "A well-educated person who reads often."
-        ],
-        "creatureTrap": [
-            "A creature that keeps an exhaustive diary in some form, or that seeks a scribe to record its deeds.",
-            "A trap involving written runes (such as a Glyph of Warding or Symbol spell)."
-        ],
-        "place": [
-            "A scriptorium or printing press.",
-            "A library or another storehouse of written knowledge."
-        ],
-        "treasure": [
-            "A valuable or magical pen, an ink vial, or a set of pigments (such as Nolzur's Marvelous Pigments).",
-            "A valuable or magical written work, such as a book or scroll."
-        ],
-        "situation": [
-            "A situation that requires gleaning information from written clues.",
-            "Secrets that should never have been discovered but were written down."
-        ]
+        "person": {
+            "upright": "A writer, poet, or compulsive note-taker.",
+            "reverse": "A well-educated person who reads often."
+        },
+        "creatureTrap": {
+            "upright": "A creature that keeps an exhaustive diary in some form, or that seeks a scribe to record its deeds.",
+            "reverse": "A trap involving written runes (such as a Glyph of Warding or Symbol spell)."
+        },
+        "place": {
+            "upright": "A scriptorium or printing press.",
+            "reverse": "A library or another storehouse of written knowledge."
+        },
+        "treasure": {
+            "upright": "A valuable or magical pen, an ink vial, or a set of pigments (such as Nolzur's Marvelous Pigments).",
+            "reverse": "A valuable or magical written work, such as a book or scroll."
+        },
+        "situation": {
+            "upright": "A situation that requires gleaning information from written clues.",
+            "reverse": "Secrets that should never have been discovered but were written down."
+        }
     }
 }

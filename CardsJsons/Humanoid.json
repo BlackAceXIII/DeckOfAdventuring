@@ -1,26 +1,26 @@
 {
     "name": "Humanoid",
-    "description": "A figure representing civilized peoples, communities, and the bonds of society.",
+    "description": "Kobolds set a trap in their cave lair. This card points to the importance of empathy in relationships with other people.",
     "meanings": {
-        "person": [
-            "A helpful ally, friend, or member of the community",
-            "A deceitful person who hides malicious intent behind a friendly facade"
-        ],
-        "creatureTrap": [
-            "Intelligent creatures that can be reasoned with or befriended",
-            "Shapeshifters or imposters pretending to be allies"
-        ],
-        "place": [
-            "A welcoming settlement, town, or civilized area",
-            "A place where social tensions or conflicts divide the community"
-        ],
-        "treasure": [
-            "Items of cultural or sentimental value to a community",
-            "Stolen goods or items obtained through betrayal"
-        ],
-        "situation": [
-            "Opportunities for cooperation, diplomacy, or building relationships",
-            "Situations involving deception, betrayal, or social conflict"
-        ]
+        "person": {
+            "upright": "An empathetic person who's deeply concerned about the suffering of others.",
+            "reverse": "Someone who feels no empathy for others."
+        },
+        "creatureTrap": {
+            "upright": "A shapeshifter that takes on Humanoid appearance to blend in, perhaps to learn from them or to influence them toward good.",
+            "reverse": "A shapeshifter that takes on Humanoid appearance to prey on Humanoids."
+        },
+        "place": {
+            "upright": "A place where diverse people live together in harmony.",
+            "reverse": "A place where people live apart from others, by choice or by force (such as a monastery or a cultural enclave)."
+        },
+        "treasure": {
+            "upright": "A treasure representing the collaboration of different artisans (such as a finely cut gem set in exquisite jewelry), or a magic item that facilitates peace and understanding.",
+            "reverse": "An art object depicting or celebrating war; alternatively, a magic item made to be used in war, or that is especially useful against Humanoids."
+        },
+        "situation": {
+            "upright": "A situation that calls for empathy and compassion if it's to be resolved without violence.",
+            "reverse": "A violent situation arising from a lack of empathy."
+        }
     }
 }

@@ -2,25 +2,25 @@
     "name": "placeholder",
     "description": "placeholder",
     "meanings": {
-        "person": [
-            "upright placeholder",
-            "reversed placeholder"
-        ],
-        "creatureTrap": [
-            "upright placeholder",
-            "reversed placeholder"
-        ],
-        "place": [
-            "upright placeholder",
-            "reversed placeholder"
-        ],
-        "treasure": [
-            "upright placeholder",
-            "reversed placeholder"
-        ],
-        "situation": [
-            "upright placeholder",
-            "reversed placeholder"
-        ]
+        "person": {
+            "upright": "upright placeholder",
+            "reverse": "reversed placeholder"
+        },
+        "creatureTrap": {
+            "upright": "upright placeholder",
+            "reverse": "reversed placeholder"
+        },
+        "place": {
+            "upright": "upright placeholder",
+            "reverse": "reversed placeholder"
+        },
+        "treasure": {
+            "upright": "upright placeholder",
+            "reverse": "reversed placeholder"
+        },
+        "situation": {
+            "upright": "upright placeholder",
+            "reverse": "reversed placeholder"
+        }
     }
 }

@@ -1,26 +1,26 @@
 {
     "name": "Fool",
-    "description": "A jester or fool figure, representing new beginnings, innocence, and taking leaps of faith.",
+    "description": "A person walks down a path, unwittingly dropping items along the way. The Fool card represents innocence.",
     "meanings": {
-        "person": [
-            "A naive or innocent individual starting a new journey",
-            "Someone making reckless or foolish decisions"
-        ],
-        "creatureTrap": [
-            "A harmless creature that appears threatening but is actually benign",
-            "A dangerous trap disguised as something innocent"
-        ],
-        "place": [
-            "A new territory or unexplored area full of possibilities",
-            "A dangerous cliff or precipice where one might fall"
-        ],
-        "treasure": [
-            "A simple item with unexpected magical properties",
-            "A cursed item that brings misfortune to the unwary"
-        ],
-        "situation": [
-            "The beginning of a new adventure or quest",
-            "A situation where hasty action leads to trouble"
-        ]
+        "person": {
+            "upright": "An innocent or naive person blissfully ignorant of the world's sinister side, possibly a child.",
+            "reverse": "A con artist who preys on the innocent and gullible while presenting a trustworthy facade."
+        },
+        "creatureTrap": {
+            "upright": "A naive Celestial or a flighty Fey, or a trap with a simple or obvious means of avoiding it.",
+            "reverse": "A creature that changes shape to appear harmless so it can get close to its prey, or a trap that is difficult to avoid."
+        },
+        "place": {
+            "upright": "A place connected with children, such as a nursery, an orphanage, or a school.",
+            "reverse": "A place tied to the loss of innocence, such as a harsh orphanage or exploitative workhouse."
+        },
+        "treasure": {
+            "upright": "A portrait of a child, jewelry meant for a child, or a magic item connected to the Upper Planes.",
+            "reverse": "A treasure stolen from a child or naive person, or magic intended to deceive (such as a Hat of Disguise)."
+        },
+        "situation": {
+            "upright": "A situation requiring trust, honesty, and a leap of faith.",
+            "reverse": "A guileless person being manipulated by schemers."
+        }
     }
 }

@@ -1,26 +1,26 @@
 {
     "name": "Warrior",
-    "description": "An armored fighter with weapon in hand, representing strength, courage, and the willingness to fight for what matters.",
+    "description": "A barbarian holds a greataxe, The Warrior card embodies physical strength and fighting acumen.",
     "meanings": {
-        "person": [
-            "A brave defender who fights for justice and protects the innocent",
-            "An aggressive individual who resorts to violence too quickly"
-        ],
-        "creatureTrap": [
-            "Martial creatures with fighting skills and combat tactics",
-            "Combat-oriented challenges that require strength and skill to overcome"
-        ],
-        "place": [
-            "Training grounds, battlefields, or fortified positions for combat",
-            "Areas ravaged by conflict where violence has left lasting damage"
-        ],
-        "treasure": [
-            "Masterwork weapons, armor, or items that enhance combat abilities",
-            "Weapons or armor that come with the burden of past conflicts"
-        ],
-        "situation": [
-            "Opportunities to show courage and fight for important causes",
-            "Conflicts that escalate unnecessarily or violence that solves nothing"
-        ]
+        "person": {
+            "upright": "A person (perhaps a barbarian, fighter, or monk) who has trained in combat or served in the military.",
+            "reverse": "A bully who uses physical strength to intimidate others."
+        },
+        "creatureTrap": {
+            "upright": "A creature with abilities like those of a barbarian, fighter, or monk.",
+            "reverse": "A creature that relies on brute strength, or a trap that can be escaped through the application of brute strength."
+        },
+        "place": {
+            "upright": "A training yard or fort where warriors learn combat skills.",
+            "reverse": "A harsh environment where only the physically powerful survive."
+        },
+        "treasure": {
+            "upright": "A valuable or magical weapon or suit of armor.",
+            "reverse": "An unsubtle work of art."
+        },
+        "situation": {
+            "upright": "A situation that requires and rewards the skilled application of physical force.",
+            "reverse": "A situation involving bullying or extortion."
+        }
     }
 }

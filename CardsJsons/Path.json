@@ -1,26 +1,26 @@
 {
     "name": "Path",
-    "description": "A winding trail or road, representing journey, choices, and the direction one takes in life.",
+    "description": "A well-worn path twists through the wilderness, with hidden dangers lurking in the shadows to both sides. This card suggests the importance of sticking with a plan and remaining focused on the destination.",
     "meanings": {
-        "person": [
-            "A guide or mentor who helps others find their way",
-            "Someone who leads others down the wrong path or into danger"
-        ],
-        "creatureTrap": [
-            "Creatures that patrol or guard specific routes or territories",
-            "Hazards that block progress or force difficult detours"
-        ],
-        "place": [
-            "A route that leads to important destinations or discoveries",
-            "A path that leads to danger, dead ends, or becomes impassable"
-        ],
-        "treasure": [
-            "Items found along the way that aid in travel or exploration",
-            "Obstacles or tolls that must be paid to continue forward"
-        ],
-        "situation": [
-            "Clear direction and progress toward goals",
-            "Being forced to take difficult detours or face unexpected obstacles"
-        ]
+        "person": {
+            "upright": "A goal-oriented person who knows exactly what they want and has a clear plan to get it.",
+            "reverse": "An aimless person who doesn't know what they want and has no idea how to decide."
+        },
+        "creatureTrap": {
+            "upright": "A creature single-mindedly pursuing prey or some other goal, or a trapped room navigable by only a single path.",
+            "reverse": "A creature that reacts to provocation without a clear plan or purpose; it might be acting on instinct or be confused."
+        },
+        "place": {
+            "upright": "A road or trail.",
+            "reverse": "A trackless wilderness, or an underground complex that is very difficult to traverse."
+        },
+        "treasure": {
+            "upright": "An art object depicting a road or path, or a magic item that allows divination (such as a Crystal Ball or a Spell Scroll of Find the Path).",
+            "reverse": "An abstract art object, or a magic item that foils divination (such as an Amulet of Proof against Detection and Location)."
+        },
+        "situation": {
+            "upright": "A situation that demands unwavering focus on the goal.",
+            "reverse": "A series of distractions that deflect attention from an important goal."
+        }
     }
 }

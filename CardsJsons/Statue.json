@@ -1,26 +1,26 @@
 {
     "name": "Statue",
-    "description": "A carved stone figure frozen in time, representing permanence, memory, and things that endure through ages.",
+    "description": "A statue depicts the god Istus offering the original Deck of Many Things as a gift. The Statue card is a reminder of the past.",
     "meanings": {
-        "person": [
-            "Someone who preserves important traditions or serves as a lasting example",
-            "A person who has become rigid, unchanging, or stuck in the past"
-        ],
-        "creatureTrap": [
-            "Creatures made of stone or those that can petrify others",
-            "Ancient guardians or constructs that activate when disturbed"
-        ],
-        "place": [
-            "Memorial sites, ancient ruins, or places that preserve important history",
-            "Locations frozen in time where nothing changes or grows"
-        ],
-        "treasure": [
-            "Ancient artifacts, historical records, or items of lasting value",
-            "Cursed items that turn things to stone or prevent change"
-        ],
-        "situation": [
-            "Establishing something permanent or honoring lasting achievements",
-            "Being stuck in unchanging patterns or refusing to adapt"
-        ]
+        "person": {
+            "upright": "Someone who takes great pride in a prominent ancestor.",
+            "reverse": "A person who lives in the shadow of a famous or important ancestor."
+        },
+        "creatureTrap": {
+            "upright": "An ancient creature that played an important part in a historical event.",
+            "reverse": "A creature that clings to a memory of fallen glory (such as a storm giant or a mind flayer), a creature in the guise of a statue (such as a mimic), or a statue that functions as a trap."
+        },
+        "place": {
+            "upright": "A park or plaza built around a statue.",
+            "reverse": "An immense ruin left behind by an ancient civilization."
+        },
+        "treasure": {
+            "upright": "A statuette or sculpture, either valuable or magical (such as a Figurine of Wondrous Power).",
+            "reverse": "An art object made in imitation of a more famous and valuable piece."
+        },
+        "situation": {
+            "upright": "A situation with remarkable similarities to a significant historical event.",
+            "reverse": "An attempt to re-create a historical situation or rebuild a fallen empire."
+        }
     }
 }

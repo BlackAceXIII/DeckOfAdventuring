@@ -1,26 +1,26 @@
 {
     "name": "Well",
-    "description": "A stone-lined water source, representing depth, hidden resources, and the source of life and wisdom.",
+    "description": "A stone well stands in a peaceful meadow, surrounded by wildflowers. The Well card speaks of drawing resources from familiar places.",
     "meanings": {
-        "person": [
-            "Someone who provides essential resources or deep wisdom to others",
-            "A person who hoards resources or keeps important information hidden"
-        ],
-        "creatureTrap": [
-            "Creatures that live in or guard water sources",
-            "Hidden depths or underwater hazards that pose drowning risks"
-        ],
-        "place": [
-            "Sources of clean water, healing springs, or places of spiritual renewal",
-            "Polluted or cursed water sources that bring sickness or misfortune"
-        ],
-        "treasure": [
-            "Items that provide sustenance or have been preserved in deep waters",
-            "Treasures that are difficult to retrieve or come with water-related curses"
-        ],
-        "situation": [
-            "Discovering deep resources or wisdom that sustains through difficult times",
-            "Running dry of essential resources or finding that trusted sources are contaminated"
-        ]
+        "person": {
+            "upright": "A familiar person who is a reliable source of information and aid.",
+            "reverse": "A familiar person who refuses to provide expected aid."
+        },
+        "creatureTrap": {
+            "upright": "A familiar kind of creature, whose abilities are well understood.",
+            "reverse": "A familiar kind of creature whose behavior or abilities are surprising."
+        },
+        "place": {
+            "upright": "A well, a familiar shop, or a place where fresh water can be found.",
+            "reverse": "A well that has gone dry, or a familiar place that no longer offers the comforts it used to."
+        },
+        "treasure": {
+            "upright": "A reliable treasure (such as gold coins), or a magic item that produces food or water (such as a Decanter of Endless Water or an Alchemy Jug).",
+            "reverse": "A treasure with unexpected properties—a hidden compartment or magical quirk that's not immediately evident."
+        },
+        "situation": {
+            "upright": "A familiar situation with a predictable outcome.",
+            "reverse": "A familiar situation that ends up defying expectations."
+        }
     }
 }

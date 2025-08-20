@@ -1,26 +1,26 @@
 {
     "name": "Jester",
-    "description": "A colorful entertainer or trickster, representing humor, chaos, and unexpected wisdom through folly.",
+    "description": "A person wearing jester's motley and holding a staff rests his foot on a skull. This card deals with the relationship between humor and misfortune.",
     "meanings": {
-        "person": [
-            "A wise individual who teaches through humor and unconventional methods",
-            "A chaotic troublemaker who causes confusion and mischief"
-        ],
-        "creatureTrap": [
-            "A playful creature that tests adventurers with riddles or tricks",
-            "A malicious entity that uses humor to mask dangerous intent"
-        ],
-        "place": [
-            "A place of entertainment, festivals, or celebration",
-            "A location where appearances are deceiving and nothing is as it seems"
-        ],
-        "treasure": [
-            "Items that appear worthless but have hidden value or power",
-            "Cursed items that bring both benefit and misfortune"
-        ],
-        "situation": [
-            "Moments where humor or creativity solve serious problems",
-            "Chaotic situations where plans go awry in unexpected ways"
-        ]
+        "person": {
+            "upright": "An optimistic person who laughs at their own misfortune.",
+            "reverse": "A person who laughs at the misfortunes of others."
+        },
+        "creatureTrap": {
+            "upright": "A monster some consider silly, such as a flumph, an owlbear, or a gelatinous cube.",
+            "reverse": "A creature with an unsettling laugh, such as a gnoll or hyena, or a creature with a cruel sense of humor."
+        },
+        "place": {
+            "upright": "A place dedicated to amusement, such as a fairground or a feasting hall.",
+            "reverse": "A place associated with cruelty and pain, such as a torture chamber."
+        },
+        "treasure": {
+            "upright": "A humorous art object or magic item, such as a Wand of Wonder.",
+            "reverse": "An art object depicting pain or humiliation, or a magic item meant to inflict pain (such as a Sword of Wounding)."
+        },
+        "situation": {
+            "upright": "A hilarious situation stemming from miscommunication and misplaced assumptions.",
+            "reverse": "One misfortune piling on another in a way that would be humorous—if it weren't disastrous."
+        }
     }
 }

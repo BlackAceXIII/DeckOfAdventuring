@@ -1,26 +1,26 @@
 {
     "name": "Lance",
-    "description": "A long spear or lance, representing focused attack, precision, and the ability to strike from a distance.",
+    "description": "An ornate dragonlance shines among more ordinary weapons on a rack. The Lance card warns that healing sometimes requires additional injury, as when infection must be cut away.",
     "meanings": {
-        "person": [
-            "A skilled warrior with focus and precision in combat",
-            "Someone who strikes without warning or consideration for others"
-        ],
-        "creatureTrap": [
-            "Creatures with natural weapons like spikes, horns, or stingers",
-            "Hidden spikes or piercing traps that activate unexpectedly"
-        ],
-        "place": [
-            "A battlefield or arena where combat skills are tested",
-            "A dangerous passage with numerous piercing hazards"
-        ],
-        "treasure": [
-            "Masterwork weapons or armor with exceptional reach or precision",
-            "Weapons that are difficult to wield or come with significant drawbacks"
-        ],
-        "situation": [
-            "Opportunities to strike decisively at the right moment",
-            "Situations where aggressive action leads to unintended consequences"
-        ]
+        "person": {
+            "upright": "A surgeon, or someone (such as a guard or soldier) who uses violence in pursuit of worthy societal goals.",
+            "reverse": "A person committed to pacifism or avoiding harm."
+        },
+        "creatureTrap": {
+            "upright": "A creature trained to fight alongside guards or soldiers.",
+            "reverse": "A creature uninterested in fighting, or a trap that restrains but doesn't cause damage."
+        },
+        "place": {
+            "upright": "A place where surgery is performed.",
+            "reverse": "A place where violence is forbidden."
+        },
+        "treasure": {
+            "upright": "A treasure made at great cost, or a magic weapon.",
+            "reverse": "A treasure celebrating the end of hostilities or the ideal of peace, or a magic item intended to prevent or end conflict."
+        },
+        "situation": {
+            "upright": "A situation in which additional pain is required to bring healing.",
+            "reverse": "A situation complicated by people avoiding any hint of conflict."
+        }
     }
 }

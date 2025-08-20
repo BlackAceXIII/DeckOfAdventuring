@@ -1,26 +1,26 @@
 {
     "name": "Plant",
-    "description": "A growing plant or tree, representing natural growth, patience, and the cycles of life.",
+    "description": "A myconid emits a cloud of spores. The Plant card reflects growth and natural life.",
     "meanings": {
-        "person": [
-            "Someone who nurtures growth and has patience for natural development",
-            "A person who becomes stagnant or overgrown with bad habits"
-        ],
-        "creatureTrap": [
-            "Plant creatures or beings connected to natural growth",
-            "Entangling vines, poisonous plants, or overgrown hazardous terrain"
-        ],
-        "place": [
-            "Fertile areas rich in natural resources and healing plants",
-            "Overgrown areas where nature has become wild and dangerous"
-        ],
-        "treasure": [
-            "Natural remedies, herbs, or items that grow in value over time",
-            "Resources that are seasonal or require specific conditions to obtain"
-        ],
-        "situation": [
-            "Gradual growth and development leading to positive outcomes",
-            "Stagnation or being overwhelmed by unchecked growth"
-        ]
+        "person": {
+            "upright": "A person who lives in the wilderness among trees and other growing things.",
+            "reverse": "A quiet person who enjoys gardening or farming, finding greenery more relatable than people."
+        },
+        "creatureTrap": {
+            "upright": "A Plant creature, or a creature that facilitates the growth of wild plants.",
+            "reverse": "A domesticated plant given artificial animation, such as an awakened tree or awakened shrub."
+        },
+        "place": {
+            "upright": "A verdant place where vegetation grows wild, untouched by people's hands.",
+            "reverse": "A place full of carefully pruned and neatly controlled vegetation, such as a topiary garden."
+        },
+        "treasure": {
+            "upright": "An art object crafted from wood or incorporating leaves; alternatively, a magic item that allows uncontrolled vegetation growth (such as a Bag of Beans).",
+            "reverse": "A treasure that incorporates living greenery, such as an ornate terrarium or a potted topiary, or a magic item that allows control of vegetation (such as a Staff of the Woodlands)."
+        },
+        "situation": {
+            "upright": "Something growing out of control with surprising, even supernatural, speed.",
+            "reverse": "A conflict between a region suffering a famine and a region with abundant crops."
+        }
     }
 }

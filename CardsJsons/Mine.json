@@ -1,26 +1,26 @@
 {
     "name": "Mine",
-    "description": "A deep excavation site, representing hidden wealth, dangerous depths, and the rewards of hard work.",
+    "description": "A well-crafted pick leans against a wall at the entrance to a mine. The Mine card represents something valuable underground or buried in the earth.",
     "meanings": {
-        "person": [
-            "A hardworking individual who uncovers hidden value through persistence",
-            "Someone who exploits others' labor or takes credit for others' work"
-        ],
-        "creatureTrap": [
-            "Creatures that burrow or live in underground environments",
-            "Cave-ins, gas pockets, or structural collapses in underground areas"
-        ],
-        "place": [
-            "Rich underground deposits of valuable materials or information",
-            "Dangerous underground areas prone to collapse or toxic conditions"
-        ],
-        "treasure": [
-            "Raw materials, gems, or precious metals of great value",
-            "Resources that require dangerous or expensive extraction methods"
-        ],
-        "situation": [
-            "Opportunities that require hard work but promise great rewards",
-            "Situations where pursuing gain leads to dangerous or unstable conditions"
-        ]
+        "person": {
+            "upright": "A miner or an archaeologist.",
+            "reverse": "Someone who places things in the earth, such as a gardener or an undertaker."
+        },
+        "creatureTrap": {
+            "upright": "A creature that burrows underground, especially one that delves into the earth in search of prey (such as a giant weasel).",
+            "reverse": "A creature that lives underground but hunts above ground (such as an ankheg or a bulette)."
+        },
+        "place": {
+            "upright": "A mine, an archaeological dig, or a similar excavated site.",
+            "reverse": "A place that has sunk into the earth, perhaps swallowed in a sinkhole or covered in a mudslide."
+        },
+        "treasure": {
+            "upright": "A treasure from the earth, such as metal ore or gems, or any treasure that has been buried and unearthed.",
+            "reverse": "A treasure buried in the earth."
+        },
+        "situation": {
+            "upright": "Something unearthed that should have remained buried.",
+            "reverse": "The retrieval of something buried."
+        }
     }
 }

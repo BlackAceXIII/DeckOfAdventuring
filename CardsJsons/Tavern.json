@@ -1,26 +1,26 @@
 {
     "name": "Tavern",
-    "description": "A welcoming inn with warm light and gathered patrons, representing hospitality, information, and social gathering.",
+    "description": "An adventuring party eats and laughs in a busy tavern. The Tavern card points to the pleasure of spending time with friends.",
     "meanings": {
-        "person": [
-            "A hospitable host who provides comfort and valuable information",
-            "Someone who spreads gossip or uses social situations for manipulation"
-        ],
-        "creatureTrap": [
-            "Social creatures that gather in groups or communities",
-            "Situations where social pressure or group dynamics create danger"
-        ],
-        "place": [
-            "Gathering places where information, rest, and supplies are available",
-            "Places where too much revelry leads to poor decisions or conflict"
-        ],
-        "treasure": [
-            "Information, contacts, or social connections of great value",
-            "Items obtained through questionable deals or drunken wagers"
-        ],
-        "situation": [
-            "Opportunities to gather information, make allies, or find rest",
-            "Social complications, overindulgence, or information that proves unreliable"
-        ]
+        "person": {
+            "upright": "A genial person who delights in telling stories in good company.",
+            "reverse": "A person who ruins the happiness of pleasant company."
+        },
+        "creatureTrap": {
+            "upright": "A social creature that travels in packs.",
+            "reverse": "A parasite, vampire, or similar creature that siphons strength, happiness, or vitality from others, or a trap designed to separate those caught in it."
+        },
+        "place": {
+            "upright": "A tavern, restaurant, or similar place where people gather and eat socially.",
+            "reverse": "A place once used for social gatherings but now abandoned."
+        },
+        "treasure": {
+            "upright": "A jeweled goblet or other treasure related to eating and drinking.",
+            "reverse": "A jeweled goblet or similar treasure stained with blood or holding the remnants of poison."
+        },
+        "situation": {
+            "upright": "A tavern brawl.",
+            "reverse": "An attempt to kill many people at once as they gather for a meal."
+        }
     }
 }

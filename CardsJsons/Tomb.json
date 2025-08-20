@@ -1,26 +1,26 @@
 {
     "name": "Tomb",
-    "description": "An ancient burial chamber filled with shadows, representing death, endings, and the wisdom of the past.",
+    "description": "A burial chamber holds a plain stone casket. The Tomb card suggests buried secrets and things long forgotten.",
     "meanings": {
-        "person": [
-            "A wise elder who shares knowledge from past experiences",
-            "Someone dwelling on past failures or unable to move beyond old wounds"
-        ],
-        "creatureTrap": [
-            "Undead creatures or spirits that guard ancient secrets",
-            "Ancient traps or curses designed to protect burial sites"
-        ],
-        "place": [
-            "Ancient burial sites containing valuable historical knowledge",
-            "Cursed or haunted areas where the dead do not rest peacefully"
-        ],
-        "treasure": [
-            "Ancient artifacts, historical records, or items of the deceased",
-            "Cursed grave goods that bring misfortune to those who disturb them"
-        ],
-        "situation": [
-            "Learning from the past to avoid repeating old mistakes",
-            "Being haunted by past failures or unable to let go of what's gone"
-        ]
+        "person": {
+            "upright": "A person with a secret or a gap in their memory.",
+            "reverse": "A person trying to atone for a dreadful secret in their past."
+        },
+        "creatureTrap": {
+            "upright": "A mummy, wight, or similar Undead that lairs in its own tomb.",
+            "reverse": "An incorporeal Undead (such as a wraith or specter) that's not linked to the place of its death, burial place, or body."
+        },
+        "place": {
+            "upright": "A tomb, especially one that is forgotten.",
+            "reverse": "A memorial structure that doesn't contain a body."
+        },
+        "treasure": {
+            "upright": "Valuable or magical funerary treasure.",
+            "reverse": "An art object depicting a dead individual as they were in life."
+        },
+        "situation": {
+            "upright": "A situation no one wants to talk about or even acknowledge.",
+            "reverse": "A situation stemming from a buried secret that recently came to light."
+        }
     }
 }

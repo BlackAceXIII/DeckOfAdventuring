@@ -4,364 +4,364 @@
       "name": "Aberration",
       "description": "A beholder hovers in a cluttered laboratory. The Aberration card embodies things contrary to nature.",
       "meanings": {
-        "person": [
-          "Someone with a distorted view of reality, perhaps a cultist or a warlock of the Great Old One; perhaps simply an eccentric person with a nonconformist style.",
-          "A person (perhaps a druid) dedicated to preserving nature against corrupting influences."
-        ],
-        "creatureTrap": [
-          "A creature corrupted by the influence of the Far Realm, or an Aberration.",
-          "A creature that has resisted the corruption of its nature, or a trap that deals psychic damage."
-        ],
-        "place": [
-          "A place where the laws of physics or magic are suspended or distorted.",
-          "A place where nature has overgrown the remnants of a corrupting influence."
-        ],
-        "treasure": [
-          "An art object that reflects a warped view of reality, or a magic item made by Aberrations.",
-          "An art object depicting the triumph of nature over corruption, or a magic item useful against Aberrations (such as a Ring of Mind Shielding)."
-        ],
-        "situation": [
-          "An incursion of energy or creatures from the Far Realm or the deep Underdark.",
-          "People or creatures fighting against the influence of Aberrations."
-        ]
+        "person": {
+          "upright": "Someone with a distorted view of reality, perhaps a cultist or a warlock of the Great Old One; perhaps simply an eccentric person with a nonconformist style.",
+          "reverse": "A person (perhaps a druid) dedicated to preserving nature against corrupting influences."
+        },
+        "creatureTrap": {
+          "upright": "A creature corrupted by the influence of the Far Realm, or an Aberration.",
+          "reverse": "A creature that has resisted the corruption of its nature, or a trap that deals psychic damage."
+        },
+        "place": {
+          "upright": "A place where the laws of physics or magic are suspended or distorted.",
+          "reverse": "A place where nature has overgrown the remnants of a corrupting influence."
+        },
+        "treasure": {
+          "upright": "An art object that reflects a warped view of reality, or a magic item made by Aberrations.",
+          "reverse": "An art object depicting the triumph of nature over corruption, or a magic item useful against Aberrations (such as a Ring of Mind Shielding)."
+        },
+        "situation": {
+          "upright": "An incursion of energy or creatures from the Far Realm or the deep Underdark.",
+          "reverse": "People or creatures fighting against the influence of Aberrations."
+        }
       }
     },
     "Balance": {
       "name": "Balance",
       "description": "A set of scales holds day and night in balance. This card deals with many aspects of balance, or with things being out of balance.",
       "meanings": {
-        "person": [
-          "A fair-minded person who can see multiple perspectives and judge impartially.",
-          "A judgmental or biased person willfully ignoring one perspective in favor of another."
-        ],
-        "creatureTrap": [
-          "A trap, a Beast, a Construct, or an otherwise impartial foe.",
-          "A Celestial, a Fiend, or some other creature strongly associated with a particular alignment or ideology."
-        ],
-        "place": [
-          "A place where different forces exist in balance\u2014such as a civilization in balance with nature, a land in balance with water, or chaos in balance with order.",
-          "A place where the balance of elemental or natural forces has been upset, with negative consequences."
-        ],
-        "treasure": [
-          "A treasure with value to two competing factions, or with two equal magical powers.",
-          "A treasure valuable only to certain people, or that can be used only in a very specific way."
-        ],
-        "situation": [
-          "A situation where maintaining balance is important: keeping rivals satisfied, preserving the balance of power among different authorities, or rejecting false dichotomies and forced choices.",
-          "Something being over- or undervalued."
-        ]
+        "person": {
+          "upright": "A fair-minded person who can see multiple perspectives and judge impartially.",
+          "reverse": "A judgmental or biased person willfully ignoring one perspective in favor of another."
+        },
+        "creatureTrap": {
+          "upright": "A trap, a Beast, a Construct, or an otherwise impartial foe.",
+          "reverse": "A Celestial, a Fiend, or some other creature strongly associated with a particular alignment or ideology."
+        },
+        "place": {
+          "upright": "A place where different forces exist in balance\u2014such as a civilization in balance with nature, a land in balance with water, or chaos in balance with order.",
+          "reverse": "A place where the balance of elemental or natural forces has been upset, with negative consequences."
+        },
+        "treasure": {
+          "upright": "A treasure with value to two competing factions, or with two equal magical powers.",
+          "reverse": "A treasure valuable only to certain people, or that can be used only in a very specific way."
+        },
+        "situation": {
+          "upright": "A situation where maintaining balance is important: keeping rivals satisfied, preserving the balance of power among different authorities, or rejecting false dichotomies and forced choices.",
+          "reverse": "Something being over- or undervalued."
+        }
       }
     },
     "Beast": {
       "name": "Beast",
       "description": "The Beast card points to creatures of the animal kingdom and foul, cruel, or bad-tempered behavior in people.",
       "meanings": {
-        "person": [
-          "A person who avoids the comforts of civilization or indulges predatory attitudes.",
-          "A person who fiercely represses urges they deem \"bestial\" in themselves or others."
-        ],
-        "creatureTrap": [
-          "A Beast, or a similar creature (such as a Fey or a Monstrosity) that is animal-like; alternatively, a pit or other confined space with a trapped animal within.",
-          "A domesticated animal or a familiar."
-        ],
-        "place": [
-          "A place where animals roam freely.",
-          "A place where animals are contained, such as a farm or a zoo."
-        ],
-        "treasure": [
-          "A treasure that incorporates fur, feathers, bones, or claws from a Beast, or a magic item that allows transformation into a Beast (such as a Cloak of the Bat or Staff of the Python).",
-          "An ornate saddle, a goad, or another item related to the use of domestic animals, or a magic item that allows control of Beasts (such as a Potion of Animal Friendship)."
-        ],
-        "situation": [
-          "A situation involving hunting animals or animals preying on people.",
-          "Domestic animals rebelling against people's control."
-        ]
+        "person": {
+          "upright": "A person who avoids the comforts of civilization or indulges predatory attitudes.",
+          "reverse": "A person who fiercely represses urges they deem \"bestial\" in themselves or others."
+        },
+        "creatureTrap": {
+          "upright": "A Beast, or a similar creature (such as a Fey or a Monstrosity) that is animal-like; alternatively, a pit or other confined space with a trapped animal within.",
+          "reverse": "A domesticated animal or a familiar."
+        },
+        "place": {
+          "upright": "A place where animals roam freely.",
+          "reverse": "A place where animals are contained, such as a farm or a zoo."
+        },
+        "treasure": {
+          "upright": "A treasure that incorporates fur, feathers, bones, or claws from a Beast, or a magic item that allows transformation into a Beast (such as a Cloak of the Bat or Staff of the Python).",
+          "reverse": "An ornate saddle, a goad, or another item related to the use of domestic animals, or a magic item that allows control of Beasts (such as a Potion of Animal Friendship)."
+        },
+        "situation": {
+          "upright": "A situation involving hunting animals or animals preying on people.",
+          "reverse": "Domestic animals rebelling against people's control."
+        }
       }
     },
     "Book": {
       "name": "Book",
       "description": "An enormous book rests among scrolls and parchment, with a quill and ink nearby. The Book card embodies written information.",
       "meanings": {
-        "person": [
-          "A writer, poet, or compulsive note-taker.",
-          "A well-educated person who reads often."
-        ],
-        "creatureTrap": [
-          "A creature that keeps an exhaustive diary in some form, or that seeks a scribe to record its deeds.",
-          "A trap involving written runes (such as a Glyph of Warding or Symbol spell)."
-        ],
-        "place": [
-          "A scriptorium or printing press.",
-          "A library or another storehouse of written knowledge."
-        ],
-        "treasure": [
-          "A valuable or magical pen, an ink vial, or a set of pigments (such as Nolzur's Marvelous Pigments).",
-          "A valuable or magical written work, such as a book or scroll."
-        ],
-        "situation": [
-          "A situation that requires gleaning information from written clues.",
-          "Secrets that should never have been discovered but were written down."
-        ]
+        "person": {
+          "upright": "A writer, poet, or compulsive note-taker.",
+          "reverse": "A well-educated person who reads often."
+        },
+        "creatureTrap": {
+          "upright": "A creature that keeps an exhaustive diary in some form, or that seeks a scribe to record its deeds.",
+          "reverse": "A trap involving written runes (such as a Glyph of Warding or Symbol spell)."
+        },
+        "place": {
+          "upright": "A scriptorium or printing press.",
+          "reverse": "A library or another storehouse of written knowledge."
+        },
+        "treasure": {
+          "upright": "A valuable or magical pen, an ink vial, or a set of pigments (such as Nolzur's Marvelous Pigments).",
+          "reverse": "A valuable or magical written work, such as a book or scroll."
+        },
+        "situation": {
+          "upright": "A situation that requires gleaning information from written clues.",
+          "reverse": "Secrets that should never have been discovered but were written down."
+        }
       }
     },
     "Bridge": {
       "name": "Bridge",
       "description": "A stone bridge arcs across a waterway. A shadowy figure lurks under the bridge, only its gleaming eyes clearly visible. This card reflects the effort required to overcome obstacles.",
       "meanings": {
-        "person": [
-          "A mediator who enjoys helping others overcome misunderstandings or grievances.",
-          "A person who is part of a longstanding feud between two families or groups."
-        ],
-        "creatureTrap": [
-          "Someone who coordinates the efforts of different kinds of creatures, such as a mind flayer mastermind using grimlocks and trolls as agents.",
-          "A creature that lairs near, on, or under a bridge and either collects tolls from those using the bridge or tries to eat them."
-        ],
-        "place": [
-          "A bridge across a river or chasm.",
-          "A river or chasm with no bridge, or where the bridge is unsafe or has collapsed."
-        ],
-        "treasure": [
-          "An art object depicting a bridge, or a magic item intended to help overcome obstacles (such as Boots of Striding and Springing).",
-          "An art object depicting walls, barriers. or a labyrinth; alternatively, a magic item that creates magical walls (such as a Cube of Force)."
-        ],
-        "situation": [
-          "An urgent need for bridges between long-opposed factions.",
-          "Open conflict between two families or groups."
-        ]
+        "person": {
+          "upright": "A mediator who enjoys helping others overcome misunderstandings or grievances.",
+          "reverse": "A person who is part of a longstanding feud between two families or groups."
+        },
+        "creatureTrap": {
+          "upright": "Someone who coordinates the efforts of different kinds of creatures, such as a mind flayer mastermind using grimlocks and trolls as agents.",
+          "reverse": "A creature that lairs near, on, or under a bridge and either collects tolls from those using the bridge or tries to eat them."
+        },
+        "place": {
+          "upright": "A bridge across a river or chasm.",
+          "reverse": "A river or chasm with no bridge, or where the bridge is unsafe or has collapsed."
+        },
+        "treasure": {
+          "upright": "An art object depicting a bridge, or a magic item intended to help overcome obstacles (such as Boots of Striding and Springing).",
+          "reverse": "An art object depicting walls, barriers. or a labyrinth; alternatively, a magic item that creates magical walls (such as a Cube of Force)."
+        },
+        "situation": {
+          "upright": "An urgent need for bridges between long-opposed factions.",
+          "reverse": "Open conflict between two families or groups."
+        }
       }
     },
     "Campfire": {
       "name": "Campfire",
       "description": "A large campfire offers safety and comfort in the night. This card suggests a need for rest.",
       "meanings": {
-        "person": [
-          "A person on vacation, enjoying time away from work and pursuing activities they enjoy.",
-          "An exhausted person."
-        ],
-        "creatureTrap": [
-          "A creature that alternates brief periods of activity with long periods of rest (as many reptiles and Dragons do); alternatively, a trap that requires a long time to reset between activations.",
-          "A creature immune to exhaustion (such as an angel, a golem, an Ooze, or an Undead), or a trap or hazard with a constant, ongoing effect."
-        ],
-        "place": [
-          "A place recently used as a campsite.",
-          "Somewhere not conducive to rest, such as a busy marketplace active at all hours."
-        ],
-        "treasure": [
-          "An art object depicting a peaceful scene, or a magic item that facilitates safe rest (such as a Rod of Security).",
-          "An art object that suggests frenetic activity, or a magic item that helps its user remain alert (such as a Sentinel Shield),"
-        ],
-        "situation": [
-          "A period of rest in the middle of a journey or an adventure.",
-          "A situation that demands unrelenting activity."
-        ]
+        "person": {
+          "upright": "A person on vacation, enjoying time away from work and pursuing activities they enjoy.",
+          "reverse": "An exhausted person."
+        },
+        "creatureTrap": {
+          "upright": "A creature that alternates brief periods of activity with long periods of rest (as many reptiles and Dragons do); alternatively, a trap that requires a long time to reset between activations.",
+          "reverse": "A creature immune to exhaustion (such as an angel, a golem, an Ooze, or an Undead), or a trap or hazard with a constant, ongoing effect."
+        },
+        "place": {
+          "upright": "A place recently used as a campsite.",
+          "reverse": "Somewhere not conducive to rest, such as a busy marketplace active at all hours."
+        },
+        "treasure": {
+          "upright": "An art object depicting a peaceful scene, or a magic item that facilitates safe rest (such as a Rod of Security).",
+          "reverse": "An art object that suggests frenetic activity, or a magic item that helps its user remain alert (such as a Sentinel Shield),"
+        },
+        "situation": {
+          "upright": "A period of rest in the middle of a journey or an adventure.",
+          "reverse": "A situation that demands unrelenting activity."
+        }
       }
     },
     "Cavern": {
       "name": "Cavern",
       "description": "A vast cavern is adorned with glowing fungi and striking stone formations. The Cavern card suggests exploration and delving into hidden secrets.",
       "meanings": {
-        "person": [
-          "A person who asks probing questions but shares little.",
-          "A person who lives for the moment, avoiding introspection."
-        ],
-        "creatureTrap": [
-          "A creature (such as a piercer or a roper) that mimics the features of natural caverns.",
-          "A creature that swallows prey whole, or a trap that causes a ceiling or roof to collapse."
-        ],
-        "place": [
-          "A cavern or a cavernous building such as a large temple.",
-          "A small niche or cave."
-        ],
-        "treasure": [
-          "A geode, jewelry made from gems and precious metals, or a magic item that grants darkvision (such as Goggles of Night).",
-          "An art object that lacks a sense of depth or perspective."
-        ],
-        "situation": [
-          "A situation that requires delving into hidden motivations and secrets.",
-          "Everyone's motivations exposed for all to see."
-        ]
+        "person": {
+          "upright": "A person who asks probing questions but shares little.",
+          "reverse": "A person who lives for the moment, avoiding introspection."
+        },
+        "creatureTrap": {
+          "upright": "A creature (such as a piercer or a roper) that mimics the features of natural caverns.",
+          "reverse": "A creature that swallows prey whole, or a trap that causes a ceiling or roof to collapse."
+        },
+        "place": {
+          "upright": "A cavern or a cavernous building such as a large temple.",
+          "reverse": "A small niche or cave."
+        },
+        "treasure": {
+          "upright": "A geode, jewelry made from gems and precious metals, or a magic item that grants darkvision (such as Goggles of Night).",
+          "reverse": "An art object that lacks a sense of depth or perspective."
+        },
+        "situation": {
+          "upright": "A situation that requires delving into hidden motivations and secrets.",
+          "reverse": "Everyone's motivations exposed for all to see."
+        }
       }
     },
     "Celestial": {
       "name": "Celestial",
       "description": "A beautiful couatl twines through the clouds. This card suggests the involvement of celestial beings and service to the divine.",
       "meanings": {
-        "person": [
-          "A devout person who looks for miracles and the presence of the divine in all parts of life.",
-          "Someone who carries a grudge over a real or perceived injury caused by a god or Celestial."
-        ],
-        "creatureTrap": [
-          "A Celestial or other creature that has connections to the gods, or a trap that deals radiant damage.",
-          "A fallen Celestial or similar creature that has lost its connection to the divine,"
-        ],
-        "place": [
-          "A location on the upper planes, or a place suffused with their influence.",
-          "A place intended to ward off Celestials and influence from the Upper Planes."
-        ],
-        "treasure": [
-          "An art object depicting angels or other Celestials, treasure from the Upper Planes, or magic items made by Celestials.",
-          "A treasure depicting a Celestial's fall, or a magic item useful against Celestials."
-        ],
-        "situation": [
-          "Communication between the Upper Planes and the Material Plane\u2014perhaps in dreams or visions, or with Celestials as intermediaries.",
-          "A situation involving Celestials' unwelcome interference in mortal affairs."
-        ]
+        "person": {
+          "upright": "A devout person who looks for miracles and the presence of the divine in all parts of life.",
+          "reverse": "Someone who carries a grudge over a real or perceived injury caused by a god or Celestial."
+        },
+        "creatureTrap": {
+          "upright": "A Celestial or other creature that has connections to the gods, or a trap that deals radiant damage.",
+          "reverse": "A fallen Celestial or similar creature that has lost its connection to the divine."
+        },
+        "place": {
+          "upright": "A location on the upper planes, or a place suffused with their influence.",
+          "reverse": "A place intended to ward off Celestials and influence from the Upper Planes."
+        },
+        "treasure": {
+          "upright": "An art object depicting angels or other Celestials, treasure from the Upper Planes, or magic items made by Celestials.",
+          "reverse": "A treasure depicting a Celestial's fall, or a magic item useful against Celestials."
+        },
+        "situation": {
+          "upright": "Communication between the Upper Planes and the Material Plane\u2014perhaps in dreams or visions, or with Celestials as intermediaries.",
+          "reverse": "A situation involving Celestials' unwelcome interference in mortal affairs."
+        }
       }
     },
     "Comet": {
       "name": "Comet",
       "description": "A comet with an enormous tail streaks across the winter sky at night, outshining the stars. The Comet card brings dire warnings or devastation.",
       "meanings": {
-        "person": [
-          "A serious person with a gloomy outlook, perhaps carrying bad news.",
-          "A person who is grieving or delights in the suffering of others."
-        ],
-        "creatureTrap": [
-          "A creature regarded as an ill omen, or signs that a dire creature approaches; alternatively, a trap marked by clear signs, perhaps surrounded by the corpses of its victims.",
-          "The destruction left in the wake ofa rampaging creature, or smaller creatures fleeing from a larger one."
-        ],
-        "place": [
-          "A place with a connection to astronomical events: perhaps an observatory or a meteorite's crater.",
-          "A ruin where a terrible event occurred in the past and that might now be haunted."
-        ],
-        "treasure": [
-          "A treasure that carries a curse, or one whose power is destined to be used for destructive ends.",
-          ". A treasure formed or shaped by disaster, bloodstained or haunted by former owners: alternatively, something good arising from a bad situation."
-        ],
-        "situation": [
-          "A crisis about to spiral out of control.",
-          "The calm after a devastating storm: a situation where people are reeling from awful news or events."
-        ]
+        "person": {
+          "upright": "A serious person with a gloomy outlook, perhaps carrying bad news.",
+          "reverse": "A person who is grieving or delights in the suffering of others."
+        },
+        "creatureTrap": {
+          "upright": "A creature regarded as an ill omen, or signs that a dire creature approaches; alternatively, a trap marked by clear signs, perhaps surrounded by the corpses of its victims.",
+          "reverse": "The destruction left in the wake of a rampaging creature, or smaller creatures fleeing from a larger one."
+        },
+        "place": {
+          "upright": "A place with a connection to astronomical events: perhaps an observatory or a meteorite's crater.",
+          "reverse": "A ruin where a terrible event occurred in the past and that might now be haunted."
+        },
+        "treasure": {
+          "upright": "A treasure that carries a curse, or one whose power is destined to be used for destructive ends.",
+          "reverse": "A treasure formed or shaped by disaster, bloodstained or haunted by former owners: alternatively, something good arising from a bad situation."
+        },
+        "situation": {
+          "upright": "A crisis about to spiral out of control.",
+          "reverse": "The calm after a devastating storm: a situation where people are reeling from awful news or events."
+        }
       }
     },
     "Construct": {
       "name": "Construct",
       "description": "A modron wields a wrench in the interior of a clockwork machine. This card signifies things made by hand, including Constructs.",
       "meanings": {
-        "person": [
-          "An artisan who delights in handcrafted goods.",
-          "A person who scorns the idea of working with their hands."
-        ],
-        "creatureTrap": [
-          "A construct, particularly designed to be animated (like a golem) as opposed to an ordinary object (like a broom or rug) that has been animated.",
-          "A creature able to destroy buildings and objects, such as one with the Siege Monster trait."
-        ],
-        "place": [
-          "A workshop or art studio.",
-          "A garbage heap or another place where objects are discarded."
-        ],
-        "treasure": [
-          "An exquisitely crafted art object (especially one with practical use) or magical tools.",
-          "An object fashioned with minimum ation of its raw materials, or a magic item useful against Constructs (such as a Mace of Smiting)."
-        ],
-        "situation": [
-          "An artisan attempting to bring a construct to life.",
-          "A rueful artisan attempting to destroy a Construct that has broken free of all restraint."
-        ]
+        "person": {
+          "upright": "An artisan who delights in handcrafted goods.",
+          "reverse": "A person who scorns the idea of working with their hands."
+        },
+        "creatureTrap": {
+          "upright": "A construct, particularly designed to be animated (like a golem) as opposed to an ordinary object (like a broom or rug) that has been animated.",
+          "reverse": "A creature able to destroy buildings and objects, such as one with the Siege Monster trait."
+        },
+        "place": {
+          "upright": "A workshop or art studio.",
+          "reverse": "A garbage heap or another place where objects are discarded."
+        },
+        "treasure": {
+          "upright": "An exquisitely crafted art object (especially one with practical use) or magical tools.",
+          "reverse": "An object fashioned with minimum alteration of its raw materials, or a magic item useful against Constructs (such as a Mace of Smiting)."
+        },
+        "situation": {
+          "upright": "An artisan attempting to bring a construct to life.",
+          "reverse": "A rueful artisan attempting to destroy a Construct that has broken free of all restraint."
+        }
       }
     },
     "Corpse": {
       "name": "Corpse",
       "description": "An adventurer lies dead in a dungeon hallway, pierced by arrows. The Corpse card embodies decay and corruption.",
       "meanings": {
-        "person": [
-          "An evil person whose morality has rotted away.",
-          "A good person who remains uncorrupted despite being surrounded by wickedness."
-        ],
-        "creatureTrap": [
-          "A zombie or similar corporeal Undead whose flesh is decaying, or a trapped corpse.",
-          "An Ooze or fungus creature that facilitates the decomposition of corpses."
-        ],
-        "place": [
-          "Somewhere things are left to rot, such as a graveyard or charnel house.",
-          "A place where fungus grows abundantly on a diet of rotting flesh."
-        ],
-        "treasure": [
-          "An art object depicting dead bodies, a corpse just starting to decay, or a magic item that causes decay (such as a Staff of Withering).",
-          "A treasure that remains uncorrupted in the midst of rot."
-        ],
-        "situation": [
-          "An organization or institution overwhelmed by corruption.",
-          "An attempt to corrupt a respected and noble organization."
-        ]
+        "person": {
+          "upright": "An evil person whose morality has rotted away.",
+          "reverse": "A good person who remains uncorrupted despite being surrounded by wickedness."
+        },
+        "creatureTrap": {
+          "upright": "A zombie or similar corporeal Undead whose flesh is decaying, or a trapped corpse.",
+          "reverse": "An Ooze or fungus creature that facilitates the decomposition of corpses."
+        },
+        "place": {
+          "upright": "Somewhere things are left to rot, such as a graveyard or charnel house.",
+          "reverse": "A place where fungus grows abundantly on a diet of rotting flesh."
+        },
+        "treasure": {
+          "upright": "An art object depicting dead bodies, a corpse just starting to decay, or a magic item that causes decay (such as a Staff of Withering).",
+          "reverse": "A treasure that remains uncorrupted in the midst of rot."
+        },
+        "situation": {
+          "upright": "An organization or institution overwhelmed by corruption.",
+          "reverse": "An attempt to corrupt a respected and noble organization."
+        }
       }
     },
     "Crossroads": {
       "name": "Crossroads",
       "description": "A signpost points in many directions at a crossroads. The Crossroads cards warns of a difficult but necessary decision.",
       "meanings": {
-        "person": [
-          "A person agonizing about a difficult decision or who regrets a recent decision.",
-          "A person who refuses to make decisions, relying instead on inaction or random determination."
-        ],
-        "creatureTrap": [
-          "A creature that induces confusion or erratic behavior (such as an umber hulk).",
-          "A creature that prevents others from acting (such as a ghoul)."
-        ],
-        "place": [
-          "A crossroads, or a settlement where trade routes cross.",
-          "A place that constrains movement, such as a narrow ravine or passage."
-        ],
-        "treasure": [
-          "An art object that depicts a crossroads or cross patterns, or a magic item with multiple properties or uses (such as a staff).",
-          "An art object featuring overlapping circular patterns, or a magic item that does only does one thing a limited number of times (such as a wand)."
-        ],
-        "situation": [
-          "A choice between options that are equally appealing\u2014or equally disastrous.",
-          "A situation stemming from someone's refusal to act or choose."
-        ]
+        "person": {
+          "upright": "A person agonizing about a difficult decision or who regrets a recent decision.",
+          "reverse": "A person who refuses to make decisions, relying instead on inaction or random determination."
+        },
+        "creatureTrap": {
+          "upright": "A creature that induces confusion or erratic behavior (such as an umber hulk).",
+          "reverse": "A creature that prevents others from acting (such as a ghoul)."
+        },
+        "place": {
+          "upright": "A crossroads, or a settlement where trade routes cross.",
+          "reverse": "A place that constrains movement, such as a narrow ravine or passage."
+        },
+        "treasure": {
+          "upright": "An art object that depicts a crossroads or cross patterns, or a magic item with multiple properties or uses (such as a staff).",
+          "reverse": "An art object featuring overlapping circular patterns, or a magic item that does only does one thing a limited number of times (such as a wand)."
+        },
+        "situation": {
+          "upright": "A choice between options that are equally appealing\u2014or equally disastrous.",
+          "reverse": "A situation stemming from someone's refusal to act or choose."
+        }
       }
     },
     "Donjon": {
       "name": "Donjon",
       "description": "Underground stairs lead to a heavy door made of iron bars. This card represents both imprisonment and freedom.",
       "meanings": {
-        "person": [
-          "A prisoner, or a person who feels trapped.",
-          "A recently freed or escaped prisoner, or a free thinker who rejects social norms."
-        ],
-        "creatureTrap": [
-          "A creature that grapples or swallows prey whole.",
-          "A creature that has escaped from captivity or gone feral."
-        ],
-        "place": [
-          "A place of imprisonment, such as a literal dungeon or a menagerie.",
-          "A prison broken open, or a place associated with liberation (such as a monument commemorating emancipation)."
-        ],
-        "treasure": [
-          "A treasure locked in a vault, or magic with the power to bind or imprison.",
-          "A treasure that once held a being captive, such as an Efreeti Bottle that has lost its magic or an empty Iron Flask."
-        ],
-        "situation": [
-          "An impasse, a situation that threatens someone's freedom, or a situation where someone's indecision is keeping everyone in suspense.",
-          "A situation that requires creative solutions, or an effort to free people or creatures from captivity."
-        ]
+        "person": {
+          "upright": "A prisoner, or a person who feels trapped.",
+          "reverse": "A recently freed or escaped prisoner, or a free thinker who rejects social norms."
+        },
+        "creatureTrap": {
+          "upright": "A creature that grapples or swallows prey whole.",
+          "reverse": "A creature that has escaped from captivity or gone feral."
+        },
+        "place": {
+          "upright": "A place of imprisonment, such as a literal dungeon or a menagerie.",
+          "reverse": "A prison broken open, or a place associated with liberation (such as a monument commemorating emancipation)."
+        },
+        "treasure": {
+          "upright": "A treasure locked in a vault, or magic with the power to bind or imprison.",
+          "reverse": "A treasure that once held a being captive, such as an Efreeti Bottle that has lost its magic or an empty Iron Flask."
+        },
+        "situation": {
+          "upright": "An impasse, a situation that threatens someone's freedom, or a situation where someone's indecision is keeping everyone in suspense.",
+          "reverse": "A situation that requires creative solutions, or an effort to free people or creatures from captivity."
+        }
       }
     },
     "Door": {
       "name": "Door",
       "description": "A large wooden door bars the path ahead. The card offers an opportunity to change.",
       "meanings": {
-        "person": [
-          "Someone trying to make amends for past misdeeds and adopt a better way of life.",
-          "A person who keeps repeating the same mistakes and misdeeds."
-        ],
-        "creatureTrap": [
-          "A creature that changes form, or a trapped door.",
-          "A creature that causes its prey or enemies to change, such as a lycanthrope or slaad."
-        ],
-        "place": [
-          "A door, an open doorway, or a passage from one place to another.",
-          "A locked door or barricaded passage."
-        ],
-        "treasure": [
-          "An art object that looks very different from various perspectives, or a magic item that creates portals or allows teleportation (such as an Amulet of the Planes).",
-          "A jeweled chest or lockbox, or a magic item that resists change (such as an Immovable Rod)."
-        ],
-        "situation": [
-          "An opportunity to deal with a situation differently than you have in the past.",
-          "A situation that keeps recurring."
-        ]
+        "person": {
+          "upright": "Someone trying to make amends for past misdeeds and adopt a better way of life.",
+          "reverse": "A person who keeps repeating the same mistakes and misdeeds."
+        },
+        "creatureTrap": {
+          "upright": "A creature that changes form, or a trapped door.",
+          "reverse": "A creature that causes its prey or enemies to change, such as a lycanthrope or slaad."
+        },
+        "place": {
+          "upright": "A door, an open doorway, or a passage from one place to another.",
+          "reverse": "A locked door or barricaded passage."
+        },
+        "treasure": {
+          "upright": "An art object that looks very different from various perspectives, or a magic item that creates portals or allows teleportation (such as an Amulet of the Planes).",
+          "reverse": "A jeweled chest or lockbox, or a magic item that resists change (such as an Immovable Rod)."
+        },
+        "situation": {
+          "upright": "An opportunity to deal with a situation differently than you have in the past.",
+          "reverse": "A situation that keeps recurring."
+        }
       }
     },
     "Dragon": {
@@ -574,28 +574,28 @@
     },
     "Fool": {
       "name": "Fool",
-      "description": "A jester or fool figure, representing new beginnings, innocence, and taking leaps of faith.",
+      "description": "A person walks down a path, unwittingly dropping items along the way. The Fool card represents innocence.",
       "meanings": {
-        "person": [
-          "A naive or innocent individual starting a new journey",
-          "Someone making reckless or foolish decisions"
-        ],
-        "creatureTrap": [
-          "A harmless creature that appears threatening but is actually benign",
-          "A dangerous trap disguised as something innocent"
-        ],
-        "place": [
-          "A new territory or unexplored area full of possibilities",
-          "A dangerous cliff or precipice where one might fall"
-        ],
-        "treasure": [
-          "A simple item with unexpected magical properties",
-          "A cursed item that brings misfortune to the unwary"
-        ],
-        "situation": [
-          "The beginning of a new adventure or quest",
-          "A situation where hasty action leads to trouble"
-        ]
+        "person": {
+          "upright": "An innocent or naive person blissfully ignorant of the world's sinister side, possibly a child.",
+          "reverse": "A con artist who preys on the innocent and gullible while presenting a trustworthy facade."
+        },
+        "creatureTrap": {
+          "upright": "A naive Celestial or a flighty Fey, or a trap with a simple or obvious means of avoiding it.",
+          "reverse": "A creature that changes shape to appear harmless so it can get close to its prey, or a trap that is difficult to avoid."
+        },
+        "place": {
+          "upright": "A place connected with children, such as a nursery, an orphanage, or a school.",
+          "reverse": "A place tied to the loss of innocence, such as a harsh orphanage or exploitative workhouse."
+        },
+        "treasure": {
+          "upright": "A portrait of a child, jewelry meant for a child, or a magic item connected to the Upper Planes.",
+          "reverse": "A treasure stolen from a child or naive person, or magic intended to deceive (such as a Hat of Disguise)."
+        },
+        "situation": {
+          "upright": "A situation requiring trust, honesty, and a leap of faith.",
+          "reverse": "A guileless person being manipulated by schemers."
+        }
       }
     },
     "Gem": {
@@ -626,80 +626,80 @@
     },
     "Giant": {
       "name": "Giant",
-      "description": "A massive humanoid figure, representing overwhelming power, strength, and forces beyond normal scale.",
+      "description": "A hungry troll lurks in a forest clearing. The Giant card indicates something very large or that looms large in one's perception.",
       "meanings": {
-        "person": [
-          "A powerful leader or authority figure with great influence",
-          "Someone who abuses their power or acts as a bully"
-        ],
-        "creatureTrap": [
-          "A massive creature of incredible strength and endurance",
-          "A seemingly powerful foe that is actually weak in some way"
-        ],
-        "place": [
-          "A vast stronghold or mountain fortress",
-          "Unstable terrain that could collapse under great weight"
-        ],
-        "treasure": [
-          "Massive wealth or artifacts of great size and power",
-          "Treasure that is too large or heavy to be practical"
-        ],
-        "situation": [
-          "A challenge that requires great strength or resources to overcome",
-          "Being overwhelmed by forces too large to handle"
-        ]
+        "person": {
+          "upright": "A family member, a dear friend, or another personally important individual; alternatively, a very tall person.",
+          "reverse": "A person who seems insignificant."
+        },
+        "creatureTrap": {
+          "upright": "A Giant, a giant animal, or another big creature.",
+          "reverse": "A Tiny creature that's a greater threat than its size suggests."
+        },
+        "place": {
+          "upright": "A place constructed by Giants, or a place of great personal significance.",
+          "reverse": "Somewhere destroyed by Giants."
+        },
+        "treasure": {
+          "upright": "A treasure made by Giants, or one of great sentimental value.",
+          "reverse": "A treasure depicting or commemorating the slaying of a Giant, or a magic item useful against Giants (such as a Giant Slayer)."
+        },
+        "situation": {
+          "upright": "Someone attaching outsize importance to one element of the situation, to the neglect of other factors.",
+          "reverse": "Someone unable or unwilling to recognize the importance of a critical factor."
+        }
       }
     },
     "Humanoid": {
       "name": "Humanoid",
-      "description": "A figure representing civilized peoples, communities, and the bonds of society.",
+      "description": "Kobolds set a trap in their cave lair. This card points to the importance of empathy in relationships with other people.",
       "meanings": {
-        "person": [
-          "A helpful ally, friend, or member of the community",
-          "A deceitful person who hides malicious intent behind a friendly facade"
-        ],
-        "creatureTrap": [
-          "Intelligent creatures that can be reasoned with or befriended",
-          "Shapeshifters or imposters pretending to be allies"
-        ],
-        "place": [
-          "A welcoming settlement, town, or civilized area",
-          "A place where social tensions or conflicts divide the community"
-        ],
-        "treasure": [
-          "Items of cultural or sentimental value to a community",
-          "Stolen goods or items obtained through betrayal"
-        ],
-        "situation": [
-          "Opportunities for cooperation, diplomacy, or building relationships",
-          "Situations involving deception, betrayal, or social conflict"
-        ]
+        "person": {
+          "upright": "An empathetic person who's deeply concerned about the suffering of others.",
+          "reverse": "Someone who feels no empathy for others."
+        },
+        "creatureTrap": {
+          "upright": "A shapeshifter that takes on Humanoid appearance to blend in, perhaps to learn from them or to influence them toward good.",
+          "reverse": "A shapeshifter that takes on Humanoid appearance to prey on Humanoids."
+        },
+        "place": {
+          "upright": "A place where diverse people live together in harmony.",
+          "reverse": "A place where people live apart from others, by choice or by force (such as a monastery or a cultural enclave)."
+        },
+        "treasure": {
+          "upright": "A treasure representing the collaboration of different artisans (such as a finely cut gem set in exquisite jewelry), or a magic item that facilitates peace and understanding.",
+          "reverse": "An art object depicting or celebrating war; alternatively, a magic item made to be used in war, or that is especially useful against Humanoids."
+        },
+        "situation": {
+          "upright": "A situation that calls for empathy and compassion if it's to be resolved without violence.",
+          "reverse": "A violent situation arising from a lack of empathy."
+        }
       }
     },
     "Jester": {
       "name": "Jester",
-      "description": "A colorful entertainer or trickster, representing humor, chaos, and unexpected wisdom through folly.",
+      "description": "A person wearing jester's motley and holding a staff rests his foot on a skull. This card deals with the relationship between humor and misfortune.",
       "meanings": {
-        "person": [
-          "A wise individual who teaches through humor and unconventional methods",
-          "A chaotic troublemaker who causes confusion and mischief"
-        ],
-        "creatureTrap": [
-          "A playful creature that tests adventurers with riddles or tricks",
-          "A malicious entity that uses humor to mask dangerous intent"
-        ],
-        "place": [
-          "A place of entertainment, festivals, or celebration",
-          "A location where appearances are deceiving and nothing is as it seems"
-        ],
-        "treasure": [
-          "Items that appear worthless but have hidden value or power",
-          "Cursed items that bring both benefit and misfortune"
-        ],
-        "situation": [
-          "Moments where humor or creativity solve serious problems",
-          "Chaotic situations where plans go awry in unexpected ways"
-        ]
+        "person": {
+          "upright": "An optimistic person who laughs at their own misfortune.",
+          "reverse": "A person who laughs at the misfortunes of others."
+        },
+        "creatureTrap": {
+          "upright": "A monster some consider silly, such as a flumph, an owlbear, or a gelatinous cube.",
+          "reverse": "A creature with an unsettling laugh, such as a gnoll or hyena, or a creature with a cruel sense of humor."
+        },
+        "place": {
+          "upright": "A place dedicated to amusement, such as a fairground or a feasting hall.",
+          "reverse": "A place associated with cruelty and pain, such as a torture chamber."
+        },
+        "treasure": {
+          "upright": "A humorous art object or magic item, such as a Wand of Wonder.",
+          "reverse": "An art object depicting pain or humiliation, or a magic item meant to inflict pain (such as a Sword of Wounding)."
+        },
+        "situation": {
+          "upright": "A hilarious situation stemming from miscommunication and misplaced assumptions.",
+          "reverse": "One misfortune piling on another in a way that would be humorous\u2014if it weren't disastrous."
+        }
       }
     },
     "Key": {
@@ -732,182 +732,182 @@
       "name": "Knight",
       "description": "A knight formed of folded cards offers a sword also made from cards. The Knight card signifies trust and loyalty.",
       "meanings": {
-        "person": [
-          "A trustworthy person who _honors their commitments.",
-          "A person who can't be trusted, or a traitor posing as a loyal friend."
-        ],
-        "creatureTrap": [
-          "A creature bound by oaths or who serves someone else.",
-          "A knight who has failed to live up to their code of honor (such as a death knight)."
-        ],
-        "place": [
-          "A place of sanctuary, where strong traditions protect those who take shelter inside.",
-          "A place where a great betrayal took place, or a location with treacherous terrain or traps."
-        ],
-        "treasure": [
-          "A treasure celebrating or commemorating an oath (such as a wedding ring), or magic weapons or armor associated with knights or paladins.",
-          "A treasure that carries a hidden curse, or a magic item that fails when it's needed most."
-        ],
-        "situation": [
-          "A situation that requires loyalty in one's companions and faithfulness to them.",
-          "A situation involving the betrayal of trust, or rampant suspicion."
-        ]
+        "person": {
+          "upright": "A trustworthy person who honors their commitments.",
+          "reverse": "A person who can't be trusted, or a traitor posing as a loyal friend."
+        },
+        "creatureTrap": {
+          "upright": "A creature bound by oaths or who serves someone else.",
+          "reverse": "A knight who has failed to live up to their code of honor (such as a death knight)."
+        },
+        "place": {
+          "upright": "A place of sanctuary, where strong traditions protect those who take shelter inside.",
+          "reverse": "A place where a great betrayal took place, or a location with treacherous terrain or traps."
+        },
+        "treasure": {
+          "upright": "A treasure celebrating or commemorating an oath (such as a wedding ring), or magic weapons or armor associated with knights or paladins.",
+          "reverse": "A treasure that carries a hidden curse, or a magic item that fails when it's needed most."
+        },
+        "situation": {
+          "upright": "A situation that requires loyalty in one's companions and faithfulness to them.",
+          "reverse": "A situation involving the betrayal of trust, or rampant suspicion."
+        }
       }
     },
     "Lance": {
       "name": "Lance",
-      "description": "A long spear or lance, representing focused attack, precision, and the ability to strike from a distance.",
+      "description": "An ornate dragonlance shines among more ordinary weapons on a rack. The Lance card warns that healing sometimes requires additional injury, as when infection must be cut away.",
       "meanings": {
-        "person": [
-          "A skilled warrior with focus and precision in combat",
-          "Someone who strikes without warning or consideration for others"
-        ],
-        "creatureTrap": [
-          "Creatures with natural weapons like spikes, horns, or stingers",
-          "Hidden spikes or piercing traps that activate unexpectedly"
-        ],
-        "place": [
-          "A battlefield or arena where combat skills are tested",
-          "A dangerous passage with numerous piercing hazards"
-        ],
-        "treasure": [
-          "Masterwork weapons or armor with exceptional reach or precision",
-          "Weapons that are difficult to wield or come with significant drawbacks"
-        ],
-        "situation": [
-          "Opportunities to strike decisively at the right moment",
-          "Situations where aggressive action leads to unintended consequences"
-        ]
+        "person": {
+          "upright": "A surgeon, or someone (such as a guard or soldier) who uses violence in pursuit of worthy societal goals.",
+          "reverse": "A person committed to pacifism or avoiding harm."
+        },
+        "creatureTrap": {
+          "upright": "A creature trained to fight alongside guards or soldiers.",
+          "reverse": "A creature uninterested in fighting, or a trap that restrains but doesn't cause damage."
+        },
+        "place": {
+          "upright": "A place where surgery is performed.",
+          "reverse": "A place where violence is forbidden."
+        },
+        "treasure": {
+          "upright": "A treasure made at great cost, or a magic weapon.",
+          "reverse": "A treasure celebrating the end of hostilities or the ideal of peace, or a magic item intended to prevent or end conflict."
+        },
+        "situation": {
+          "upright": "A situation in which additional pain is required to bring healing.",
+          "reverse": "A situation complicated by people avoiding any hint of conflict."
+        }
       }
     },
     "Mage": {
       "name": "Mage",
-      "description": "A robed spellcaster, representing arcane knowledge, magical power, and the pursuit of understanding.",
+      "description": "A warlock holds a black crystalline staff. This card suggests both mental acuity and arcane magic.",
       "meanings": {
-        "person": [
-          "A wise scholar or mentor with valuable magical knowledge",
-          "An arrogant or power-hungry individual who abuses magical abilities"
-        ],
-        "creatureTrap": [
-          "Magical creatures or constructs with spellcasting abilities",
-          "Magical traps that require specific knowledge or counterspells to bypass"
-        ],
-        "place": [
-          "A library, tower, or academy where magical knowledge is preserved",
-          "A place corrupted or warped by uncontrolled magical energies"
-        ],
-        "treasure": [
-          "Spell scrolls, magical tomes, or arcane components",
-          "Cursed magical items that corrupt or drain the user"
-        ],
-        "situation": [
-          "Problems that require magical solutions or arcane knowledge",
-          "Situations where magical interference complicates simple matters"
-        ]
+        "person": {
+          "upright": "A person (perhaps a sorcerer, warlock, or wizard) who uses arcane magic or other specialized learning.",
+          "reverse": "A person who wrongly believes their good luck is the result of innate magical ability or a magical good luck charm."
+        },
+        "creatureTrap": {
+          "upright": "A creature with abilities similar to those of a sorcerer, warlock, or wizard.",
+          "reverse": "A creature that resists or negates magic."
+        },
+        "place": {
+          "upright": "A place dedicated to the study of arcane magic or that is suffused with such magic.",
+          "reverse": "A place where magic has caused destruction, doesn't work (like the effect of an Antimagic Field), or works unpredictably (perhaps triggering wild magic surges)."
+        },
+        "treasure": {
+          "upright": "A magic item such as a wand or staff, or a wizard's spellbook.",
+          "reverse": "An art object created by the use of magic, or a magic item with unpredictable effects (such as a Wand of Wonder)."
+        },
+        "situation": {
+          "upright": "A situation that requires and rewards the correct use of arcane magic.",
+          "reverse": "A situation caused by magic misused or out of control."
+        }
       }
     },
     "Map": {
       "name": "Map",
-      "description": "A detailed chart or map, representing guidance, navigation, and the knowledge needed to find one's way.",
+      "description": "X marks the spot on an elaborate treasure map. The Map card provides guidance that leads to the goal of the quest.",
       "meanings": {
-        "person": [
-          "A guide or navigator who knows the way forward",
-          "Someone who provides misleading directions or false information"
-        ],
-        "creatureTrap": [
-          "Creatures that can track or navigate expertly through terrain",
-          "Illusory or shape-shifting creatures that lead travelers astray"
-        ],
-        "place": [
-          "A location that serves as a crossroads or navigation point",
-          "A confusing maze or area where normal navigation fails"
-        ],
-        "treasure": [
-          "Charts, maps, or navigational tools of great value",
-          "False maps or misleading documents that lead to danger"
-        ],
-        "situation": [
-          "Clear direction and guidance toward achieving goals",
-          "Confusion about which path to take or being lost"
-        ]
+        "person": {
+          "upright": "A person who acts as a guide, showing the way forward.",
+          "reverse": "Someone who tries to lead you on the wrong path."
+        },
+        "creatureTrap": {
+          "upright": "A creature that tracks by scent.",
+          "reverse": "A creature (such as a will-o'-wisp) that leads travelers astray."
+        },
+        "place": {
+          "upright": "A path or road.",
+          "reverse": "A demiplane or similar place that can't be found on maps, or a location hidden behind a secret door."
+        },
+        "treasure": {
+          "upright": "A valuable map (perhaps a jeweled globe or rare atlas), or a magic item that provides direction.",
+          "reverse": "A treasure from another plane of existence, or a magic item that creates or accesses an extradimensional space (like a Portable Hole)."
+        },
+        "situation": {
+          "upright": "A situation best navigated with a guide.",
+          "reverse": "No guide or direction is available."
+        }
       }
     },
     "Maze": {
       "name": "Maze",
-      "description": "A complex labyrinth with winding passages, representing confusion, complexity, and the challenge of finding the right path.",
+      "description": "Unfortunate souls are trapped in an elaborate and impossible maze of cards. Those who draw the Maze card are lost.",
       "meanings": {
-        "person": [
-          "Someone with deep knowledge who can navigate complex situations",
-          "A person who creates confusion or deliberately complicates matters"
-        ],
-        "creatureTrap": [
-          "Creatures that excel at creating or navigating complex environments",
-          "Traps that involve multiple steps or misdirection to overcome"
-        ],
-        "place": [
-          "A complex dungeon or structure with multiple paths and secrets",
-          "A place where one easily becomes lost or trapped"
-        ],
-        "treasure": [
-          "Rewards hidden in the most difficult to reach locations",
-          "Treasures that are surrounded by complex puzzles or obstacles"
-        ],
-        "situation": [
-          "Complex problems that require careful navigation and patience",
-          "Overwhelming confusion where every choice seems to lead to more problems"
-        ]
+        "person": {
+          "upright": "A person who feels lost in their own life, unsure how to affect change, or a person with a wandering mind who takes their time getting to the point.",
+          "reverse": "A person running from expectations placed on them by family and society, trying to find a new path in life."
+        },
+        "creatureTrap": {
+          "upright": "A minotaur or another creature that hunts in a maze or is imprisoned in a maze.",
+          "reverse": "A creature whose behavior is unpredictable."
+        },
+        "place": {
+          "upright": "A maze, or a region (such as a forest or desert) where becoming lost is very easy.",
+          "reverse": "A simple labyrinth designed for meditation or to provide private nooks, or a location in which one is unlikely to get lost (such as a cave with only one exit)."
+        },
+        "treasure": {
+          "upright": "An art object depicting confusion or disorientation, or a magic item that can cause these states.",
+          "reverse": "An art object incorporating a labyrinth design."
+        },
+        "situation": {
+          "upright": "A confusing situation where it's difficult to perceive all the factors at play.",
+          "reverse": "A search for something or someone that has gone missing."
+        }
       }
     },
     "Mine": {
       "name": "Mine",
-      "description": "A deep excavation site, representing hidden wealth, dangerous depths, and the rewards of hard work.",
+      "description": "A well-crafted pick leans against a wall at the entrance to a mine. The Mine card represents something valuable underground or buried in the earth.",
       "meanings": {
-        "person": [
-          "A hardworking individual who uncovers hidden value through persistence",
-          "Someone who exploits others' labor or takes credit for others' work"
-        ],
-        "creatureTrap": [
-          "Creatures that burrow or live in underground environments",
-          "Cave-ins, gas pockets, or structural collapses in underground areas"
-        ],
-        "place": [
-          "Rich underground deposits of valuable materials or information",
-          "Dangerous underground areas prone to collapse or toxic conditions"
-        ],
-        "treasure": [
-          "Raw materials, gems, or precious metals of great value",
-          "Resources that require dangerous or expensive extraction methods"
-        ],
-        "situation": [
-          "Opportunities that require hard work but promise great rewards",
-          "Situations where pursuing gain leads to dangerous or unstable conditions"
-        ]
+        "person": {
+          "upright": "A miner or an archaeologist.",
+          "reverse": "Someone who places things in the earth, such as a gardener or an undertaker."
+        },
+        "creatureTrap": {
+          "upright": "A creature that burrows underground, especially one that delves into the earth in search of prey (such as a giant weasel).",
+          "reverse": "A creature that lives underground but hunts above ground (such as an ankheg or a bulette)."
+        },
+        "place": {
+          "upright": "A mine, an archaeological dig, or a similar excavated site.",
+          "reverse": "A place that has sunk into the earth, perhaps swallowed in a sinkhole or covered in a mudslide."
+        },
+        "treasure": {
+          "upright": "A treasure from the earth, such as metal ore or gems, or any treasure that has been buried and unearthed.",
+          "reverse": "A treasure buried in the earth."
+        },
+        "situation": {
+          "upright": "Something unearthed that should have remained buried.",
+          "reverse": "The retrieval of something buried."
+        }
       }
     },
     "Monstrosity": {
       "name": "Monstrosity",
-      "description": "An aberrant creature of unnatural origin, representing chaos, mutation, and things that defy natural order.",
+      "description": "An owlbear sits in a sunny glade. This card represents something monstrous, including familiar things that turn strange and threatening.",
       "meanings": {
-        "person": [
-          "An individual with unique abilities who stands apart from normal society",
-          "Someone whose actions or nature have become corrupted and inhuman"
-        ],
-        "creatureTrap": [
-          "Bizarre creatures with unusual abilities that defy expectations",
-          "Unnatural hazards or phenomena that operate by unknown rules"
-        ],
-        "place": [
-          "Locations touched by chaos or unnatural forces",
-          "Areas where reality is unstable or dangerous mutations occur"
-        ],
-        "treasure": [
-          "Unique items with strange properties that normal magic cannot explain",
-          "Cursed or tainted items that corrupt those who use them"
-        ],
-        "situation": [
-          "Unique challenges that require unconventional solutions",
-          "Situations that spiral into chaos beyond anyone's control"
-        ]
+        "person": {
+          "upright": "A familiar person whose behavior suddenly turns threatening.",
+          "reverse": "A person who seems dangerous or bizarre but is friendly and helpful."
+        },
+        "creatureTrap": {
+          "upright": "A Monstrosity, especially one that superficially resembles an ordinary animal or person (such as a displacer beast or doppelganger).",
+          "reverse": "A Monstrosity that is a potential ally, such as a hippogriff."
+        },
+        "place": {
+          "upright": "A familiar place that has become dangerous.",
+          "reverse": "A place that offers refuge in unfamiliar or dangerous terrain."
+        },
+        "treasure": {
+          "upright": "An art object depicting a Monstrosity or that incorporates claws, fur, or feathers from such a creature.",
+          "reverse": "A dead Monstrosity preserved by taxidermy, or a magic item useful against Monstrosities."
+        },
+        "situation": {
+          "upright": "A situation involving something or someone becoming more monstrous (literally or figuratively).",
+          "reverse": "Something that appears monstrous but is actually benign."
+        }
       }
     },
     "Moon": {
@@ -938,210 +938,213 @@
     },
     "Ooze": {
       "name": "Ooze",
-      "description": "A gelatinous, amorphous creature, representing adaptability, persistence, and slow but inevitable progress.",
+      "description": "A gelatinous cube with various items suspended inside it creeps through a vaulted sewer. The Ooze card indicates the importance of something that seems lowly or innocuous.",
       "meanings": {
-        "person": [
-          "Someone who adapts to any situation and persists despite obstacles",
-          "A person who slowly corrupts or consumes everything around them"
-        ],
-        "creatureTrap": [
-          "Creatures that are difficult to harm with conventional weapons",
-          "Slow-acting hazards that gradually become more dangerous over time"
-        ],
-        "place": [
-          "Locations that slowly change or adapt to circumstances",
-          "Areas that are slowly being consumed or corrupted by some force"
-        ],
-        "treasure": [
-          "Items that improve or adapt based on how they are used",
-          "Treasures that slowly degrade or corrupt over time"
-        ],
-        "situation": [
-          "Gradual progress that eventually leads to significant change",
-          "Slow-building problems that become serious if not addressed"
-        ]
+        "person": {
+          "upright": "A quiet, unassuming person who has hidden power or secret knowledge.",
+          "reverse": "A quiet, unassuming person completely out of their depth."
+        },
+        "creatureTrap": {
+          "upright": "An Ooze or another creature that seems unimportant, or a trap that is surprisingly simple and straightforward.",
+          "reverse": "An Ooze that has developed curiosity, unexpected intelligence, and a way to communicate, or a dangerous trap that is difficult to detect."
+        },
+        "place": {
+          "upright": "A humble place of surprising comfort or importance.",
+          "reverse": "A humble place with little to offer."
+        },
+        "treasure": {
+          "upright": "A treasure that is valuable but not beautiful, such as a poorly crafted piece of jewelry incorporating precious stones.",
+          "reverse": "An art object depicting an ooze or the destruction of a particularly notable Ooze; alternatively, a magic item useful against Oozes (such as a Ring of Acid Resistance)."
+        },
+        "situation": {
+          "upright": "Something important that has been overlooked because it seems ordinary.",
+          "reverse": "A situation complicated by the sheer number of minor factors tangled within it."
+        }
       }
     },
     "Path": {
       "name": "Path",
-      "description": "A winding trail or road, representing journey, choices, and the direction one takes in life.",
+      "description": "A well-worn path twists through the wilderness, with hidden dangers lurking in the shadows to both sides. This card suggests the importance of sticking with a plan and remaining focused on the destination.",
       "meanings": {
-        "person": [
-          "A guide or mentor who helps others find their way",
-          "Someone who leads others down the wrong path or into danger"
-        ],
-        "creatureTrap": [
-          "Creatures that patrol or guard specific routes or territories",
-          "Hazards that block progress or force difficult detours"
-        ],
-        "place": [
-          "A route that leads to important destinations or discoveries",
-          "A path that leads to danger, dead ends, or becomes impassable"
-        ],
-        "treasure": [
-          "Items found along the way that aid in travel or exploration",
-          "Obstacles or tolls that must be paid to continue forward"
-        ],
-        "situation": [
-          "Clear direction and progress toward goals",
-          "Being forced to take difficult detours or face unexpected obstacles"
-        ]
+        "person": {
+          "upright": "A goal-oriented person who knows exactly what they want and has a clear plan to get it.",
+          "reverse": "An aimless person who doesn't know what they want and has no idea how to decide."
+        },
+        "creatureTrap": {
+          "upright": "A creature single-mindedly pursuing prey or some other goal, or a trapped room navigable by only a single path.",
+          "reverse": "A creature that reacts to provocation without a clear plan or purpose; it might be acting on instinct or be confused."
+        },
+        "place": {
+          "upright": "A road or trail.",
+          "reverse": "A trackless wilderness, or an underground complex that is very difficult to traverse."
+        },
+        "treasure": {
+          "upright": "An art object depicting a road or path, or a magic item that allows divination (such as a Crystal Ball or a Spell Scroll of Find the Path).",
+          "reverse": "An abstract art object, or a magic item that foils divination (such as an Amulet of Proof against Detection and Location)."
+        },
+        "situation": {
+          "upright": "A situation that demands unwavering focus on the goal.",
+          "reverse": "A series of distractions that deflect attention from an important goal."
+        }
       }
     },
     "Pit": {
       "name": "Pit",
-      "description": "A deep hole or chasm, representing hidden dangers, sudden setbacks, and the risk of falling.",
+      "description": "A deep hole studded with spikes gapes in the earth. The Pit card represents a literal or metaphorical fall\u2014losing status, wealth, or position.",
       "meanings": {
-        "person": [
-          "Someone who helps others avoid hidden dangers or pitfalls",
-          "A person who creates traps or leads others into dangerous situations"
-        ],
-        "creatureTrap": [
-          "Creatures that attack from below or use burrowing tactics",
-          "Hidden pits, spike traps, or other concealed ground hazards"
-        ],
-        "place": [
-          "Deep caverns or chasms that lead to hidden areas",
-          "Unstable ground where one might fall into hidden dangers"
-        ],
-        "treasure": [
-          "Valuable items hidden in deep or hard-to-reach places",
-          "Treasures that are trapped or guarded by hidden dangers"
-        ],
-        "situation": [
-          "Opportunities to avoid or overcome hidden obstacles",
-          "Sudden setbacks or falling into unexpected difficulties"
-        ]
+        "person": {
+          "upright": "A person who has lost significant wealth, social status, or favor.",
+          "reverse": "A person in a precarious position who soon will have a calamitous fall."
+        },
+        "creatureTrap": {
+          "upright": "A pit trap, or a scavenger lurking at the bottom of a pit.",
+          "reverse": "A creature (such as a piercer) that attacks by falling on prey."
+        },
+        "place": {
+          "upright": "A pit or cliff that creates the risk of a fall.",
+          "reverse": "An abandoned mansion or palace that is in disrepair due to the owner's downfall."
+        },
+        "treasure": {
+          "upright": "An art object depicting someone's calamitous fall, or a magic item that allows falling safely (such as a Ring of Feather Falling).",
+          "reverse": "An art object depicting flight or incorporating feathers, or a magic item that grants flight (such as Winged Boots or a Cloak of the Bat)."
+        },
+        "situation": {
+          "upright": "A situation involving someone's fall from grace.",
+          "reverse": "A conspiracy to cause the downfall of a wealthy or prominent person."
+        }
       }
     },
     "Plant": {
       "name": "Plant",
-      "description": "A growing plant or tree, representing natural growth, patience, and the cycles of life.",
+      "description": "A myconid emits a cloud of spores. The Plant card reflects growth and natural life.",
       "meanings": {
-        "person": [
-          "Someone who nurtures growth and has patience for natural development",
-          "A person who becomes stagnant or overgrown with bad habits"
-        ],
-        "creatureTrap": [
-          "Plant creatures or beings connected to natural growth",
-          "Entangling vines, poisonous plants, or overgrown hazardous terrain"
-        ],
-        "place": [
-          "Fertile areas rich in natural resources and healing plants",
-          "Overgrown areas where nature has become wild and dangerous"
-        ],
-        "treasure": [
-          "Natural remedies, herbs, or items that grow in value over time",
-          "Resources that are seasonal or require specific conditions to obtain"
-        ],
-        "situation": [
-          "Gradual growth and development leading to positive outcomes",
-          "Stagnation or being overwhelmed by unchecked growth"
-        ]
+        "person": {
+          "upright": "A person who lives in the wilderness among trees and other growing things.",
+          "reverse": "A quiet person who enjoys gardening or farming, finding greenery more relatable than people."
+        },
+        "creatureTrap": {
+          "upright": "A Plant creature, or a creature that facilitates the growth of wild plants.",
+          "reverse": "A domesticated plant given artificial animation, such as an awakened tree or awakened shrub."
+        },
+        "place": {
+          "upright": "A verdant place where vegetation grows wild, untouched by people's hands.",
+          "reverse": "A place full of carefully pruned and neatly controlled vegetation, such as a topiary garden."
+        },
+        "treasure": {
+          "upright": "An art object crafted from wood or incorporating leaves; alternatively, a magic item that allows uncontrolled vegetation growth (such as a Bag of Beans).",
+          "reverse": "A treasure that incorporates living greenery, such as an ornate terrarium or a potted topiary, or a magic item that allows control of vegetation (such as a Staff of the Woodlands)."
+        },
+        "situation": {
+          "upright": "Something growing out of control with surprising, even supernatural, speed.",
+          "reverse": "A conflict between a region suffering a famine and a region with abundant crops."
+        }
       }
     },
     "Priest": {
       "name": "Priest",
-      "description": "A religious figure in ceremonial robes, representing divine power, healing, and spiritual guidance.",
+      "description": "A cleric holds a heavy mace. The Priest card represents wisdom, insight, closeness to the divine, and divine magic.",
       "meanings": {
-        "person": [
-          "A healer or spiritual guide who provides wisdom and comfort",
-          "A fanatic or false prophet who uses religion to manipulate others"
-        ],
-        "creatureTrap": [
-          "Divine creatures or beings blessed with healing powers",
-          "Cursed or corrupted religious sites with dangerous spiritual energy"
-        ],
-        "place": [
-          "Sacred temples or shrines that offer sanctuary and healing",
-          "Desecrated holy sites where divine power has been corrupted"
-        ],
-        "treasure": [
-          "Holy relics, blessed items, or divine magic that aids the faithful",
-          "Cursed religious artifacts that punish the unworthy"
-        ],
-        "situation": [
-          "Opportunities for healing, redemption, or spiritual growth",
-          "Religious conflicts or divine judgment that brings hardship"
-        ]
+        "person": {
+          "upright": "A person (perhaps a cleric, druid, or paladin) who uses divine magic or is very pious.",
+          "reverse": "A person devoted to a false god, or a cause that isn't worthy of devotion."
+        },
+        "creatureTrap": {
+          "upright": "A creature with abilities similar to those of a cleric, druid, or paladin.",
+          "reverse": "A demon or another creature opposed to the gods."
+        },
+        "place": {
+          "upright": "A temple, shrine, or similar place consecrated to a deity or natural force.",
+          "reverse": "A place that was consecrated but that has been abandoned or converted to secular use."
+        },
+        "treasure": {
+          "upright": "A magic item such as a Staff of Healing or a Holy Avenger; alternatively, valuable temple accouterments.",
+          "reverse": "An idol depicting an invented god or a demon lord."
+        },
+        "situation": {
+          "upright": "A problem that requires and rewards piety or the use of divine magic.",
+          "reverse": "A situation caused by impiety or misguided zealotry."
+        }
       }
     },
     "Prisoner": {
       "name": "Prisoner",
-      "description": "A figure bound in chains or behind bars, representing confinement, limitation, and the need for freedom.",
+      "description": "A rogue begs for release from a dank prison cell. The Prisoner card represents someone or something locked and hidden away.",
       "meanings": {
-        "person": [
-          "Someone who has been wrongly confined and deserves rescue",
-          "A dangerous individual who should remain imprisoned for everyone's safety"
-        ],
-        "creatureTrap": [
-          "Creatures that have been bound or imprisoned by ancient magic",
-          "Restraining devices or magical bindings that prevent escape"
-        ],
-        "place": [
-          "Prisons, dungeons, or secure facilities holding valuable captives",
-          "Places of confinement that have become corrupted or dangerous"
-        ],
-        "treasure": [
-          "Items that grant freedom or help overcome constraints",
-          "Cursed items that bind or constrain the user"
-        ],
-        "situation": [
-          "Opportunities to gain freedom or help others escape oppression",
-          "Being trapped by circumstances or bound by unbreakable obligations"
-        ]
+        "person": {
+          "upright": "A person held captive or bound by expectations.",
+          "reverse": "An individual who defies societal norms and expectations."
+        },
+        "creatureTrap": {
+          "upright": "A creature locked away to prevent it from harming people.",
+          "reverse": "A creature that grapples, swallows, or otherwise binds or imprisons its prey."
+        },
+        "place": {
+          "upright": "A place where things are put to keep them out of reach and memory.",
+          "reverse": "A place where something or someone is kept on public display."
+        },
+        "treasure": {
+          "upright": "A treasure securely locked away, or a magic item that contains a creature (such as an Elemental Gem or an Iron Flask).",
+          "reverse": "A prominently displayed treasure, such as a ruler's regalia."
+        },
+        "situation": {
+          "upright": "A situation arising from efforts to keep a person, an object, or information out of reach.",
+          "reverse": "The theft or liberation of a person, or an object on public display."
+        }
       }
     },
     "Puzzle": {
       "name": "Puzzle",
-      "description": "An intricate mechanical device or riddle, representing challenges that require intellect and patience to solve.",
+      "alias": [
+        "Idiot"
+      ],
+      "description": "An elaborate puzzle box floats in the air, glowing from within. The Puzzle card speaks to intelligence and strategic thinking.",
       "meanings": {
-        "person": [
-          "A clever individual who enjoys solving complex problems",
-          "Someone who makes things unnecessarily complicated or confusing"
-        ],
-        "creatureTrap": [
-          "Intelligent creatures that challenge adventurers with riddles or tests",
-          "Complex mechanical traps that require multiple steps to disarm"
-        ],
-        "place": [
-          "Locations with hidden mechanisms or secret knowledge to discover",
-          "Areas where simple actions have unexpected and complex consequences"
-        ],
-        "treasure": [
-          "Items that require skill or knowledge to unlock their true potential",
-          "Complex devices that are difficult to use or understand"
-        ],
-        "situation": [
-          "Problems that can be solved through careful thought and analysis",
-          "Overly complex situations where simple solutions are overlooked"
-        ]
+        "person": {
+          "upright": "A person with a keen mind for puzzles, or one who delights in clever banter and wordplay.",
+          "reverse": "A person who is very literal and direct."
+        },
+        "creatureTrap": {
+          "upright": "A brilliant creature that relies on careful plans and tactics rather than brute strength, or a trap that can be bypassed by solving a puzzle or riddle.",
+          "reverse": "A creature that delights in straightforward melee combat, relying on strength to overpower its foes."
+        },
+        "place": {
+          "upright": "A place with hidden doors and other secrets.",
+          "reverse": "A place with a simple, symmetrical floor plan."
+        },
+        "treasure": {
+          "upright": "A treasure whose function or value isn't immediately apparent.",
+          "reverse": "Coins or other treasure whose value is obvious and almost universally understood."
+        },
+        "situation": {
+          "upright": "A complex situation with many interconnected factors.",
+          "reverse": "A situation that's exactly what it appears to be."
+        }
       }
     },
     "Ring": {
       "name": "Ring",
-      "description": "A circular band of metal, representing bonds, commitments, and things that come full circle.",
+      "description": "An emerald ring glows within a decorative jewelry box. The Ring card suggests both a promise and the honor involved in keeping it.",
       "meanings": {
-        "person": [
-          "Someone who honors commitments and maintains strong relationships",
-          "A person trapped in cycles of behavior or bound by unwanted obligations"
-        ],
-        "creatureTrap": [
-          "Creatures that form protective circles or work in connected groups",
-          "Magical barriers or binding circles that prevent movement or escape"
-        ],
-        "place": [
-          "Circular or enclosed areas that offer protection and unity",
-          "Places where one becomes trapped in endless cycles or routines"
-        ],
-        "treasure": [
-          "Items that strengthen bonds between allies or enhance cooperation",
-          "Cursed items that create unwanted bonds or dependencies"
-        ],
-        "situation": [
-          "Completion of cycles, fulfillment of promises, or strengthened alliances",
-          "Being trapped in repetitive patterns or bound by restrictive agreements"
-        ]
+        "person": {
+          "upright": "Someone scrupulously faithful to a promise.",
+          "reverse": "A person who resents being bound to an oath sworn in haste or duress."
+        },
+        "creatureTrap": {
+          "upright": "A creature that has promised to serve someone.",
+          "reverse": "A creature unwillingly bound to serve someone (such as an invisible stalker)."
+        },
+        "place": {
+          "upright": "A place where oaths are sworn, such as a temple or courthouse.",
+          "reverse": "A place where a legendary figure was coerced into swearing an oath that led to their downfall."
+        },
+        "treasure": {
+          "upright": "A ring, either jewelry or a magic item.",
+          "reverse": "A bracelet or magic bracers."
+        },
+        "situation": {
+          "upright": "A situation complicated by a person's promise to do something.",
+          "reverse": "A situation arising from someone trying to abjure an oath."
+        }
       }
     },
     "Rogue": {
@@ -1224,54 +1227,54 @@
     },
     "Shield": {
       "name": "Shield",
-      "description": "A protective barrier held in defense, representing protection, security, and the ability to guard against harm.",
+      "description": "A circular shield is close at hand in a military barrack. The Shield card is a reminder of the need for protection.",
       "meanings": {
-        "person": [
-          "A protector or guardian who defends others from harm",
-          "Someone who hides behind defenses and avoids taking necessary risks"
-        ],
-        "creatureTrap": [
-          "Creatures with natural armor or defensive abilities",
-          "Barriers or defensive mechanisms that protect valuable areas"
-        ],
-        "place": [
-          "Fortified locations that offer safety and protection",
-          "Overly defensive places that become isolated or stagnant"
-        ],
-        "treasure": [
-          "Protective items, armor, or wards that defend against specific threats",
-          "Defensive items that hinder mobility or prevent necessary action"
-        ],
-        "situation": [
-          "Successfully defending against threats or protecting what matters",
-          "Being overly cautious and missing opportunities due to excessive caution"
-        ]
+        "person": {
+          "upright": "A protective parent or sibling, or a professional protector such as a sentry or guard.",
+          "reverse": "A guarded person who carefully shields themself from physical or emotional harm."
+        },
+        "creatureTrap": {
+          "upright": "A creature that protects others, such as a watchdog or shield guardian, or a warding trap designed to repel invaders.",
+          "reverse": "A heavily armored creature."
+        },
+        "place": {
+          "upright": "A defensive structure, such as a fortress or a castle wall.",
+          "reverse": "A hermitage or retreat meant to isolate one person from others."
+        },
+        "treasure": {
+          "upright": "A valuable or magical shield.",
+          "reverse": "A suit of armor that is valuable or magical."
+        },
+        "situation": {
+          "upright": "Someone who must protect those who can't protect themselves.",
+          "reverse": "A situation arising from someone selfishly protecting themself without heed to others."
+        }
       }
     },
     "Ship": {
       "name": "Ship",
-      "description": "A sailing vessel on the water, representing journeys, exploration, and crossing into unknown territories.",
+      "description": "A three-masted ship with a couatl figurehead sails across the open sea. The Ship card indicates a long journey, not necessarily by sea.",
       "meanings": {
-        "person": [
-          "An experienced traveler or explorer who opens new possibilities",
-          "Someone who abandons responsibilities or flees from commitments"
-        ],
-        "creatureTrap": [
-          "Aquatic creatures or beings that control waterways",
-          "Hazards related to water travel like storms, reefs, or whirlpools"
-        ],
-        "place": [
-          "Harbors, ports, or coastal areas that connect to distant lands",
-          "Dangerous waters or areas cut off from safe passage"
-        ],
-        "treasure": [
-          "Exotic goods from distant lands or navigational instruments",
-          "Cargo that is difficult to transport or contraband that brings trouble"
-        ],
-        "situation": [
-          "New opportunities for exploration and discovering distant possibilities",
-          "Being cut off from familiar support or facing uncertain journeys"
-        ]
+        "person": {
+          "upright": "A person who routinely travels long distances, such as a sailor, pilgrim, or nomad.",
+          "reverse": "A person who dreams of travel but has never wandered far from home."
+        },
+        "creatureTrap": {
+          "upright": "A creature that hunts a large territory or migrates great distances.",
+          "reverse": "A creature that rarely leaves its lair\u2014and is more powerful there."
+        },
+        "place": {
+          "upright": "A port city, harbor, caravansary, or similar hub for travelers.",
+          "reverse": "An isolated place that rarely sees travelers."
+        },
+        "treasure": {
+          "upright": "An art object depicting ships or travel, or a magic item that facilitates travel (such as a Folding Boat).",
+          "reverse": "A treasure still in the hands of the person who made it, or a magic item (such as Dimensional Shackles) that prevents magical movement."
+        },
+        "situation": {
+          "upright": "A situation that requires travel, or one that unfolds while traveling.",
+          "reverse": "A situation arising from someone's inability or unwillingness to travel."
+        }
       }
     },
     "Skull": {
@@ -1302,54 +1305,54 @@
     },
     "Staff": {
       "name": "Staff",
-      "description": "A long wooden rod or magical staff, representing authority, magical power, and the ability to direct energy.",
+      "description": "An elegant black staff leans against a wall, waiting for its owner to return. The Staff card represents support or assistance.",
       "meanings": {
-        "person": [
-          "A leader or authority figure who guides others with wisdom and power",
-          "Someone who abuses their position of authority or magical abilities"
-        ],
-        "creatureTrap": [
-          "Creatures that wield magical or supernatural powers",
-          "Magical wards or energy-based traps that require specific countermeasures"
-        ],
-        "place": [
-          "Seats of power, magical academies, or places where authority is exercised",
-          "Areas where power has been corrupted or magical energies are unstable"
-        ],
-        "treasure": [
-          "Magical implements, symbols of authority, or items that focus power",
-          "Items that grant power but corrupt the user or demand a price"
-        ],
-        "situation": [
-          "Opportunities to exercise leadership or channel power effectively",
-          "Situations where power is misused or authority is challenged"
-        ]
+        "person": {
+          "upright": "A person who offers physical, financial, or emotional support.",
+          "reverse": "A person in desperate need of assistance."
+        },
+        "creatureTrap": {
+          "upright": "A creature used as a mount or a tracker, or another sort of ally.",
+          "reverse": "A creature that's helpless or ineffective unless it can possess or be carried by another creature."
+        },
+        "place": {
+          "upright": "A place where support is offered or found, such as a library or a tavern.",
+          "reverse": "A place in immediate crisis, such as a location suddenly imperiled by fire or flood."
+        },
+        "treasure": {
+          "upright": "A magic staff, a jeweled cane or mobility aid, or a similar treasure.",
+          "reverse": "A treasure that needs repair before regaining its full value or magical potency."
+        },
+        "situation": {
+          "upright": "A group or organization that offers much-needed support.",
+          "reverse": "A group of people who need help from others."
+        }
       }
     },
     "Stairway": {
       "name": "Stairway",
-      "description": "A set of steps leading upward or downward, representing progress, elevation, and transitions between levels.",
+      "description": "A spiral stairway leads both up and down, but the downward stairs are cluttered and dark. This card points to a change in difficulty, either increasing or decreasing.",
       "meanings": {
-        "person": [
-          "Someone who helps others advance or reach higher levels of achievement",
-          "A person who looks down on others or creates barriers to advancement"
-        ],
-        "creatureTrap": [
-          "Creatures that control vertical spaces or have climbing abilities",
-          "Traps triggered by movement between different levels or elevations"
-        ],
-        "place": [
-          "Multi-level structures that lead to important upper or lower areas",
-          "Dangerous vertical passages where falling poses significant risk"
-        ],
-        "treasure": [
-          "Rewards that become available only after achieving certain levels",
-          "Items that are difficult to transport between different elevations"
-        ],
-        "situation": [
-          "Clear progression toward higher goals or deeper understanding",
-          "Setbacks that force retreat to lower levels or starting over"
-        ]
+        "person": {
+          "upright": "A person who makes every task more difficult than it needs to be, adding complications and getting in the way.",
+          "reverse": "A helpful, friendly person who makes everything easier (or at least more pleasant)."
+        },
+        "creatureTrap": {
+          "upright": "A creature that grows in power as battle continues (such as a black pudding or a hydra).",
+          "reverse": "A creature that is difficult to fight at first, but that becomes easier to defeat as the battle proceeds."
+        },
+        "place": {
+          "upright": "A place reached by descending stairs, such as a basement or a lower level of a dungeon.",
+          "reverse": "A place reached by ascending stairs, such as an attic or upper level of a dungeon."
+        },
+        "treasure": {
+          "upright": "An intricate treasure that was difficult to create, or a magic item that helps accomplish difficult tasks (such as an Ioun Stone of Mastery).",
+          "reverse": "A treasure that is simple and elegant."
+        },
+        "situation": {
+          "upright": "A situation more complicated or challenging than it appears.",
+          "reverse": "A situation much simpler than it appears."
+        }
       }
     },
     "Star": {
@@ -1380,28 +1383,28 @@
     },
     "Statue": {
       "name": "Statue",
-      "description": "A carved stone figure frozen in time, representing permanence, memory, and things that endure through ages.",
+      "description": "A statue depicts the god Istus offering the original Deck of Many Things as a gift. The Statue card is a reminder of the past.",
       "meanings": {
-        "person": [
-          "Someone who preserves important traditions or serves as a lasting example",
-          "A person who has become rigid, unchanging, or stuck in the past"
-        ],
-        "creatureTrap": [
-          "Creatures made of stone or those that can petrify others",
-          "Ancient guardians or constructs that activate when disturbed"
-        ],
-        "place": [
-          "Memorial sites, ancient ruins, or places that preserve important history",
-          "Locations frozen in time where nothing changes or grows"
-        ],
-        "treasure": [
-          "Ancient artifacts, historical records, or items of lasting value",
-          "Cursed items that turn things to stone or prevent change"
-        ],
-        "situation": [
-          "Establishing something permanent or honoring lasting achievements",
-          "Being stuck in unchanging patterns or refusing to adapt"
-        ]
+        "person": {
+          "upright": "Someone who takes great pride in a prominent ancestor.",
+          "reverse": "A person who lives in the shadow of a famous or important ancestor."
+        },
+        "creatureTrap": {
+          "upright": "An ancient creature that played an important part in a historical event.",
+          "reverse": "A creature that clings to a memory of fallen glory (such as a storm giant or a mind flayer), a creature in the guise of a statue (such as a mimic), or a statue that functions as a trap."
+        },
+        "place": {
+          "upright": "A park or plaza built around a statue.",
+          "reverse": "An immense ruin left behind by an ancient civilization."
+        },
+        "treasure": {
+          "upright": "A statuette or sculpture, either valuable or magical (such as a Figurine of Wondrous Power).",
+          "reverse": "An art object made in imitation of a more famous and valuable piece."
+        },
+        "situation": {
+          "upright": "A situation with remarkable similarities to a significant historical event.",
+          "reverse": "An attempt to re-create a historical situation or rebuild a fallen empire."
+        }
       }
     },
     "Sun": {
@@ -1458,54 +1461,54 @@
     },
     "Tavern": {
       "name": "Tavern",
-      "description": "A welcoming inn with warm light and gathered patrons, representing hospitality, information, and social gathering.",
+      "description": "An adventuring party eats and laughs in a busy tavern. The Tavern card points to the pleasure of spending time with friends.",
       "meanings": {
-        "person": [
-          "A hospitable host who provides comfort and valuable information",
-          "Someone who spreads gossip or uses social situations for manipulation"
-        ],
-        "creatureTrap": [
-          "Social creatures that gather in groups or communities",
-          "Situations where social pressure or group dynamics create danger"
-        ],
-        "place": [
-          "Gathering places where information, rest, and supplies are available",
-          "Places where too much revelry leads to poor decisions or conflict"
-        ],
-        "treasure": [
-          "Information, contacts, or social connections of great value",
-          "Items obtained through questionable deals or drunken wagers"
-        ],
-        "situation": [
-          "Opportunities to gather information, make allies, or find rest",
-          "Social complications, overindulgence, or information that proves unreliable"
-        ]
+        "person": {
+          "upright": "A genial person who delights in telling stories in good company.",
+          "reverse": "A person who ruins the happiness of pleasant company."
+        },
+        "creatureTrap": {
+          "upright": "A social creature that travels in packs.",
+          "reverse": "A parasite, vampire, or similar creature that siphons strength, happiness, or vitality from others, or a trap designed to separate those caught in it."
+        },
+        "place": {
+          "upright": "A tavern, restaurant, or similar place where people gather and eat socially.",
+          "reverse": "A place once used for social gatherings but now abandoned."
+        },
+        "treasure": {
+          "upright": "A jeweled goblet or other treasure related to eating and drinking.",
+          "reverse": "A jeweled goblet or similar treasure stained with blood or holding the remnants of poison."
+        },
+        "situation": {
+          "upright": "A tavern brawl.",
+          "reverse": "An attempt to kill many people at once as they gather for a meal."
+        }
       }
     },
     "Temple": {
       "name": "Temple",
-      "description": "A sacred building with soaring architecture, representing divine power, spiritual sanctuary, and higher purpose.",
+      "description": "A temple invites worshipers into the serene space within. The Temple card suggests the comfort found in ritual and communion with the divine.",
       "meanings": {
-        "person": [
-          "A holy person who provides spiritual guidance and divine assistance",
-          "A false prophet or corrupted religious figure who misleads the faithful"
-        ],
-        "creatureTrap": [
-          "Divine beings, angels, or creatures blessed with holy power",
-          "Cursed or desecrated areas where divine power has turned malevolent"
-        ],
-        "place": [
-          "Sacred sanctuaries that offer healing, protection, and divine blessing",
-          "Corrupted holy sites where divine power has been twisted or lost"
-        ],
-        "treasure": [
-          "Holy relics, blessed weapons, or items imbued with divine power",
-          "Cursed religious artifacts that punish those who misuse them"
-        ],
-        "situation": [
-          "Divine intervention, spiritual awakening, or receiving higher guidance",
-          "Religious conflict, loss of faith, or punishment for sacrilege"
-        ]
+        "person": {
+          "upright": "A devout person who performs frequent rituals to invoke divine favor.",
+          "reverse": "A superstitious person who performs frequent rituals to ward off supernatural evil."
+        },
+        "creatureTrap": {
+          "upright": "A temple guardian\u2014perhaps a Celestial, Construct, or guardian naga.",
+          "reverse": "A creature that bestows curses (such as a fomorian, rakshasa, or mummy)."
+        },
+        "place": {
+          "upright": "A temple, shrine, or other place of worship.",
+          "reverse": "An area where crime, vice, or other impious behaviors are widespread."
+        },
+        "treasure": {
+          "upright": "A valuable ritual object, such as a candelabra or sacrificial knife, or a magic item linked to worship or divine magic (such as a Candle of Invocation).",
+          "reverse": "A treasure with superstitious meaning perhaps an amulet meant to ward off evil (such as a Scarab of Protection)."
+        },
+        "situation": {
+          "upright": "A situation best resolved by an appeal to divine power or spiritual authorities.",
+          "reverse": "A situation stemming from a superstitious fear of curses or bad luck."
+        }
       }
     },
     "Throne": {
@@ -1536,106 +1539,106 @@
     },
     "Tomb": {
       "name": "Tomb",
-      "description": "An ancient burial chamber filled with shadows, representing death, endings, and the wisdom of the past.",
+      "description": "A burial chamber holds a plain stone casket. The Tomb card suggests buried secrets and things long forgotten.",
       "meanings": {
-        "person": [
-          "A wise elder who shares knowledge from past experiences",
-          "Someone dwelling on past failures or unable to move beyond old wounds"
-        ],
-        "creatureTrap": [
-          "Undead creatures or spirits that guard ancient secrets",
-          "Ancient traps or curses designed to protect burial sites"
-        ],
-        "place": [
-          "Ancient burial sites containing valuable historical knowledge",
-          "Cursed or haunted areas where the dead do not rest peacefully"
-        ],
-        "treasure": [
-          "Ancient artifacts, historical records, or items of the deceased",
-          "Cursed grave goods that bring misfortune to those who disturb them"
-        ],
-        "situation": [
-          "Learning from the past to avoid repeating old mistakes",
-          "Being haunted by past failures or unable to let go of what's gone"
-        ]
+        "person": {
+          "upright": "A person with a secret or a gap in their memory.",
+          "reverse": "A person trying to atone for a dreadful secret in their past."
+        },
+        "creatureTrap": {
+          "upright": "A mummy, wight, or similar Undead that lairs in its own tomb.",
+          "reverse": "An incorporeal Undead (such as a wraith or specter) that's not linked to the place of its death, burial place, or body."
+        },
+        "place": {
+          "upright": "A tomb, especially one that is forgotten.",
+          "reverse": "A memorial structure that doesn't contain a body."
+        },
+        "treasure": {
+          "upright": "Valuable or magical funerary treasure.",
+          "reverse": "An art object depicting a dead individual as they were in life."
+        },
+        "situation": {
+          "upright": "A situation no one wants to talk about or even acknowledge.",
+          "reverse": "A situation stemming from a buried secret that recently came to light."
+        }
       }
     },
     "Tower": {
       "name": "Tower",
-      "description": "A tall stone structure reaching toward the sky, representing ambition, isolation, and lofty goals.",
+      "description": "A tall, ornate tower made of black stone looms over a desolate landscape. The Tower card represents isolation.",
       "meanings": {
-        "person": [
-          "An ambitious visionary who reaches for great heights and achievements",
-          "Someone who becomes isolated through pride or builds barriers around themselves"
-        ],
-        "creatureTrap": [
-          "Flying creatures or beings that control high places",
-          "Defenses that require climbing or flying abilities to overcome"
-        ],
-        "place": [
-          "High vantage points that offer great views and strategic advantage",
-          "Isolated locations that are difficult to reach or escape from"
-        ],
-        "treasure": [
-          "Valuable items placed in high, secure locations",
-          "Treasures that are impressive but impractical or isolating"
-        ],
-        "situation": [
-          "Achieving great heights through ambition and careful planning",
-          "Becoming isolated through pride or setting goals too high to reach"
-        ]
+        "person": {
+          "upright": "A person who prefers solitude to the company of others.",
+          "reverse": "A desperately lonely person who craves close companionship."
+        },
+        "creatureTrap": {
+          "upright": "A reclusive creature.",
+          "reverse": "A creature cut off from others of its kind that is trying to find them, or a trap that targets a single creature."
+        },
+        "place": {
+          "upright": "A remote tower or similar place of isolation.",
+          "reverse": "A place that discourages interaction with others, such as a library or monastery, where rules of silence are strictly enforced."
+        },
+        "treasure": {
+          "upright": "An art object depicting an isolated place or a lonely person; alternatively, Daern's Instant Fortress or a similar magic item.",
+          "reverse": "An art object expressing the artist's profound loneliness."
+        },
+        "situation": {
+          "upright": "A situation that requires assistance or information from a reclusive person.",
+          "reverse": "A situation arising from someone's loneliness or boredom."
+        }
       }
     },
     "Tree": {
       "name": "Tree",
-      "description": "A mighty tree with deep roots and spreading branches, representing growth, stability, and connection to nature.",
+      "description": "A tree has broken through a fortress wall and reclaimed part of the keep. This card suggests perseverance in difficult circumstances.",
       "meanings": {
-        "person": [
-          "Someone with deep wisdom who provides shelter and guidance to others",
-          "A person who becomes rigid or unwilling to adapt to changing circumstances"
-        ],
-        "creatureTrap": [
-          "Nature spirits, dryads, or creatures that protect forest areas",
-          "Natural hazards like falling branches or entangling roots"
-        ],
-        "place": [
-          "Ancient groves or forests that offer wisdom and natural resources",
-          "Overgrown areas where nature has become wild and impassable"
-        ],
-        "treasure": [
-          "Natural remedies, wooden items of great craftsmanship, or druidic magic",
-          "Resources that require patience to cultivate or are tied to natural cycles"
-        ],
-        "situation": [
-          "Steady growth and development with strong foundations",
-          "Stagnation or being too rooted in place to adapt to new circumstances"
-        ]
+        "person": {
+          "upright": "A strong-willed person determined to persevere despite hostile conditions.",
+          "reverse": "Someone barely hanging on in hostile conditions."
+        },
+        "creatureTrap": {
+          "upright": "A creature that thrives in a hostile environment.",
+          "reverse": "A creature driven from its preferred environment and struggling to survive in a new region."
+        },
+        "place": {
+          "upright": "Somewhere vegetation makes an unexpected appearance: a park in a busy urban center or a tree growing on barren rock.",
+          "reverse": "A place cleared of natural growth."
+        },
+        "treasure": {
+          "upright": "A treasure featuring diamonds, pearls, or precious wood, or a magic item that increases endurance (such as an Amulet of Health).",
+          "reverse": "An art object or a magic item made from the wood of a tree struck by lightning."
+        },
+        "situation": {
+          "upright": "A small outpost or lone individual holding back a much larger force.",
+          "reverse": "An overwhelming threat against a small outpost or lone individual."
+        }
       }
     },
     "Undead": {
       "name": "Undead",
-      "description": "A skeletal or ghostly figure from beyond death, representing persistence beyond endings and unfinished business.",
+      "description": "A lich beckons souls of the dead. This card can point to anything that refuses to die, from old grudges and unresolved issues to Undead creatures.",
       "meanings": {
-        "person": [
-          "Someone who perseveres despite overwhelming obstacles or setbacks",
-          "A person who cannot let go of the past or move on from old grievances"
-        ],
-        "creatureTrap": [
-          "Undead creatures that rise again even when defeated",
-          "Curses or negative energy that drains life or prevents healing"
-        ],
-        "place": [
-          "Areas touched by death that hold important secrets or unfinished business",
-          "Cursed locations where negative energy prevents rest or peace"
-        ],
-        "treasure": [
-          "Items that persist beyond their normal limits or provide protection from death",
-          "Cursed items that bind the user to unpleasant obligations or drain vitality"
-        ],
-        "situation": [
-          "Persistence and determination that overcomes seemingly impossible odds",
-          "Being unable to move on or being haunted by unresolved issues"
-        ]
+        "person": {
+          "upright": "A person nursing a grudge beyond reason.",
+          "reverse": "A person too quick to forgive and forget, who never holds anyone accountable for their misdeeds."
+        },
+        "creatureTrap": {
+          "upright": "An Undead creature sustained by a thirst for revenge or an unfinished task, such as a ghost or revenant.",
+          "reverse": "An Undead creature that craves an end to its miserable, interminable existence."
+        },
+        "place": {
+          "upright": "A place haunted (literally or emotionally) by a terrible event that happened there.",
+          "reverse": "A place whose denizens have forgotten significant events that happened there."
+        },
+        "treasure": {
+          "upright": "A treasure depicting the dead or an Undead, something made from bones, or a magic item made by or for an Undead.",
+          "reverse": "An art object depicting the destruction of an Undead, or a magic item particularly useful against Undead (such as a Mace of Disruption)."
+        },
+        "situation": {
+          "upright": "Someone who refuses to leave the past in the past.",
+          "reverse": "A serial criminal who has been pardoned for past misdeeds and now continues their wicked ways."
+        }
       }
     },
     "Void": {
@@ -1666,54 +1669,54 @@
     },
     "Warrior": {
       "name": "Warrior",
-      "description": "An armored fighter with weapon in hand, representing strength, courage, and the willingness to fight for what matters.",
+      "description": "A barbarian holds a greataxe, The Warrior card embodies physical strength and fighting acumen.",
       "meanings": {
-        "person": [
-          "A brave defender who fights for justice and protects the innocent",
-          "An aggressive individual who resorts to violence too quickly"
-        ],
-        "creatureTrap": [
-          "Martial creatures with fighting skills and combat tactics",
-          "Combat-oriented challenges that require strength and skill to overcome"
-        ],
-        "place": [
-          "Training grounds, battlefields, or fortified positions for combat",
-          "Areas ravaged by conflict where violence has left lasting damage"
-        ],
-        "treasure": [
-          "Masterwork weapons, armor, or items that enhance combat abilities",
-          "Weapons or armor that come with the burden of past conflicts"
-        ],
-        "situation": [
-          "Opportunities to show courage and fight for important causes",
-          "Conflicts that escalate unnecessarily or violence that solves nothing"
-        ]
+        "person": {
+          "upright": "A person (perhaps a barbarian, fighter, or monk) who has trained in combat or served in the military.",
+          "reverse": "A bully who uses physical strength to intimidate others."
+        },
+        "creatureTrap": {
+          "upright": "A creature with abilities like those of a barbarian, fighter, or monk.",
+          "reverse": "A creature that relies on brute strength, or a trap that can be escaped through the application of brute strength."
+        },
+        "place": {
+          "upright": "A training yard or fort where warriors learn combat skills.",
+          "reverse": "A harsh environment where only the physically powerful survive."
+        },
+        "treasure": {
+          "upright": "A valuable or magical weapon or suit of armor.",
+          "reverse": "An unsubtle work of art."
+        },
+        "situation": {
+          "upright": "A situation that requires and rewards the skilled application of physical force.",
+          "reverse": "A situation involving bullying or extortion."
+        }
       }
     },
     "Well": {
       "name": "Well",
-      "description": "A stone-lined water source, representing depth, hidden resources, and the source of life and wisdom.",
+      "description": "A stone well stands in a peaceful meadow, surrounded by wildflowers. The Well card speaks of drawing resources from familiar places.",
       "meanings": {
-        "person": [
-          "Someone who provides essential resources or deep wisdom to others",
-          "A person who hoards resources or keeps important information hidden"
-        ],
-        "creatureTrap": [
-          "Creatures that live in or guard water sources",
-          "Hidden depths or underwater hazards that pose drowning risks"
-        ],
-        "place": [
-          "Sources of clean water, healing springs, or places of spiritual renewal",
-          "Polluted or cursed water sources that bring sickness or misfortune"
-        ],
-        "treasure": [
-          "Items that provide sustenance or have been preserved in deep waters",
-          "Treasures that are difficult to retrieve or come with water-related curses"
-        ],
-        "situation": [
-          "Discovering deep resources or wisdom that sustains through difficult times",
-          "Running dry of essential resources or finding that trusted sources are contaminated"
-        ]
+        "person": {
+          "upright": "A familiar person who is a reliable source of information and aid.",
+          "reverse": "A familiar person who refuses to provide expected aid."
+        },
+        "creatureTrap": {
+          "upright": "A familiar kind of creature, whose abilities are well understood.",
+          "reverse": "A familiar kind of creature whose behavior or abilities are surprising."
+        },
+        "place": {
+          "upright": "A well, a familiar shop, or a place where fresh water can be found.",
+          "reverse": "A well that has gone dry, or a familiar place that no longer offers the comforts it used to."
+        },
+        "treasure": {
+          "upright": "A reliable treasure (such as gold coins), or a magic item that produces food or water (such as a Decanter of Endless Water or an Alchemy Jug).",
+          "reverse": "A treasure with unexpected properties\u2014a hidden compartment or magical quirk that's not immediately evident."
+        },
+        "situation": {
+          "upright": "A familiar situation with a predictable outcome.",
+          "reverse": "A familiar situation that ends up defying expectations."
+        }
       }
     }
   }

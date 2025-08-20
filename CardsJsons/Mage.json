@@ -1,26 +1,26 @@
 {
     "name": "Mage",
-    "description": "A robed spellcaster, representing arcane knowledge, magical power, and the pursuit of understanding.",
+    "description": "A warlock holds a black crystalline staff. This card suggests both mental acuity and arcane magic.",
     "meanings": {
-        "person": [
-            "A wise scholar or mentor with valuable magical knowledge",
-            "An arrogant or power-hungry individual who abuses magical abilities"
-        ],
-        "creatureTrap": [
-            "Magical creatures or constructs with spellcasting abilities",
-            "Magical traps that require specific knowledge or counterspells to bypass"
-        ],
-        "place": [
-            "A library, tower, or academy where magical knowledge is preserved",
-            "A place corrupted or warped by uncontrolled magical energies"
-        ],
-        "treasure": [
-            "Spell scrolls, magical tomes, or arcane components",
-            "Cursed magical items that corrupt or drain the user"
-        ],
-        "situation": [
-            "Problems that require magical solutions or arcane knowledge",
-            "Situations where magical interference complicates simple matters"
-        ]
+        "person": {
+            "upright": "A person (perhaps a sorcerer, warlock, or wizard) who uses arcane magic or other specialized learning.",
+            "reverse": "A person who wrongly believes their good luck is the result of innate magical ability or a magical good luck charm."
+        },
+        "creatureTrap": {
+            "upright": "A creature with abilities similar to those of a sorcerer, warlock, or wizard.",
+            "reverse": "A creature that resists or negates magic."
+        },
+        "place": {
+            "upright": "A place dedicated to the study of arcane magic or that is suffused with such magic.",
+            "reverse": "A place where magic has caused destruction, doesn't work (like the effect of an Antimagic Field), or works unpredictably (perhaps triggering wild magic surges)."
+        },
+        "treasure": {
+            "upright": "A magic item such as a wand or staff, or a wizard's spellbook.",
+            "reverse": "An art object created by the use of magic, or a magic item with unpredictable effects (such as a Wand of Wonder)."
+        },
+        "situation": {
+            "upright": "A situation that requires and rewards the correct use of arcane magic.",
+            "reverse": "A situation caused by magic misused or out of control."
+        }
     }
 }

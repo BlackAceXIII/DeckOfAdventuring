@@ -1,26 +1,26 @@
 {
     "name": "Map",
-    "description": "A detailed chart or map, representing guidance, navigation, and the knowledge needed to find one's way.",
+    "description": "X marks the spot on an elaborate treasure map. The Map card provides guidance that leads to the goal of the quest.",
     "meanings": {
-        "person": [
-            "A guide or navigator who knows the way forward",
-            "Someone who provides misleading directions or false information"
-        ],
-        "creatureTrap": [
-            "Creatures that can track or navigate expertly through terrain",
-            "Illusory or shape-shifting creatures that lead travelers astray"
-        ],
-        "place": [
-            "A location that serves as a crossroads or navigation point",
-            "A confusing maze or area where normal navigation fails"
-        ],
-        "treasure": [
-            "Charts, maps, or navigational tools of great value",
-            "False maps or misleading documents that lead to danger"
-        ],
-        "situation": [
-            "Clear direction and guidance toward achieving goals",
-            "Confusion about which path to take or being lost"
-        ]
+        "person": {
+            "upright": "A person who acts as a guide, showing the way forward.",
+            "reverse": "Someone who tries to lead you on the wrong path."
+        },
+        "creatureTrap": {
+            "upright": "A creature that tracks by scent.",
+            "reverse": "A creature (such as a will-o'-wisp) that leads travelers astray."
+        },
+        "place": {
+            "upright": "A path or road.",
+            "reverse": "A demiplane or similar place that can't be found on maps, or a location hidden behind a secret door."
+        },
+        "treasure": {
+            "upright": "A valuable map (perhaps a jeweled globe or rare atlas), or a magic item that provides direction.",
+            "reverse": "A treasure from another plane of existence, or a magic item that creates or accesses an extradimensional space (like a Portable Hole)."
+        },
+        "situation": {
+            "upright": "A situation best navigated with a guide.",
+            "reverse": "No guide or direction is available."
+        }
     }
 }

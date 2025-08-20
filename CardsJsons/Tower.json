@@ -1,26 +1,26 @@
 {
     "name": "Tower",
-    "description": "A tall stone structure reaching toward the sky, representing ambition, isolation, and lofty goals.",
+    "description": "A tall, ornate tower made of black stone looms over a desolate landscape. The Tower card represents isolation.",
     "meanings": {
-        "person": [
-            "An ambitious visionary who reaches for great heights and achievements",
-            "Someone who becomes isolated through pride or builds barriers around themselves"
-        ],
-        "creatureTrap": [
-            "Flying creatures or beings that control high places",
-            "Defenses that require climbing or flying abilities to overcome"
-        ],
-        "place": [
-            "High vantage points that offer great views and strategic advantage",
-            "Isolated locations that are difficult to reach or escape from"
-        ],
-        "treasure": [
-            "Valuable items placed in high, secure locations",
-            "Treasures that are impressive but impractical or isolating"
-        ],
-        "situation": [
-            "Achieving great heights through ambition and careful planning",
-            "Becoming isolated through pride or setting goals too high to reach"
-        ]
+        "person": {
+            "upright": "A person who prefers solitude to the company of others.",
+            "reverse": "A desperately lonely person who craves close companionship."
+        },
+        "creatureTrap": {
+            "upright": "A reclusive creature.",
+            "reverse": "A creature cut off from others of its kind that is trying to find them, or a trap that targets a single creature."
+        },
+        "place": {
+            "upright": "A remote tower or similar place of isolation.",
+            "reverse": "A place that discourages interaction with others, such as a library or monastery, where rules of silence are strictly enforced."
+        },
+        "treasure": {
+            "upright": "An art object depicting an isolated place or a lonely person; alternatively, Daern's Instant Fortress or a similar magic item.",
+            "reverse": "An art object expressing the artist's profound loneliness."
+        },
+        "situation": {
+            "upright": "A situation that requires assistance or information from a reclusive person.",
+            "reverse": "A situation arising from someone's loneliness or boredom."
+        }
     }
 }

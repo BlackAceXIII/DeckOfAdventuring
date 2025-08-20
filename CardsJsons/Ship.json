@@ -1,26 +1,26 @@
 {
     "name": "Ship",
-    "description": "A sailing vessel on the water, representing journeys, exploration, and crossing into unknown territories.",
+    "description": "A three-masted ship with a couatl figurehead sails across the open sea. The Ship card indicates a long journey, not necessarily by sea.",
     "meanings": {
-        "person": [
-            "An experienced traveler or explorer who opens new possibilities",
-            "Someone who abandons responsibilities or flees from commitments"
-        ],
-        "creatureTrap": [
-            "Aquatic creatures or beings that control waterways",
-            "Hazards related to water travel like storms, reefs, or whirlpools"
-        ],
-        "place": [
-            "Harbors, ports, or coastal areas that connect to distant lands",
-            "Dangerous waters or areas cut off from safe passage"
-        ],
-        "treasure": [
-            "Exotic goods from distant lands or navigational instruments",
-            "Cargo that is difficult to transport or contraband that brings trouble"
-        ],
-        "situation": [
-            "New opportunities for exploration and discovering distant possibilities",
-            "Being cut off from familiar support or facing uncertain journeys"
-        ]
+        "person": {
+            "upright": "A person who routinely travels long distances, such as a sailor, pilgrim, or nomad.",
+            "reverse": "A person who dreams of travel but has never wandered far from home."
+        },
+        "creatureTrap": {
+            "upright": "A creature that hunts a large territory or migrates great distances.",
+            "reverse": "A creature that rarely leaves its lair—and is more powerful there."
+        },
+        "place": {
+            "upright": "A port city, harbor, caravansary, or similar hub for travelers.",
+            "reverse": "An isolated place that rarely sees travelers."
+        },
+        "treasure": {
+            "upright": "An art object depicting ships or travel, or a magic item that facilitates travel (such as a Folding Boat).",
+            "reverse": "A treasure still in the hands of the person who made it, or a magic item (such as Dimensional Shackles) that prevents magical movement."
+        },
+        "situation": {
+            "upright": "A situation that requires travel, or one that unfolds while traveling.",
+            "reverse": "A situation arising from someone's inability or unwillingness to travel."
+        }
     }
 }
