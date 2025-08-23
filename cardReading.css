@@ -188,3 +188,37 @@ body {
   width: 100px;
   font-size: 14px;
 }
+
+/* Meanings section styling for all cards */
+div[id^="meanings-C."] {
+  background: linear-gradient(145deg, rgba(45, 27, 105, 0.6), rgba(26, 26, 46, 0.6));
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 10px;
+  border: 1px solid rgba(221, 161, 94, 0.3);
+}
+
+/* Generate button styling for all cards */
+button[id^="generate-button"] {
+  background: linear-gradient(145deg, #8b5a8c, #533a7b);
+  color: #f5f5f5;
+  border: 2px solid #dda15e;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Cinzel', serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  margin-top: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+button[id^="generate-button"]:hover {
+  background: linear-gradient(145deg, #dda15e, #bc6c25);
+  color: #1a1a2e;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}

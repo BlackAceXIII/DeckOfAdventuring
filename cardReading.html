@@ -36,47 +36,47 @@
 							<th>Orientation</th>
 						</tr>
 						<tr>
-							<td>C.00</td>
+							<td>C.00 (Party Gathers)</td>
 							<td id="card-list-C.00">—</td>
 							<td id="card-orientation-list-C.00">—</td>
 						</tr>
 						<tr>
-							<td>C.01</td>
+							<td>C.01 (Adventure Begins)</td>
 							<td id="card-list-C.01">—</td>
 							<td id="card-orientation-list-C.01">—</td>
 						</tr>
 						<tr>
-							<td>C.02</td>
+							<td>C.02 (Journey)</td>
 							<td id="card-list-C.02">—</td>
 							<td id="card-orientation-list-C.02">—</td>
 						</tr>
 						<tr>
-							<td>C.03</td>
+							<td>C.03 (Entrance)</td>
 							<td id="card-list-C.03">—</td>
 							<td id="card-orientation-list-C.03">—</td>
 						</tr>
 						<tr>
-							<td>C.04</td>
+							<td>C.04 (Challenge 1)</td>
 							<td id="card-list-C.04">—</td>
 							<td id="card-orientation-list-C.04">—</td>
 						</tr>
 						<tr>
-							<td>C.05</td>
+							<td>C.05 (Challenge 2)</td>
 							<td id="card-list-C.05">—</td>
 							<td id="card-orientation-list-C.05">—</td>
 						</tr>
 						<tr>
-							<td>C.06</td>
+							<td>C.06 (Challenge 3)</td>
 							<td id="card-list-C.06">—</td>
 							<td id="card-orientation-list-C.06">—</td>
 						</tr>
 						<tr>
-							<td>C.07</td>
+							<td>C.07 (Guardian)</td>
 							<td id="card-list-C.07">—</td>
 							<td id="card-orientation-list-C.07">—</td>
 						</tr>
 						<tr>
-							<td>C.08</td>
+							<td>C.08 (Treasure)</td>
 							<td id="card-list-C.08">—</td>
 							<td id="card-orientation-list-C.08">—</td>
 						</tr>
@@ -85,28 +85,28 @@
 				<div class="grid-section">
 					<p>Click on the x button in the top right corner to close the current tab:</p>
 					<div class="tab-grid">
-						<!-- Row 1: ■□□■■ -->
+						<!-- Row 1: 00 -- -- 04 08 -->
 						<div class="tab-row">
-							<button class="tablinks" onclick="openCard(event, 'C.00')" id="defaultOpen">Card 00</button>
+							<button class="tablinks" onclick="openCard(event, 'C.00')" id="defaultOpen">Party Gathers</button>
 							<span class="tab-spacer"></span>
 							<span class="tab-spacer"></span>
-							<button class="tablinks" onclick="openCard(event, 'C.03')">Card 03</button>
-							<button class="tablinks" onclick="openCard(event, 'C.04')">Card 04</button>
+							<button class="tablinks" onclick="openCard(event, 'C.04')">Challenge 1</button>
+							<button class="tablinks" onclick="openCard(event, 'C.08')">Treasure</button>
 						</div>
-						<!-- Row 2: ■■■■■ -->
+						<!-- Row 2: 01 02 03 05 07 -->
 						<div class="tab-row">
-							<button class="tablinks" onclick="openCard(event, 'C.01')">Card 01</button>
-							<button class="tablinks" onclick="openCard(event, 'C.05')">Card 05</button>
-							<button class="tablinks" onclick="openCard(event, 'C.06')">Card 06</button>
-							<button class="tablinks" onclick="openCard(event, 'C.07')">Card 07</button>
-							<button class="tablinks" onclick="openCard(event, 'C.08')">Card 08</button>
+							<button class="tablinks" onclick="openCard(event, 'C.01')">Adventure Begins</button>
+							<button class="tablinks" onclick="openCard(event, 'C.02')">Journey</button>
+							<button class="tablinks" onclick="openCard(event, 'C.03')">Entrance</button>
+							<button class="tablinks" onclick="openCard(event, 'C.05')">Challenge 2</button>
+							<button class="tablinks" onclick="openCard(event, 'C.07')">Guardian</button>
 						</div>
-						<!-- Row 3: □□■□□ -->
+						<!-- Row 3: -- -- -- 06 -- -->
 						<div class="tab-row">
 							<span class="tab-spacer"></span>
 							<span class="tab-spacer"></span>
 							<span class="tab-spacer"></span>
-							<button class="tablinks" onclick="openCard(event, 'C.02')">Card 02</button>
+							<button class="tablinks" onclick="openCard(event, 'C.06')">Challenge 3</button>
 							<span class="tab-spacer"></span>
 						</div>
 					</div>
@@ -114,7 +114,7 @@
 			</div>
 			<!-- Reroll button -->
 			<div>
-				<button class="button button1" onclick="redrawAll()">Redraw All Cards</button>
+				<button class="button button1" onclick="redrawAdventureSpread()">Redraw All Cards</button>
 			</div>
 		</div>
 
@@ -130,29 +130,29 @@
 							<th>Orientation</th>
 						</tr>
 						<tr>
-							<td>C.00</td>
-							<td id="card-list-five-C.00">—</td>
-							<td id="card-orientation-list-five-C.00">—</td>
+							<td>C.09 (The Quest)</td>
+							<td id="card-list-five-C.09">—</td>
+							<td id="card-orientation-list-five-C.09">—</td>
 						</tr>
 						<tr>
-							<td>C.01</td>
-							<td id="card-list-five-C.01">—</td>
-							<td id="card-orientation-list-five-C.01">—</td>
+							<td>C.10 (The Outcome)</td>
+							<td id="card-list-five-C.10">—</td>
+							<td id="card-orientation-list-five-C.10">—</td>
 						</tr>
 						<tr>
-							<td>C.02</td>
-							<td id="card-list-five-C.02">—</td>
-							<td id="card-orientation-list-five-C.02">—</td>
+							<td>C.11 (The Challenge)</td>
+							<td id="card-list-five-C.11">—</td>
+							<td id="card-orientation-list-five-C.11">—</td>
 						</tr>
 						<tr>
-							<td>C.03</td>
-							<td id="card-list-five-C.03">—</td>
-							<td id="card-orientation-list-five-C.03">—</td>
+							<td>C.12 (That Which is Hidden)</td>
+							<td id="card-list-five-C.12">—</td>
+							<td id="card-orientation-list-five-C.12">—</td>
 						</tr>
 						<tr>
-							<td>C.04</td>
-							<td id="card-list-five-C.04">—</td>
-							<td id="card-orientation-list-five-C.04">—</td>
+							<td>C.13 (That Which is Needed)</td>
+							<td id="card-list-five-C.13">—</td>
+							<td id="card-orientation-list-five-C.13">—</td>
 						</tr>
 					</table>
 				</div>
@@ -162,19 +162,19 @@
 						<!-- Row 1: □■□ -->
 						<div class="tab-row">
 							<span class="tab-spacer"></span>
-							<button class="tablinks" onclick="openCard(event, 'C.01')">Card 01</button>
+							<button class="tablinks" onclick="openCard(event, 'C.10')">The Outcome</button>
 							<span class="tab-spacer"></span>
 						</div>
 						<!-- Row 2: ■■■ -->
 						<div class="tab-row">
-							<button class="tablinks" onclick="openCard(event, 'C.03')">Card 03</button>
-							<button class="tablinks" onclick="openCard(event, 'C.00')">Card 00</button>
-							<button class="tablinks" onclick="openCard(event, 'C.04')">Card 04</button>
+							<button class="tablinks" onclick="openCard(event, 'C.12')">That Which is Hidden</button>
+							<button class="tablinks" onclick="openCard(event, 'C.09')">The Quest</button>
+							<button class="tablinks" onclick="openCard(event, 'C.13')">That Which is Needed</button>
 						</div>
 						<!-- Row 3: □■□ -->
 						<div class="tab-row">
 							<span class="tab-spacer"></span>
-							<button class="tablinks" onclick="openCard(event, 'C.02')">Card 02</button>
+							<button class="tablinks" onclick="openCard(event, 'C.11')">The Challenge</button>
 							<span class="tab-spacer"></span>
 						</div>
 					</div>
@@ -182,7 +182,7 @@
 			</div>
 			<!-- Reroll button -->
 			<div>
-				<button class="button button1" onclick="redrawAll()">Redraw All Cards</button>
+				<button class="button button1" onclick="redrawFiveCardSpread()">Redraw All Cards</button>
 			</div>
 		</div>
 
@@ -198,19 +198,19 @@
 							<th>Orientation</th>
 						</tr>
 						<tr>
-							<td>C.00 (Past)</td>
-							<td id="card-list-three-C.00">—</td>
-							<td id="card-orientation-list-three-C.00">—</td>
+							<td>C.14 (Past)</td>
+							<td id="card-list-three-C.14">—</td>
+							<td id="card-orientation-list-three-C.14">—</td>
 						</tr>
 						<tr>
-							<td>C.01 (Present)</td>
-							<td id="card-list-three-C.01">—</td>
-							<td id="card-orientation-list-three-C.01">—</td>
+							<td>C.15 (Present)</td>
+							<td id="card-list-three-C.15">—</td>
+							<td id="card-orientation-list-three-C.15">—</td>
 						</tr>
 						<tr>
-							<td>C.02 (Future)</td>
-							<td id="card-list-three-C.02">—</td>
-							<td id="card-orientation-list-three-C.02">—</td>
+							<td>C.16 (Future)</td>
+							<td id="card-list-three-C.16">—</td>
+							<td id="card-orientation-list-three-C.16">—</td>
 						</tr>
 					</table>
 				</div>
@@ -219,16 +219,16 @@
 					<div class="tab-grid">
 						<!-- Single row: ■■■ -->
 						<div class="tab-row">
-							<button class="tablinks" onclick="openCard(event, 'C.00')">Past</button>
-							<button class="tablinks" onclick="openCard(event, 'C.01')">Present</button>
-							<button class="tablinks" onclick="openCard(event, 'C.02')">Future</button>
+							<button class="tablinks" onclick="openCard(event, 'C.14')">Past</button>
+							<button class="tablinks" onclick="openCard(event, 'C.15')">Present</button>
+							<button class="tablinks" onclick="openCard(event, 'C.16')">Future</button>
 						</div>
 					</div>
 				</div>
 			</div>
 			<!-- Reroll button -->
 			<div>
-				<button class="button button1" onclick="redrawAll()">Redraw All Cards</button>
+				<button class="button button1" onclick="redrawThreeCardSpread()">Redraw All Cards</button>
 			</div>
 		</div>
 
@@ -413,6 +413,7 @@
 			<button id="generate-button-C.08">Random</button>
 		</div>
 
+		<!-- Five-Card Spread Cards (C.09-C.13) -->
 		<div id="C.09" class="tabcontent">
 			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
 			<h3>Card: <span id="card-name-C.09">Card Name</span></h3>
@@ -431,6 +432,147 @@
 				<h5>Situation: <span id="meaning-situation-C.09">Meaning for orientation</span></h5>
 			</div>
 			<button id="generate-button-C.09">Random</button>
+		</div>
+
+		<div id="C.10" class="tabcontent">
+			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+			<h3>Card: <span id="card-name-C.10">Card Name</span></h3>
+			<div>
+				<img id="card-image-C.10" src="../JSON_Folder/Generic Soldier 4.png" alt="Card Image" width="100" height="100" style="margin-top: 10px;">
+				<p style="font-size: 0.9em; margin: 5px 0;">Credit: <span id="card-credit-C.10">Credit Name</span></p>
+			</div>
+			<h4>Card Orientation: <span id="card-orientation-C.10">Upright or Reversed</span></h4>
+			<h4>Description: <span id="card-description-C.10">{@i Description of the card.}</span></h4>
+			<h4>Meanings</h4>
+			<div id="meanings-C.10">
+				<h5>Person: <span id="meaning-person-C.10">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature-C.10">Meaning for orientation</span></h5>
+				<h5>Place: <span id="meaning-place-C.10">Meaning for orientation</span></h5>
+				<h5>Treasure: <span id="meaning-treasure-C.10">Meaning for orientation</span></h5>
+				<h5>Situation: <span id="meaning-situation-C.10">Meaning for orientation</span></h5>
+			</div>
+			<button id="generate-button-C.10">Random</button>
+		</div>
+
+		<div id="C.11" class="tabcontent">
+			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+			<h3>Card: <span id="card-name-C.11">Card Name</span></h3>
+			<div>
+				<img id="card-image-C.11" src="../JSON_Folder/Generic Soldier 4.png" alt="Card Image" width="100" height="100" style="margin-top: 10px;">
+				<p style="font-size: 0.9em; margin: 5px 0;">Credit: <span id="card-credit-C.11">Credit Name</span></p>
+			</div>
+			<h4>Card Orientation: <span id="card-orientation-C.11">Upright or Reversed</span></h4>
+			<h4>Description: <span id="card-description-C.11">{@i Description of the card.}</span></h4>
+			<h4>Meanings</h4>
+			<div id="meanings-C.11">
+				<h5>Person: <span id="meaning-person-C.11">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature-C.11">Meaning for orientation</span></h5>
+				<h5>Place: <span id="meaning-place-C.11">Meaning for orientation</span></h5>
+				<h5>Treasure: <span id="meaning-treasure-C.11">Meaning for orientation</span></h5>
+				<h5>Situation: <span id="meaning-situation-C.11">Meaning for orientation</span></h5>
+			</div>
+			<button id="generate-button-C.11">Random</button>
+		</div>
+
+		<div id="C.12" class="tabcontent">
+			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+			<h3>Card: <span id="card-name-C.12">Card Name</span></h3>
+			<div>
+				<img id="card-image-C.12" src="../JSON_Folder/Generic Soldier 4.png" alt="Card Image" width="100" height="100" style="margin-top: 10px;">
+				<p style="font-size: 0.9em; margin: 5px 0;">Credit: <span id="card-credit-C.12">Credit Name</span></p>
+			</div>
+			<h4>Card Orientation: <span id="card-orientation-C.12">Upright or Reversed</span></h4>
+			<h4>Description: <span id="card-description-C.12">{@i Description of the card.}</span></h4>
+			<h4>Meanings</h4>
+			<div id="meanings-C.12">
+				<h5>Person: <span id="meaning-person-C.12">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature-C.12">Meaning for orientation</span></h5>
+				<h5>Place: <span id="meaning-place-C.12">Meaning for orientation</span></h5>
+				<h5>Treasure: <span id="meaning-treasure-C.12">Meaning for orientation</span></h5>
+				<h5>Situation: <span id="meaning-situation-C.12">Meaning for orientation</span></h5>
+			</div>
+			<button id="generate-button-C.12">Random</button>
+		</div>
+
+		<div id="C.13" class="tabcontent">
+			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+			<h3>Card: <span id="card-name-C.13">Card Name</span></h3>
+			<div>
+				<img id="card-image-C.13" src="../JSON_Folder/Generic Soldier 4.png" alt="Card Image" width="100" height="100" style="margin-top: 10px;">
+				<p style="font-size: 0.9em; margin: 5px 0;">Credit: <span id="card-credit-C.13">Credit Name</span></p>
+			</div>
+			<h4>Card Orientation: <span id="card-orientation-C.13">Upright or Reversed</span></h4>
+			<h4>Description: <span id="card-description-C.13">{@i Description of the card.}</span></h4>
+			<h4>Meanings</h4>
+			<div id="meanings-C.13">
+				<h5>Person: <span id="meaning-person-C.13">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature-C.13">Meaning for orientation</span></h5>
+				<h5>Place: <span id="meaning-place-C.13">Meaning for orientation</span></h5>
+				<h5>Treasure: <span id="meaning-treasure-C.13">Meaning for orientation</span></h5>
+				<h5>Situation: <span id="meaning-situation-C.13">Meaning for orientation</span></h5>
+			</div>
+			<button id="generate-button-C.13">Random</button>
+		</div>
+
+		<!-- Three-Card Spread Cards (C.14-C.16) -->
+		<div id="C.14" class="tabcontent">
+			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+			<h3>Card: <span id="card-name-C.14">Card Name</span></h3>
+			<div>
+				<img id="card-image-C.14" src="../JSON_Folder/Generic Soldier 4.png" alt="Card Image" width="100" height="100" style="margin-top: 10px;">
+				<p style="font-size: 0.9em; margin: 5px 0;">Credit: <span id="card-credit-C.14">Credit Name</span></p>
+			</div>
+			<h4>Card Orientation: <span id="card-orientation-C.14">Upright or Reversed</span></h4>
+			<h4>Description: <span id="card-description-C.14">{@i Description of the card.}</span></h4>
+			<h4>Meanings</h4>
+			<div id="meanings-C.14">
+				<h5>Person: <span id="meaning-person-C.14">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature-C.14">Meaning for orientation</span></h5>
+				<h5>Place: <span id="meaning-place-C.14">Meaning for orientation</span></h5>
+				<h5>Treasure: <span id="meaning-treasure-C.14">Meaning for orientation</span></h5>
+				<h5>Situation: <span id="meaning-situation-C.14">Meaning for orientation</span></h5>
+			</div>
+			<button id="generate-button-C.14">Random</button>
+		</div>
+
+		<div id="C.15" class="tabcontent">
+			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+			<h3>Card: <span id="card-name-C.15">Card Name</span></h3>
+			<div>
+				<img id="card-image-C.15" src="../JSON_Folder/Generic Soldier 4.png" alt="Card Image" width="100" height="100" style="margin-top: 10px;">
+				<p style="font-size: 0.9em; margin: 5px 0;">Credit: <span id="card-credit-C.15">Credit Name</span></p>
+			</div>
+			<h4>Card Orientation: <span id="card-orientation-C.15">Upright or Reversed</span></h4>
+			<h4>Description: <span id="card-description-C.15">{@i Description of the card.}</span></h4>
+			<h4>Meanings</h4>
+			<div id="meanings-C.15">
+				<h5>Person: <span id="meaning-person-C.15">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature-C.15">Meaning for orientation</span></h5>
+				<h5>Place: <span id="meaning-place-C.15">Meaning for orientation</span></h5>
+				<h5>Treasure: <span id="meaning-treasure-C.15">Meaning for orientation</span></h5>
+				<h5>Situation: <span id="meaning-situation-C.15">Meaning for orientation</span></h5>
+			</div>
+			<button id="generate-button-C.15">Random</button>
+		</div>
+
+		<div id="C.16" class="tabcontent">
+			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+			<h3>Card: <span id="card-name-C.16">Card Name</span></h3>
+			<div>
+				<img id="card-image-C.16" src="../JSON_Folder/Generic Soldier 4.png" alt="Card Image" width="100" height="100" style="margin-top: 10px;">
+				<p style="font-size: 0.9em; margin: 5px 0;">Credit: <span id="card-credit-C.16">Credit Name</span></p>
+			</div>
+			<h4>Card Orientation: <span id="card-orientation-C.16">Upright or Reversed</span></h4>
+			<h4>Description: <span id="card-description-C.16">{@i Description of the card.}</span></h4>
+			<h4>Meanings</h4>
+			<div id="meanings-C.16">
+				<h5>Person: <span id="meaning-person-C.16">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature-C.16">Meaning for orientation</span></h5>
+				<h5>Place: <span id="meaning-place-C.16">Meaning for orientation</span></h5>
+				<h5>Treasure: <span id="meaning-treasure-C.16">Meaning for orientation</span></h5>
+				<h5>Situation: <span id="meaning-situation-C.16">Meaning for orientation</span></h5>
+			</div>
+			<button id="generate-button-C.16">Random</button>
 		</div>
 
         <script type="text/javascript" src="cardReading.js"></script>

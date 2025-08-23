@@ -7,16 +7,12 @@ let deckName = null; // This will hold the name of the deck
 const CARD_DIR = './CardsJsons';
 
 const drawData = {
-  "C.00": { cType: "" },
-  "C.01": { cType: "" },
-  "C.02": { cType: "" },
-  "C.03": { cType: "" },
-  "C.04": { cType: "" },
-  "C.05": { cType: "" },
-  "C.06": { cType: "" },
-  "C.07": { cType: "" },
-  "C.08": { cType: "" },
-  "C.09": { cType: "" }
+  "C.00": { cType: "" }, "C.01": { cType: "" }, "C.02": { cType: "" },
+  "C.03": { cType: "" }, "C.04": { cType: "" }, "C.05": { cType: "" },
+  "C.06": { cType: "" }, "C.07": { cType: "" }, "C.08": { cType: "" },
+  "C.09": { cType: "" }, "C.10": { cType: "" }, "C.11": { cType: "" },
+  "C.12": { cType: "" }, "C.13": { cType: "" }, "C.14": { cType: "" },
+  "C.15": { cType: "" }, "C.16": { cType: "" }
 };
 
 async function fetchData() {
@@ -152,11 +148,31 @@ function getOrientationTablePrefix() {
 }
 
 function redrawAll() {
-  for (let i = 0; i <= 9; i++) {
+  // Legacy function - calls all spread functions
+  redrawAdventureSpread();
+  redrawFiveCardSpread();
+  redrawThreeCardSpread();
+}
+
+function redrawAdventureSpread() {
+  for (let i = 0; i <= 8; i++) {
     const cardNum = i < 10 ? `C.0${i}` : `C.${i}`;
     generateCard(cardNum);
   }
-  return;
+}
+
+function redrawFiveCardSpread() {
+  for (let i = 9; i <= 13; i++) {
+    const cardNum = `C.${i}`;
+    generateCard(cardNum);
+  }
+}
+
+function redrawThreeCardSpread() {
+  for (let i = 14; i <= 16; i++) {
+    const cardNum = `C.${i}`;
+    generateCard(cardNum);
+  }
 }
 
 document.querySelectorAll('button').forEach(button => {
@@ -248,6 +264,7 @@ function generateCard(cardNum) {
   // Determines if the card is upright or reversed
   let cardOrientation = Math.floor(Math.random() * 2);
   const orientationText = cardOrientation === 0 ? "Upright" : "Reverse";
+  
   // Update card detail fields for this card slot (per-card IDs)
   function setText(id, value) {
     const el = document.getElementById(id);
@@ -255,9 +272,6 @@ function generateCard(cardNum) {
   }
 
   setText(`card-name-${cardNum}`, cardData.name || cardName);
-  //const imgEl = document.getElementById(`card-image-${cardNum}`);
-  //if (imgEl && cardData.image) imgEl.src = CARD_DIR + '/' + cardData.image;
-  //setText(`card-credit-${cardNum}`, cardData.credit || '');
   setText(`card-description-${cardNum}`, cardData.description || '');
   setText(`card-orientation-${cardNum}`, orientationText);
 
@@ -274,25 +288,26 @@ function generateCard(cardNum) {
   setText(`meaning-treasure-${cardNum}`, getMeaning(cardData.meanings?.treasure));
   setText(`meaning-situation-${cardNum}`, getMeaning(cardData.meanings?.situation));
 
-  // Update ALL spread tables simultaneously (not just the active one)
+  // Update appropriate spread tables based on card number range
   const cardNameText = cardData.name || cardName;
   
-  // Adventure Spread table
-  const adventureNameEl = document.getElementById(`card-list-${cardNum}`);
-  const adventureOrientEl = document.getElementById(`card-orientation-list-${cardNum}`);
-  if (adventureNameEl) adventureNameEl.textContent = cardNameText;
-  if (adventureOrientEl) adventureOrientEl.textContent = orientationText;
+  // Determine which spread this card belongs to and update its table
+  const cardNumber = parseInt(cardNum.replace('C.', ''));
   
-  // Five-Card Spread table (only for C.00-C.04)
-  if (cardNum <= 'C.04') {
+  if (cardNumber >= 0 && cardNumber <= 8) {
+    // Adventure Spread (C.00-C.08)
+    const adventureNameEl = document.getElementById(`card-list-${cardNum}`);
+    const adventureOrientEl = document.getElementById(`card-orientation-list-${cardNum}`);
+    if (adventureNameEl) adventureNameEl.textContent = cardNameText;
+    if (adventureOrientEl) adventureOrientEl.textContent = orientationText;
+  } else if (cardNumber >= 9 && cardNumber <= 13) {
+    // Five-Card Spread (C.09-C.13)
     const fiveNameEl = document.getElementById(`card-list-five-${cardNum}`);
     const fiveOrientEl = document.getElementById(`card-orientation-list-five-${cardNum}`);
     if (fiveNameEl) fiveNameEl.textContent = cardNameText;
     if (fiveOrientEl) fiveOrientEl.textContent = orientationText;
-  }
-  
-  // Three-Card Spread table (only for C.00-C.02)
-  if (cardNum <= 'C.02') {
+  } else if (cardNumber >= 14 && cardNumber <= 16) {
+    // Three-Card Spread (C.14-C.16)
     const threeNameEl = document.getElementById(`card-list-three-${cardNum}`);
     const threeOrientEl = document.getElementById(`card-orientation-list-three-${cardNum}`);
     if (threeNameEl) threeNameEl.textContent = cardNameText;
@@ -315,9 +330,15 @@ if (document.getElementById("defaultOpen")) {
   document.getElementById("defaultOpen").click();
 }
 
-// Wire per-card Random buttons for C.00..C.09
-for (let i = 0; i <= 9; i++) {
+// Wire per-card Random buttons for all card slots (C.00..C.16)
+for (let i = 0; i <= 8; i++) {
   const cardNum = i < 10 ? `C.0${i}` : `C.${i}`;
+  const btn = document.getElementById(`generate-button-${cardNum}`);
+  if (btn) btn.addEventListener('click', () => generateCard(cardNum));
+}
+
+for (let i = 9; i <= 16; i++) {
+  const cardNum = `C.${i}`;
   const btn = document.getElementById(`generate-button-${cardNum}`);
   if (btn) btn.addEventListener('click', () => generateCard(cardNum));
 }
