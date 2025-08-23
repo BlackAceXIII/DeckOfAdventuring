@@ -46,7 +46,7 @@
         "Ring",
         "Rogue",
         "Ruin",
-        "Sage*",
+        "Sage",
         "Shield",
         "Ship",
         "Skull",
@@ -54,7 +54,7 @@
         "Stairway",
         "Star",
         "Statue",
-        "Sun*",
+        "Sun",
         "Talons",
         "Tavern",
         "Temple",
@@ -87,8 +87,8 @@
         "Star",
         "Sun",
         "Talons",
-        "The Fates",
-        "The Void",
+        "Fates",
+        "Void",
         "Throne"
     ],
     "creatureDeck": [
