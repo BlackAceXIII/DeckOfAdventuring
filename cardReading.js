@@ -163,7 +163,7 @@ function redrawAdventureSpread() {
 
 function redrawFiveCardSpread() {
   for (let i = 9; i <= 13; i++) {
-    const cardNum = `C.${i}`;
+    const cardNum = i < 10 ? `C.0${i}` : `C.${i}`;
     generateCard(cardNum);
   }
 }
