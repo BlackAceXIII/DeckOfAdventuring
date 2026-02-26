@@ -1,224 +1,1135 @@
+/* ================================================================
+   ARCANE ORACLE — Card Reading Stylesheet
+   Three spread aesthetics: Dungeon | Celestial | Oracle
+   Deck-theme overrides via body class
+   ================================================================ */
 
-body {font-family: Arial;}
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&family=Metamorphous&display=swap');
 
-/* Style the tab */
-.tab {
-  overflow: hidden;
-  border: 1px solid #cccccc00;
-  background-color: #f1f1f100;
+/* ----------------------------------------------------------------
+   CSS VARIABLES — Base Fantasy Theme
+   ---------------------------------------------------------------- */
+:root {
+  --gold: #c9a84c;
+  --gold-bright: #f0c95e;
+  --gold-dim: #7a5c1e;
+  --ink: #1a1208;
+  --parchment: #f2e8c9;
+  --parchment-dark: #d4c49a;
+  --ember: #c0392b;
+  --ember-glow: #e74c3c;
+  --smoke: rgba(0,0,0,0.45);
+
+  /* Adventure Spread */
+  --adv-bg1: #1c1008;
+  --adv-bg2: #2e1a06;
+  --adv-stone: #3a2d1e;
+  --adv-accent: #d4892a;
+  --adv-text: #e8d5a3;
+  --adv-glow: rgba(212,137,42,0.35);
+
+  /* Five-Card (Celestial) */
+  --cel-bg1: #04051a;
+  --cel-bg2: #0a0d35;
+  --cel-accent: #7eb8f7;
+  --cel-silver: #c8d8f0;
+  --cel-star: #a0cfff;
+  --cel-text: #d0e8ff;
+  --cel-glow: rgba(126,184,247,0.3);
+
+  /* Three-Card (Oracle) */
+  --ora-bg1: #050f10;
+  --ora-bg2: #0b2025;
+  --ora-accent: #3dd6b5;
+  --ora-mist: #1a4a44;
+  --ora-text: #c8f0e8;
+  --ora-glow: rgba(61,214,181,0.3);
+
+  /* Active spread (overridden by JS) */
+  --spread-bg1: var(--adv-bg1);
+  --spread-bg2: var(--adv-bg2);
+  --spread-accent: var(--adv-accent);
+  --spread-text: var(--adv-text);
+  --spread-glow: var(--adv-glow);
 }
 
-/* Style the buttons inside the tab */
-.tab button {
-  background-color: inherit;
-  float: left;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 28px 7px;
-  transition: 0.3s;
-  font-size: 17px;
-  /*border-radius:100%; /* Makes the button circular */
+/* ----------------------------------------------------------------
+   GLOBAL BASE
+   ---------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
-
-/* Change background color of buttons on hover */
-.tab button:hover {
-  background-color: #ffd000;
-}
-
-/* Create an active/current tablink class */
-.tab button.active {
-  background-color: #840fb2;
-}
-
-/* Style the tab content */
-.tabcontent {
-  display: none;
-  padding: 6px 12px;
-  border: 1px solid #ccc;
-  border-top: none;
-}
-
-/* Style the close button */
-.topright {
-  float: right;
-  cursor: pointer;
-  font-size: 28px;
-}
-
-.topright:hover {color: red;}
 
 body {
-  background-color: lightblue;
+  font-family: 'IM Fell English', Georgia, serif;
+  background-color: #0d0908;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(80,40,10,0.5) 0%, transparent 70%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  color: var(--parchment);
+  min-height: 100vh;
+  padding: 0 0 60px 0;
+  transition: background-color 0.8s ease;
 }
 
-.button1 {
-  background-color: #4CAF50; /* Green */
-  border: none;
-  color: white;
-  padding: 15px 32px;
+/* ----------------------------------------------------------------
+   HEADER AREA
+   ---------------------------------------------------------------- */
+.page-header {
   text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-}
-.button1:hover {
-  background-color: #f00;
-  clip-path: polygon(25% 6.7%, 75% 6.7%, 100% 50%, 75% 93.3%, 25% 93.3%, 0% 50%);
-}
-.dropdown {
+  padding: 40px 20px 24px;
   position: relative;
-  display: inline-block;
+  border-bottom: 1px solid rgba(201,168,76,0.25);
+  margin-bottom: 28px;
 }
 
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  padding: 12px 16px;
-  z-index: 1;
-}
-
-.dropdown:hover .dropdown-content {
+.page-header::before,
+.page-header::after {
+  content: '';
   display: block;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 8px auto;
+  max-width: 600px;
 }
 
-/* Spread selection tabs */
-.spread-tabs {
-  overflow: hidden;
-  border: 1px solid #ccc;
-  background-color: #f1f1f1;
-  margin-bottom: 20px;
+h1.site-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1.8rem, 4vw, 3.2rem);
+  font-weight: 900;
+  background: linear-gradient(135deg, #c9a84c 0%, #f5e07a 40%, #c9a84c 60%, #8b5a0a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+  letter-spacing: 0.05em;
+  line-height: 1.15;
 }
 
-.spread-tabs button {
-  background-color: inherit;
-  float: left;
-  border: none;
-  outline: none;
+.page-header .subtitle {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  color: var(--parchment-dark);
+  font-size: 1.05rem;
+  margin-top: 10px;
+  letter-spacing: 0.12em;
+  opacity: 0.75;
+}
+
+/* Decorative rune-line dividers */
+.rune-divider {
+  text-align: center;
+  font-family: 'Cinzel', serif;
+  color: var(--gold-dim);
+  letter-spacing: 0.6em;
+  font-size: 0.75rem;
+  margin: 6px 0;
+  user-select: none;
+  opacity: 0.55;
+}
+
+/* ----------------------------------------------------------------
+   DECK SELECTOR
+   ---------------------------------------------------------------- */
+.deck-selector-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, rgba(30,18,5,0.9), rgba(45,28,8,0.9));
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 4px;
+  max-width: 600px;
+  margin: 0 auto 28px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5), inset 0 1px 0 rgba(201,168,76,0.15);
+  position: relative;
+}
+
+.deck-selector-wrapper::before {
+  content: '✦';
+  font-family: 'Cinzel', serif;
+  color: var(--gold);
+  opacity: 0.6;
+  font-size: 1rem;
+}
+.deck-selector-wrapper::after {
+  content: '✦';
+  font-family: 'Cinzel', serif;
+  color: var(--gold);
+  opacity: 0.6;
+  font-size: 1rem;
+}
+
+.deck-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  white-space: nowrap;
+}
+
+#deck-select,
+.deck-selector-wrapper select {
+  font-family: 'IM Fell English', serif;
+  font-size: 1rem;
+  background: rgba(10,6,2,0.8);
+  color: var(--parchment);
+  border: 1px solid var(--gold-dim);
+  border-radius: 3px;
+  padding: 8px 14px;
   cursor: pointer;
-  padding: 14px 16px;
-  transition: 0.3s;
-  font-size: 16px;
+  outline: none;
+  min-width: 200px;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9a84c' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-.spread-tabs button:hover {
-  background-color: #ddd;
+#deck-select:hover,
+.deck-selector-wrapper select:hover {
+  border-color: var(--gold);
+  box-shadow: 0 0 8px var(--adv-glow);
 }
 
-.spread-tabs button.active {
-  background-color: #ccc;
+#deck-select:focus,
+.deck-selector-wrapper select:focus {
+  border-color: var(--gold-bright);
+  box-shadow: 0 0 14px rgba(201,168,76,0.4);
 }
 
-/* Spread tab content */
+/* Legacy dropdown wrapper — hide old structure */
+.dropdown > span:first-child { display: none; }
+.dropdown { display: contents; }
+.dropdown-content { display: none !important; }
+#dropdown { display: contents; }
+
+/* ----------------------------------------------------------------
+   SPREAD SELECTION TABS
+   ---------------------------------------------------------------- */
+.spread-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  overflow: hidden;
+  margin: 0 auto 0;
+  max-width: 900px;
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 4px 4px 0 0;
+  background: rgba(8,5,2,0.8);
+  position: relative;
+}
+
+.spread-tabs::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.spread-tablinks {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--parchment-dark);
+  background: transparent;
+  border: none;
+  border-right: 1px solid rgba(201,168,76,0.15);
+  padding: 16px 28px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.spread-tablinks:last-child {
+  border-right: none;
+}
+
+.spread-tablinks::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.spread-tablinks:hover {
+  color: var(--gold-bright);
+  background: rgba(201,168,76,0.06);
+}
+
+.spread-tablinks:hover::after {
+  transform: scaleX(0.6);
+}
+
+.spread-tablinks.active {
+  color: var(--gold-bright);
+  background: rgba(201,168,76,0.08);
+}
+
+.spread-tablinks.active::after {
+  transform: scaleX(1);
+}
+
+/* ----------------------------------------------------------------
+   SPREAD CONTENT AREAS — each has its own aesthetic
+   ---------------------------------------------------------------- */
 .spread-tabcontent {
   display: none;
-  padding: 0;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 28px 24px 32px;
+  border: 1px solid rgba(201,168,76,0.2);
   border-top: none;
+  border-radius: 0 0 4px 4px;
+  position: relative;
+  overflow: hidden;
+  animation: spreadReveal 0.4s ease;
 }
 
-/* Container for table and grid side by side */
+@keyframes spreadReveal {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- ADVENTURE SPREAD: Dungeon Torchlight ---- */
+#adventure-spread {
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 50%, rgba(180,80,10,0.12) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 50% at 80% 50%, rgba(180,80,10,0.08) 0%, transparent 65%),
+    linear-gradient(180deg, var(--adv-bg1) 0%, var(--adv-bg2) 100%);
+  border-color: rgba(212,137,42,0.35);
+  box-shadow: inset 0 0 60px rgba(180,80,10,0.1), 0 4px 24px rgba(0,0,0,0.6);
+}
+
+#adventure-spread h2 {
+  color: var(--adv-accent);
+  text-shadow: 0 0 20px var(--adv-glow);
+  border-bottom-color: rgba(212,137,42,0.3);
+}
+
+#adventure-spread .tablinks {
+  background: linear-gradient(160deg, #3d2208, #5c3510);
+  border-color: rgba(212,137,42,0.5);
+  color: var(--adv-text);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5), inset 0 1px 0 rgba(212,137,42,0.2);
+}
+
+#adventure-spread .tablinks:hover {
+  background: linear-gradient(160deg, #5c3510, #7a4a18);
+  border-color: var(--adv-accent);
+  box-shadow: 0 0 16px var(--adv-glow), 0 2px 8px rgba(0,0,0,0.5);
+  color: var(--gold-bright);
+}
+
+#adventure-spread .tablinks.active {
+  background: linear-gradient(160deg, #8b4a10, #c06820);
+  border-color: var(--gold-bright);
+  color: #fff8e8;
+  box-shadow: 0 0 20px var(--adv-glow), 0 2px 8px rgba(0,0,0,0.5);
+}
+
+#adventure-spread .redraw-btn {
+  background: linear-gradient(135deg, #7a2e05, #c04010);
+  border-color: #e05010;
+  box-shadow: 0 0 18px rgba(200,60,10,0.4);
+}
+
+#adventure-spread .redraw-btn:hover {
+  background: linear-gradient(135deg, #c04010, #e05010);
+  box-shadow: 0 0 28px rgba(230,80,10,0.6);
+}
+
+/* Table in adventure spread */
+#adventure-spread .card-list {
+  border-color: rgba(212,137,42,0.3);
+  background: rgba(20,12,4,0.7);
+}
+
+#adventure-spread .card-list th {
+  background: linear-gradient(135deg, rgba(100,50,10,0.8), rgba(70,35,5,0.8));
+  color: var(--gold-bright);
+  border-color: rgba(212,137,42,0.3);
+}
+
+#adventure-spread .card-list td {
+  border-color: rgba(212,137,42,0.18);
+  color: var(--adv-text);
+}
+
+#adventure-spread .card-list tr:hover td {
+  background: rgba(212,137,42,0.08);
+}
+
+
+/* ---- FIVE-CARD SPREAD: Celestial Arcane ---- */
+#five-card-spread {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(40,60,180,0.2) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 80% 80%, rgba(100,50,200,0.12) 0%, transparent 60%),
+    linear-gradient(180deg, var(--cel-bg1) 0%, var(--cel-bg2) 100%);
+  border-color: rgba(126,184,247,0.25);
+  box-shadow: inset 0 0 80px rgba(30,50,150,0.12), 0 4px 24px rgba(0,0,0,0.7);
+}
+
+/* Stars background for celestial spread */
+#five-card-spread::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 10% 15%, rgba(200,220,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 42%, rgba(200,220,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 38% 8%,  rgba(200,220,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 30%, rgba(200,220,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 18%, rgba(200,220,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 85% 45%, rgba(200,220,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 15% 75%, rgba(200,220,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 60% 80%, rgba(200,220,255,0.6) 0%, transparent 100%),
+    radial-gradient(2px 2px at 45% 60%, rgba(160,207,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 92% 22%, rgba(200,220,255,0.6) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+#five-card-spread > * { position: relative; z-index: 1; }
+
+#five-card-spread h2 {
+  color: var(--cel-accent);
+  text-shadow: 0 0 24px var(--cel-glow);
+  border-bottom-color: rgba(126,184,247,0.3);
+}
+
+#five-card-spread .tablinks {
+  background: linear-gradient(160deg, #060c2a, #0d1a45);
+  border-color: rgba(126,184,247,0.4);
+  color: var(--cel-text);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.6), inset 0 1px 0 rgba(126,184,247,0.15);
+}
+
+#five-card-spread .tablinks:hover {
+  background: linear-gradient(160deg, #0d1a45, #182860);
+  border-color: var(--cel-accent);
+  color: #fff;
+  box-shadow: 0 0 18px var(--cel-glow), 0 2px 8px rgba(0,0,0,0.6);
+}
+
+#five-card-spread .tablinks.active {
+  background: linear-gradient(160deg, #1a3080, #2040a8);
+  border-color: var(--cel-star);
+  color: #fff;
+  box-shadow: 0 0 22px var(--cel-glow), 0 0 6px rgba(126,184,247,0.5);
+}
+
+#five-card-spread .redraw-btn {
+  background: linear-gradient(135deg, #0a1550, #182880);
+  border-color: var(--cel-accent);
+  color: var(--cel-text);
+  box-shadow: 0 0 18px rgba(60,100,220,0.4);
+}
+
+#five-card-spread .redraw-btn:hover {
+  background: linear-gradient(135deg, #182880, #2040b0);
+  box-shadow: 0 0 28px rgba(90,140,255,0.5);
+}
+
+#five-card-spread .card-list {
+  border-color: rgba(126,184,247,0.25);
+  background: rgba(4,5,26,0.85);
+}
+
+#five-card-spread .card-list th {
+  background: linear-gradient(135deg, rgba(20,40,100,0.9), rgba(12,25,70,0.9));
+  color: var(--cel-star);
+  border-color: rgba(126,184,247,0.3);
+}
+
+#five-card-spread .card-list td {
+  border-color: rgba(126,184,247,0.12);
+  color: var(--cel-text);
+}
+
+#five-card-spread .card-list tr:hover td {
+  background: rgba(126,184,247,0.06);
+}
+
+
+/* ---- THREE-CARD SPREAD: Oracle / Fate Mist ---- */
+#three-card-spread {
+  background:
+    radial-gradient(ellipse 70% 80% at 50% 100%, rgba(20,80,65,0.3) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 50% at 20% 30%, rgba(10,60,50,0.2) 0%, transparent 60%),
+    linear-gradient(180deg, var(--ora-bg1) 0%, var(--ora-bg2) 100%);
+  border-color: rgba(61,214,181,0.2);
+  box-shadow: inset 0 0 80px rgba(10,60,50,0.2), 0 4px 24px rgba(0,0,0,0.7);
+}
+
+/* Mist wisps */
+#three-card-spread::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 180px;
+  background: linear-gradient(0deg, rgba(20,80,65,0.2) 0%, transparent 100%);
+  filter: blur(20px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+#three-card-spread > * { position: relative; z-index: 1; }
+
+#three-card-spread h2 {
+  color: var(--ora-accent);
+  text-shadow: 0 0 24px var(--ora-glow);
+  border-bottom-color: rgba(61,214,181,0.25);
+}
+
+#three-card-spread .tablinks {
+  background: linear-gradient(160deg, #030f0d, #081c19);
+  border-color: rgba(61,214,181,0.35);
+  color: var(--ora-text);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.6), inset 0 1px 0 rgba(61,214,181,0.1);
+}
+
+#three-card-spread .tablinks:hover {
+  background: linear-gradient(160deg, #081c19, #0f2e28);
+  border-color: var(--ora-accent);
+  color: #fff;
+  box-shadow: 0 0 18px var(--ora-glow), 0 2px 8px rgba(0,0,0,0.6);
+}
+
+#three-card-spread .tablinks.active {
+  background: linear-gradient(160deg, #0f3530, #1a5048);
+  border-color: var(--ora-accent);
+  color: #d0fff5;
+  box-shadow: 0 0 22px var(--ora-glow), 0 0 6px rgba(61,214,181,0.4);
+}
+
+#three-card-spread .redraw-btn {
+  background: linear-gradient(135deg, #062018, #0e3a30);
+  border-color: var(--ora-accent);
+  color: var(--ora-text);
+  box-shadow: 0 0 18px rgba(30,120,90,0.4);
+}
+
+#three-card-spread .redraw-btn:hover {
+  background: linear-gradient(135deg, #0e3a30, #185a48);
+  box-shadow: 0 0 28px rgba(61,214,181,0.4);
+}
+
+#three-card-spread .card-list {
+  border-color: rgba(61,214,181,0.2);
+  background: rgba(2,10,8,0.85);
+}
+
+#three-card-spread .card-list th {
+  background: linear-gradient(135deg, rgba(10,50,40,0.9), rgba(5,30,24,0.9));
+  color: var(--ora-accent);
+  border-color: rgba(61,214,181,0.25);
+}
+
+#three-card-spread .card-list td {
+  border-color: rgba(61,214,181,0.1);
+  color: var(--ora-text);
+}
+
+#three-card-spread .card-list tr:hover td {
+  background: rgba(61,214,181,0.05);
+}
+
+
+/* ----------------------------------------------------------------
+   SHARED SPREAD HEADING
+   ---------------------------------------------------------------- */
+.spread-tabcontent h2 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border-bottom: 1px solid;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.spread-tabcontent h2::before,
+.spread-tabcontent h2::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.3;
+}
+
+/* ----------------------------------------------------------------
+   TABLE-GRID CONTAINER
+   ---------------------------------------------------------------- */
 .table-grid-container {
   display: flex;
-  gap: 20px;
+  gap: 28px;
   align-items: flex-start;
-  margin: 10px 0;
+  margin: 0 0 20px;
+  flex-wrap: wrap;
 }
 
 .table-section {
-  flex: 0 0 auto; /* Don't grow, don't shrink, auto size */
+  flex: 0 0 auto;
 }
 
 .grid-section {
-  flex: 1; /* Take remaining space */
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 8px;
 }
 
-/* Tab grid layout styles */
+.grid-section > p {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--parchment-dark);
+  opacity: 0.6;
+  margin-bottom: 4px;
+}
+
+/* ----------------------------------------------------------------
+   CARD TABLE
+   ---------------------------------------------------------------- */
+.card-list {
+  border-collapse: collapse;
+  font-family: 'IM Fell English', serif;
+  font-size: 0.95rem;
+}
+
+.card-list th,
+.card-list td {
+  padding: 9px 14px;
+  text-align: left;
+  border: 1px solid;
+  transition: background 0.2s;
+}
+
+.card-list th {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* ----------------------------------------------------------------
+   CARD NAVIGATION BUTTONS (tab-grid)
+   ---------------------------------------------------------------- */
 .tab-grid {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
-  margin: 10px 0;
+  gap: 6px;
+  padding: 10px;
 }
 
 .tab-row {
   display: flex;
-  gap: 5px;
+  gap: 6px;
   align-items: center;
 }
 
 .tab-spacer {
-  width: 80px; /* Same width as tab buttons */
-  height: 45px; /* Same height as tab buttons */
+  width: 88px;
+  height: 56px;
   display: inline-block;
 }
 
-/* Override tab button styles for grid layout */
 .tab-grid .tablinks {
-  background-color: #0000f1;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 14px 16px;
-  transition: 0.3s;
-  font-size: 17px;
-  width: 80px;
-  height: 160px;
-  display: inline-block;
-}
-
-.tab-grid .tablinks:hover {
-  background-color: #ffd000;
-}
-
-.tab-grid .tablinks.active {
-  background-color: #ff0000;
-}
-
-/* Special styling for three-card spread */
-.tab-grid .tablinks.three-card {
-  width: 100px;
-  font-size: 14px;
-}
-
-/* Meanings section styling for all cards */
-div[id^="meanings-C."] {
-  background: linear-gradient(145deg, rgba(45, 27, 105, 0.6), rgba(26, 26, 46, 0.6));
-  padding: 15px;
-  border-radius: 8px;
-  margin-top: 10px;
-  border: 1px solid rgba(221, 161, 94, 0.3);
-}
-
-/* Generate button styling for all cards */
-button[id^="generate-button"] {
-  background: linear-gradient(145deg, #8b5a8c, #533a7b);
-  color: #f5f5f5;
-  border: 2px solid #dda15e;
-  padding: 10px 20px;
-  border-radius: 20px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 600;
   font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  width: 88px;
+  height: 56px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid;
+  border-radius: 3px;
+  transition: all 0.25s ease;
+  line-height: 1.3;
+  padding: 4px 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.tab-grid .tablinks::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.25s;
+  background: radial-gradient(ellipse at center, rgba(255,255,255,0.12), transparent 70%);
+}
+
+.tab-grid .tablinks:hover::before { opacity: 1; }
+
+/* Three-card wider buttons */
+.tab-grid .tablinks.three-card,
+#three-card-spread .tab-grid .tablinks {
+  width: 110px;
+  font-size: 0.7rem;
+}
+
+/* ----------------------------------------------------------------
+   REDRAW BUTTON
+   ---------------------------------------------------------------- */
+.redraw-btn {
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--parchment);
+  border: 1px solid;
+  border-radius: 3px;
+  padding: 12px 28px;
+  cursor: pointer;
+  margin-top: 20px;
   transition: all 0.3s ease;
-  margin-top: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+}
+
+.redraw-btn::before {
+  content: '⟳ ';
+  margin-right: 4px;
+  opacity: 0.8;
+}
+
+.redraw-btn:hover {
+  transform: translateY(-1px);
+  letter-spacing: 0.25em;
+}
+
+/* Legacy .button1 mapped to redraw-btn style */
+.button1 {
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--parchment);
+  padding: 12px 28px;
+  cursor: pointer;
+  margin-top: 20px;
+  display: inline-block;
+  transition: all 0.3s ease;
+  border-radius: 3px;
+  clip-path: none;
+}
+
+.button1:hover {
+  clip-path: none;
+  transform: translateY(-1px);
+}
+
+/* ----------------------------------------------------------------
+   CARD CONTENT TABS (tabcontent)
+   ---------------------------------------------------------------- */
+.tabcontent {
+  display: none;
+  max-width: 900px;
+  margin: 20px auto 0;
+  padding: 28px 32px 32px;
+  border-radius: 4px;
+  position: relative;
+  animation: cardOpen 0.35s ease;
+  background:
+    linear-gradient(135deg, rgba(30,18,5,0.97) 0%, rgba(20,12,3,0.97) 100%);
+  border: 1px solid rgba(201,168,76,0.3);
+  box-shadow:
+    0 8px 40px rgba(0,0,0,0.7),
+    inset 0 1px 0 rgba(201,168,76,0.15),
+    0 0 0 1px rgba(201,168,76,0.05);
+}
+
+/* Parchment corner marks */
+.tabcontent::before,
+.tabcontent::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-color: var(--gold-dim);
+  border-style: solid;
+  opacity: 0.5;
+}
+
+.tabcontent::before {
+  top: 8px; left: 8px;
+  border-width: 1px 0 0 1px;
+}
+
+.tabcontent::after {
+  bottom: 8px; right: 8px;
+  border-width: 0 1px 1px 0;
+}
+
+@keyframes cardOpen {
+  from { opacity: 0; transform: translateY(-8px) scale(0.99); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Close button */
+.topright {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 1.4rem;
+  color: var(--gold-dim);
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.2s, transform 0.2s;
+  font-family: serif;
+  z-index: 2;
+  user-select: none;
+}
+
+.topright:hover {
+  color: var(--ember-glow);
+  transform: scale(1.2);
+}
+
+/* Card header */
+.tabcontent h3 {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--gold-bright);
+  letter-spacing: 0.04em;
+  margin-bottom: 16px;
+  padding-right: 30px;
+  line-height: 1.3;
+}
+
+.tabcontent h3 span {
+  color: var(--parchment);
+}
+
+/* Card image area */
+.card-image-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+
+.tabcontent img {
+  border: 2px solid var(--gold-dim);
+  border-radius: 3px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5), 0 0 20px rgba(201,168,76,0.1);
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+.card-credit {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 0.8rem;
+  color: var(--parchment-dark);
+  opacity: 0.55;
+  margin-top: 6px;
+}
+
+/* Card metadata */
+.tabcontent h4 {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 14px 0 5px;
+}
+
+.tabcontent h4 span {
+  font-family: 'IM Fell English', serif;
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+  text-transform: none;
+  color: var(--parchment);
+  font-weight: normal;
+}
+
+/* Orientation badge */
+[id^="card-orientation-C."] {
+  display: inline-block;
+  padding: 2px 10px;
+  border: 1px solid;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  transition: all 0.3s;
+}
+
+/* Meanings section */
+.meanings-block {
+  background: linear-gradient(135deg, rgba(40,25,8,0.6), rgba(25,15,4,0.6));
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 4px;
+  padding: 16px 20px;
+  margin: 16px 0;
+}
+
+div[id^="meanings-C."] {
+  background: linear-gradient(135deg, rgba(40,25,8,0.6), rgba(25,15,4,0.6));
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 4px;
+  padding: 16px 20px;
+  margin: 16px 0;
+}
+
+.meanings-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(201,168,76,0.2);
+}
+
+.tabcontent h5 {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin: 10px 0 3px;
+}
+
+.tabcontent h5 span {
+  font-family: 'IM Fell English', serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--parchment-dark);
+  font-weight: normal;
+  font-style: italic;
+}
+
+/* Generate / Random button */
+button[id^="generate-button"] {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--parchment);
+  background: linear-gradient(135deg, rgba(80,45,8,0.9), rgba(50,28,4,0.9));
+  border: 1px solid var(--gold-dim);
+  border-radius: 3px;
+  padding: 10px 22px;
+  cursor: pointer;
+  margin-top: 16px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+button[id^="generate-button"]::before {
+  content: '⚂ ';
+  opacity: 0.7;
 }
 
 button[id^="generate-button"]:hover {
-  background: linear-gradient(145deg, #dda15e, #bc6c25);
-  color: #1a1a2e;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(135deg, rgba(140,80,15,0.95), rgba(100,55,8,0.95));
+  border-color: var(--gold);
+  box-shadow: 0 0 14px rgba(201,168,76,0.3), 0 2px 8px rgba(0,0,0,0.4);
+  transform: translateY(-1px);
+  color: var(--gold-bright);
+}
+
+/* ----------------------------------------------------------------
+   DECK THEME OVERRIDES
+   Themes are applied via body class: deck-[name]
+   ---------------------------------------------------------------- */
+
+/* Undead / Shadow / Necromancy themes */
+body.deck-undead .spread-tablinks.active,
+body.deck-shadow .spread-tablinks.active,
+body.deck-necromancy .spread-tablinks.active {
+  color: #b0d0ff;
+}
+
+body.deck-undead,
+body.deck-shadow,
+body.deck-necromancy {
+  background-color: #080408;
+  background-image: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(40,10,60,0.5) 0%, transparent 70%);
+}
+
+body.deck-undead .page-header::before,
+body.deck-undead .page-header::after,
+body.deck-shadow .page-header::before,
+body.deck-shadow .page-header::after {
+  background: linear-gradient(90deg, transparent, #9b59b6, transparent);
+}
+
+body.deck-undead .site-title,
+body.deck-shadow .site-title {
+  background: linear-gradient(135deg, #9b59b6 0%, #d7bde2 40%, #9b59b6 60%, #5b2c6f 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+body.deck-undead .deck-selector-wrapper,
+body.deck-shadow .deck-selector-wrapper {
+  border-color: rgba(155,89,182,0.35);
+  background: linear-gradient(135deg, rgba(20,8,30,0.9), rgba(35,14,50,0.9));
+}
+
+body.deck-undead .deck-label,
+body.deck-shadow .deck-label {
+  color: #d7bde2;
+}
+
+/* Fire / Inferno / Dragon themes */
+body.deck-fire,
+body.deck-inferno,
+body.deck-dragon {
+  background-color: #100604;
+  background-image: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(150,40,5,0.4) 0%, transparent 70%);
+}
+
+body.deck-fire .site-title,
+body.deck-inferno .site-title,
+body.deck-dragon .site-title {
+  background: linear-gradient(135deg, #e74c3c 0%, #f39c12 40%, #e74c3c 60%, #922b21 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+body.deck-fire .deck-selector-wrapper,
+body.deck-inferno .deck-selector-wrapper,
+body.deck-dragon .deck-selector-wrapper {
+  border-color: rgba(231,76,60,0.4);
+  background: linear-gradient(135deg, rgba(30,10,5,0.9), rgba(50,15,5,0.9));
+}
+
+/* Ice / Winter / Frost themes */
+body.deck-ice,
+body.deck-winter,
+body.deck-frost {
+  background-color: #050810;
+  background-image: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(10,40,100,0.4) 0%, transparent 70%);
+}
+
+body.deck-ice .site-title,
+body.deck-winter .site-title,
+body.deck-frost .site-title {
+  background: linear-gradient(135deg, #85c1e9 0%, #d6eaf8 40%, #85c1e9 60%, #2980b9 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Nature / Forest / Druid themes */
+body.deck-nature,
+body.deck-forest,
+body.deck-druid {
+  background-color: #050a05;
+  background-image: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(10,60,10,0.4) 0%, transparent 70%);
+}
+
+body.deck-nature .site-title,
+body.deck-forest .site-title,
+body.deck-druid .site-title {
+  background: linear-gradient(135deg, #58d68d 0%, #a9dfbf 40%, #58d68d 60%, #196f3d 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ----------------------------------------------------------------
+   SCROLLBAR STYLING
+   ---------------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0705;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gold-dim);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
+}
+
+/* ----------------------------------------------------------------
+   RESPONSIVE
+   ---------------------------------------------------------------- */
+@media (max-width: 700px) {
+  .table-grid-container {
+    flex-direction: column;
+  }
+
+  .spread-tablinks {
+    padding: 12px 10px;
+    font-size: 0.68rem;
+  }
+
+  .tab-spacer {
+    width: 60px;
+    height: 48px;
+  }
+
+  .tab-grid .tablinks {
+    width: 60px;
+    height: 48px;
+    font-size: 0.58rem;
+  }
+
+  .tabcontent {
+    padding: 20px 16px;
+  }
+
+  h1.site-title {
+    font-size: 1.5rem;
+  }
+}
+
+/* ----------------------------------------------------------------
+   UTILITY
+   ---------------------------------------------------------------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
 }
