@@ -66,20 +66,24 @@ async function fetchData() {
 // }
 
 function populateDropdown(deckLists) {
-  let dropdown = "<select id='deck-select' onchange='redrawAll()'>"; // Create a dropdown menu
+  // Set selectedDeck FIRST so it's valid before any event fires
+  selectedDeck = Object.keys(deckLists)[0];
+
+  let dropdown = "<select id='deck-select'>"; // No inline onchange — we use addEventListener below
   for (let deckName in deckLists) {
-    dropdown += `<option value="${deckName}">${deckName}</option>`; // Add each deck name as an option
+    dropdown += `<option value="${deckName}">${deckName}</option>`;
   }
   dropdown += "</select>";
-  document.getElementById("dropdown").innerHTML = dropdown; // Insert the dropdown into the page
+  document.getElementById("dropdown").innerHTML = dropdown;
 
-  document.getElementById("deck-select").value = selectedDeck; // Set the default selected deck
-  document.getElementById("deck-select").addEventListener("change", function() {
-    selectedDeck = this.value; // Update the selected deck when the dropdown changes
-    //redrawAll(); // Redraw all cards with the new deck
+  const sel = document.getElementById("deck-select");
+  sel.value = selectedDeck; // Now this will actually match an option
+
+  sel.addEventListener("change", function() {
+    selectedDeck = this.value;
+    // Notify the deck-theme script if present
+    sel.dispatchEvent(new Event('deck-theme-change', { bubbles: true }));
   });
-  // Initialize the first card with the selected deck
-  selectedDeck = Object.keys(deckLists)[0]; // Set the first deck as default
 }
 
 function openCard(evt, cardNum) {
@@ -175,18 +179,7 @@ function redrawThreeCardSpread() {
   }
 }
 
-document.querySelectorAll('button').forEach(button => {
-  button.addEventListener('click', function() {
-    handleButtonClick(this.id);
-  });
-});
-
-function handleButtonClick(id) {
-  const match = id.match(/^generate-button-(C\.\d{2})$/);
-  if (match) {
-    generateCard(match[1]);
-  }
-}
+// Removed early querySelectorAll - buttons are wired at bottom of script after DOM is ready
 /*
 function generateCard(cardNum, cardName) {
   let randomElement = Math.floor(Math.random() * deckLists.deckName.cardName.length);
@@ -236,8 +229,12 @@ function generateCard(cardNum, cardAberration) {
 }
 */
 function generateCard(cardNum) {
-  if (!allCards || !allDecks || !selectedDeck || !allDecks[selectedDeck]) {
-    console.error("No data available or selected deck is empty.");
+  if (!allCards || !allDecks) {
+    console.error("Card data not yet loaded. Please wait for data to finish loading.");
+    return;
+  }
+  if (!selectedDeck || !allDecks[selectedDeck]) {
+    console.error(`No valid deck selected. selectedDeck="${selectedDeck}", available:`, Object.keys(allDecks));
     return;
   }
 
@@ -330,15 +327,12 @@ if (document.getElementById("defaultOpen")) {
   document.getElementById("defaultOpen").click();
 }
 
-// Wire per-card Random buttons for all card slots (C.00..C.16)
-for (let i = 0; i <= 8; i++) {
-  const cardNum = i < 10 ? `C.0${i}` : `C.${i}`;
-  const btn = document.getElementById(`generate-button-${cardNum}`);
-  if (btn) btn.addEventListener('click', () => generateCard(cardNum));
-}
-
-for (let i = 9; i <= 16; i++) {
-  const cardNum = `C.${i}`;
-  const btn = document.getElementById(`generate-button-${cardNum}`);
-  if (btn) btn.addEventListener('click', () => generateCard(cardNum));
-}
+// Wire generate buttons via event delegation — works regardless of load timing
+// and handles both zero-padded (C.09) and non-padded (C.9) formats
+document.addEventListener('click', function(e) {
+  if (!e.target || !e.target.id) return;
+  const match = e.target.id.match(/^generate-button-(C\.\d+)$/);
+  if (match) {
+    generateCard(match[1]);
+  }
+});
