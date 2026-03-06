@@ -7,15 +7,20 @@
         <link rel="stylesheet" type="text/css" href="cardReading.css">
     </head>
     <body>
-        <h1>H1</h1>
-        <h2>Select a Deck</h2>
-		<div class="dropdown">
-			<span>FIX THIS DROPDOWN TO LOOK LESS SHIT</span>
-			<div class="dropdown-content">
-				<p id="dropdown"></p>
-			</div>
-		</div>
-		</div>
+        <h1>Card Reading based on WotC's Deck of Many Things Card Reference Guide</h1>
+        <div class="replaceable-toggle">
+            <h2>Do you want the same card to be able to appear multiple times in an array?</h2>
+            <label class="toggle-switch">
+                <input type="switch" id="replaceableToggle" onchange="toggleReplaceable()">
+                <span></span>
+            </label>
+        </div>
+		<div class="deck-selection">
+            <h2>Select a Deck</h2>
+            <div class="dropdown">
+                <p id="dropdown"></p>
+            </div>
+        </div>
 		
 		<!-- Spread Selection Tabs -->
 		<div class="spread-tabs">
