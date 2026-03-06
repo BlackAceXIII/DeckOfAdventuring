@@ -55,15 +55,11 @@ async function fetchData() {
   }
 }
 
-// No longer needed - cards are preloaded in allCards
-// async function fetchCardData(cardName) {
-//   const responseCard = await fetch(`${CARD_DIR}/${cardName}.json`);
-//   if (!responseCard.ok) {
-//     throw new Error(`HTTP error! status: ${responseCard.status}`);
-//   }
-//   const cardData = await responseCard.json();
-//   return cardData;
-// }
+// The card-fetch helper above was deprecated once we began loading
+// the entire AllCards.json at startup.  We kept the old code here as
+// a reference during development but later removed it since every card
+// can be looked up directly from `allCards.cards`.
+// (function fetchCardData was replaced by the preloaded `allCards` lookup.)
 
 function populateDropdown(deckLists) {
   let dropdown = "<select id='deck-select' onchange='redrawAll()'>"; // Create a dropdown menu
@@ -188,52 +184,20 @@ function handleButtonClick(id) {
   }
 }
 /*
-function generateCard(cardNum, cardName) {
-  let randomElement = Math.floor(Math.random() * deckLists.deckName.cardName.length);
-  let cardOrientation = Math.floor(Math.random() * 2);
-  let elementType = Math.floor(Math.random() * deckLists.deckName[randomElement].cardName.length);
+  Early prototype of generateCard used hardcoded deckLists structure
+  and updated some legacy `random-element` DOM nodes.  That approach was
+  abandoned when the system was redesigned to read from `allDecks`/`allCards`
+  and populate the spread tables.  The current `generateCard(cardNum)`
+  function above handles all spreads and orientations.
+*/
 
-  // Display the result in the relevant sector element
-  document.getElementById(`random-element-${cardNum}`).innerText = deckLists.deckName.cardName[randomElement].type + ' (' + randomElement + ')';
-
-  // Display the result in the relevant sector subtype
-  document.getElementById(`random-subtype-${cardNum}`).innerText = deckLists.deckName.cardName[randomElement].planetSubType[elementType];
-
-
-  let creatureType = deckLists.deckName.cardName[randomElement].creatureType.join('\n\n'); //A simpler way to do it but less formatting options 
-  // Display the result in the relevant sector creatures
-  document.getElementById(`random-creature-${cardNum}`).innerText = creatureType;
-}*/
-
-/* Assuming `cardAberration` is the JSON object from Aberration.json
-function generateCard(cardNum, cardAberration) {
-  
-  let cardOrientation = Math.floor(Math.random() * 2)
-  //const orientation = document.getElementById("card-orientation-C.00").textContent.trim();
-  
-  // Update card name and description
-  document.getElementById("card-name").textContent = cardAberration.name;
-  document.getElementById("card-description-C.00").textContent = cardAberration.description;
-  if (cardOrientation == 0) {
-    document.getElementById("card-orientation-C.00").textContent = "Upright";
-  }
-  else {
-    document.getElementById("card-orientation-C.00").textContent = "Reverse";
-  }
-
-  // Update meanings based on orientation (Upright or Reversed)
-  if (cardOrientation == 0) {
-    document.getElementById("meaning-person-C.00").textContent = cardAberration.meanings.person.upright;
-  }
-  else {
-    document.getElementById("meaning-person-C.00").textContent = cardAberration.meanings.person.reverse;
-  }
-  document.getElementById("meaning-person-C.00").textContent = cardAberration.meanings.person[cardOrientation];
-  document.getElementById("meaning-creature-C.00").textContent = cardAberration.meanings.creatureTrap[cardOrientation];
-  document.getElementById("meaning-place-C.00").textContent = cardAberration.meanings.place[cardOrientation];
-  document.getElementById("meaning-treasure-C.00").textContent = cardAberration.meanings.treasure[cardOrientation];
-  document.getElementById("meaning-situation-C.00").textContent = cardAberration.meanings.situation[cardOrientation];
-}
+/*
+  Example code from when the page was being tested with a single
+  `Aberration.json` card object.  It demonstrated populating a single
+  card slot based on a provided JSON object.  The final implementation
+  generalizes this logic in the `generateCard(cardNum)` function, which
+  now works for every card in any deck, so the specific example is no
+  longer needed.
 */
 function generateCard(cardNum) {
   if (!allCards || !allDecks || !selectedDeck || !allDecks[selectedDeck]) {

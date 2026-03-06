@@ -163,9 +163,9 @@ body {
   z-index: 1;
 }
 /*
-.dropdown:hover .dropdown-content {
-  display: block;
-}
+    The dropdown no longer relies on hover to show content; it is controlled
+    by JavaScript and kept visible as needed. The old hover rule was removed
+    but kept here as documentation of prior behavior.
 */
 .deck-selection {
   display: flex;
