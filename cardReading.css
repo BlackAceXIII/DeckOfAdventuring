@@ -1,4 +1,10 @@
-
+:root {
+  --primary-color: #840fb2;
+  --secondary-color: #ffd000;
+  --background-color: lightblue;
+  --tab-hover-color: #ddd;
+  --active-tab-color: #ccc;
+}
 body {font-family: Arial;}
 
 /* Style the tab */
