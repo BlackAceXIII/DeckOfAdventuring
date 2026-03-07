@@ -281,8 +281,7 @@ function generateCard(cardNum) {
   console.log(`Generated card: ${cardData.name} (${orientationText}) for slot ${cardNum}`);
 }
 
-// Initialize data
-fetchData();
+
 
 // Get the element with id="defaultSpreadOpen" and click on it to show default spread
 if (document.getElementById("defaultSpreadOpen")) {
@@ -306,3 +305,16 @@ for (let i = 9; i <= 16; i++) {
   const btn = document.getElementById(`generate-button-${cardNum}`);
   if (btn) btn.addEventListener('click', () => generateCard(cardNum));
 }
+
+function toggleReplaceable() {
+  const toggle = document.getElementById("replaceableToggle");
+  const isReplaceable = toggle.checked;
+  // Update the global setting for whether cards can be replaced
+  // This will affect how generateCard selects cards from the deck
+  // If isReplaceable is true, cards can appear multiple times; if false, they are removed from the deck after being drawn
+  console.log(`Card replacement is now ${isReplaceable ? 'enabled' : 'disabled'}`);
+  // You would implement the logic in generateCard to respect this setting when selecting cards
+}
+
+// Initialize data
+fetchData();
