@@ -46,6 +46,13 @@ async function fetchData() {
     console.log(`Loaded ${Object.keys(allCards.cards).length} cards`);
     console.log(`Loaded ${Object.keys(allDecks).length} deck types`);
 
+    // Create an array of all existing cards
+    const allExistingCards = Object.keys(allCards.cards);
+    console.log('All existing cards:', allExistingCards);
+
+    populateAllCardsSpread(allExistingCards);
+    populateBlankSlateSpread();
+
     populateDropdown(allDecks);
     return allDecks;
 
@@ -76,6 +83,82 @@ function populateDropdown(deckLists) {
   });
   // Initialize the first card with the selected deck
   selectedDeck = Object.keys(deckLists)[0]; // Set the first deck as default
+}
+
+function populateAllCardsSpread(allCardsArray) {
+  const grid = document.getElementById('all-cards-grid');
+  grid.innerHTML = ''; // Clear any existing content
+
+  allCardsArray.forEach(cardName => {
+    const button = document.createElement('button');
+    button.className = 'card-button';
+    button.textContent = cardName;
+    button.onclick = () => openAllCard(cardName);
+    grid.appendChild(button);
+  });
+}
+
+function populateBlankSlateSpread() {
+  const grid = document.getElementById('blank-slate-grid');
+  grid.innerHTML = ''; // Clear any existing content
+
+  for (let i = 0; i <= 16; i++) {
+    const cardNum = i < 10 ? `C.0${i}` : `C.${i}`;
+    const button = document.createElement('button');
+    button.className = 'slot-button';
+    button.textContent = cardNum;
+    button.onclick = (event) => openCard(event, cardNum);
+    grid.appendChild(button);
+  }
+}
+
+function openAllCard(cardName) {
+  // Create a temporary card tab for the selected card
+  const cardId = `all-${cardName.replace(/\s+/g, '-')}`;
+  let cardDiv = document.getElementById(cardId);
+  if (!cardDiv) {
+    cardDiv = document.createElement('div');
+    cardDiv.id = cardId;
+    cardDiv.className = 'tabcontent';
+    cardDiv.innerHTML = `
+      <span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+      <h3>Card: ${cardName}</h3>
+      <div>
+        <img id="card-image-${cardId}" src="../JSON_Folder/Generic Soldier 4.png" alt="Card Image" width="100" height="100" style="margin-top: 10px;">
+        <p style="font-size: 0.9em; margin: 5px 0;">Credit: <span id="card-credit-${cardId}">Credit Name</span></p>
+      </div>
+      <h4>Description: <span id="card-description-${cardId}">{@i Description of the card.}</span></h4>
+      <h4>Meanings</h4>
+      <div id="meanings-${cardId}">
+        <h5>Person: <span id="meaning-person-${cardId}">Meaning</span></h5>
+        <h5>Creature or Trap: <span id="meaning-creature-${cardId}">Meaning</span></h5>
+        <h5>Place: <span id="meaning-place-${cardId}">Meaning</span></h5>
+        <h5>Treasure: <span id="meaning-treasure-${cardId}">Meaning</span></h5>
+        <h5>Situation: <span id="meaning-situation-${cardId}">Meaning</span></h5>
+      </div>
+    `;
+    document.body.appendChild(cardDiv);
+  }
+
+  // Populate the card details
+  const cardData = allCards.cards[cardName];
+  if (cardData) {
+    setText(`card-description-${cardId}`, cardData.description || '');
+    setText(`card-credit-${cardId}`, cardData.credit || 'Unknown');
+    // For meanings, since no orientation, use upright or first
+    const getMeaning = (meaningArray) => {
+      if (!meaningArray) return '';
+      if (Array.isArray(meaningArray)) return meaningArray[0] || '';
+      return meaningArray.upright || '';
+    };
+    setText(`meaning-person-${cardId}`, getMeaning(cardData.meanings?.person));
+    setText(`meaning-creature-${cardId}`, getMeaning(cardData.meanings?.creatureTrap));
+    setText(`meaning-place-${cardId}`, getMeaning(cardData.meanings?.place));
+    setText(`meaning-treasure-${cardId}`, getMeaning(cardData.meanings?.treasure));
+    setText(`meaning-situation-${cardId}`, getMeaning(cardData.meanings?.situation));
+  }
+
+  cardDiv.style.display = 'block';
 }
 
 function openCard(evt, cardNum) {

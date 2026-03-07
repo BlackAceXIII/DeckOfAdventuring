@@ -30,6 +30,8 @@
 			<button class="spread-tablinks" onclick="openSpread(event, 'adventure-spread')" id="defaultSpreadOpen">Adventure Spread</button>
 			<button class="spread-tablinks" onclick="openSpread(event, 'five-card-spread')">Five-Card Spread</button>
 			<button class="spread-tablinks" onclick="openSpread(event, 'three-card-spread')">Three-Card Spread</button>
+			<button class="spread-tablinks" onclick="openSpread(event, 'all-cards-spread')">All Cards Spread</button>
+			<button class="spread-tablinks" onclick="openSpread(event, 'blank-slate-spread')">Blank Slate Spread</button>
 		</div>
 
 		<!-- Adventure Spread -->
@@ -237,6 +239,22 @@
 			<!-- Reroll button -->
 			<div>
 				<button class="button button1" onclick="redrawThreeCardSpread()">Redraw All Cards</button>
+			</div>
+		</div>
+
+		<!-- All Cards Spread -->
+		<div id="all-cards-spread" class="spread-tabcontent">
+			<h2>All Cards Spread - Browse All Cards</h2>
+			<div id="all-cards-grid" class="all-cards-grid">
+				<!-- Cards will be populated here by JavaScript -->
+			</div>
+		</div>
+
+		<!-- Blank Slate Spread -->
+		<div id="blank-slate-spread" class="spread-tabcontent">
+			<h2>Blank Slate Spread - Draw Cards Freely</h2>
+			<div id="blank-slate-grid" class="blank-slate-grid">
+				<!-- Card slots will be populated here by JavaScript -->
 			</div>
 		</div>
 
