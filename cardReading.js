@@ -74,20 +74,22 @@ async function fetchData() {
 // (function fetchCardData was replaced by the preloaded `allCards` lookup.)
 
 function populateDropdown(deckLists) {
-  let dropdown = "<select id='deck-select' onchange='redrawAll()'>"; // Create a dropdown menu
+  // Set selectedDeck FIRST so it is valid before any event or function reads it
+  selectedDeck = Object.keys(deckLists)[0];
+
+  let dropdown = "<select id='deck-select'>";
   for (let deckName in deckLists) {
-    dropdown += `<option value="${deckName}">${deckName}</option>`; // Add each deck name as an option
+    dropdown += `<option value="${deckName}">${deckName}</option>`;
   }
   dropdown += "</select>";
-  document.getElementById("dropdown").innerHTML = dropdown; // Insert the dropdown into the page
+  document.getElementById("dropdown").innerHTML = dropdown;
 
-  document.getElementById("deck-select").value = selectedDeck; // Set the default selected deck
-  document.getElementById("deck-select").addEventListener("change", function() {
-    selectedDeck = this.value; // Update the selected deck when the dropdown changes
-    //redrawAll(); // Redraw all cards with the new deck
+  const sel = document.getElementById("deck-select");
+  sel.value = selectedDeck; // selectedDeck is now valid so this selects the right option
+
+  sel.addEventListener("change", function() {
+    selectedDeck = this.value;
   });
-  // Initialize the first card with the selected deck
-  selectedDeck = Object.keys(deckLists)[0]; // Set the first deck as default
 }
 
 function populateAllCardsSpread(allCardsArray) {
@@ -267,18 +269,9 @@ function redrawJourneySpread() {
   }
 }
 
-document.querySelectorAll('button').forEach(button => {
-  button.addEventListener('click', function() {
-    handleButtonClick(this.id);
-  });
-});
-
-function handleButtonClick(id) {
-  const match = id.match(/^generate-button-(C\.\d{2})$/);
-  if (match) {
-    generateCard(match[1]);
-  }
-}
+// handleButtonClick and the early querySelectorAll wiring were removed.
+// Buttons are now handled by the event delegation listener below,
+// which correctly fires after data is loaded and covers all card slots.
 /*
   Early prototype of generateCard used hardcoded deckLists structure
   and updated some legacy `random-element` DOM nodes.  That approach was
@@ -295,9 +288,15 @@ function handleButtonClick(id) {
   now works for every card in any deck, so the specific example is no
   longer needed.
 */
+// Shared helper – must be module-level so openAllCard and generateCard can both use it
+function setText(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = value;
+}
+
 function generateCard(cardNum) {
   if (!allCards || !allDecks || !selectedDeck || !allDecks[selectedDeck]) {
-    console.error("No data available or selected deck is empty.");
+    console.error(`No data available or selected deck is empty. selectedDeck="${selectedDeck}"`);
     return;
   }
 
@@ -324,12 +323,6 @@ function generateCard(cardNum) {
   // Determines if the card is upright or reversed
   let cardOrientation = Math.floor(Math.random() * 2);
   const orientationText = cardOrientation === 0 ? "Upright" : "Reverse";
-  
-  // Update card detail fields for this card slot (per-card IDs)
-  function setText(id, value) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = value;
-  }
 
   setText(`card-name-${cardNum}`, cardData.name || cardName);
   setText(`card-description-${cardNum}`, cardData.description || '');
@@ -372,6 +365,12 @@ function generateCard(cardNum) {
     const threeOrientEl = document.getElementById(`card-orientation-list-three-${cardNum}`);
     if (threeNameEl) threeNameEl.textContent = cardNameText;
     if (threeOrientEl) threeOrientEl.textContent = orientationText;
+  } else if (cardNumber >= 17 && cardNumber <= 30) {
+    // Journey Spread (C.17-C.30)
+    const journeyNameEl = document.getElementById(`card-list-journey-${cardNum}`);
+    const journeyOrientEl = document.getElementById(`card-orientation-list-journey-${cardNum}`);
+    if (journeyNameEl) journeyNameEl.textContent = cardNameText;
+    if (journeyOrientEl) journeyOrientEl.textContent = orientationText;
   }
 
   console.log(`Generated card: ${cardData.name} (${orientationText}) for slot ${cardNum}`);
@@ -389,18 +388,16 @@ if (document.getElementById("defaultOpen")) {
   document.getElementById("defaultOpen").click();
 }
 
-// Wire per-card Random buttons for all card slots (C.00..C.16)
-for (let i = 0; i <= 8; i++) {
-  const cardNum = i < 10 ? `C.0${i}` : `C.${i}`;
-  const btn = document.getElementById(`generate-button-${cardNum}`);
-  if (btn) btn.addEventListener('click', () => generateCard(cardNum));
-}
-
-for (let i = 9; i <= 16; i++) {
-  const cardNum = `C.${i}`;
-  const btn = document.getElementById(`generate-button-${cardNum}`);
-  if (btn) btn.addEventListener('click', () => generateCard(cardNum));
-}
+// Wire all generate buttons via event delegation.
+// This handles C.00-C.30, works after async data load, and avoids
+// the C.9 vs C.09 formatting bug that direct getElementById wiring had.
+document.addEventListener('click', function(e) {
+  if (!e.target || !e.target.id) return;
+  const match = e.target.id.match(/^generate-button-(C\.\d+)$/);
+  if (match) {
+    generateCard(match[1]);
+  }
+});
 
 function toggleReplaceable() {
   const toggle = document.getElementById("replaceableToggle");
