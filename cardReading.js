@@ -12,7 +12,12 @@ const drawData = {
   "C.06": { cType: "" }, "C.07": { cType: "" }, "C.08": { cType: "" },
   "C.09": { cType: "" }, "C.10": { cType: "" }, "C.11": { cType: "" },
   "C.12": { cType: "" }, "C.13": { cType: "" }, "C.14": { cType: "" },
-  "C.15": { cType: "" }, "C.16": { cType: "" }
+  "C.15": { cType: "" }, "C.16": { cType: "" }, "C.17": { cType: "" },
+  "C.18": { cType: "" }, "C.19": { cType: "" }, "C.20": { cType: "" },
+  "C.21": { cType: "" }, "C.22": { cType: "" }, "C.23": { cType: "" },
+  "C.24": { cType: "" }, "C.25": { cType: "" }, "C.26": { cType: "" },
+  "C.27": { cType: "" }, "C.28": { cType: "" }, "C.29": { cType: "" },
+  "C.30": { cType: "" }
 };
 
 async function fetchData() {
@@ -231,6 +236,7 @@ function redrawAll() {
   redrawAdventureSpread();
   redrawFiveCardSpread();
   redrawThreeCardSpread();
+  redrawJourneySpread();
 }
 
 function redrawAdventureSpread() {
@@ -249,6 +255,13 @@ function redrawFiveCardSpread() {
 
 function redrawThreeCardSpread() {
   for (let i = 14; i <= 16; i++) {
+    const cardNum = `C.${i}`;
+    generateCard(cardNum);
+  }
+}
+
+function redrawJourneySpread() {
+  for (let i = 17; i <= 30; i++) {
     const cardNum = `C.${i}`;
     generateCard(cardNum);
   }
