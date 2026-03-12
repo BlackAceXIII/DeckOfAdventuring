@@ -91,7 +91,7 @@
         "Void",
         "Throne"
     ],
-    "creatureDeck": [
+    "Creature Deck": [
         "Aberration",
         "Beast",
         "Celestial",
@@ -107,7 +107,7 @@
         "Plant",
         "Undead"
     ],
-    "NPC_Deck": [
+    "NPC Deck": [
         "Corpse",
         "Euryale",
         "Expert",
@@ -122,7 +122,7 @@
         "Sage",
         "Warrior"
     ],
-    "ObjectDeck": [
+    "Object Deck": [
         "Balance",
         "Book",
         "Door",
@@ -143,7 +143,7 @@
         "Talons",
         "Throne"
     ],
-    "LocationsDeck": [
+    "Locations Deck": [
         "Bridge",
         "Cavern",
         "Crossroads",
@@ -155,7 +155,7 @@
         "Tomb",
         "Tower"
     ],
-    "StoryDeck": [
+    "Story Deck": [
         "Balance",
         "Comet",
         "Fates",
@@ -167,7 +167,7 @@
         "Talons",
         "Void"
     ],
-    "FeaturesDeck": [
+    "Features Deck": [
         "Aberration",
         "Beast",
         "Book",
