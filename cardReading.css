@@ -96,6 +96,56 @@ body {
   align-items: center;
   gap: 15px;
   margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+/* ========== TEXT LABELS TOGGLE STYLES ========== */
+.toggle-labels {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.toggle-labels label {
+  font-weight: 500;
+  color: #333;
+  font-size: 14px;
+}
+
+.toggle-switch input {
+  display: none;
+}
+
+.toggle-switch .slider-with-label {
+  display: inline-block;
+  width: 50px;
+  height: 28px;
+  background: #888;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+  position: relative;
+}
+
+.toggle-switch .slider-with-label:before {
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: white;
+  top: 2px;
+  left: 2px;
+  transition: 0.3s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.toggle-switch input:checked + .slider-with-label {
+  background: #840fb2;
+}
+
+.toggle-switch input:checked + .slider-with-label:before {
+  transform: translateX(22px);
 }
 
 .replaceable-toggle h2 {

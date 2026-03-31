@@ -3,6 +3,7 @@ let allCards = null; // Card data from AllCards.json
 let selectedDeck = null; // Default deck selection
 let cardName = null; // This will hold the name of the card
 let deckName = null; // This will hold the name of the deck
+let isReplaceableEnabled = true; // Track whether cards can be drawn multiple times
 
 const CARD_DIR = './CardsJsons';
 
@@ -401,12 +402,12 @@ document.addEventListener('click', function(e) {
 
 function toggleReplaceable() {
   const toggle = document.getElementById("replaceableToggle");
-  const isReplaceable = toggle.checked;
+  isReplaceableEnabled = toggle.checked;
   // Update the global setting for whether cards can be replaced
   // This will affect how generateCard selects cards from the deck
-  // If isReplaceable is true, cards can appear multiple times; if false, they are removed from the deck after being drawn
-  console.log(`Card replacement is now ${isReplaceable ? 'enabled' : 'disabled'}`);
-  // You would implement the logic in generateCard to respect this setting when selecting cards
+  // If isReplaceableEnabled is true, cards can appear multiple times
+  // If false, they are removed from the deck after being drawn
+  console.log(`Card replacement is now ${isReplaceableEnabled ? 'enabled' : 'disabled'}`);
 }
 
 // Initialize data
