@@ -1,9 +1,20 @@
 let allDecks = {}; // Combined deck lists from all sources
 let allCards = null; // Card data from AllCards.json
-let selectedDeck = null; // Default deck selection
+let selectedDecks = {
+  adventure: null,  // Deck selected for Adventure spread
+  fiveCard: null,   // Deck selected for Five-Card spread
+  threeCard: null,  // Deck selected for Three-Card spread
+  journey: null     // Deck selected for Journey spread
+};
 let cardName = null; // This will hold the name of the card
 let deckName = null; // This will hold the name of the deck
 let isReplaceableEnabled = true; // Track whether cards can be drawn multiple times
+let workingDecks = {
+  adventure: [],    // C.00-C.08
+  fiveCard: [],     // C.09-C.13
+  threeCard: [],    // C.14-C.16
+  journey: []       // C.17-C.30
+};
 
 const CARD_DIR = './CardsJsons';
 
@@ -74,23 +85,74 @@ async function fetchData() {
 // can be looked up directly from `allCards.cards`.
 // (function fetchCardData was replaced by the preloaded `allCards` lookup.)
 
-function populateDropdown(deckLists) {
-  // Set selectedDeck FIRST so it is valid before any event or function reads it
-  selectedDeck = Object.keys(deckLists)[0];
+// Get the selected deck for a given spread
+function getSelectedDeckForSpread(spreadKey) {
+  return selectedDecks[spreadKey] || Object.keys(allDecks)[0];
+}
 
-  let dropdown = "<select id='deck-select'>";
+// Determine which spread a card belongs to based on card number
+function getSpreadKey(cardNum) {
+  const cardNumber = parseInt(cardNum.replace('C.', ''));
+  if (cardNumber >= 0 && cardNumber <= 8) return 'adventure';
+  if (cardNumber >= 9 && cardNumber <= 13) return 'fiveCard';
+  if (cardNumber >= 14 && cardNumber <= 16) return 'threeCard';
+  if (cardNumber >= 17 && cardNumber <= 30) return 'journey';
+  return 'adventure'; // default
+}
+
+// Initialize fresh copies of decks for all spreads when replacement is disabled
+function initializeWorkingDecks() {
+  const spreads = ['adventure', 'fiveCard', 'threeCard', 'journey'];
+  spreads.forEach(spread => {
+    const deckName = getSelectedDeckForSpread(spread);
+    if (allDecks[deckName]) {
+      workingDecks[spread] = [...allDecks[deckName]];
+    }
+  });
+  console.log(`Initialized all working decks with their respective selected decks`);
+}
+
+function populateDropdown(deckLists) {
+  // Initialize all spreads with the first available deck
+  const defaultDeck = Object.keys(deckLists)[0];
+  selectedDecks.adventure = defaultDeck;
+  selectedDecks.fiveCard = defaultDeck;
+  selectedDecks.threeCard = defaultDeck;
+  selectedDecks.journey = defaultDeck;
+  initializeWorkingDecks();
+
+  // Create dropdown for each spread
+  const spreads = [
+    { key: 'adventure', id: 'deck-select-adventure', label: 'Adventure Spread' },
+    { key: 'fiveCard', id: 'deck-select-fiveCard', label: 'Five-Card Spread' },
+    { key: 'threeCard', id: 'deck-select-threeCard', label: 'Three-Card Spread' },
+    { key: 'journey', id: 'deck-select-journey', label: 'Journey Spread' }
+  ];
+
+  spreads.forEach(spread => {
+    createSpreadDeckSelector(spread.key, spread.id, spread.label, deckLists);
+  });
+}
+
+// Create a deck selector for a specific spread
+function createSpreadDeckSelector(spreadKey, selectId, label, deckLists) {
+  let dropdown = `<label>${label} Deck:</label><select id="${selectId}" class="deck-select-spread">`;
   for (let deckName in deckLists) {
     dropdown += `<option value="${deckName}">${deckName}</option>`;
   }
   dropdown += "</select>";
-  document.getElementById("dropdown").innerHTML = dropdown;
-
-  const sel = document.getElementById("deck-select");
-  sel.value = selectedDeck; // selectedDeck is now valid so this selects the right option
-
-  sel.addEventListener("change", function() {
-    selectedDeck = this.value;
-  });
+  
+  const container = document.getElementById(`${spreadKey}-deck-selector`);
+  if (container) {
+    container.innerHTML = dropdown;
+    const sel = document.getElementById(selectId);
+    sel.value = selectedDecks[spreadKey];
+    sel.addEventListener("change", function() {
+      selectedDecks[spreadKey] = this.value;
+      initializeWorkingDecks();
+      console.log(`${spreadKey} spread now using deck: ${this.value}`);
+    });
+  }
 }
 
 function populateAllCardsSpread(allCardsArray) {
@@ -296,21 +358,51 @@ function setText(id, value) {
 }
 
 function generateCard(cardNum) {
+  // Determine which spread this card belongs to
+  const spreadKey = getSpreadKey(cardNum);
+  const selectedDeck = getSelectedDeckForSpread(spreadKey);
+  
   if (!allCards || !allDecks || !selectedDeck || !allDecks[selectedDeck]) {
-    console.error(`No data available or selected deck is empty. selectedDeck="${selectedDeck}"`);
+    console.error(`No data available or selected deck is empty. selectedDeck="${selectedDeck}" for spread "${spreadKey}"`);
     return;
   }
 
-  // Get the deck array for the selected deck
-  const deck = allDecks[selectedDeck];
+  // Determine which deck to use based on replacement setting
+  let deckToUse = isReplaceableEnabled ? allDecks[selectedDeck] : workingDecks[spreadKey];
   
-  // Get random card from the deck
-  const randomIndex = Math.floor(Math.random() * deck.length);
-  const cardName = deck[randomIndex];
+  // Check if working deck is empty when replacement is disabled
+  if (!isReplaceableEnabled && deckToUse.length === 0) {
+    alert(`The deck is out of cards! (${spreadKey} spread)`);
+    console.warn(`Working deck for ${spreadKey} is empty. Reinitializing with "${selectedDeck}"`);
+    initializeWorkingDecks();
+    deckToUse = workingDecks[spreadKey];
+  }
+  
+  if (deckToUse.length === 0) {
+    console.error(`No cards available in deck ${selectedDeck}`);
+    return;
+  }
+  
+  // Get random card from the selected deck
+  const randomIndex = Math.floor(Math.random() * deckToUse.length);
+  const cardName = deckToUse[randomIndex];
   
   if (!cardName) {
-    console.error(`No card found at index ${randomIndex} in deck ${selectedDeck}`);
+    console.error(`No card found at index ${randomIndex}`);
     return;
+  }
+  
+  // Remove card from working deck if replacement is disabled
+  if (!isReplaceableEnabled) {
+    deckToUse.splice(randomIndex, 1);
+    console.log(`
+=== CARD DRAWN ===
+Spread: ${spreadKey}
+Deck: ${selectedDeck}
+Card: ${cardName}
+Remaining cards in ${spreadKey} deck (${deckToUse.length} total):
+${deckToUse.map((card, idx) => `  ${idx + 1}. ${card}`).join('\n')}
+==================`);
   }
 
   // Get the card data from allCards
@@ -396,7 +488,24 @@ document.addEventListener('click', function(e) {
   if (!e.target || !e.target.id) return;
   const match = e.target.id.match(/^generate-button-(C\.\d+)$/);
   if (match) {
-    generateCard(match[1]);
+    const cardNum = match[1];
+    generateCard(cardNum);
+    // Open the card detail tab to display the drawn card information
+    const cardTab = document.getElementById(cardNum);
+    if (cardTab) {
+      cardTab.style.display = 'block';
+      // Also highlight the card slot button as active if it exists
+      const tablinks = document.getElementsByClassName("tablinks");
+      for (let i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      const tabcontent = document.getElementsByClassName("tabcontent");
+      for (let i = 0; i < tabcontent.length; i++) {
+        if (tabcontent[i].id !== cardNum) {
+          tabcontent[i].style.display = "none";
+        }
+      }
+    }
   }
 });
 

@@ -198,6 +198,41 @@ body {
   transform: translateX(22px);
 }
 
+/* ========== PER-SPREAD DECK SELECTOR STYLES ========== */
+.spread-deck-selector {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 12px;
+  margin-bottom: 20px;
+}
+
+.spread-deck-selector label {
+  font-weight: 600;
+  color: #333;
+  margin-right: 10px;
+  display: inline-block;
+}
+
+.deck-select-spread {
+  padding: 8px 12px;
+  border: 1px solid #999;
+  border-radius: 4px;
+  background-color: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.deck-select-spread:hover {
+  background-color: #f5f5f5;
+}
+
+.deck-select-spread:focus {
+  outline: none;
+  border-color: #840fb2;
+  box-shadow: 0 0 4px rgba(132, 15, 178, 0.3);
+}
+
 .dropdown {
   position: relative;
   display: block;

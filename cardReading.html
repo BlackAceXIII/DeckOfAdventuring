@@ -22,13 +22,6 @@
                 <label>Yes</label>
             </div>
         </div>
-		<div class="deck-selection">
-            <h2>Select a Deck</h2>
-            <div class="dropdown">
-                <p id="dropdown"></p>
-            </div>
-        </div>
-		
 		<!-- Spread Selection Tabs -->
 		<div class="spread-tabs">
 			<button class="spread-tablinks" onclick="openSpread(event, 'adventure-spread')" id="defaultSpreadOpen">Adventure Spread</button>
@@ -42,6 +35,7 @@
 		<!-- Adventure Spread -->
 		<div id="adventure-spread" class="spread-tabcontent">
 			<h2>Adventure Spread - List of Cards Drawn</h2>
+			<div id="adventure-deck-selector" class="spread-deck-selector"></div>
 			<div class="table-grid-container">
 				<div class="table-section">
 					<table class="card-list" border="1">
@@ -136,6 +130,7 @@
 		<!-- Five-Card Spread -->
 		<div id="five-card-spread" class="spread-tabcontent">
 			<h2>Five-Card Spread - List of Cards Drawn</h2>
+			<div id="fiveCard-deck-selector" class="spread-deck-selector"></div>
 			<div class="table-grid-container">
 				<div class="table-section">
 					<table class="card-list" border="1">
@@ -204,6 +199,8 @@
 		<!-- Three-Card Spread -->
 		<div id="three-card-spread" class="spread-tabcontent">
 			<h2>Three-Card Spread - List of Cards Drawn</h2>
+			<div id="threeCard-deck-selector" class="spread-deck-selector"></div>
+			<div class="table-grid-container">
 			<div class="table-grid-container">
 				<div class="table-section">
 					<table class="card-list" border="1">
@@ -250,6 +247,7 @@
 		<!-- Journey Spread -->
 		<div id="journey-spread" class="spread-tabcontent">
 			<h2>Journey Spread - List of Cards Drawn</h2>
+			<div id="journey-deck-selector" class="spread-deck-selector"></div>
 			<div class="table-grid-container">
 				<div class="table-section">
 					<table class="card-list" border="1">
