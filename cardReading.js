@@ -177,7 +177,7 @@ function populateBlankSlateSpread() {
     const button = document.createElement('button');
     button.className = 'slot-button';
     button.textContent = cardNum;
-    button.onclick = (event) => openCard(event, cardNum);
+    button.onclick = function(event) { openCard(event, cardNum, this); };
     grid.appendChild(button);
   }
 }
@@ -231,18 +231,37 @@ function openAllCard(cardName) {
   cardDiv.style.display = 'block';
 }
 
-function openCard(evt, cardNum) {
+function openCard(evt, cardNum, buttonElement) {
   var i, tabcontent, tablinks;
+  
+  // Hide all tab content
   tabcontent = document.getElementsByClassName("tabcontent");
   for (i = 0; i < tabcontent.length; i++) {
     tabcontent[i].style.display = "none";
   }
+  
+  // Remove active class from all tab links
   tablinks = document.getElementsByClassName("tablinks");
   for (i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" active", "");
   }
-  document.getElementById(cardNum).style.display = "block";
-  evt.currentTarget.className += " active";
+  
+  // Show the selected card's tab
+  const cardElement = document.getElementById(cardNum);
+  if (cardElement) {
+    cardElement.style.display = "block";
+  } else {
+    console.error(`Card element ${cardNum} not found`);
+  }
+  
+  // Add active class to the clicked button
+  // Prefer the explicitly passed buttonElement, fall back to event.target or currentTarget
+  let activeButton = buttonElement || (evt && (evt.target || evt.currentTarget));
+  if (activeButton && activeButton.classList) {
+    activeButton.classList.add("active");
+  } else if (activeButton) {
+    activeButton.className += " active";
+  }
 }
 
 function openSpread(evt, spreadName) {
@@ -471,15 +490,23 @@ ${deckToUse.map((card, idx) => `  ${idx + 1}. ${card}`).join('\n')}
 
 
 
-// Get the element with id="defaultSpreadOpen" and click on it to show default spread
-if (document.getElementById("defaultSpreadOpen")) {
-  document.getElementById("defaultSpreadOpen").click();
-}
-
-// Get the element with id="defaultOpen" and click on it
-if (document.getElementById("defaultOpen")) {
-  document.getElementById("defaultOpen").click();
-}
+// Initialize data and set up defaults after DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+  fetchData().then(() => {
+    // After data is loaded, open default spread and card
+    const defaultSpreadBtn = document.getElementById("defaultSpreadOpen");
+    if (defaultSpreadBtn) {
+      defaultSpreadBtn.click();
+    }
+    
+    const defaultCardBtn = document.getElementById("defaultOpen");
+    if (defaultCardBtn) {
+      defaultCardBtn.click();
+    }
+  }).catch(error => {
+    console.error('Failed to initialize:', error);
+  });
+});
 
 // Wire all generate buttons via event delegation.
 // This handles C.00-C.30, works after async data load, and avoids
@@ -518,6 +545,3 @@ function toggleReplaceable() {
   // If false, they are removed from the deck after being drawn
   console.log(`Card replacement is now ${isReplaceableEnabled ? 'enabled' : 'disabled'}`);
 }
-
-// Initialize data
-fetchData();
