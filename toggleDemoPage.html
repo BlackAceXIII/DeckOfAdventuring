@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Toggle Switch Demo - 8 Styles</title>
+    <style>
+        /* ========== GENERAL PAGE STYLES ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        .demo-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+        .demo-card:hover {
+            transform: translateY(-5px);
+        }
+        .demo-card h2 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .demo-card .description {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+        .demo-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 80px;
+            margin-bottom: 20px;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            overflow-x: auto;
+            line-height: 1.4;
+        }
+        .code-copy-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 16px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: background 0.3s;
+        }
+        .code-copy-btn:hover {
+            background: #764ba2;
+        }
+
+        /* ========== TOGGLE 1: ANIMATED SLIDE TOGGLE ========== */
+        .toggle-slide {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        .toggle-slide input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .toggle-slide .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.3s;
+            border-radius: 34px;
+        }
+        .toggle-slide .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+        .toggle-slide input:checked + .slider {
+            background-color: #2196F3;
+        }
+        .toggle-slide input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* ========== TOGGLE 2: BUTTON TOGGLE ========== */
+        .toggle-button input {
+            display: none;
+        }
+        .toggle-button {
+            display: inline-flex;
+            border: 2px solid #333;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .toggle-button label {
+            padding: 8px 16px;
+            cursor: pointer;
+            flex: 1;
+            text-align: center;
+            transition: 0.3s;
+            font-weight: bold;
+            background: #f0f0f0;
+            color: #999;
+        }
+        .toggle-button label:first-of-type {
+            border-right: 2px solid #333;
+        }
+        #btn-toggle:checked + .btn-on {
+            background: #4CAF50;
+            color: white;
+        }
+        #btn-toggle:checked ~ .btn-off {
+            background: #f0f0f0;
+            color: #999;
+        }
+
+        /* ========== TOGGLE 3: ICON TOGGLE ========== */
+        .toggle-icon input {
+            display: none;
+        }
+        .toggle-icon .toggle-content {
+            display: flex;
+            width: 60px;
+            height: 30px;
+            background: #ddd;
+            border-radius: 15px;
+            position: relative;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .toggle-icon .icon {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            position: relative;
+            z-index: 1;
+            transition: opacity 0.3s;
+        }
+        .toggle-icon input:checked + .toggle-content {
+            background: #333;
+        }
+        .toggle-icon input:checked + .toggle-content .icon:first-child {
+            opacity: 0;
+        }
+        .toggle-icon input:not(:checked) + .toggle-content .icon:last-child {
+            opacity: 0;
+        }
+
+        /* ========== TOGGLE 4: CIRCLE TOGGLE ========== */
+        .toggle-circle input {
+            display: none;
+        }
+        .toggle-circle {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+        }
+        .toggle-circle .circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .toggle-circle .circle:after {
+            content: "✓";
+            font-size: 20px;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .toggle-circle input:checked + .circle {
+            transform: scale(1.1) rotate(180deg);
+        }
+        .toggle-circle input:checked + .circle:after {
+            opacity: 1;
+        }
+
+        /* ========== TOGGLE 5: FLIP CARD TOGGLE ========== */
+        .toggle-flip input {
+            display: none;
+        }
+        .toggle-flip .flip-card {
+            width: 80px;
+            height: 40px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .flip-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flip-front, .flip-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .flip-front {
+            background: #ff6b6b;
+            color: white;
+        }
+        .flip-back {
+            background: #51cf66;
+            color: white;
+            transform: rotateY(180deg);
+        }
+        .toggle-flip input:checked + .flip-card .flip-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* ========== TOGGLE 6: TEXT LABELS TOGGLE ========== */
+        .toggle-labels {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .toggle-labels label {
+            font-weight: 500;
+            color: #333;
+        }
+        .toggle-switch input {
+            display: none;
+        }
+        .toggle-switch .slider-with-label {
+            display: inline-block;
+            width: 50px;
+            height: 28px;
+            background: #888;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+            position: relative;
+        }
+        .toggle-switch .slider-with-label:before {
+            content: "";
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: white;
+            top: 2px;
+            left: 2px;
+            transition: 0.3s;
+        }
+        .toggle-switch input:checked + .slider-with-label {
+            background: #2196F3;
+        }
+        .toggle-switch input:checked + .slider-with-label:before {
+            transform: translateX(22px);
+        }
+
+        /* ========== TOGGLE 7: ANIMATED BAR TOGGLE ========== */
+        .toggle-bar input {
+            display: none;
+        }
+        .toggle-bar .bar {
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+            background: linear-gradient(90deg, #ff6b6b, #ffd93d);
+            border-radius: 30px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .toggle-bar .bar:before {
+            content: "";
+            position: absolute;
+            width: 26px;
+            height: 26px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .toggle-bar input:checked + .bar {
+            background: linear-gradient(90deg, #51cf66, #94d82d);
+        }
+        .toggle-bar input:checked + .bar:before {
+            transform: translateX(30px);
+        }
+
+        /* ========== TOGGLE 8: STATUS LIGHT TOGGLE ========== */
+        #light-toggle {
+            display: none;
+        }
+        .light-status {
+            display: inline-block;
+            cursor: pointer;
+            padding: 8px;
+        }
+        .light-status .status-dot {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #ff4444;
+            box-shadow: 0 0 10px rgba(255,68,68,0.5);
+            transition: all 0.3s ease;
+            animation: pulse-red 1s infinite;
+        }
+        #light-toggle:checked + .light-status .status-dot {
+            background: #44ff44;
+            box-shadow: 0 0 10px rgba(68,255,68,0.5);
+            animation: pulse-green 1s infinite;
+        }
+        @keyframes pulse-red {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        @keyframes pulse-green {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎛️ Toggle Switch Demo - 8 Styles</h1>
+        
+        <div class="demo-grid">
+
+            <!-- ========== TOGGLE 1 ========== -->
+            <div class="demo-card">
+                <h2>1. Animated Slide Toggle</h2>
+                <p class="description">Classic modern style. Smooth sliding animation with circular button.</p>
+                <div class="demo-content">
+                    <label class="toggle-slide">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <button class="code-copy-btn" onclick="copyCode('code1')">📋 Copy HTML & CSS</button>
+                <div class="code-block" id="code1">
+&lt;!-- HTML --&gt;
+&lt;label class="toggle-slide"&gt;
+  &lt;input type="checkbox"&gt;
+  &lt;span class="slider"&gt;&lt;/span&gt;
+&lt;/label&gt;
+
+&lt;!-- CSS --&gt;
+&lt;style&gt;
+.toggle-slide {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+.toggle-slide input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.toggle-slide .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: 0.3s;
+  border-radius: 34px;
+}
+.toggle-slide .slider:before {
+  position: absolute;
+  content: "";
+  height: 26px; width: 26px;
+  left: 4px; bottom: 4px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+.toggle-slide input:checked + .slider {
+  background-color: #2196F3;
+}
+.toggle-slide input:checked + .slider:before {
+  transform: translateX(26px);
+}
+&lt;/style&gt;
+                </div>
+            </div>
+
+            <!-- ========== TOGGLE 2 ========== -->
+            <div class="demo-card">
+                <h2>2. Button Toggle</h2>
+                <p class="description">Two distinct buttons showing ON/OFF states. Color changes on toggle.</p>
+                <div class="demo-content">
+                    <div class="toggle-button">
+                        <input type="checkbox" id="btn-toggle">
+                        <label for="btn-toggle" class="btn-on">ON</label>
+                        <label for="btn-toggle" class="btn-off">OFF</label>
+                    </div>
+                </div>
+                <button class="code-copy-btn" onclick="copyCode('code2')">📋 Copy HTML & CSS</button>
+                <div class="code-block" id="code2">
+&lt;!-- HTML --&gt;
+&lt;div class="toggle-button"&gt;
+  &lt;input type="checkbox" id="btn-toggle"&gt;
+  &lt;label for="btn-toggle" class="btn-on"&gt;ON&lt;/label&gt;
+  &lt;label for="btn-toggle" class="btn-off"&gt;OFF&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;!-- CSS --&gt;
+&lt;style&gt;
+.toggle-button input { display: none; }
+.toggle-button {
+  display: inline-flex;
+  border: 2px solid #333;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.toggle-button label {
+  padding: 8px 16px;
+  cursor: pointer;
+  flex: 1; text-align: center;
+  transition: 0.3s;
+  font-weight: bold;
+  background: #f0f0f0;
+  color: #999;
+}
+.toggle-button label:first-of-type {
+  border-right: 2px solid #333;
+}
+#btn-toggle:checked + .btn-on {
+  background: #4CAF50;
+  color: white;
+}
+#btn-toggle:checked ~ .btn-off {
+  background: #f0f0f0;
+  color: #999;
+}
+&lt;/style&gt;
+                </div>
+            </div>
+
+            <!-- ========== TOGGLE 3 ========== -->
+            <div class="demo-card">
+                <h2>3. Icon Toggle</h2>
+                <p class="description">Icons fade in/out. Perfect for theme switching (☀️ 🌙).</p>
+                <div class="demo-content">
+                    <label class="toggle-icon">
+                        <input type="checkbox">
+                        <div class="toggle-content">
+                            <span class="icon">☀️</span>
+                            <span class="icon">🌙</span>
+                        </div>
+                    </label>
+                </div>
+                <button class="code-copy-btn" onclick="copyCode('code3')">📋 Copy HTML & CSS</button>
+                <div class="code-block" id="code3">
+&lt;!-- HTML --&gt;
+&lt;label class="toggle-icon"&gt;
+  &lt;input type="checkbox"&gt;
+  &lt;div class="toggle-content"&gt;
+    &lt;span class="icon"&gt;☀️&lt;/span&gt;
+    &lt;span class="icon"&gt;🌙&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/label&gt;
+
+&lt;!-- CSS --&gt;
+&lt;style&gt;
+.toggle-icon input { display: none; }
+.toggle-icon .toggle-content {
+  display: flex;
+  width: 60px; height: 30px;
+  background: #ddd;
+  border-radius: 15px;
+  position: relative;
+  transition: 0.3s;
+  cursor: pointer;
+}
+.toggle-icon .icon {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: opacity 0.3s;
+}
+.toggle-icon input:checked + .toggle-content {
+  background: #333;
+}
+.toggle-icon input:checked + .toggle-content .icon:first-child {
+  opacity: 0;
+}
+.toggle-icon input:not(:checked) + .toggle-content .icon:last-child {
+  opacity: 0;
+}
+&lt;/style&gt;
+                </div>
+            </div>
+
+            <!-- ========== TOGGLE 4 ========== -->
+            <div class="demo-card">
+                <h2>4. Circle Toggle</h2>
+                <p class="description">Rotating gradient circle with checkmark. Playful and modern.</p>
+                <div class="demo-content">
+                    <label class="toggle-circle">
+                        <input type="checkbox">
+                        <div class="circle"></div>
+                    </label>
+                </div>
+                <button class="code-copy-btn" onclick="copyCode('code4')">📋 Copy HTML & CSS</button>
+                <div class="code-block" id="code4">
+&lt;!-- HTML --&gt;
+&lt;label class="toggle-circle"&gt;
+  &lt;input type="checkbox"&gt;
+  &lt;div class="circle"&gt;&lt;/div&gt;
+&lt;/label&gt;
+
+&lt;!-- CSS --&gt;
+&lt;style&gt;
+.toggle-circle input { display: none; }
+.toggle-circle {
+  position: relative;
+  display: inline-block;
+  width: 50px; height: 50px;
+  cursor: pointer;
+}
+.toggle-circle .circle {
+  width: 50px; height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg,
+    #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+.toggle-circle .circle:after {
+  content: "✓";
+  font-size: 20px;
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.toggle-circle input:checked + .circle {
+  transform: scale(1.1) rotate(180deg);
+}
+.toggle-circle input:checked + .circle:after {
+  opacity: 1;
+}
+&lt;/style&gt;
+                </div>
+            </div>
+
+            <!-- ========== TOGGLE 5 ========== -->
+            <div class="demo-card">
+                <h2>5. Flip Card Toggle</h2>
+                <p class="description">3D flip effect between OFF and ON. Impressive animation.</p>
+                <div class="demo-content">
+                    <label class="toggle-flip">
+                        <input type="checkbox">
+                        <div class="flip-card">
+                            <div class="flip-inner">
+                                <div class="flip-front">OFF</div>
+                                <div class="flip-back">ON</div>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+                <button class="code-copy-btn" onclick="copyCode('code5')">📋 Copy HTML & CSS</button>
+                <div class="code-block" id="code5">
+&lt;!-- HTML --&gt;
+&lt;label class="toggle-flip"&gt;
+  &lt;input type="checkbox"&gt;
+  &lt;div class="flip-card"&gt;
+    &lt;div class="flip-inner"&gt;
+      &lt;div class="flip-front"&gt;OFF&lt;/div&gt;
+      &lt;div class="flip-back"&gt;ON&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/label&gt;
+
+&lt;!-- CSS --&gt;
+&lt;style&gt;
+.toggle-flip input { display: none; }
+.toggle-flip .flip-card {
+  width: 80px; height: 40px;
+  perspective: 1000px;
+  cursor: pointer;
+}
+.flip-inner {
+  position: relative;
+  width: 100%; height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+.flip-front, .flip-back {
+  position: absolute;
+  width: 100%; height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  border-radius: 4px;
+  font-size: 12px;
+}
+.flip-front {
+  background: #ff6b6b;
+  color: white;
+}
+.flip-back {
+  background: #51cf66;
+  color: white;
+  transform: rotateY(180deg);
+}
+.toggle-flip input:checked + .flip-card .flip-inner {
+  transform: rotateY(180deg);
+}
+&lt;/style&gt;
+                </div>
+            </div>
+
+            <!-- ========== TOGGLE 6 ========== -->
+            <div class="demo-card">
+                <h2>6. Text Labels Toggle</h2>
+                <p class="description">Slider with side-by-side descriptive labels for clarity.</p>
+                <div class="demo-content">
+                    <div class="toggle-labels">
+                        <label>Dark</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="slider-with-label"></span>
+                        </label>
+                        <label>Light</label>
+                    </div>
+                </div>
+                <button class="code-copy-btn" onclick="copyCode('code6')">📋 Copy HTML & CSS</button>
+                <div class="code-block" id="code6">
+&lt;!-- HTML --&gt;
+&lt;div class="toggle-labels"&gt;
+  &lt;label&gt;Dark&lt;/label&gt;
+  &lt;label class="toggle-switch"&gt;
+    &lt;input type="checkbox"&gt;
+    &lt;span class="slider-with-label"&gt;&lt;/span&gt;
+  &lt;/label&gt;
+  &lt;label&gt;Light&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;!-- CSS --&gt;
+&lt;style&gt;
+.toggle-labels {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.toggle-labels label {
+  font-weight: 500;
+  color: #333;
+}
+.toggle-switch input { display: none; }
+.toggle-switch .slider-with-label {
+  display: inline-block;
+  width: 50px; height: 28px;
+  background: #888;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+  position: relative;
+}
+.toggle-switch .slider-with-label:before {
+  content: "";
+  position: absolute;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: white;
+  top: 2px; left: 2px;
+  transition: 0.3s;
+}
+.toggle-switch input:checked + .slider-with-label {
+  background: #2196F3;
+}
+.toggle-switch input:checked + .slider-with-label:before {
+  transform: translateX(22px);
+}
+&lt;/style&gt;
+                </div>
+            </div>
+
+            <!-- ========== TOGGLE 7 ========== -->
+            <div class="demo-card">
+                <h2>7. Animated Bar Toggle</h2>
+                <p class="description">Gradient background bar that changes colors. Modern and vibrant.</p>
+                <div class="demo-content">
+                    <label class="toggle-bar">
+                        <input type="checkbox">
+                        <span class="bar"></span>
+                    </label>
+                </div>
+                <button class="code-copy-btn" onclick="copyCode('code7')">📋 Copy HTML & CSS</button>
+                <div class="code-block" id="code7">
+&lt;!-- HTML --&gt;
+&lt;label class="toggle-bar"&gt;
+  &lt;input type="checkbox"&gt;
+  &lt;span class="bar"&gt;&lt;/span&gt;
+&lt;/label&gt;
+
+&lt;!-- CSS --&gt;
+&lt;style&gt;
+.toggle-bar input { display: none; }
+.toggle-bar .bar {
+  display: inline-block;
+  width: 60px; height: 30px;
+  background: linear-gradient(90deg,
+    #ff6b6b, #ffd93d);
+  border-radius: 30px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+}
+.toggle-bar .bar:before {
+  content: "";
+  position: absolute;
+  width: 26px; height: 26px;
+  background: white;
+  border-radius: 50%;
+  top: 2px; left: 2px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+.toggle-bar input:checked + .bar {
+  background: linear-gradient(90deg,
+    #51cf66, #94d82d);
+}
+.toggle-bar input:checked + .bar:before {
+  transform: translateX(30px);
+}
+&lt;/style&gt;
+                </div>
+            </div>
+
+            <!-- ========== TOGGLE 8 ========== -->
+            <div class="demo-card">
+                <h2>8. Status Light Toggle</h2>
+                <p class="description">Pulsing colored dot. Great for system status indicators.</p>
+                <div class="demo-content">
+                    <div class="toggle-light">
+                        <input type="checkbox" id="light-toggle">
+                        <label for="light-toggle" class="light-status">
+                            <span class="status-dot"></span>
+                        </label>
+                    </div>
+                </div>
+                <button class="code-copy-btn" onclick="copyCode('code8')">📋 Copy HTML & CSS</button>
+                <div class="code-block" id="code8">
+&lt;!-- HTML --&gt;
+&lt;div class="toggle-light"&gt;
+  &lt;input type="checkbox" id="light-toggle"&gt;
+  &lt;label for="light-toggle" 
+    class="light-status"&gt;
+    &lt;span class="status-dot"&gt;&lt;/span&gt;
+  &lt;/label&gt;
+&lt;/div&gt;
+
+&lt;!-- CSS --&gt;
+&lt;style&gt;
+#light-toggle { display: none; }
+.light-status {
+  display: inline-block;
+  cursor: pointer;
+  padding: 8px;
+}
+.light-status .status-dot {
+  display: inline-block;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: #ff4444;
+  box-shadow: 0 0 10px 
+    rgba(255,68,68,0.5);
+  transition: all 0.3s ease;
+  animation: pulse-red 1s infinite;
+}
+#light-toggle:checked + .light-status .status-dot {
+  background: #44ff44;
+  box-shadow: 0 0 10px 
+    rgba(68,255,68,0.5);
+  animation: pulse-green 1s infinite;
+}
+@keyframes pulse-red {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+@keyframes pulse-green {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+&lt;/style&gt;
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // Copy code to clipboard
+        function copyCode(elementId) {
+            const codeBlock = document.getElementById(elementId);
+            const text = codeBlock.innerText;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                btn.style.background = '#51cf66';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '#667eea';
+                }, 2000);
+            }).catch(err => {
+                alert('Failed to copy: ' + err);
+            });
+        }
+    </script>
+</body>
+</html>
