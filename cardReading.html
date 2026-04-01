@@ -11,17 +11,19 @@
             Simplified toggle switch replaces earlier nested label/slider markup.
             Original had a <code>switch</code> class with <code>span.slider.round</code> etc;
             now we use a single <code>.toggle-switch</code> with flex layout for clarity.
-        -->        <div class="replaceable-toggle">
-            <h2>Do you want the same card to be able to appear multiple times in an array?</h2>
-            <div class="toggle-labels">
-                <label>No</label>
-                <label class="toggle-switch">
-                    <input type="checkbox" id="replaceableToggle" onchange="toggleReplaceable()">
-                    <span class="slider-with-label"></span>
-                </label>
-                <label>Yes</label>
-            </div>
-        </div>
+        -->        
+		<!-- Corrected Toggle (Changed type to checkbox as noted in README) -->
+		<div class="replaceable-toggle">
+			<h2>Do you want the same card to be able to appear multiple times in an array?</h2>
+			<div class="toggle-labels">
+				<label>No</label>
+				<label class="toggle-switch">
+					<input type="checkbox" id="replaceableToggle" onchange="toggleReplaceable()">
+					<span></span>
+				</label>
+				<label>Yes</label>
+			</div>
+		</div>
 		<!-- Spread Selection Tabs -->
 		<div class="spread-tabs">
 			<button class="spread-tablinks" onclick="openSpread(event, 'adventure-spread')" id="defaultSpreadOpen">Adventure Spread</button>
@@ -244,88 +246,32 @@
 			</div>
 		</div>
 
-		<!-- Journey Spread -->
+		<!-- Corrected Journey Spread (Fixed nested DIVs and missing tags) -->
 		<div id="journey-spread" class="spread-tabcontent">
 			<h2>Journey Spread - List of Cards Drawn</h2>
 			<div id="journey-deck-selector" class="spread-deck-selector"></div>
 			<div class="table-grid-container">
 				<div class="table-section">
 					<table class="card-list" border="1">
-						<tr>
-							<th>Card Slot</th>
-							<th>Card Name</th>
-							<th>Orientation</th>
-						</tr>
-						<tr>
-							<td>C.17 (Stage 1 Challenge)</td>
-							<td id="card-list-journey-C.17">—</td>
-							<td id="card-orientation-list-journey-C.17">—</td>
-						</tr>
-						<tr>
-							<td>C.18 (Stage 2 Challenge)</td>
-							<td id="card-list-journey-C.18">—</td>
-							<td id="card-orientation-list-journey-C.18">—</td>
-						</tr>
-						<tr>
-							<td>C.19 (Stage 3 Challenge)</td>
-							<td id="card-list-journey-C.19">—</td>
-							<td id="card-orientation-list-journey-C.19">—</td>
-						</tr>
-						<tr>
-							<td>C.20 (Stage 4 Challenge)</td>
-							<td id="card-list-journey-C.20">—</td>
-							<td id="card-orientation-list-journey-C.20">—</td>
-						</tr>
-						<tr>
-							<td>C.21 (Stage 5 Challenge)</td>
-							<td id="card-list-journey-C.21">—</td>
-							<td id="card-orientation-list-journey-C.21">—</td>
-						</tr>
-						<tr>
-							<td>C.22 (Stage 6 Challenge)</td>
-							<td id="card-list-journey-C.22">—</td>
-							<td id="card-orientation-list-journey-C.22">—</td>
-						</tr>
-						<tr>
-							<td>C.23 (Stage 7 Challenge)</td>
-							<td id="card-list-journey-C.23">—</td>
-							<td id="card-orientation-list-journey-C.23">—</td>
-						</tr>
-						<tr>
-							<td>C.24 (Stage 1 Reward)</td>
-							<td id="card-list-journey-C.24">—</td>
-							<td id="card-orientation-list-journey-C.24">—</td>
-						</tr>
-						<tr>
-							<td>C.25 (Stage 2 Reward)</td>
-							<td id="card-list-journey-C.25">—</td>
-							<td id="card-orientation-list-journey-C.25">—</td>
-						</tr>
-						<tr>
-							<td>C.26 (Stage 3 Reward)</td>
-							<td id="card-list-journey-C.26">—</td>
-							<td id="card-orientation-list-journey-C.26">—</td>
-						</tr>
-						<tr>
-							<td>C.27 (Stage 4 Reward)</td>
-							<td id="card-list-journey-C.27">—</td>
-							<td id="card-orientation-list-journey-C.27">—</td>
-						</tr>
-						<tr>
-							<td>C.28 (Stage 5 Reward)</td>
-							<td id="card-list-journey-C.28">—</td>
-							<td id="card-orientation-list-journey-C.28">—</td>
-						</tr>
-						<tr>
-							<td>C.29 (Stage 6 Reward)</td>
-							<td id="card-list-journey-C.29">—</td>
-							<td id="card-orientation-list-journey-C.29">—</td>
-						</tr>
-						<tr>
-							<td>C.30 (Stage 7 Reward)</td>
-							<td id="card-list-journey-C.30">—</td>
-							<td id="card-orientation-list-journey-C.30">—</td>
-						</tr>
+						<thead>
+							<tr><th>Card Slot</th><th>Card Name</th><th>Orientation</th></tr>
+						</thead>
+						<tbody id="journey-table-body">
+							<tr><td>C.17 (Stage 1 Challenge)</td><td id="card-list-journey-C.17">—</td><td id="card-orientation-list-journey-C.17">—</td></tr>
+							<tr><td>C.18 (Stage 2 Challenge)</td><td id="card-list-journey-C.18">—</td><td id="card-orientation-list-journey-C.18">—</td></tr>
+							<tr><td>C.19 (Stage 3 Challenge)</td><td id="card-list-journey-C.19">—</td><td id="card-orientation-list-journey-C.19">—</td></tr>
+							<tr><td>C.20 (Stage 4 Challenge)</td><td id="card-list-journey-C.20">—</td><td id="card-orientation-list-journey-C.20">—</td></tr>
+							<tr><td>C.21 (Stage 5 Challenge)</td><td id="card-list-journey-C.21">—</td><td id="card-orientation-list-journey-C.21">—</td></tr>
+							<tr><td>C.22 (Stage 6 Challenge)</td><td id="card-list-journey-C.22">—</td><td id="card-orientation-list-journey-C.22">—</td></tr>
+							<tr><td>C.23 (Stage 7 Challenge)</td><td id="card-list-journey-C.23">—</td><td id="card-orientation-list-journey-C.23">—</td></tr>
+							<tr><td>C.24 (Stage 1 Reward)</td><td id="card-list-journey-C.24">—</td><td id="card-orientation-list-journey-C.24">—</td></tr>
+							<tr><td>C.25 (Stage 2 Reward)</td><td id="card-list-journey-C.25">—</td><td id="card-orientation-list-journey-C.25">—</td></tr>
+							<tr><td>C.26 (Stage 3 Reward)</td><td id="card-list-journey-C.26">—</td><td id="card-orientation-list-journey-C.26">—</td></tr>
+							<tr><td>C.27 (Stage 4 Reward)</td><td id="card-list-journey-C.27">—</td><td id="card-orientation-list-journey-C.27">—</td></tr>
+							<tr><td>C.28 (Stage 5 Reward)</td><td id="card-list-journey-C.28">—</td><td id="card-orientation-list-journey-C.28">—</td></tr>
+							<tr><td>C.29 (Stage 6 Reward)</td><td id="card-list-journey-C.29">—</td><td id="card-orientation-list-journey-C.29">—</td></tr>
+							<tr><td>C.30 (Stage 7 Reward)</td><td id="card-list-journey-C.30">—</td><td id="card-orientation-list-journey-C.30">—</td></tr>
+						</tbody>
 					</table>
 				</div>
 				<div class="grid-section">
@@ -358,7 +304,7 @@
 			<div>
 				<button class="button button1" onclick="redrawJourneySpread()">Redraw All Cards</button>
 			</div>
-		</div><!-- end journey-spread (closing tag was missing) -->
+		</div>
 
 		<!-- Blank Slate Spread -->
 		<div id="blank-slate-spread" class="spread-tabcontent">

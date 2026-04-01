@@ -1,14 +1,17 @@
+// Ensure defaults are set immediately to prevent null errors
+let selectedDecks = {
+  adventure: 'Default',
+  fiveCard: 'Default',
+  threeCard: 'Default',
+  journey: 'Default'
+};
+
+let isReplaceableEnabled = false; // Default to "No" to match common Tarot logic
+
 let allDecks = {}; // Combined deck lists from all sources
 let allCards = null; // Card data from AllCards.json
-let selectedDecks = {
-  adventure: null,  // Deck selected for Adventure spread
-  fiveCard: null,   // Deck selected for Five-Card spread
-  threeCard: null,  // Deck selected for Three-Card spread
-  journey: null     // Deck selected for Journey spread
-};
 let cardName = null; // This will hold the name of the card
 let deckName = null; // This will hold the name of the deck
-let isReplaceableEnabled = true; // Track whether cards can be drawn multiple times
 let workingDecks = {
   adventure: [],    // C.00-C.08
   fiveCard: [],     // C.09-C.13
@@ -100,16 +103,19 @@ function getSpreadKey(cardNum) {
   return 'adventure'; // default
 }
 
-// Initialize fresh copies of decks for all spreads when replacement is disabled
+// IMPROVED: Robust initialization of working decks
 function initializeWorkingDecks() {
   const spreads = ['adventure', 'fiveCard', 'threeCard', 'journey'];
   spreads.forEach(spread => {
-    const deckName = getSelectedDeckForSpread(spread);
-    if (allDecks[deckName]) {
+    const deckName = selectedDecks[spread];
+    if (allDecks && allDecks[deckName]) {
       workingDecks[spread] = [...allDecks[deckName]];
+    } else if (allDecks) {
+      // Fallback to first deck if selection is invalid
+      const firstDeck = Object.keys(allDecks)[0];
+      workingDecks[spread] = [...allDecks[firstDeck]];
     }
   });
-  console.log(`Initialized all working decks with their respective selected decks`);
 }
 
 function populateDropdown(deckLists) {
@@ -264,18 +270,23 @@ function openCard(evt, cardNum, buttonElement) {
   }
 }
 
+// FIXED: Tab switching logic to ensure content is visible
 function openSpread(evt, spreadName) {
-  var i, spreadTabcontent, spreadTablinks;
-  spreadTabcontent = document.getElementsByClassName("spread-tabcontent");
-  for (i = 0; i < spreadTabcontent.length; i++) {
+  const spreadTabcontent = document.getElementsByClassName("spread-tabcontent");
+  for (let i = 0; i < spreadTabcontent.length; i++) {
     spreadTabcontent[i].style.display = "none";
   }
-  spreadTablinks = document.getElementsByClassName("spread-tablinks");
-  for (i = 0; i < spreadTablinks.length; i++) {
-    spreadTablinks[i].className = spreadTablinks[i].className.replace(" active", "");
+  
+  const spreadTablinks = document.getElementsByClassName("spread-tablinks");
+  for (let i = 0; i < spreadTablinks.length; i++) {
+    spreadTablinks[i].classList.remove("active");
   }
-  document.getElementById(spreadName).style.display = "block";
-  evt.currentTarget.className += " active";
+
+  const target = document.getElementById(spreadName);
+  if (target) {
+    target.style.display = "block";
+    evt.currentTarget.classList.add("active");
+  }
 }
 
 // Helper function to get the currently active spread
@@ -376,116 +387,53 @@ function setText(id, value) {
   if (el) el.textContent = value;
 }
 
+// FIXED: generateCard now dynamically finds table cells
 function generateCard(cardNum) {
-  // Determine which spread this card belongs to
   const spreadKey = getSpreadKey(cardNum);
-  const selectedDeck = getSelectedDeckForSpread(spreadKey);
+  const deckName = selectedDecks[spreadKey];
   
-  if (!allCards || !allDecks || !selectedDeck || !allDecks[selectedDeck]) {
-    console.error(`No data available or selected deck is empty. selectedDeck="${selectedDeck}" for spread "${spreadKey}"`);
-    return;
-  }
+  if (!allCards || !allDecks) return;
 
-  // Determine which deck to use based on replacement setting
-  let deckToUse = isReplaceableEnabled ? allDecks[selectedDeck] : workingDecks[spreadKey];
+  let deckToUse = isReplaceableEnabled ? allDecks[deckName] : workingDecks[spreadKey];
   
-  // Check if working deck is empty when replacement is disabled
-  if (!isReplaceableEnabled && deckToUse.length === 0) {
-    alert(`The deck is out of cards! (${spreadKey} spread)`);
-    console.warn(`Working deck for ${spreadKey} is empty. Reinitializing with "${selectedDeck}"`);
-    initializeWorkingDecks();
+  if (!isReplaceableEnabled && (!deckToUse || deckToUse.length === 0)) {
+    alert(`The ${spreadKey} deck is empty! Resetting deck.`);
+    workingDecks[spreadKey] = [...allDecks[deckName]];
     deckToUse = workingDecks[spreadKey];
   }
-  
-  if (deckToUse.length === 0) {
-    console.error(`No cards available in deck ${selectedDeck}`);
-    return;
-  }
-  
-  // Get random card from the selected deck
+
   const randomIndex = Math.floor(Math.random() * deckToUse.length);
   const cardName = deckToUse[randomIndex];
   
-  if (!cardName) {
-    console.error(`No card found at index ${randomIndex}`);
-    return;
-  }
-  
-  // Remove card from working deck if replacement is disabled
   if (!isReplaceableEnabled) {
     deckToUse.splice(randomIndex, 1);
-    console.log(`
-=== CARD DRAWN ===
-Spread: ${spreadKey}
-Deck: ${selectedDeck}
-Card: ${cardName}
-Remaining cards in ${spreadKey} deck (${deckToUse.length} total):
-${deckToUse.map((card, idx) => `  ${idx + 1}. ${card}`).join('\n')}
-==================`);
   }
 
-  // Get the card data from allCards
   const cardData = allCards.cards[cardName];
-  
-  if (!cardData) {
-    console.error(`Card data for "${cardName}" not found in AllCards.json`);
-    return;
-  }
-
-  // Determines if the card is upright or reversed
-  let cardOrientation = Math.floor(Math.random() * 2);
+  const cardOrientation = Math.floor(Math.random() * 2);
   const orientationText = cardOrientation === 0 ? "Upright" : "Reverse";
 
-  setText(`card-name-${cardNum}`, cardData.name || cardName);
-  setText(`card-description-${cardNum}`, cardData.description || '');
+  // Update Detail Panel
+  setText(`card-name-${cardNum}`, cardData.name);
   setText(`card-orientation-${cardNum}`, orientationText);
-
-  // Helper to resolve meanings which may be arrays or {upright,reverse}
-  const getMeaning = (meaningArray) => {
-    if (!meaningArray) return '';
-    if (Array.isArray(meaningArray)) return meaningArray[cardOrientation] || meaningArray[0] || '';
-    return cardOrientation === 0 ? (meaningArray.upright || '') : (meaningArray.reverse || '');
-  };
-
-  setText(`meaning-person-${cardNum}`, getMeaning(cardData.meanings?.person));
-  setText(`meaning-creature-${cardNum}`, getMeaning(cardData.meanings?.creatureTrap));
-  setText(`meaning-place-${cardNum}`, getMeaning(cardData.meanings?.place));
-  setText(`meaning-treasure-${cardNum}`, getMeaning(cardData.meanings?.treasure));
-  setText(`meaning-situation-${cardNum}`, getMeaning(cardData.meanings?.situation));
-
-  // Update appropriate spread tables based on card number range
-  const cardNameText = cardData.name || cardName;
   
-  // Determine which spread this card belongs to and update its table
-  const cardNumber = parseInt(cardNum.replace('C.', ''));
+  // Dynamic Table Update: Searches for the cell regardless of the spread's specific ID prefix
+  const nameCell = document.querySelector(`[id$="list-${cardNum}"]`);
+  const orientCell = document.querySelector(`[id$="list-${cardNum}"]`).nextElementSibling;
   
-  if (cardNumber >= 0 && cardNumber <= 8) {
-    // Adventure Spread (C.00-C.08)
-    const adventureNameEl = document.getElementById(`card-list-${cardNum}`);
-    const adventureOrientEl = document.getElementById(`card-orientation-list-${cardNum}`);
-    if (adventureNameEl) adventureNameEl.textContent = cardNameText;
-    if (adventureOrientEl) adventureOrientEl.textContent = orientationText;
-  } else if (cardNumber >= 9 && cardNumber <= 13) {
-    // Five-Card Spread (C.09-C.13)
-    const fiveNameEl = document.getElementById(`card-list-five-${cardNum}`);
-    const fiveOrientEl = document.getElementById(`card-orientation-list-five-${cardNum}`);
-    if (fiveNameEl) fiveNameEl.textContent = cardNameText;
-    if (fiveOrientEl) fiveOrientEl.textContent = orientationText;
-  } else if (cardNumber >= 14 && cardNumber <= 16) {
-    // Three-Card Spread (C.14-C.16)
-    const threeNameEl = document.getElementById(`card-list-three-${cardNum}`);
-    const threeOrientEl = document.getElementById(`card-orientation-list-three-${cardNum}`);
-    if (threeNameEl) threeNameEl.textContent = cardNameText;
-    if (threeOrientEl) threeOrientEl.textContent = orientationText;
-  } else if (cardNumber >= 17 && cardNumber <= 30) {
-    // Journey Spread (C.17-C.30)
-    const journeyNameEl = document.getElementById(`card-list-journey-${cardNum}`);
-    const journeyOrientEl = document.getElementById(`card-orientation-list-journey-${cardNum}`);
-    if (journeyNameEl) journeyNameEl.textContent = cardNameText;
-    if (journeyOrientEl) journeyOrientEl.textContent = orientationText;
-  }
+  if (nameCell) nameCell.textContent = cardData.name;
+  if (orientCell) orientCell.textContent = orientationText;
 
-  console.log(`Generated card: ${cardData.name} (${orientationText}) for slot ${cardNum}`);
+  // Resolve meanings based on the object structure in AllCards.json
+  const meanings = cardData.meanings;
+  const categories = ['person', 'creatureTrap', 'place', 'treasure', 'situation'];
+  
+  categories.forEach(cat => {
+    // Map creatureTrap to the ID 'creature' used in your HTML
+    const htmlId = cat === 'creatureTrap' ? 'creature' : cat;
+    const val = cardOrientation === 0 ? meanings[cat].upright : meanings[cat].reverse;
+    setText(`meaning-${htmlId}-${cardNum}`, val);
+  });
 }
 
 
