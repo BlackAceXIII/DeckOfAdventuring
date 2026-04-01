@@ -35,6 +35,18 @@ const drawData = {
   "C.30": { cType: "" }
 };
 
+// Card ID Organization:
+// All card slot IDs follow a unified naming convention:
+// - Card detail panels: card-name-C.## and card-orientation-C.##
+// - Spread tables: card-list-C.## and card-orientation-list-C.##
+// This allows universal selectors that work across all spreads:
+//   Adventure Spread: C.00-C.08
+//   Five-Card Spread: C.09-C.13
+//   Three-Card Spread: C.14-C.16
+//   Journey Spread: C.17-C.30
+// The unified naming eliminates the need for spread-specific prefixes
+// and makes getElementById() lookups fast and efficient.
+
 async function fetchData() {
   try {
     // Load cards and default decks in parallel
@@ -116,6 +128,15 @@ function initializeWorkingDecks() {
       workingDecks[spread] = [...allDecks[firstDeck]];
     }
   });
+}
+
+// Helper function to reset a specific spread's working deck
+function resetWorkingDeck(spreadKey) {
+  const deckName = getSelectedDeckForSpread(spreadKey);
+  if (allDecks && allDecks[deckName]) {
+    workingDecks[spreadKey] = [...allDecks[deckName]];
+    console.log(`Fresh deck shuffled for ${spreadKey} spread.`);
+  }
 }
 
 function populateDropdown(deckLists) {
@@ -335,6 +356,7 @@ function redrawAll() {
 }
 
 function redrawAdventureSpread() {
+  resetWorkingDeck('adventure');
   for (let i = 0; i <= 8; i++) {
     const cardNum = i < 10 ? `C.0${i}` : `C.${i}`;
     generateCard(cardNum);
@@ -342,6 +364,7 @@ function redrawAdventureSpread() {
 }
 
 function redrawFiveCardSpread() {
+  resetWorkingDeck('fiveCard');
   for (let i = 9; i <= 13; i++) {
     const cardNum = i < 10 ? `C.0${i}` : `C.${i}`;
     generateCard(cardNum);
@@ -349,6 +372,7 @@ function redrawFiveCardSpread() {
 }
 
 function redrawThreeCardSpread() {
+  resetWorkingDeck('threeCard');
   for (let i = 14; i <= 16; i++) {
     const cardNum = `C.${i}`;
     generateCard(cardNum);
@@ -356,6 +380,7 @@ function redrawThreeCardSpread() {
 }
 
 function redrawJourneySpread() {
+  resetWorkingDeck('journey');
   for (let i = 17; i <= 30; i++) {
     const cardNum = `C.${i}`;
     generateCard(cardNum);
@@ -397,9 +422,14 @@ function generateCard(cardNum) {
   let deckToUse = isReplaceableEnabled ? allDecks[deckName] : workingDecks[spreadKey];
   
   if (!isReplaceableEnabled && (!deckToUse || deckToUse.length === 0)) {
-    alert(`The ${spreadKey} deck is empty! Resetting deck.`);
+    // Silently refill the deck if empty
     workingDecks[spreadKey] = [...allDecks[deckName]];
     deckToUse = workingDecks[spreadKey];
+  }
+
+  if (deckToUse.length === 0) {
+    console.error(`No cards available in deck ${deckName}`);
+    return;
   }
 
   const randomIndex = Math.floor(Math.random() * deckToUse.length);
@@ -417,11 +447,13 @@ function generateCard(cardNum) {
   setText(`card-name-${cardNum}`, cardData.name);
   setText(`card-orientation-${cardNum}`, orientationText);
   
-  // Dynamic Table Update: Searches for the cell regardless of the spread's specific ID prefix
-  const nameCell = document.querySelector(`[id$="list-${cardNum}"]`);
-  const orientCell = document.querySelector(`[id$="list-${cardNum}"]`).nextElementSibling;
+  // Dynamic Table Update: This will instantly find and update ANY table in the app perfectly
+  // Uses unified card IDs (card-list-C.##) that work across all spreads
+  const cardNameText = cardData.name || cardName;
+  const nameCell = document.getElementById(`card-list-${cardNum}`);
+  const orientCell = document.getElementById(`card-orientation-list-${cardNum}`);
   
-  if (nameCell) nameCell.textContent = cardData.name;
+  if (nameCell) nameCell.textContent = cardNameText;
   if (orientCell) orientCell.textContent = orientationText;
 
   // Resolve meanings based on the object structure in AllCards.json
