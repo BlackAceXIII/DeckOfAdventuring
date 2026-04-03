@@ -89,7 +89,7 @@ Features are ordered from least to most complex to implement. Dependencies are n
 
 ---
 
-### 1. Replacement Toggle — Complete Implementation
+### 1. ✅ Replacement Toggle — Complete Implementation
 **Complexity: Lowest**
 
 The UI toggle already exists. The underlying draw logic needs to be connected to it.
@@ -104,7 +104,7 @@ The UI toggle already exists. The underlying draw logic needs to be connected to
 
 ---
 
-### 2. Import / Export
+### 2. ❌ Import / Export
 **Complexity: Low**
 
 All data needed for a save is already in the DOM and in the JS draw state. No architectural changes required.
@@ -123,7 +123,7 @@ All data needed for a save is already in the DOM and in the JS draw state. No ar
 
 ---
 
-### 3. Per-Spread Deck Selection
+### 3. ✅ Per-Spread Deck Selection
 **Complexity: Low–Moderate**
 
 Replaces one global string with a small object. The spread-detection logic already exists in `generateCard` and just needs extending.
@@ -142,7 +142,7 @@ Replaces one global string with a small object. The spread-detection logic alrea
 
 ---
 
-### 4. Custom Deck Building
+### 4. ❌ Custom Deck Building
 **Complexity: Moderate**
 
 Lets users construct their own named decks from the cards available in `AllCards.json`. Writes into the same `allDecks` object the rest of the code already reads from.
@@ -162,7 +162,7 @@ Lets users construct their own named decks from the cards available in `AllCards
 
 ---
 
-### 5. Manual Card Selection
+### 5. ❌ Manual Card Selection
 **Complexity: Moderate–High**
 
 Adds a mode where the user chooses a specific card to assign to a slot rather than drawing randomly.
@@ -182,7 +182,7 @@ Adds a mode where the user chooses a specific card to assign to a slot rather th
 
 ---
 
-### 6. Free-Form / Blank Slate Spread — Full Implementation
+### 6. ⚠️ Free-Form / Blank Slate Spread — Full Implementation
 **Complexity: Moderate**
 
 The Blank Slate spread tab already exists and populates slot buttons for C.00–C.16. Full implementation means clarifying its behaviour and connecting it to the replacement toggle and per-spread deck selection.
@@ -202,7 +202,7 @@ The Blank Slate spread tab already exists and populates slot buttons for C.00–
 
 ---
 
-### 7. Multi-Deck Adventure Spread
+### 7. ❌ Multi-Deck Adventure Spread
 **Complexity: Highest**
 
 A modified Adventure Spread where different slot types draw from different named decks simultaneously, some slots require two cards (a location and a feature paired together), the number of challenge slots is variable (1–3), and some slots are optional.
