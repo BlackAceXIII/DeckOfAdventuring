@@ -1,0 +1,139 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-04-07T17:49:46.752Z",
+  "settings": {
+    "isReplaceableEnabled": false,
+    "selectedDecks": {
+      "adventure": "Deck of Many More Things",
+      "fiveCard": "Deck of Many Things",
+      "threeCard": "Story Deck",
+      "journey": "Features Deck"
+    }
+  },
+  "cards": {
+    "C.00": {
+      "name": "Path",
+      "orientation": "Upright"
+    },
+    "C.01": {
+      "name": "Prisoner",
+      "orientation": "Reverse"
+    },
+    "C.02": {
+      "name": "Skull",
+      "orientation": "Reverse"
+    },
+    "C.03": {
+      "name": "Stairway",
+      "orientation": "Upright"
+    },
+    "C.04": {
+      "name": "Door",
+      "orientation": "Reverse"
+    },
+    "C.05": {
+      "name": "Expert",
+      "orientation": "Upright"
+    },
+    "C.06": {
+      "name": "Balance",
+      "orientation": "Upright"
+    },
+    "C.07": {
+      "name": "Celestial",
+      "orientation": "Reverse"
+    },
+    "C.08": {
+      "name": "Key",
+      "orientation": "Upright"
+    },
+    "C.09": {
+      "name": "Sun",
+      "orientation": "Upright"
+    },
+    "C.10": {
+      "name": "Fates",
+      "orientation": "Upright"
+    },
+    "C.11": {
+      "name": "Euryale",
+      "orientation": "Upright"
+    },
+    "C.12": {
+      "name": "Key",
+      "orientation": "Reverse"
+    },
+    "C.13": {
+      "name": "Ruin",
+      "orientation": "Reverse"
+    },
+    "C.14": {
+      "name": "Talons",
+      "orientation": "Reverse"
+    },
+    "C.15": {
+      "name": "Balance",
+      "orientation": "Upright"
+    },
+    "C.16": {
+      "name": "Moon",
+      "orientation": "Upright"
+    },
+    "C.17": {
+      "name": "Undead",
+      "orientation": "Reverse"
+    },
+    "C.18": {
+      "name": "Fiend",
+      "orientation": "Reverse"
+    },
+    "C.19": {
+      "name": "Skull",
+      "orientation": "Reverse"
+    },
+    "C.20": {
+      "name": "Mage",
+      "orientation": "Upright"
+    },
+    "C.21": {
+      "name": "Puzzle",
+      "orientation": "Reverse"
+    },
+    "C.22": {
+      "name": "Jester",
+      "orientation": "Upright"
+    },
+    "C.23": {
+      "name": "Shield",
+      "orientation": "Reverse"
+    },
+    "C.24": {
+      "name": "Pit",
+      "orientation": "Reverse"
+    },
+    "C.25": {
+      "name": "Priest",
+      "orientation": "Reverse"
+    },
+    "C.26": {
+      "name": "Humanoid",
+      "orientation": "Reverse"
+    },
+    "C.27": {
+      "name": "Ring",
+      "orientation": "Upright"
+    },
+    "C.28": {
+      "name": "Prisoner",
+      "orientation": "Upright"
+    },
+    "C.29": {
+      "name": "Staff",
+      "orientation": "Reverse"
+    },
+    "C.30": {
+      "name": "Beast",
+      "orientation": "Reverse"
+    }
+  }
+}

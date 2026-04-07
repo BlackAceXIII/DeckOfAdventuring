@@ -24,6 +24,18 @@
 				<label>Yes</label>
 			</div>
 		</div>
+		
+		<!-- Import/Export Controls -->
+		<div class="import-export-section">
+			<button class="button button1 export-btn" onclick="exportReading()">
+				<span>📥</span> Export Reading
+			</button>
+			<button class="button button1 import-btn" onclick="document.getElementById('importFileInput').click()">
+				<span>📤</span> Import Reading
+			</button>
+			<input type="file" id="importFileInput" accept=".json" style="display: none;" onchange="importReading(event)">
+		</div>
+		
 		<!-- Spread Selection Tabs -->
 		<div class="spread-tabs">
 			<button class="spread-tablinks" onclick="openSpread(event, 'adventure-spread')" id="defaultSpreadOpen">Adventure Spread</button>

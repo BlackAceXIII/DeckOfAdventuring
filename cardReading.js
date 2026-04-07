@@ -516,6 +516,185 @@ document.addEventListener('click', function(e) {
   }
 });
 
+// ========== IMPORT/EXPORT FUNCTIONS ==========
+//
+// OVERVIEW: These functions allow you to save and load card readings.
+//
+// EXPORT: Takes all the cards currently displayed on screen (C.00-C.30),
+// grabs their names and orientations, packages everything into a JSON object
+// with a timestamp, and downloads it as a file. Only cards that have been
+// actually drawn are saved (skips empty slots with default text).
+//
+// IMPORT: Reads a previously exported JSON file, validates it has the right
+// format, then restores all the cards, orientations, deck selections, and
+// settings back onto the screen. If a card in the file no longer exists in
+// the current card database, it's skipped with a warning.
+//
+// The JSON structure: { version, timestamp, settings, cards }
+// Settings include: isReplaceableEnabled flag and selectedDecks for each spread
+// Cards are keyed by slot (C.00, C.01, etc.) with name and orientation info
+
+/**
+ * Export the current reading to a JSON file
+ * Captures all drawn cards, orientations, deck selections, and settings
+ */
+function exportReading() {
+  const readingData = {
+    version: "1.0",
+    timestamp: new Date().toISOString(),
+    settings: {
+      isReplaceableEnabled: isReplaceableEnabled,
+      selectedDecks: { ...selectedDecks }
+    },
+    cards: {}
+  };
+
+  // Collect all card data from C.00 to C.30
+  for (let i = 0; i <= 30; i++) {
+    const cardNum = i < 10 ? `C.0${i}` : `C.${i}`;
+    
+    // Get card name from the detail panel
+    const nameEl = document.getElementById(`card-name-${cardNum}`);
+    const orientEl = document.getElementById(`card-orientation-${cardNum}`);
+    
+    if (nameEl && orientEl) {
+      const cardName = nameEl.textContent;
+      const orientation = orientEl.textContent;
+      
+      // Only save if a card has been drawn (not the default "Card Name" text)
+      if (cardName && cardName !== "Card Name" && orientation !== "Upright or Reversed") {
+        readingData.cards[cardNum] = {
+          name: cardName,
+          orientation: orientation
+        };
+      }
+    }
+  }
+
+  // Create filename with timestamp
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
+  const filename = `card-reading-${timestamp}.json`;
+
+  // Create and download the file
+  const blob = new Blob([JSON.stringify(readingData, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  console.log(`Exported reading with ${Object.keys(readingData.cards).length} cards to ${filename}`);
+  alert(`Reading exported successfully!\n${Object.keys(readingData.cards).length} cards saved.`);
+}
+
+/**
+ * Import a reading from a JSON file
+ * Restores all cards, orientations, deck selections, and settings
+ */
+function importReading(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const readingData = JSON.parse(e.target.result);
+      
+      // Validate the file format
+      if (!readingData.version || !readingData.cards) {
+        throw new Error('Invalid reading file format');
+      }
+
+      // Restore settings
+      if (readingData.settings) {
+        // Restore replacement toggle
+        if (typeof readingData.settings.isReplaceableEnabled !== 'undefined') {
+          isReplaceableEnabled = readingData.settings.isReplaceableEnabled;
+          const toggle = document.getElementById('replaceableToggle');
+          if (toggle) {
+            toggle.checked = isReplaceableEnabled;
+          }
+        }
+
+        // Restore deck selections
+        if (readingData.settings.selectedDecks) {
+          Object.assign(selectedDecks, readingData.settings.selectedDecks);
+          
+          // Update all deck selector dropdowns
+          const spreads = ['adventure', 'fiveCard', 'threeCard', 'journey'];
+          spreads.forEach(spread => {
+            const selectEl = document.getElementById(`deck-select-${spread}`);
+            if (selectEl && selectedDecks[spread]) {
+              selectEl.value = selectedDecks[spread];
+            }
+          });
+        }
+      }
+
+      let cardsRestored = 0;
+      let cardsMissing = 0;
+
+      // Restore each card
+      for (const [cardNum, cardInfo] of Object.entries(readingData.cards)) {
+        // Verify the card still exists in AllCards.json
+        if (!allCards.cards[cardInfo.name]) {
+          console.warn(`Card "${cardInfo.name}" not found in current card database`);
+          cardsMissing++;
+          continue;
+        }
+
+        // Restore the card data
+        const cardData = allCards.cards[cardInfo.name];
+        const orientation = cardInfo.orientation;
+        const cardOrientation = orientation === "Upright" ? 0 : 1;
+
+        // Update detail panel
+        setText(`card-name-${cardNum}`, cardData.name);
+        setText(`card-orientation-${cardNum}`, orientation);
+
+        // Update table cells
+        const nameCell = document.getElementById(`card-list-${cardNum}`);
+        const orientCell = document.getElementById(`card-orientation-list-${cardNum}`);
+        if (nameCell) nameCell.textContent = cardData.name;
+        if (orientCell) orientCell.textContent = orientation;
+
+        // Restore meanings
+        const meanings = cardData.meanings;
+        const categories = ['person', 'creatureTrap', 'place', 'treasure', 'situation'];
+        
+        categories.forEach(cat => {
+          const htmlId = cat === 'creatureTrap' ? 'creature' : cat;
+          const val = cardOrientation === 0 ? meanings[cat].upright : meanings[cat].reverse;
+          setText(`meaning-${htmlId}-${cardNum}`, val);
+        });
+
+        cardsRestored++;
+      }
+
+      console.log(`Import complete: ${cardsRestored} cards restored, ${cardsMissing} cards missing`);
+      
+      let message = `Reading imported successfully!\n${cardsRestored} cards restored.`;
+      if (cardsMissing > 0) {
+        message += `\n\n⚠️ ${cardsMissing} cards were not found in the current deck and were skipped.`;
+      }
+      alert(message);
+
+      // Reset the file input so the same file can be imported again if needed
+      event.target.value = '';
+
+    } catch (error) {
+      console.error('Failed to import reading:', error);
+      alert(`Failed to import reading:\n${error.message}`);
+      event.target.value = '';
+    }
+  };
+
+  reader.readAsText(file);
+}
+
 function toggleReplaceable() {
   const toggle = document.getElementById("replaceableToggle");
   isReplaceableEnabled = toggle.checked;

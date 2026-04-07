@@ -153,6 +153,48 @@ body {
   font-size: 1em;
 }
 
+/* ========== IMPORT/EXPORT SECTION STYLES ========== */
+.import-export-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.export-btn, .import-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 180px;
+  justify-content: center;
+}
+
+.export-btn {
+  background-color: #2196F3 !important;
+}
+
+.export-btn:hover {
+  background-color: #0b7dda !important;
+  clip-path: none !important;
+}
+
+.import-btn {
+  background-color: #FF9800 !important;
+}
+
+.import-btn:hover {
+  background-color: #e68900 !important;
+  clip-path: none !important;
+}
+
+.export-btn span, .import-btn span {
+  font-size: 1.2em;
+}
+
 .toggle-switch {
   position: relative;
   display: inline-block;

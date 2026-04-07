@@ -104,35 +104,82 @@ The UI toggle already exists. The underlying draw logic needs to be connected to
 
 ---
 
-### 2. ❌ Import / Export
+### 2. ✅ Import / Export — Complete Implementation
 **Complexity: Low**
 
-All data needed for a save is already in the DOM and in the JS draw state. No architectural changes required.
+Full import/export functionality has been implemented. Users can now save card readings to JSON files and restore them later.
 
-**What needs doing:**
-- **Export:** Collect the current card name, orientation, and slot ID for every drawn slot into a plain JS object and serialize it to JSON. Trigger a file download via a `Blob` and a temporary `<a>` tag. Store the active deck selection and spread alongside the card data.
-- **Import:** Read the JSON file back, validate that card names still exist in the current `AllCards.json`, and call the existing `setText` helpers to repopulate all slots. Handle gracefully the case where a saved card name no longer exists in the loaded data.
-- The selected deck at time of save should be stored and restored.
+**What was implemented:**
 
-**Format note:** File download is preferable to URL encoding for this project since card names of arbitrary length could exceed URL limits.
+**Export Feature:**
+- One-click **Export Reading** button that captures all drawn cards (C.00–C.30)
+- Saves card names and orientations (Upright/Reverse)
+- Records deck selections per spread and replacement toggle state
+- Auto-generates timestamped filename: `card-reading-YYYY-MM-DDTHH-MM-SS.json`
+- Downloads via browser file API (100% client-side, no server required)
+- Shows confirmation alert with card count
+
+**Import Feature:**
+- **Import Reading** button with file picker for selecting `.json` files
+- Restores all saved cards and orientations instantly
+- Validates that card names exist in current `AllCards.json`
+- Restores deck selections and replacement toggle state automatically
+- Gracefully skips cards that no longer exist in the database
+- Shows success alert with count of restored and missing cards
+- Allows re-importing the same file multiple times
+
+**Use Cases Enabled:**
+- **Session continuity:** Save mid-session and resume later
+- **Sharing readings:** Send JSON files to other GMs/players
+- **Reading archives:** Keep library of readings organized by campaign
+- **Backups:** Export before experimenting with redraws
+
+**Files Affected:**
+- `cardReading.html` — Added import/export UI buttons
+- `cardReading.css` — Styled import/export section
+- `cardReading.js` — Implemented `exportReading()` and `importReading()` functions
+- `IMPLEMENTATION_SUMMARY.md` — Technical implementation details
+- `IMPORT_EXPORT_GUIDE.md` — User guide and troubleshooting
+
+**JSON Format Example:**
+```json
+{
+  "version": "1.0",
+  "timestamp": "2026-04-07T14:30:45.123Z",
+  "settings": {
+    "isReplaceableEnabled": false,
+    "selectedDecks": {
+      "adventure": "Default",
+      "fiveCard": "Default",
+      "threeCard": "Default",
+      "journey": "Default"
+    }
+  },
+  "cards": {
+    "C.00": { "name": "Aberration", "orientation": "Upright" },
+    "C.01": { "name": "Balance", "orientation": "Reverse" }
+  }
+}
+```
 
 **Dependencies:**
-- Aids **Custom Deck Building** — custom decks can piggyback on the same save format, giving persistence for free.
-- Aids **Multi-Deck Adventure Spread** — sessions for that spread are the most complex to reconstruct manually; import/export makes it practical.
-- Gets slightly more complex if delayed until after per-spread deck selection and the multi-deck spread are added, since there is more state to capture.
+- Aids **Custom Deck Building** — custom decks inherit persistence automatically via import/export.
+- Aids **Multi-Deck Adventure Spread** — sessions for that spread are easiest to manage via save/restore.
+- Works seamlessly with **Per-Spread Deck Selection** (also completed).
 
 ---
 
-### 3. ✅ Per-Spread Deck Selection
+### 3. ✅ Per-Spread Deck Selection — Complete Implementation
 **Complexity: Low–Moderate**
 
 Replaces one global string with a small object. The spread-detection logic already exists in `generateCard` and just needs extending.
 
-**What needs doing:**
-- Replace `selectedDeck` (single string) with `selectedDecks` (object keyed by spread ID, e.g. `{ 'adventure-spread': 'Default', 'five-card-spread': 'Default', ... }`).
-- The dropdown either moves into each spread panel or stays as a single control that updates only the currently active spread's entry in `selectedDecks` when changed.
-- `generateCard` already has card-number range branches for each spread. Extend those branches to look up `selectedDecks[spreadId]` instead of the global `selectedDeck`.
-- Initialize all spreads to the first available deck as a default on load.
+**What was implemented:**
+- Replaced global `selectedDeck` string with `selectedDecks` object tracking selection per spread.
+- Added individual deck selector dropdowns inside each spread panel.
+- Extended `generateCard()` to use per-spread deck selection via spread key lookup.
+- All spreads initialize to first available deck on page load.
+- Deck selections persist across spread navigation and are saved/restored via import/export.
 
 **Dependencies:**
 - Directly enables **Custom Deck Building** to be meaningful per-spread rather than global.
@@ -236,18 +283,15 @@ A modified Adventure Spread where different slot types draw from different named
 
 ---
 
-## Recommended Implementation Order
+## Completed Features Summary
+
+✅ **Replacement Toggle** — Draw behavior fully connected to toggle state
+✅ **Import / Export** — Full session persistence and sharing support
+✅ **Per-Spread Deck Selection** — Each spread independently selects its deck
+
+## Recommended Implementation Order for Remaining Features
 
 ```
-1. Replacement Toggle (complete)
-        │
-        ▼
-2. Import / Export
-        │
-        ▼
-3. Per-Spread Deck Selection
-        │
-        ▼
 4. Custom Deck Building
         │
         ├──▶ 5. Manual Card Selection
@@ -258,4 +302,4 @@ A modified Adventure Spread where different slot types draw from different named
 7. Multi-Deck Adventure Spread
 ```
 
-Each step either directly enables the next or reduces its implementation cost. No feature in this order requires reworking something that was just built.
+Each step either directly enables the next or reduces its implementation cost. Completed features (1–3) have already been implemented and no longer require rework.

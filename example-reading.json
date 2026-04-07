@@ -1,0 +1,35 @@
+{
+  "version": "1.0",
+  "timestamp": "2024-01-15T14:30:45.123Z",
+  "settings": {
+    "isReplaceableEnabled": false,
+    "selectedDecks": {
+      "adventure": "Default",
+      "fiveCard": "Default",
+      "threeCard": "Default",
+      "journey": "Default"
+    }
+  },
+  "cards": {
+    "C.00": {
+      "name": "Aberration",
+      "orientation": "Upright"
+    },
+    "C.01": {
+      "name": "Balance",
+      "orientation": "Reverse"
+    },
+    "C.02": {
+      "name": "Comet",
+      "orientation": "Upright"
+    },
+    "C.03": {
+      "name": "Donjon",
+      "orientation": "Reverse"
+    },
+    "C.04": {
+      "name": "Euryale",
+      "orientation": "Upright"
+    }
+  }
+}
