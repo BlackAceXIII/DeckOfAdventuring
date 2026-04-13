@@ -191,7 +191,25 @@ body {
   clip-path: none !important;
 }
 
+.clear-btn {
+  background-color: #f44336 !important; /* Red color to indicate clearing */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 180px;
+  justify-content: center;
+}
+
+.clear-btn:hover {
+  background-color: #d32f2f !important;
+  clip-path: none !important;
+}
+
 .export-btn span, .import-btn span {
+  font-size: 1.2em;
+}
+
+.clear-btn span {
   font-size: 1.2em;
 }
 

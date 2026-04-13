@@ -887,8 +887,16 @@ function importReading(event) {
           // 7.6.3.3 Update the meaning in the UI
           setText(`meaning-${htmlId}-${cardNum}`, val);
         });
+        // 7.7 Remove the imported card from the working deck so it can't be drawn again
+        if (!isReplaceableEnabled) {
+          const spreadKey = getSpreadKey(cardNum);
+          const index = workingDecks[spreadKey].indexOf(cardInfo.name);
+          if (index > -1) {
+            workingDecks[spreadKey].splice(index, 1);
+          }
+        }
 
-        // 7.7 Increment counter of successfully restored cards
+        // 7.8 Increment counter of successfully restored cards
         cardsRestored++;
       }
 

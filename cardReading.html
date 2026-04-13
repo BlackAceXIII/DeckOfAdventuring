@@ -33,6 +33,12 @@
 			<button class="button button1 import-btn" onclick="document.getElementById('importFileInput').click()">
 				<span>📤</span> Import Reading
 			</button>
+			
+			<!-- New Clear Board Button -->
+			<button class="button button1 clear-btn" onclick="confirmAndClearBoard()">
+				<span>🧹</span> Clear Board
+			</button>
+			
 			<input type="file" id="importFileInput" accept=".json" style="display: none;" onchange="importReading(event)">
 		</div>
 		
