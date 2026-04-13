@@ -534,7 +534,7 @@ document.addEventListener('click', function(e) {
 // Settings include: isReplaceableEnabled flag and selectedDecks for each spread
 // Cards are keyed by slot (C.00, C.01, etc.) with name and orientation info
 
-/**
+/*
  * Export the current reading to a JSON file
  * Captures all drawn cards, orientations, deck selections, and settings
  */
@@ -576,7 +576,12 @@ function exportReading() {
   const filename = `card-reading-${timestamp}.json`;
 
   // Create and download the file
-  const blob = new Blob([JSON.stringify(readingData, null, 2)], { type: 'application/json' });
+  const blob = new Blob([JSON.stringify(readingData, null, 2)], { type: 'application/json' }); 
+  /* Blob is used because it allows us to create a downloadable file from the JSON string. 
+  We specify the MIME type as 'application/json' to indicate that the content is JSON data. 
+  The JSON.stringify method converts the readingData object into a formatted JSON string, 
+  which is then passed to the Blob constructor to create a blob object that can be 
+  downloaded as a file. */
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
@@ -590,7 +595,7 @@ function exportReading() {
   alert(`Reading exported successfully!\n${Object.keys(readingData.cards).length} cards saved.`);
 }
 
-/**
+/*
  * Import a reading from a JSON file
  * Restores all cards, orientations, deck selections, and settings
  */
