@@ -718,7 +718,8 @@ function exportReading() {
     const orientEl = document.getElementById(`card-orientation-${cardNum}`);
     
     // 2.4 Only process if both elements exist
-    if (nameEl && orientEl) {\n      // 2.5 Extract card name and orientation text content
+    if (nameEl && orientEl) {
+      // 2.5 Extract card name and orientation text content
       const cardName = nameEl.textContent;
       const orientation = orientEl.textContent;
       
@@ -764,8 +765,10 @@ function exportReading() {
 
   // STEP 6: Provide feedback to the user
   // 6.1 Log export details to browser console
-  console.log(`Exported reading with ${Object.keys(readingData.cards).length} cards to ${filename}`);\n  // 6.2 Show success alert with card count
-  alert(`Reading exported successfully!\\n${Object.keys(readingData.cards).length} cards saved.`);\n}
+  console.log(`Exported reading with ${Object.keys(readingData.cards).length} cards to ${filename}`);
+  // 6.2 Show success alert with card count
+  alert(`Reading exported successfully!\n${Object.keys(readingData.cards).length} cards saved.`);
+}
 
 /*
  * Import a reading from a JSON file
@@ -937,5 +940,4 @@ function toggleReplaceable() {
   // STEP 2: Provide user feedback
   // 2.1 Log the change to console showing enabled or disabled state
   console.log(`Card replacement is now ${isReplaceableEnabled ? 'enabled' : 'disabled'}`);
-}
 }
