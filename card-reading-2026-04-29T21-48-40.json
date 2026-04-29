@@ -1,0 +1,139 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-04-29T21:48:40.913Z",
+  "settings": {
+    "isReplaceableEnabled": false,
+    "selectedDecks": {
+      "adventure": "Deck of Many More Things",
+      "fiveCard": "Story Deck",
+      "threeCard": "Locations Deck",
+      "journey": "Deck of Many More Things"
+    }
+  },
+  "cards": {
+    "C.00": {
+      "name": "Ooze",
+      "orientation": "Upright"
+    },
+    "C.01": {
+      "name": "Humanoid",
+      "orientation": "Upright"
+    },
+    "C.02": {
+      "name": "Well",
+      "orientation": "Upright"
+    },
+    "C.03": {
+      "name": "Skull",
+      "orientation": "Upright"
+    },
+    "C.04": {
+      "name": "Ship",
+      "orientation": "Upright"
+    },
+    "C.05": {
+      "name": "Puzzle",
+      "orientation": "Reverse"
+    },
+    "C.06": {
+      "name": "Tree",
+      "orientation": "Upright"
+    },
+    "C.07": {
+      "name": "Warrior",
+      "orientation": "Upright"
+    },
+    "C.08": {
+      "name": "Mage",
+      "orientation": "Reverse"
+    },
+    "C.09": {
+      "name": "Ship",
+      "orientation": "Reverse"
+    },
+    "C.10": {
+      "name": "Star",
+      "orientation": "Reverse"
+    },
+    "C.11": {
+      "name": "Fates",
+      "orientation": "Reverse"
+    },
+    "C.12": {
+      "name": "Talons",
+      "orientation": "Upright"
+    },
+    "C.13": {
+      "name": "Sun",
+      "orientation": "Upright"
+    },
+    "C.14": {
+      "name": "Bridge",
+      "orientation": "Upright"
+    },
+    "C.15": {
+      "name": "Tomb",
+      "orientation": "Upright"
+    },
+    "C.16": {
+      "name": "Tower",
+      "orientation": "Upright"
+    },
+    "C.17": {
+      "name": "Map",
+      "orientation": "Reverse"
+    },
+    "C.18": {
+      "name": "Tavern",
+      "orientation": "Reverse"
+    },
+    "C.19": {
+      "name": "Donjon",
+      "orientation": "Upright"
+    },
+    "C.20": {
+      "name": "Mage",
+      "orientation": "Upright"
+    },
+    "C.21": {
+      "name": "Cavern",
+      "orientation": "Upright"
+    },
+    "C.22": {
+      "name": "Talons",
+      "orientation": "Upright"
+    },
+    "C.23": {
+      "name": "Fey",
+      "orientation": "Upright"
+    },
+    "C.24": {
+      "name": "Skull",
+      "orientation": "Upright"
+    },
+    "C.25": {
+      "name": "Book",
+      "orientation": "Upright"
+    },
+    "C.26": {
+      "name": "Tomb",
+      "orientation": "Reverse"
+    },
+    "C.27": {
+      "name": "Aberration",
+      "orientation": "Upright"
+    },
+    "C.28": {
+      "name": "Construct",
+      "orientation": "Upright"
+    },
+    "C.29": {
+      "name": "Monstrosity",
+      "orientation": "Upright"
+    },
+    "C.30": {
+      "name": "Throne",
+      "orientation": "Upright"
+    }
+  }
+}
