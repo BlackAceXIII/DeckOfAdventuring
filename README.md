@@ -13,7 +13,7 @@ The browser application reads a small set of JSON files from `CardsJsons/` when 
 
 - **`AllCards.json`** — A consolidated master list of every card. Each entry contains name, description, image credit, and upright/reverse meanings for the five categories (Person, Creature/Trap, Place, Treasure, Situation).
 - **`deckLists.json`** — Named deck definitions. Each deck is just an array of card names that must exist in `AllCards.json`.
-- **`customDecks.json`** *(optional, not shipped by default)* — A user‑editable file whose contents are merged over `deckLists.json`. If a custom deck has the same name as a built‑in one, it replaces it.
+- **`customDecks.json`** *(optional, not shipped by default)* — A user‑editable file whose contents are merged over `deckLists.json`. If a custom deck has the same name as a built‑in one, it replaces it. Users can also build and share custom decks through the JSON import/export feature.
 
 (There are also dozens of individual card JSONs and helper data files such as `CardFormat.json` in the same folder; these are used by the Python/shell scripts in the repository to build `AllCards.json` and are not loaded by the page.)
 
@@ -200,10 +200,12 @@ Lets users construct their own named decks from the cards available in `AllCards
 - Persistence: without a backend, custom decks only survive the session unless saved via `localStorage` or the import/export system. Import/export being built first makes persistence essentially free.
 - If the deck list grows very large, the checklist UI needs filtering or search to stay usable.
 
-**Specification note:** The `customDecks.json` file mechanism already exists — custom decks loaded from that file override defaults of the same name. In-browser custom deck building would write to `allDecks` in memory rather than to disk, unless paired with export.
+**Specification note:** The `customDecks.json` file mechanism already exists — custom decks loaded from that file override defaults of the same name. In-browser custom deck building would write to `allDecks` in memory during the session. Persistence is provided by the import/export system: users can export custom decks they've built and import them later or share them with others as JSON files.
+
+**URL-based sharing has been abandoned** in favor of the cleaner import/export approach. Custom decks are now exclusively managed through the JSON import/export feature for maximum clarity and reliability.
 
 **Dependencies:**
-- Easier with **Import/Export** done first (persistence is free).
+- **Import/Export** already complete — persistence and sharing via JSON files is fully functional.
 - Easier with **Per-Spread Deck Selection** done first (custom decks become immediately more useful when each spread can select independently).
 - Directly enables the **Multi-Deck Adventure Spread**, which requires specifically named decks (story deck, locations deck, features deck) to exist before the spread can function.
 
@@ -249,7 +251,34 @@ The Blank Slate spread tab already exists and populates slot buttons for C.00–
 
 ---
 
-### 7. ❌ Multi-Deck Adventure Spread
+### 7. ❌ Cascading Deck Spread
+**Complexity: Moderate–High**
+
+A specialized spread that uses a cascading deck system exclusively designed for that tab. Cards drawn from earlier positions determine which custom deck subsequent positions draw from, creating dynamic, interconnected outcomes.
+
+**What needs doing:**
+- Design the cascade logic: define how drawn cards map to subsequent deck selections (e.g., drawn card name or category determines next deck, or drawn card orientation branches the path).
+- Build a new spread tab with cascading positions (suggested structure: foundation card(s) at top, then tiers that branch/expand below based on earlier draws).
+- Extend `generateCard()` or create a new function to support deck selection that depends on the result of a previous draw.
+- Each position in the cascade must visually show which deck it is drawing from and how it was derived from prior positions.
+- The cascade should work seamlessly with the existing custom deck system — user-built custom decks feed directly into the cascade rules.
+- Define a configuration object or UI controls to set up cascade rules (which card result maps to which next deck).
+
+**Design considerations:**
+- Should the cascade be deterministic (same card always leads to the same next deck) or probabilistic (drawn cards influence but don't strictly determine the next deck selection)?
+- Should the cascade be fixed depth (e.g., always exactly 3 tiers) or variable (user controls how deep the cascade goes)?
+- How does the cascade behave if a required downstream deck is missing or empty?
+- Should users be able to manually override a cascade step to explore alternate branches?
+
+**Dependencies:**
+- Requires **Custom Deck Building** to be completed first — the cascading system only makes sense when users can create specific named decks to cascade between.
+- Easier if **Per-Spread Deck Selection** is already done (the architecture for per-spread deck choice is reusable here).
+- Works well with **Import/Export** (cascade configurations and custom decks persist via JSON; cascade session state can be saved and restored).
+- Independent of **Manual Card Selection** but could be extended to support it later.
+
+---
+
+### 8. ❌ Multi-Deck Adventure Spread
 **Complexity: Highest**
 
 A modified Adventure Spread where different slot types draw from different named decks simultaneously, some slots require two cards (a location and a feature paired together), the number of challenge slots is variable (1–3), and some slots are optional.
@@ -298,8 +327,10 @@ A modified Adventure Spread where different slot types draw from different named
         │
         ├──▶ 6. Free-Form Spread (full)
         │
+        ├──▶ 7. Cascading Deck Spread
+        │
         ▼
-7. Multi-Deck Adventure Spread
+8. Multi-Deck Adventure Spread
 ```
 
 Each step either directly enables the next or reduces its implementation cost. Completed features (1–3) have already been implemented and no longer require rework.
