@@ -331,11 +331,66 @@
 			</div>
 		</div>
 
-		<!-- All Cards Spread -->
+		<!-- All Cards Spread / Deck Forge -->
 		<div id="all-cards-spread" class="spread-tabcontent">
-			<h2>All Cards Spread - Browse All Cards</h2>
-			<div id="all-cards-grid" class="all-cards-grid">
-				<!-- Cards will be populated here by JavaScript -->
+			<h2>Card Library & Deck Forge</h2>
+			
+			<div class="deck-builder-container">
+				<!-- Left Side: Card Grid -->
+				<div class="library-section">
+					<div id="all-cards-grid" class="all-cards-grid">
+						<!-- Cards populated by JS -->
+					</div>
+				</div>
+
+				<!-- Right Side: Deck Cart -->
+				<div class="cart-section">
+					<h3>Deck Cart</h3>
+					<input type="text" id="custom-deck-name" placeholder="Name your custom deck...">
+					<div id="cart-items" class="cart-items">
+						<p class="empty-cart-msg">No cards selected.</p>
+					</div>
+					<div class="cart-footer">
+						<p>Total Cards: <strong id="cart-total">0</strong></p>
+						<button class="button button1" onclick="saveCustomDeck()">💾 Save Deck</button>
+						<button class="button button1 clear-btn" onclick="clearCart()">🗑️ Clear Cart</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- Static Preview Panel (Replaces dynamically generated stacking tabs) -->
+			<div id="all-cards-preview" class="preview-panel" style="display: none;">
+				<div class="preview-header">
+					<h3 id="preview-name">Card Name</h3>
+					<span onclick="document.getElementById('all-cards-preview').style.display='none'" class="topright">&times;</span>
+				</div>
+				
+				<div class="preview-content">
+					<div class="preview-image-col">
+						<img id="preview-image" src="../JSON_Folder/Generic Soldier 4.png" alt="Card Image" width="150" height="150">
+						<p>Credit: <span id="preview-credit">Credit Name</span></p>
+						<p><strong>Description:</strong> <span id="preview-description">Description</span></p>
+					</div>
+					
+					<div class="preview-meanings-col">
+						<div class="meanings-block upright-block">
+							<h4>Upright Meanings</h4>
+							<p><strong>Person:</strong> <span id="preview-up-person"></span></p>
+							<p><strong>Creature/Trap:</strong> <span id="preview-up-creature"></span></p>
+							<p><strong>Place:</strong> <span id="preview-up-place"></span></p>
+							<p><strong>Treasure:</strong> <span id="preview-up-treasure"></span></p>
+							<p><strong>Situation:</strong> <span id="preview-up-situation"></span></p>
+						</div>
+						<div class="meanings-block reverse-block">
+							<h4>Reverse Meanings</h4>
+							<p><strong>Person:</strong> <span id="preview-rev-person"></span></p>
+							<p><strong>Creature/Trap:</strong> <span id="preview-rev-creature"></span></p>
+							<p><strong>Place:</strong> <span id="preview-rev-place"></span></p>
+							<p><strong>Treasure:</strong> <span id="preview-rev-treasure"></span></p>
+							<p><strong>Situation:</strong> <span id="preview-rev-situation"></span></p>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 

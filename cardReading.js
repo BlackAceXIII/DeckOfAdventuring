@@ -9,6 +9,7 @@ let selectedDecks = {
 let isReplaceableEnabled = false; // Default to "No" to match common Tarot logic
 
 let allDecks = {}; // Combined deck lists from all sources
+let customDeckCart = {}; // Format: { "CardName": quantity }
 let allCards = null; // Card data from AllCards.json
 let cardName = null; // This will hold the name of the card
 let deckName = null; // This will hold the name of the deck
