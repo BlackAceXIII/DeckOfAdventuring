@@ -49,7 +49,7 @@
 			<button class="spread-tablinks" onclick="openSpread(event, 'three-card-spread')">Three-Card Spread</button>
 			<button class="spread-tablinks" onclick="openSpread(event, 'journey-spread')">Journey Spread</button>
 			<button class="spread-tablinks" onclick="openSpread(event, 'blank-slate-spread')">Blank Slate Spread</button>
-			<button class="spread-tablinks" onclick="openSpread(event, 'all-cards-spread')">Deck Forge</button>
+			<button class="spread-tablinks" onclick="openSpread(event, 'deck-forge-spread')">Deck Forge</button>
 		</div>
 
 		<!-- Adventure Spread -->
@@ -332,13 +332,13 @@
 		</div>
 
 		<!-- Deck Forge: Card Library & Deck Builder -->
-		<div id="all-cards-spread" class="spread-tabcontent">
+		<div id="deck-forge-spread" class="spread-tabcontent">
 			<h2>Card Library & Deck Forge</h2>
 			
 			<div class="deck-builder-container">
 				<!-- Left Side: Card Grid -->
 				<div class="library-section">
-					<div id="all-cards-grid" class="all-cards-grid">
+					<div id="deck-forge-grid" class="deck-forge-grid">
 						<!-- Cards populated by JS -->
 					</div>
 				</div>
@@ -359,10 +359,10 @@
 			</div>
 
 			<!-- Static Preview Panel (Replaces dynamically generated stacking tabs) -->
-			<div id="all-cards-preview" class="preview-panel" style="display: none;">
+			<div id="deck-forge-preview" class="preview-panel" style="display: none;">
 				<div class="preview-header">
 					<h3 id="preview-name">Card Name</h3>
-					<span onclick="document.getElementById('all-cards-preview').style.display='none'" class="topright">&times;</span>
+					<span onclick="document.getElementById('deck-forge-preview').style.display='none'" class="topright">&times;</span>
 				</div>
 				
 				<div class="preview-content">

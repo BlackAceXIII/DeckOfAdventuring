@@ -420,14 +420,14 @@ body {
 }
 
 /* Deck Forge: Card Grid Layout */
-.all-cards-grid {
+.deck-forge-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 10px;
   padding: 20px;
 }
 
-.all-cards-grid .card-button {
+.deck-forge-grid .card-button {
   background-color: var(--grid-tab-bg);
   border: 1px solid #ccc;
   padding: 10px;
@@ -437,7 +437,7 @@ body {
   transition: background-color 0.3s;
 }
 
-.all-cards-grid .card-button:hover {
+.deck-forge-grid .card-button:hover {
   background-color: var(--secondary-color);
 }
 

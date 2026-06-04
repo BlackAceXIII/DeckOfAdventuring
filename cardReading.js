@@ -231,7 +231,7 @@ function createSpreadDeckSelector(spreadKey, selectId, label, deckLists) {
 function populateAllCardsSpread(allCardsArray) {
   // STEP 1: Clear existing Deck Forge grid and prepare for population
   // 1.1 Get reference to the card grid container
-  const grid = document.getElementById('all-cards-grid');
+  const grid = document.getElementById('deck-forge-grid');
   // 1.2 Clear any existing content from grid
   grid.innerHTML = ''; 
 
@@ -326,7 +326,7 @@ function openAllCardPreview(cardName) {
 
   // STEP 2: Get reference to the preview panel
   // 2.1 Retrieve the static preview panel element
-  const panel = document.getElementById('all-cards-preview');
+  const panel = document.getElementById('deck-forge-preview');
   
   // STEP 3: Populate header and image column
   // 3.1 Set the card name in the preview header
