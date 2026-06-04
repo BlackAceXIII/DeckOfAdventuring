@@ -419,7 +419,7 @@ body {
   font-size: 14px;
 }
 
-/* All Cards Spread Grid */
+/* Deck Forge: Card Grid Layout */
 .all-cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));

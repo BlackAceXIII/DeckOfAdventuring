@@ -69,23 +69,17 @@ async function fetchData() {
     // 3.2 Parse default deck lists
     const defaultDecks = await defaultDecksResponse.json();
 
-    // STEP 4: Attempt to load optional custom decks (graceful failure)
-    // 4.1 Initialize empty object for custom decks in case file doesn't exist
-    let customDecks = {};
+    // STEP 4: Load local storage custom decks
+    let localCustomDecks = {};
     try {
-      // 4.2 Try to fetch custom decks if they exist
-      const customResponse = await fetch(`${CARD_DIR}/customDecks.json`);
-      if (customResponse.ok) {
-        customDecks = await customResponse.json();
-      }
+      const saved = localStorage.getItem('userCustomDecks');
+      if (saved) localCustomDecks = JSON.parse(saved);
     } catch (e) {
-      // 4.3 Log that custom decks are missing (this is expected)
-      console.log('No custom decks found (this is fine)');
+      console.warn('Failed to parse local custom decks');
     }
 
-    // STEP 5: Merge all deck sources with custom decks taking priority
-    // 5.1 Combine default and custom decks (custom overrides defaults)
-    allDecks = { ...defaultDecks, ...customDecks };
+    // STEP 5: Merge all deck sources (local > default)
+    allDecks = { ...defaultDecks, ...localCustomDecks };
 
     // STEP 6: Log initialization results for debugging
     // 6.1 Report total card count
@@ -98,7 +92,7 @@ async function fetchData() {
     const allExistingCards = Object.keys(allCards.cards);
     console.log('All existing cards:', allExistingCards);
 
-    // 7.2 Populate the "All Cards" section with card buttons
+    // 7.2 Populate the Deck Forge library with card buttons
     populateAllCardsSpread(allExistingCards);
     // 7.3 Populate the blank slate spread with card slots
     populateBlankSlateSpread();
@@ -235,15 +229,76 @@ function createSpreadDeckSelector(spreadKey, selectId, label, deckLists) {
 }
 
 function populateAllCardsSpread(allCardsArray) {
+  // STEP 1: Clear existing Deck Forge grid and prepare for population
+  // 1.1 Get reference to the card grid container
   const grid = document.getElementById('all-cards-grid');
-  grid.innerHTML = ''; // Clear any existing content
+  // 1.2 Clear any existing content from grid
+  grid.innerHTML = ''; 
 
+  // STEP 2: Create library item for each card in the database
+  // 2.1 Iterate through all available card names
   allCardsArray.forEach(cardName => {
-    const button = document.createElement('button');
-    button.className = 'card-button';
-    button.textContent = cardName;
-    button.onclick = () => openAllCard(cardName);
-    grid.appendChild(button);
+    // 2.2 Create safe ID by replacing spaces for use in element IDs
+    const safeId = cardName.replace(/\s+/g, '-');
+    
+    // STEP 3: Create library item container
+    // 3.1 Create the main item div container
+    const itemDiv = document.createElement('div');
+    // 3.2 Apply library item styling class
+    itemDiv.className = 'library-item';
+
+    // STEP 4: Create clickable card name button for preview panel
+    // 4.1 Create button element for card name
+    const nameBtn = document.createElement('button');
+    // 4.2 Apply styling class for library name button
+    nameBtn.className = 'library-name-btn';
+    // 4.3 Set button text to the card name
+    nameBtn.textContent = cardName;
+    // 4.4 Attach click handler to open card preview
+    nameBtn.onclick = () => openAllCardPreview(cardName);
+
+    // STEP 5: Create quantity controls (-, count, +)
+    // 5.1 Create container div for control buttons
+    const controlsDiv = document.createElement('div');
+    // 5.2 Apply styling class for controls container
+    controlsDiv.className = 'library-controls';
+
+    // 5.3 Create minus button for decreasing quantity
+    const minusBtn = document.createElement('button');
+    // 5.4 Set minus button text
+    minusBtn.textContent = '-';
+    // 5.5 Attach click handler to decrease cart quantity
+    minusBtn.onclick = () => updateCartQuantity(cardName, -1);
+
+    // 5.6 Create span to display current quantity
+    const countSpan = document.createElement('span');
+    // 5.7 Set unique ID for this card's quantity display
+    countSpan.id = `library-count-${safeId}`;
+    // 5.8 Initialize with current cart quantity or 0
+    countSpan.textContent = customDeckCart[cardName] || '0';
+
+    // 5.9 Create plus button for increasing quantity
+    const plusBtn = document.createElement('button');
+    // 5.10 Set plus button text
+    plusBtn.textContent = '+';
+    // 5.11 Attach click handler to increase cart quantity
+    plusBtn.onclick = () => updateCartQuantity(cardName, 1);
+
+    // STEP 6: Assemble controls container
+    // 6.1 Add minus button to controls
+    controlsDiv.appendChild(minusBtn);
+    // 6.2 Add quantity display to controls
+    controlsDiv.appendChild(countSpan);
+    // 6.3 Add plus button to controls
+    controlsDiv.appendChild(plusBtn);
+
+    // STEP 7: Assemble and append complete library item
+    // 7.1 Add name button to item container
+    itemDiv.appendChild(nameBtn);
+    // 7.2 Add controls container to item
+    itemDiv.appendChild(controlsDiv);
+    // 7.3 Append complete item to grid
+    grid.appendChild(itemDiv);
   });
 }
 
@@ -261,76 +316,62 @@ function populateBlankSlateSpread() {
   }
 }
 
-function openAllCard(cardName) {
-  // STEP 1: Generate unique ID for this card's tab
-  // 1.1 Create ID from card name, replacing spaces with hyphens
-  const cardId = `all-${cardName.replace(/\s+/g, '-')}`;
-  // 1.2 Check if tab already exists on the page
-  let cardDiv = document.getElementById(cardId);
-  
-  // STEP 2: Create card tab if it doesn't already exist
-  if (!cardDiv) {
-    // 2.1 Create a new div element for the card tab
-    cardDiv = document.createElement('div');
-    // 2.2 Set the tab's ID
-    cardDiv.id = cardId;
-    // 2.3 Set CSS class for styling
-    cardDiv.className = 'tabcontent';
-    // 2.4 Populate with HTML structure for card display
-    cardDiv.innerHTML = `
-      <span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
-      <h3>Card: ${cardName}</h3>
-      <div>
-        <img id="card-image-${cardId}" src="../JSON_Folder/Generic Soldier 4.png" alt="Card Image" width="100" height="100" style="margin-top: 10px;">
-        <p style="font-size: 0.9em; margin: 5px 0;">Credit: <span id="card-credit-${cardId}">Credit Name</span></p>
-      </div>
-      <h4>Description: <span id="card-description-${cardId}">{@i Description of the card.}</span></h4>
-      <h4>Meanings</h4>
-      <div id="meanings-${cardId}">
-        <h5>Person: <span id="meaning-person-${cardId}">Meaning</span></h5>
-        <h5>Creature or Trap: <span id="meaning-creature-${cardId}">Meaning</span></h5>
-        <h5>Place: <span id="meaning-place-${cardId}">Meaning</span></h5>
-        <h5>Treasure: <span id="meaning-treasure-${cardId}">Meaning</span></h5>
-        <h5>Situation: <span id="meaning-situation-${cardId}">Meaning</span></h5>
-      </div>
-    `;
-    // 2.5 Add the new tab to the document body
-    document.body.appendChild(cardDiv);
-  }
-
-  // STEP 3: Populate card details from AllCards database
-  // 3.1 Look up the card data in the global allCards object
+// Updated preview function: displays card details in a unified static panel instead of creating dynamic tabs
+function openAllCardPreview(cardName) {
+  // STEP 1: Retrieve and validate card data
+  // 1.1 Look up the card in the AllCards database
   const cardData = allCards.cards[cardName];
-  if (cardData) {
-    // 3.2 Set card description text
-    setText(`card-description-${cardId}`, cardData.description || '');
-    // 3.3 Set card credit/source text
-    setText(`card-credit-${cardId}`, cardData.credit || 'Unknown');
-    
-    // STEP 4: Helper to extract meanings (handles different data formats)
-    // 4.1 Define helper to safely extract meaning values
-    const getMeaning = (meaningArray) => {
-      if (!meaningArray) return '';
-      if (Array.isArray(meaningArray)) return meaningArray[0] || '';
-      return meaningArray.upright || '';
-    };
-    
-    // STEP 5: Populate all meaning categories
-    // 5.1 Set person meaning
-    setText(`meaning-person-${cardId}`, getMeaning(cardData.meanings?.person));
-    // 5.2 Set creature/trap meaning
-    setText(`meaning-creature-${cardId}`, getMeaning(cardData.meanings?.creatureTrap));
-    // 5.3 Set place meaning
-    setText(`meaning-place-${cardId}`, getMeaning(cardData.meanings?.place));
-    // 5.4 Set treasure meaning
-    setText(`meaning-treasure-${cardId}`, getMeaning(cardData.meanings?.treasure));
-    // 5.5 Set situation meaning
-    setText(`meaning-situation-${cardId}`, getMeaning(cardData.meanings?.situation));
-  }
+  // 1.2 Return early if card not found
+  if (!cardData) return;
 
-  // STEP 6: Display the card tab
-  // 6.1 Make the card tab visible
-  cardDiv.style.display = 'block';
+  // STEP 2: Get reference to the preview panel
+  // 2.1 Retrieve the static preview panel element
+  const panel = document.getElementById('all-cards-preview');
+  
+  // STEP 3: Populate header and image column
+  // 3.1 Set the card name in the preview header
+  setText('preview-name', cardData.name);
+  // 3.2 Set the card credit/artist attribution
+  setText('preview-credit', cardData.credit || 'Unknown');
+  // 3.3 Set the card description
+  setText('preview-description', cardData.description || 'No description provided.');
+  
+  // STEP 4: Define helper function to extract meanings by orientation
+  // 4.1 Create function to get meaning data based on card orientation
+  const getMeaning = (meaningData, orientation) => {
+    // 4.1.1 Return empty string if meaning data missing
+    if (!meaningData) return '';
+    // 4.1.2 Return appropriate meaning based on orientation (upright or reverse)
+    return orientation === 'upright' ? meaningData.upright : meaningData.reverse;
+  };
+
+  // STEP 5: Update upright meaning categories
+  // 5.1 Set person upright meaning
+  setText('preview-up-person', getMeaning(cardData.meanings?.person, 'upright'));
+  // 5.2 Set creature/trap upright meaning
+  setText('preview-up-creature', getMeaning(cardData.meanings?.creatureTrap, 'upright'));
+  // 5.3 Set place upright meaning
+  setText('preview-up-place', getMeaning(cardData.meanings?.place, 'upright'));
+  // 5.4 Set treasure upright meaning
+  setText('preview-up-treasure', getMeaning(cardData.meanings?.treasure, 'upright'));
+  // 5.5 Set situation upright meaning
+  setText('preview-up-situation', getMeaning(cardData.meanings?.situation, 'upright'));
+
+  // STEP 6: Update reverse meaning categories
+  // 6.1 Set person reverse meaning
+  setText('preview-rev-person', getMeaning(cardData.meanings?.person, 'reverse'));
+  // 6.2 Set creature/trap reverse meaning
+  setText('preview-rev-creature', getMeaning(cardData.meanings?.creatureTrap, 'reverse'));
+  // 6.3 Set place reverse meaning
+  setText('preview-rev-place', getMeaning(cardData.meanings?.place, 'reverse'));
+  // 6.4 Set treasure reverse meaning
+  setText('preview-rev-treasure', getMeaning(cardData.meanings?.treasure, 'reverse'));
+  // 6.5 Set situation reverse meaning
+  setText('preview-rev-situation', getMeaning(cardData.meanings?.situation, 'reverse'));
+
+  // STEP 7: Display the preview panel
+  // 7.1 Make the preview panel visible
+  panel.style.display = 'block';
 }
 
 function openCard(evt, cardNum, buttonElement) {
@@ -503,6 +544,171 @@ function redrawJourneySpread() {
 function setText(id, value) {
   const el = document.getElementById(id);
   if (el) el.textContent = value;
+}
+
+// ========== CART MANAGEMENT FUNCTIONS ==========
+
+function updateCartQuantity(cardName, change) {
+  // STEP 1: Ensure card has entry in cart
+  // 1.1 Initialize card in cart if it doesn't exist
+  if (!customDeckCart[cardName]) customDeckCart[cardName] = 0;
+  
+  // STEP 2: Calculate new quantity with bounds checking
+  // 2.1 Add change to current quantity
+  let newVal = customDeckCart[cardName] + change;
+  // 2.2 Enforce minimum quantity of 0
+  if (newVal < 0) newVal = 0;
+  // 2.3 Enforce maximum quantity of 99
+  if (newVal > 99) newVal = 99;
+  
+  // STEP 3: Update cart state
+  // 3.1 Remove card from cart if quantity is 0
+  if (newVal === 0) {
+    delete customDeckCart[cardName];
+  } else {
+    // 3.2 Update card quantity in cart
+    customDeckCart[cardName] = newVal;
+  }
+
+  // STEP 4: Update library grid UI counter
+  // 4.1 Convert card name to safe ID format
+  const safeId = cardName.replace(/\s+/g, '-');
+  // 4.2 Get reference to the quantity display element
+  const countSpan = document.getElementById(`library-count-${safeId}`);
+  // 4.3 Update the displayed quantity if element exists
+  if (countSpan) countSpan.textContent = newVal;
+
+  // STEP 5: Refresh cart display panel
+  // 5.1 Rebuild cart UI to reflect changes
+  refreshCartUI();
+}
+
+function refreshCartUI() {
+  // STEP 1: Get references to cart UI elements
+  // 1.1 Get reference to cart items container
+  const cartContainer = document.getElementById('cart-items');
+  // 1.2 Get reference to total count display element
+  const totalSpan = document.getElementById('cart-total');
+  
+  // STEP 2: Clear and reset cart display
+  // 2.1 Clear existing cart item rows
+  cartContainer.innerHTML = '';
+  // 2.2 Initialize total cards counter
+  let totalCards = 0;
+
+  // STEP 3: Check if cart is empty
+  // 3.1 Get all entries from cart object
+  const entries = Object.entries(customDeckCart);
+  // 3.2 If no items, show empty message
+  if (entries.length === 0) {
+    // 3.2.1 Display empty cart message
+    cartContainer.innerHTML = '<p class="empty-cart-msg">No cards selected.</p>';
+    // 3.2.2 Set total count to 0
+    totalSpan.textContent = '0';
+    // 3.2.3 Return early since nothing more to do
+    return;
+  }
+
+  // STEP 4: Populate cart display with all selected cards
+  // 4.1 Iterate through each card in the cart
+  entries.forEach(([name, count]) => {
+    // 4.2 Add card count to running total
+    totalCards += count;
+    // 4.3 Create row element for this cart item
+    const row = document.createElement('div');
+    // 4.4 Apply styling class to row
+    row.className = 'cart-item-row';
+    // 4.5 Populate row with card name and quantity
+    row.innerHTML = `<span>${name}</span> <strong>x${count}</strong>`;
+    // 4.6 Append row to cart display
+    cartContainer.appendChild(row);
+  });
+
+  // STEP 5: Update total cards count display
+  // 5.1 Set total count element text
+  totalSpan.textContent = totalCards;
+}
+
+function clearCart() {
+  // STEP 1: Clear cart object
+  // 1.1 Reset cart to empty object
+  customDeckCart = {};
+  
+  // STEP 2: Update cart display
+  // 2.1 Rebuild cart UI to show empty state
+  refreshCartUI();
+  
+  // STEP 3: Reset all library grid counters
+  // 3.1 Select all quantity display elements in the library grid
+  document.querySelectorAll('[id^="library-count-"]').forEach(span => {
+    // 3.2 Set each counter back to 0
+    span.textContent = '0';
+  });
+}
+
+function saveCustomDeck() {
+  // STEP 1: Get and validate deck name input
+  // 1.1 Get reference to deck name input field
+  const nameInput = document.getElementById('custom-deck-name');
+  // 1.2 Extract and trim the name value
+  let rawName = nameInput.value.trim();
+  
+  // STEP 2: Validate deck name is provided
+  // 2.1 Check if name is empty
+  if (!rawName) {
+    // 2.2 Alert user and return if no name provided
+    alert("Please provide a name for your custom deck.");
+    return;
+  }
+
+  // STEP 3: Validate deck is not empty
+  // 3.1 Check if cart has any cards
+  if (Object.keys(customDeckCart).length === 0) {
+    // 3.2 Alert user and return if deck is empty
+    alert("Cannot save an empty deck.");
+    return;
+  }
+
+  // STEP 4: Create deck name with custom prefix
+  // 4.1 Prefix name with "Custom:" to distinguish from defaults
+  const deckName = `Custom: ${rawName}`;
+  
+  // STEP 5: Flatten cart quantities into array
+  // 5.1 Create array to hold expanded deck
+  const newDeckArray = [];
+  // 5.2 Iterate through each card in cart
+  for (const [card, count] of Object.entries(customDeckCart)) {
+    // 5.3 Add card to array once per quantity
+    for (let i = 0; i < count; i++) {
+      // 5.3.1 Push card name to deck array
+      newDeckArray.push(card);
+    }
+  }
+
+  // STEP 6: Persist deck to all storage locations
+  // 6.1 Inject new deck into live allDecks object
+  allDecks[deckName] = newDeckArray;
+
+  // 6.2 Persist deck to browser localStorage
+  // 6.2.1 Get existing custom decks from storage
+  const existingLocal = JSON.parse(localStorage.getItem('userCustomDecks') || '{}');
+  // 6.2.2 Add new deck to local collection
+  existingLocal[deckName] = newDeckArray;
+  // 6.2.3 Save updated collection back to localStorage
+  localStorage.setItem('userCustomDecks', JSON.stringify(existingLocal));
+
+  // STEP 7: Rebuild UI to reflect new deck
+  // 7.1 Rebuild all deck selection dropdowns
+  populateDropdown(allDecks);
+
+  // STEP 8: Provide user feedback and cleanup
+  // 8.1 Alert user of successful save
+  alert(`Deck "${deckName}" saved successfully! It is now available in your dropdowns.`);
+  
+  // 8.2 Clear cart after save
+  clearCart();
+  // 8.3 Clear deck name input field
+  nameInput.value = '';
 }
 
 // FIXED: generateCard now dynamically finds table cells
@@ -735,39 +941,51 @@ function exportReading() {
     }
   }
 
-  // STEP 3: Generate filename with ISO timestamp
-  // 3.1 Create timestamp and remove colons/periods for filename compatibility
+  // STEP 3: Extract all custom decks into the JSON payload
+  // 3.1 Initialize empty object for custom decks
+  readingData.customDecks = {};
+  // 3.2 Iterate through all decks in the live collection
+  for (const [deckName, deckArray] of Object.entries(allDecks)) {
+    // 3.3 Add only decks prefixed with "Custom:" to the export
+    if (deckName.startsWith('Custom:')) {
+      // 3.3.1 Store the custom deck array
+      readingData.customDecks[deckName] = deckArray;
+    }
+  }
+
+  // STEP 4: Generate filename with ISO timestamp
+  // 4.1 Create timestamp and remove colons/periods for filename compatibility
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
-  // 3.2 Build filename: card-reading-YYYY-MM-DDTHH-MM-SS.json
+  // 4.2 Build filename: card-reading-YYYY-MM-DDTHH-MM-SS.json
   const filename = `card-reading-${timestamp}.json`;
 
-  // STEP 4: Create downloadable blob from reading data
-  // 4.1 Convert reading data object to formatted JSON string
-  // 4.2 Create blob with application/json MIME type for proper file handling
+  // STEP 5: Create downloadable blob from reading data
+  // 5.1 Convert reading data object to formatted JSON string
+  // 5.2 Create blob with application/json MIME type for proper file handling
   const blob = new Blob([JSON.stringify(readingData, null, 2)], { type: 'application/json' });
   
-  // STEP 5: Trigger file download to user's device
-  // 5.1 Create a URL pointing to the blob data
+  // STEP 6: Trigger file download to user's device
+  // 6.1 Create a URL pointing to the blob data
   const url = URL.createObjectURL(blob);
-  // 5.2 Create a temporary anchor element for the download
+  // 6.2 Create a temporary anchor element for the download
   const a = document.createElement('a');
-  // 5.3 Set the download link to the blob URL
+  // 6.3 Set the download link to the blob URL
   a.href = url;
-  // 5.4 Set the filename for the downloaded file
+  // 6.4 Set the filename for the downloaded file
   a.download = filename;
-  // 5.5 Add anchor to DOM (required for some browsers)
+  // 6.5 Add anchor to DOM (required for some browsers)
   document.body.appendChild(a);
-  // 5.6 Simulate a click to trigger the download
+  // 6.6 Simulate a click to trigger the download
   a.click();
-  // 5.7 Remove the temporary anchor from DOM
+  // 6.7 Remove the temporary anchor from DOM
   document.body.removeChild(a);
-  // 5.8 Revoke the blob URL to free memory resources
+  // 6.8 Revoke the blob URL to free memory resources
   URL.revokeObjectURL(url);
 
-  // STEP 6: Provide feedback to the user
-  // 6.1 Log export details to browser console
+  // STEP 7: Provide feedback to the user
+  // 7.1 Log export details to browser console
   console.log(`Exported reading with ${Object.keys(readingData.cards).length} cards to ${filename}`);
-  // 6.2 Show success alert with card count
+  // 7.2 Show success alert with card count
   alert(`Reading exported successfully!\n${Object.keys(readingData.cards).length} cards saved.`);
 }
 
@@ -831,64 +1049,81 @@ function importReading(event) {
           });
         }
       }
-      // STEP 6: Clear the current board before restoring
-      // 6.1 Clear all existing cards from the display
+      // STEP 6: Restore custom decks from imported file
+      // 6.1 Check if custom decks exist in the import file
+      if (readingData.customDecks) {
+        // 6.2 Inject custom decks into live memory
+        Object.assign(allDecks, readingData.customDecks);
+        
+        // 6.3 Merge into local storage for persistence across page reloads
+        // 6.3.1 Get existing custom decks from storage
+        const savedLocal = JSON.parse(localStorage.getItem('userCustomDecks') || '{}');
+        // 6.3.2 Add imported decks to local collection
+        Object.assign(savedLocal, readingData.customDecks);
+        // 6.3.3 Save updated collection back to localStorage
+        localStorage.setItem('userCustomDecks', JSON.stringify(savedLocal));
+        
+        // 6.4 Rebuild dropdowns to show newly imported custom decks
+        populateDropdown(allDecks);
+      }
+      // STEP 7: Clear the current board before restoring
+      // 7.1 Clear all existing cards from the display
       clearAllSpreads(); // Clear current reading before restoring
-      // 6.2 Initialize counters for import reporting
+      // 7.2 Initialize counters for import reporting
       let cardsRestored = 0;
       let cardsMissing = 0;
 
-      // STEP 7: Restore each card from the import file
-      // 7.1 Iterate through all cards in the import data
+      // STEP 8: Restore each card from the import file
+      // 8.1 Iterate through all cards in the import data
       for (const [cardNum, cardInfo] of Object.entries(readingData.cards)) {
-        // 7.2 Verify the card still exists in current AllCards database
-        // 7.2.1 Check if card name exists in database
+        // 8.2 Verify the card still exists in current AllCards database
+        // 8.2.1 Check if card name exists in database
         if (!allCards.cards[cardInfo.name]) {
-          // 7.2.2 Log and skip cards that no longer exist
+          // 8.2.2 Log and skip cards that no longer exist
           console.warn(`Card "${cardInfo.name}" not found in current card database`);
           cardsMissing++;
           continue;
         }
 
-        // 7.3 Prepare card data for restoration
-        // 7.3.1 Get full card data from database
+        // 8.3 Prepare card data for restoration
+        // 8.3.1 Get full card data from database
         const cardData = allCards.cards[cardInfo.name];
-        // 7.3.2 Get orientation from import file
+        // 8.3.2 Get orientation from import file
         const orientation = cardInfo.orientation;
-        // 7.3.3 Convert orientation text to numeric code (0=Upright, 1=Reverse)
+        // 8.3.3 Convert orientation text to numeric code (0=Upright, 1=Reverse)
         const cardOrientation = orientation === "Upright" ? 0 : 1;
 
-        // 7.4 Update detail panel with restored card
-        // 7.4.1 Set card name in detail panel
+        // 8.4 Update detail panel with restored card
+        // 8.4.1 Set card name in detail panel
         setText(`card-name-${cardNum}`, cardData.name);
-        // 7.4.2 Set orientation in detail panel
+        // 8.4.2 Set orientation in detail panel
         setText(`card-orientation-${cardNum}`, orientation);
 
-        // 7.5 Update table cells with restored card
-        // 7.5.1 Get table cell elements
+        // 8.5 Update table cells with restored card
+        // 8.5.1 Get table cell elements
         const nameCell = document.getElementById(`card-list-${cardNum}`);
         const orientCell = document.getElementById(`card-orientation-list-${cardNum}`);
-        // 7.5.2 Update table name cell
+        // 8.5.2 Update table name cell
         if (nameCell) nameCell.textContent = cardData.name;
-        // 7.5.3 Update table orientation cell
+        // 8.5.3 Update table orientation cell
         if (orientCell) orientCell.textContent = orientation;
 
-        // 7.6 Restore card meanings based on orientation
-        // 7.6.1 Get all meanings for the card
+        // 8.6 Restore card meanings based on orientation
+        // 8.6.1 Get all meanings for the card
         const meanings = cardData.meanings;
-        // 7.6.2 Define meaning categories
+        // 8.6.2 Define meaning categories
         const categories = ['person', 'creatureTrap', 'place', 'treasure', 'situation'];
         
-        // 7.6.3 Iterate through each meaning category
+        // 8.6.3 Iterate through each meaning category
         categories.forEach(cat => {
-          // 7.6.3.1 Map creatureTrap to HTML ID 'creature'
+          // 8.6.3.1 Map creatureTrap to HTML ID 'creature'
           const htmlId = cat === 'creatureTrap' ? 'creature' : cat;
-          // 7.6.3.2 Get appropriate meaning based on orientation
+          // 8.6.3.2 Get appropriate meaning based on orientation
           const val = cardOrientation === 0 ? meanings[cat].upright : meanings[cat].reverse;
-          // 7.6.3.3 Update the meaning in the UI
+          // 8.6.3.3 Update the meaning in the UI
           setText(`meaning-${htmlId}-${cardNum}`, val);
         });
-        // 7.7 Remove the imported card from the working deck so it can't be drawn again
+        // 8.7 Remove the imported card from the working deck so it can't be drawn again
         if (!isReplaceableEnabled) {
           const spreadKey = getSpreadKey(cardNum);
           const index = workingDecks[spreadKey].indexOf(cardInfo.name);
@@ -897,40 +1132,40 @@ function importReading(event) {
           }
         }
 
-        // 7.8 Increment counter of successfully restored cards
+        // 8.8 Increment counter of successfully restored cards
         cardsRestored++;
       }
 
-      // STEP 8: Provide feedback to user about import results
-      // 8.1 Log import summary to console
+      // STEP 9: Provide feedback to user about import results
+      // 9.1 Log import summary to console
       console.log(`Import complete: ${cardsRestored} cards restored, ${cardsMissing} cards missing`);
       
-      // 8.2 Build user-friendly message
+      // 9.2 Build user-friendly message
       let message = `Reading imported successfully!\n${cardsRestored} cards restored.`;
-      // 8.3 Add warning if any cards were missing
+      // 9.3 Add warning if any cards were missing
       if (cardsMissing > 0) {
         message += `\n\n⚠️ ${cardsMissing} cards were not found in the current deck and were skipped.`;
       }
-      // 8.4 Alert user with import results
+      // 9.4 Alert user with import results
       alert(message);
 
-      // STEP 9: Reset file input for future imports
-      // 9.1 Clear the file input value so same file can be imported again if needed
+      // STEP 10: Reset file input for future imports
+      // 10.1 Clear the file input value so same file can be imported again if needed
       event.target.value = '';
 
     } catch (error) {
-      // STEP 10: Handle any errors during import process
-      // 10.1 Log error to console
+      // STEP 11: Handle any errors during import process
+      // 11.1 Log error to console
       console.error('Failed to import reading:', error);
-      // 10.2 Alert user of the error with details
+      // 11.2 Alert user of the error with details
       alert(`Failed to import reading:\n${error.message}`);
-      // 10.3 Reset file input value
+      // 11.3 Reset file input value
       event.target.value = '';
     }
   };
 
-  // STEP 11: Start reading the file
-  // 11.1 Trigger file reading as text
+  // STEP 12: Start reading the file
+  // 12.1 Trigger file reading as text
   reader.readAsText(file);
 }
 
