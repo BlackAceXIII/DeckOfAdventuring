@@ -190,6 +190,9 @@ function populateDropdown(deckLists) {
   spreads.forEach(spread => {
     createSpreadDeckSelector(spread.key, spread.id, spread.label, deckLists);
   });
+
+  // Step 4: Validate initial deck sizes for all spreads and update UI indicators
+  spreads.forEach(spread => validateDeckSize(spread.key));
 }
 
 // Create a deck selector for a specific spread
@@ -202,7 +205,7 @@ function createSpreadDeckSelector(spreadKey, selectId, label, deckLists) {
     dropdown += `<option value="${deckName}">${deckName}</option>`;
   }
   // 1.3 Close the select element
-  dropdown += "</select>";
+  dropdown += `</select> <span id='validity-${spreadKey}' class='deck-validity' title='Valid deck selection'>✅</span>`;
   
   // STEP 2: Find the container element and inject the dropdown
   // 2.1 Get the container div for this spread's selector
@@ -222,6 +225,7 @@ function createSpreadDeckSelector(spreadKey, selectId, label, deckLists) {
       selectedDecks[spreadKey] = this.value;
       // 3.3 Reinitialize working decks with the new deck
       initializeWorkingDecks();
+      validateDeckSize(spreadKey); // Check if the new deck is valid for the spread and update UI
       // 3.4 Log the change for debugging
       console.log(`${spreadKey} spread now using deck: ${this.value}`);
     });
@@ -490,6 +494,11 @@ function redrawAll() {
 }
 
 function redrawAdventureSpread() {
+  const deckName = getSelectedDeckForSpread('adventure');
+  if (!isReplaceableEnabled && (!allDecks[deckName] || allDecks[deckName].length < 9)) {
+    alert(`Cannot draw: The "${deckName}" deck only has ${allDecks[deckName].length} cards, but this spread requires 9. Turn on Card Replacement or select a larger deck.`);
+    return;
+  }
   resetWorkingDeck('adventure');
   for (let i = 0; i <= 8; i++) {
     const cardNum = i < 10 ? `C.0${i}` : `C.${i}`;
@@ -498,6 +507,11 @@ function redrawAdventureSpread() {
 }
 
 function redrawFiveCardSpread() {
+  const deckName = getSelectedDeckForSpread('fiveCard');
+  if (!isReplaceableEnabled && (!allDecks[deckName] || allDecks[deckName].length < 5)) {
+    alert(`Cannot draw: The "${deckName}" deck only has ${allDecks[deckName].length} cards, but this spread requires 5. Turn on Card Replacement or select a larger deck.`);
+    return;
+  }
   resetWorkingDeck('fiveCard');
   for (let i = 9; i <= 13; i++) {
     const cardNum = i < 10 ? `C.0${i}` : `C.${i}`;
@@ -506,6 +520,11 @@ function redrawFiveCardSpread() {
 }
 
 function redrawThreeCardSpread() {
+  const deckName = getSelectedDeckForSpread('threeCard');
+  if (!isReplaceableEnabled && (!allDecks[deckName] || allDecks[deckName].length < 3)) {
+    alert(`Cannot draw: The "${deckName}" deck only has ${allDecks[deckName].length} cards, but this spread requires 3. Turn on Card Replacement or select a larger deck.`);
+    return;
+  }
   resetWorkingDeck('threeCard');
   for (let i = 14; i <= 16; i++) {
     const cardNum = `C.${i}`;
@@ -514,10 +533,46 @@ function redrawThreeCardSpread() {
 }
 
 function redrawJourneySpread() {
+  const deckName = getSelectedDeckForSpread('adventure');
+  if (!isReplaceableEnabled && (!allDecks[deckName] || allDecks[deckName].length < 14)) {
+    alert(`Cannot draw: The "${deckName}" deck only has ${allDecks[deckName].length} cards, but this spread requires 14. Turn on Card Replacement or select a larger deck.`);
+    return;
+  }
   resetWorkingDeck('journey');
   for (let i = 17; i <= 30; i++) {
     const cardNum = `C.${i}`;
     generateCard(cardNum);
+  }
+}
+
+// Validates if the selected deck has enough cards for the spread
+function validateDeckSize(spreadKey) {
+  const indicator = document.getElementById(`validity-${spreadKey}`);
+  if (!indicator) return;
+
+  const deckName = selectedDecks[spreadKey];
+  const deckSize = allDecks[deckName] ? allDecks[deckName].length : 0;
+
+  // Determine required cards based on spread
+  let requiredCards = 0;
+  switch (spreadKey) {
+    case 'adventure': requiredCards = 9; break;
+    case 'fiveCard': requiredCards = 5; break;
+    case 'threeCard': requiredCards = 3; break;
+    case 'journey': requiredCards = 14; break;
+  }
+
+  // If replacement is ON, any deck with at least 1 card is valid
+  // If replacement is OFF, deck must meet or exceed required cards
+  if (deckSize === 0) {
+    indicator.textContent = "❌";
+    indicator.title = "Deck is completely empty!";
+  } else if (!isReplaceableEnabled && deckSize < requiredCards) {
+    indicator.textContent = "⚠️";
+    indicator.title = `Warning: Deck only has ${deckSize} cards. Need ${requiredCards} to draw full spread without replacement.`;
+  } else {
+    indicator.textContent = "✅";
+    indicator.title = "Deck size is valid for this spread.";
   }
 }
 
@@ -726,14 +781,19 @@ function generateCard(cardNum) {
   let deckToUse = isReplaceableEnabled ? allDecks[deckName] : workingDecks[spreadKey];
   
   // 2.2 If using non-replaceable mode and deck is empty, silently refill it
-  if (!isReplaceableEnabled && (!deckToUse || deckToUse.length === 0)) {
-    workingDecks[spreadKey] = [...allDecks[deckName]];
-    deckToUse = workingDecks[spreadKey];
+  if (!deckToUse || deckToUse.length === 0) {
+    if (!isReplaceableEnabled) {
+      alert('The ${deckName} deck is out of cards. Refill the deck to continue drawing, or turn on replaceable mode to draw from an infinite deck.');
+    }
+    else {
+      alert('The ${deckName} deck is out of cards. It will be refilled for the next draw.');
+    }
   }
 
   // 2.3 Verify the deck has cards available to draw
   if (deckToUse.length === 0) {
     console.error(`No cards available in deck ${deckName}`);
+    alert(`The deck "${deckName}" is empty. Please select a different deck or enable replaceable mode.`);
     return;
   }
 
@@ -1184,4 +1244,9 @@ function toggleReplaceable() {
   // STEP 2: Provide user feedback
   // 2.1 Log the change to console showing enabled or disabled state
   console.log(`Card replacement is now ${isReplaceableEnabled ? 'enabled' : 'disabled'}`);
+
+  // Re-validate all spread indicators based on new replacement rule
+  ['adventure', 'fiveCard', 'threeCard', 'journey'].forEach(spread => {
+    validateDeckSize(spread);
+  });
 }

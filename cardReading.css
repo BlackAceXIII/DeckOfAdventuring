@@ -649,3 +649,12 @@ button[id^="generate-button"]:hover {
   line-height: 1.4;
   margin: 8px 0;
 }
+
+/* ========== DECK VALIDITY INDICATOR ========== */
+.deck-validity {
+  margin-left: 10px;
+  font-size: 1.2em;
+  cursor: help;
+  display: inline-block;
+  vertical-align: middle;
+}

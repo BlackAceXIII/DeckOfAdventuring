@@ -32,17 +32,15 @@ The summary table at the left of each spread updates alongside the detail panels
 | Three-Card Spread | 3 | C.14–C.16 | Linear: Past, Present, Future |
 | Journey Spread | 14 | C.17–C.30 | Two rows: Stage 1–7 Challenges (C.17–C.23) and Stage 1–7 Rewards (C.24–C.30) |
 | Blank Slate Spread | 17 | C.00–C.16 | Free-form grid reusing all slots from the three structured spreads above. No positional meaning. |
-| All Cards Spread | All | — | Dynamically populated grid of every card in `AllCards.json`. Clicking any card opens a read-only detail panel showing its upright meanings. No orientation is drawn. |
+| Deck Forge | All | — | Repurposed from the "All Cards" spread. Serves as a library reference and an interactive shopping-cart-style deck builder. |
 
 ### Deck Selection
 
-A dropdown above the spread tabs lists all available decks from `deckLists.json` plus any loaded `customDecks.json` entries. The selected deck applies to all spreads simultaneously. Changing the selection does not automatically redraw existing cards.
+A dropdown above the spread tabs lists all available decks from `deckLists.json` plus any loaded `customDecks.json` entries, as well as locally built Custom Decks. The selected deck applies to all spreads simultaneously. Changing the selection does not automatically redraw existing cards.
 
 ### Replacement Toggle
 
 A toggle at the top of the page controls whether the same card can appear multiple times in a single spread draw (**with replacement**) or not (**without replacement**).
-
-> **Note:** The without-replacement logic currently logs the toggle state but does not yet modify draw behaviour. Full implementation is item #1 on the to-do list below.
 
 ---
 
@@ -79,7 +77,6 @@ Notes:
 
 - Card images currently point to a placeholder path (`../JSON_Folder/Generic Soldier 4.png`). Real card images are not yet wired to individual cards.
 - The `input type="switch"` on the replacement toggle is not a valid HTML type — browsers fall back to `type="text"`. Should be `type="checkbox"`.
-- The All Cards spread shows only upright meanings since no orientation is drawn.
 
 ---
 
@@ -94,11 +91,6 @@ Features are ordered from least to most complex to implement. Dependencies are n
 
 The UI toggle already exists. The underlying draw logic needs to be connected to it.
 
-**What needs doing:**
-- When **with replacement** is on (current default behaviour): each slot picks randomly from the full deck independently, as it does now.
-- When **without replacement** is on: shuffle a copy of the deck once before a full spread redraw, then deal sequentially so no card repeats. Individual per-slot redraws should draw from the remaining undealt pool.
-- If the selected deck has fewer cards than the spread requires and without-replacement is active, disable the toggle and show a visible explanation rather than silently failing or producing `undefined`.
-
 **Dependencies:**
 - Aids the **Free-Form Spread** — coordinating a shared card pool across individual slot draws in a free-form context is the same problem, already solved here.
 
@@ -108,38 +100,6 @@ The UI toggle already exists. The underlying draw logic needs to be connected to
 **Complexity: Low**
 
 Full import/export functionality has been implemented. Users can now save card readings to JSON files and restore them later.
-
-**What was implemented:**
-
-**Export Feature:**
-- One-click **Export Reading** button that captures all drawn cards (C.00–C.30)
-- Saves card names and orientations (Upright/Reverse)
-- Records deck selections per spread and replacement toggle state
-- Auto-generates timestamped filename: `card-reading-YYYY-MM-DDTHH-MM-SS.json`
-- Downloads via browser file API (100% client-side, no server required)
-- Shows confirmation alert with card count
-
-**Import Feature:**
-- **Import Reading** button with file picker for selecting `.json` files
-- Restores all saved cards and orientations instantly
-- Validates that card names exist in current `AllCards.json`
-- Restores deck selections and replacement toggle state automatically
-- Gracefully skips cards that no longer exist in the database
-- Shows success alert with count of restored and missing cards
-- Allows re-importing the same file multiple times
-
-**Use Cases Enabled:**
-- **Session continuity:** Save mid-session and resume later
-- **Sharing readings:** Send JSON files to other GMs/players
-- **Reading archives:** Keep library of readings organized by campaign
-- **Backups:** Export before experimenting with redraws
-
-**Files Affected:**
-- `cardReading.html` — Added import/export UI buttons
-- `cardReading.css` — Styled import/export section
-- `cardReading.js` — Implemented `exportReading()` and `importReading()` functions
-- `IMPLEMENTATION_SUMMARY.md` — Technical implementation details
-- `IMPORT_EXPORT_GUIDE.md` — User guide and troubleshooting
 
 **JSON Format Example:**
 ```json
@@ -158,6 +118,9 @@ Full import/export functionality has been implemented. Users can now save card r
   "cards": {
     "C.00": { "name": "Aberration", "orientation": "Upright" },
     "C.01": { "name": "Balance", "orientation": "Reverse" }
+  },
+  "customDecks": {
+    "Custom: Boss Loot": ["Beast", "Beast", "Skull"]
   }
 }
 ```
@@ -172,42 +135,32 @@ Full import/export functionality has been implemented. Users can now save card r
 ### 3. ✅ Per-Spread Deck Selection — Complete Implementation
 **Complexity: Low–Moderate**
 
-Replaces one global string with a small object. The spread-detection logic already exists in `generateCard` and just needs extending.
-
-**What was implemented:**
-- Replaced global `selectedDeck` string with `selectedDecks` object tracking selection per spread.
-- Added individual deck selector dropdowns inside each spread panel.
-- Extended `generateCard()` to use per-spread deck selection via spread key lookup.
-- All spreads initialize to first available deck on page load.
-- Deck selections persist across spread navigation and are saved/restored via import/export.
+Replaced one global string with a small object tracking selection per spread.
 
 **Dependencies:**
 - Directly enables **Custom Deck Building** to be meaningful per-spread rather than global.
-- Is a stepping stone toward the **Multi-Deck Adventure Spread** — per-slot deck assignment in that spread is a small extension of per-spread assignment. Doing this first makes that feature significantly less disruptive.
+- Is a stepping stone toward the **Multi-Deck Adventure Spread** — per-slot deck assignment in that spread is a small extension of per-spread assignment.
 - Makes the **Free-Form Spread** automatically inherit its own deck choice.
-- Skipping this and attempting the multi-deck spread directly requires a larger one-time architectural jump.
 
 ---
 
-### 4. ❌ Custom Deck Building
+### 4. ✅ Custom Deck Building — Complete Implementation
 **Complexity: Moderate**
 
 Lets users construct their own named decks from the cards available in `AllCards.json`. Writes into the same `allDecks` object the rest of the code already reads from.
 
-**What needs doing:**
-- UI: a searchable or filterable checklist of all cards from `allDecks`, with a name field and a save button.
-- On save: push the new deck into `allDecks` and repopulate the deck dropdown(s).
-- Persistence: without a backend, custom decks only survive the session unless saved via `localStorage` or the import/export system. Import/export being built first makes persistence essentially free.
-- If the deck list grows very large, the checklist UI needs filtering or search to stay usable.
-
-**Specification note:** The `customDecks.json` file mechanism already exists — custom decks loaded from that file override defaults of the same name. In-browser custom deck building would write to `allDecks` in memory during the session. Persistence is provided by the import/export system: users can export custom decks they've built and import them later or share them with others as JSON files.
-
-**URL-based sharing has been abandoned** in favor of the cleaner import/export approach. Custom decks are now exclusively managed through the JSON import/export feature for maximum clarity and reliability.
+**What was implemented:**
+- Replaced the "All Cards" static glossary with the interactive "Deck Forge".
+- Built a split-panel UI containing a searchable card library and a shopping-cart-style deck builder.
+- Implemented `+`/`-` quantity controls to support multiple copies of the same card (required for cascading spreads).
+- Replaced dynamic tab generation with a unified, static Preview Panel displaying both Upright and Reversed meanings simultaneously.
+- Integrated `localStorage` for automatic cross-session persistence.
+- Hooked directly into the JSON Import/Export system so custom decks are bundled in reading save files.
 
 **Dependencies:**
 - **Import/Export** already complete — persistence and sharing via JSON files is fully functional.
-- Easier with **Per-Spread Deck Selection** done first (custom decks become immediately more useful when each spread can select independently).
-- Directly enables the **Multi-Deck Adventure Spread**, which requires specifically named decks (story deck, locations deck, features deck) to exist before the spread can function.
+- Easier with **Per-Spread Deck Selection** done first.
+- Directly enables the **Multi-Deck Adventure Spread**, which requires specifically named decks.
 
 ---
 
@@ -222,12 +175,9 @@ Adds a mode where the user chooses a specific card to assign to a slot rather th
 - Manual and random-draw modes must coexist — some slots in a spread may be manually set while others remain randomly drawn.
 - The picker UI can share component logic with the **Custom Deck Building** checklist.
 
-**Design decision required:** Does manual selection respect the currently selected deck (showing only that deck's cards) or the full `AllCards.json`? Does it reset when the deck is changed?
-
 **Dependencies:**
-- Easier with **Per-Spread Deck Selection** done first — knowing which deck to browse per slot is already solved.
-- Harder if the **Multi-Deck Adventure Spread** is added first without manual selection in mind — slots in that spread draw from different deck types and manual selection would need to respect per-slot deck assignment.
-- The Free-Form Spread is the most natural home for manual selection; tackling both simultaneously conflates two separate problems and is not recommended.
+- Easier with **Per-Spread Deck Selection** done first.
+- Harder if the **Multi-Deck Adventure Spread** is added first without manual selection in mind.
 
 ---
 
@@ -237,17 +187,14 @@ Adds a mode where the user chooses a specific card to assign to a slot rather th
 The Blank Slate spread tab already exists and populates slot buttons for C.00–C.16. Full implementation means clarifying its behaviour and connecting it to the replacement toggle and per-spread deck selection.
 
 **What needs doing:**
-- Decide and implement label behaviour: the current slot buttons show IDs (`C.00` etc.) which are meaningless without positional roles. Options are neutral numeric labels, user-renameable labels, or no labels.
+- Decide and implement label behaviour: the current slot buttons show IDs (`C.00` etc.) which are meaningless without positional roles.
 - Optionally: a number input to control how many slots are active, rather than always showing all 17.
-- Connect to the replacement toggle so without-replacement coordinates across individual slot draws within this spread (the same shared-pool problem solved in item #1).
-- Ensure per-spread deck selection (item #3) applies here automatically once built.
-
-**Note on design:** The free-form spread is intentionally roleless — it is most useful for improvisational draws mid-session. Keeping it simple and not over-structuring it is preferable.
+- Connect to the replacement toggle so without-replacement coordinates across individual slot draws within this spread.
+- Ensure per-spread deck selection (item #3) applies here automatically.
 
 **Dependencies:**
 - Easier with the **Replacement Toggle** fully implemented first.
-- Easier with **Per-Spread Deck Selection** done first (inherits its own deck choice automatically).
-- Manual card selection fits naturally here but should be built separately first and then connected, not tackled simultaneously.
+- Easier with **Per-Spread Deck Selection** done first.
 
 ---
 
@@ -257,72 +204,41 @@ The Blank Slate spread tab already exists and populates slot buttons for C.00–
 A specialized spread that uses a cascading deck system exclusively designed for that tab. Cards drawn from earlier positions determine which custom deck subsequent positions draw from, creating dynamic, interconnected outcomes.
 
 **What needs doing:**
-- Design the cascade logic: define how drawn cards map to subsequent deck selections (e.g., drawn card name or category determines next deck, or drawn card orientation branches the path).
-- Build a new spread tab with cascading positions (suggested structure: foundation card(s) at top, then tiers that branch/expand below based on earlier draws).
+- Design the cascade logic: define how drawn cards map to subsequent deck selections.
+- Build a new spread tab with cascading positions.
 - Extend `generateCard()` or create a new function to support deck selection that depends on the result of a previous draw.
-- Each position in the cascade must visually show which deck it is drawing from and how it was derived from prior positions.
-- The cascade should work seamlessly with the existing custom deck system — user-built custom decks feed directly into the cascade rules.
-- Define a configuration object or UI controls to set up cascade rules (which card result maps to which next deck).
-
-**Design considerations:**
-- Should the cascade be deterministic (same card always leads to the same next deck) or probabilistic (drawn cards influence but don't strictly determine the next deck selection)?
-- Should the cascade be fixed depth (e.g., always exactly 3 tiers) or variable (user controls how deep the cascade goes)?
-- How does the cascade behave if a required downstream deck is missing or empty?
-- Should users be able to manually override a cascade step to explore alternate branches?
+- Each position in the cascade must visually show which deck it is drawing from.
+- The cascade should work seamlessly with the existing custom deck system.
+- Define a configuration object or UI controls to set up cascade rules.
 
 **Dependencies:**
-- Requires **Custom Deck Building** to be completed first — the cascading system only makes sense when users can create specific named decks to cascade between.
-- Easier if **Per-Spread Deck Selection** is already done (the architecture for per-spread deck choice is reusable here).
-- Works well with **Import/Export** (cascade configurations and custom decks persist via JSON; cascade session state can be saved and restored).
-- Independent of **Manual Card Selection** but could be extended to support it later.
+- Requires **Custom Deck Building** to be completed first.
+- Works well with **Import/Export**.
 
 ---
 
 ### 8. ❌ Multi-Deck Adventure Spread
 **Complexity: Highest**
 
-A modified Adventure Spread where different slot types draw from different named decks simultaneously, some slots require two cards (a location and a feature paired together), the number of challenge slots is variable (1–3), and some slots are optional.
-
-**Full specification:**
-
-| Slot | Label | Deck(s) | Optional? |
-|---|---|---|---|
-| 1 | Party Gathers | Story deck | Yes |
-| 2 | Adventure Begins | Story deck | Yes |
-| 3 | Journey | Story deck | Yes |
-| 4 | Entrance | Locations deck + Features deck (paired) | No |
-| 5 | Challenge 1 | Locations deck + Features deck (paired) | Configurable (1–3 challenges total) |
-| 6 | Challenge 2 | Locations deck + Features deck (paired) | Configurable |
-| 7 | Challenge 3 | Locations deck + Features deck (paired) | Configurable |
-| 8 | Treasure | Features deck | No |
-| 9 | Guardian | Features deck + Locations deck (paired) | No |
-
-**What needs doing:**
-- The current one-card-per-slot data model must be extended to support paired cards (two cards drawn from different decks displayed together in one slot).
-- A variable challenge count control (1–3) must dynamically show/hide challenge slots.
-- Optional slots (1–3) need a distinct UI state: intentionally empty vs not yet drawn.
-- The story deck, locations deck, and features deck must exist as named decks — either as built-in entries in `deckLists.json` or as custom decks built by the user.
-- `generateCard` must be extended or a new parallel function created to handle per-slot deck assignment rather than a single deck for the whole spread.
+A modified Adventure Spread where different slot types draw from different named decks simultaneously, some slots require two cards, the number of challenge slots is variable (1–3), and some slots are optional.
 
 **Dependencies:**
-- Significantly easier if **Per-Spread Deck Selection** is done first (per-slot deck assignment is a direct extension).
-- Significantly easier if **Custom Deck Building** is done first (the required named decks need to exist).
-- Easier if **Import/Export** is done first (sessions for this spread are the most complex state to reconstruct manually).
-- Harder if **Manual Card Selection** is attempted at the same time — the paired slot mechanic and manual selection interact in non-trivial ways and are better solved separately.
+- Significantly easier if **Per-Spread Deck Selection** is done first.
+- Significantly easier if **Custom Deck Building** is done first.
+- Easier if **Import/Export** is done first.
 
 ---
 
 ## Completed Features Summary
 
-✅ **Replacement Toggle** — Draw behavior fully connected to toggle state
-✅ **Import / Export** — Full session persistence and sharing support
-✅ **Per-Spread Deck Selection** — Each spread independently selects its deck
+✅ **Replacement Toggle** — Draw behavior fully connected to toggle state.
+✅ **Import / Export** — Full session persistence and sharing support.
+✅ **Per-Spread Deck Selection** — Each spread independently selects its deck.
+✅ **Custom Deck Building** — In-browser Deck Forge with quantity controls, local storage persistence, and JSON export integration.
 
 ## Recommended Implementation Order for Remaining Features
 
 ```
-4. Custom Deck Building
-        │
         ├──▶ 5. Manual Card Selection
         │
         ├──▶ 6. Free-Form Spread (full)
@@ -332,5 +248,3 @@ A modified Adventure Spread where different slot types draw from different named
         ▼
 8. Multi-Deck Adventure Spread
 ```
-
-Each step either directly enables the next or reduces its implementation cost. Completed features (1–3) have already been implemented and no longer require rework.
