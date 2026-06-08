@@ -99,6 +99,14 @@ body {
   flex-wrap: wrap;
 }
 
+.manual-selection-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
 /* ========== TEXT LABELS TOGGLE STYLES ========== */
 .toggle-labels {
   display: flex;

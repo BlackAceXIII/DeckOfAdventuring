@@ -7,6 +7,7 @@ let selectedDecks = {
 };
 
 let isReplaceableEnabled = false; // Default to "No" to match common Tarot logic
+let isManualSelectionEnabled = false; // Default to "No" to match common Tarot logic
 
 let allDecks = {}; // Combined deck lists from all sources
 let customDeckCart = {}; // Format: { "CardName": quantity }
@@ -797,56 +798,62 @@ function generateCard(cardNum) {
     return;
   }
 
-  // STEP 3: Draw a random card from the selected deck
-  // 3.1 Generate random index into the deck array
+  // STEP 3: Check if manual selection mode is enabled before drawing
+  if (isManualSelectionEnabled) {
+    openManualCardPicker(cardNum, spreadKey, deckToUse);
+    return; // Halt the automatic random generation
+  }
+
+  // STEP 4: Draw a random card from the selected deck
+  // 4.1 Generate random index into the deck array
   const randomIndex = Math.floor(Math.random() * deckToUse.length);
-  // 3.2 Retrieve the card name at that index
+  // 4.2 Retrieve the card name at that index
   const cardName = deckToUse[randomIndex];
   
-  // STEP 4: Remove card from working deck if replaceable mode is disabled
-  // 4.1 Splice out the drawn card so it cannot be drawn again
+  // STEP 5: Remove card from working deck if replaceable mode is disabled
+  // 5.1 Splice out the drawn card so it cannot be drawn again
   if (!isReplaceableEnabled) {
     deckToUse.splice(randomIndex, 1);
   }
 
-  // STEP 5: Prepare card data and orientation
-  // 5.1 Look up the full card data from AllCards
+  // STEP 6: Prepare card data and orientation
+  // 6.1 Look up the full card data from AllCards
   const cardData = allCards.cards[cardName];
-  // 5.2 Randomly determine orientation (0=Upright, 1=Reverse)
+  // 6.2 Randomly determine orientation (0=Upright, 1=Reverse)
   const cardOrientation = Math.floor(Math.random() * 2);
-  // 5.3 Create human-readable orientation text
+  // 6.3 Create human-readable orientation text
   const orientationText = cardOrientation === 0 ? "Upright" : "Reverse";
 
-  // STEP 6: Update detail panel with card information
-  // 6.1 Set the card name in the detail panel
+  // STEP 7: Update detail panel with card information
+  // 7.1 Set the card name in the detail panel
   setText(`card-name-${cardNum}`, cardData.name);
-  // 6.2 Set the orientation in the detail panel
+  // 7.2 Set the orientation in the detail panel
   setText(`card-orientation-${cardNum}`, orientationText);
   
-  // STEP 7: Update table cells for this card slot
-  // 7.1 Get references to the table cells using unified card ID system
+  // STEP 8: Update table cells for this card slot
+  // 8.1 Get references to the table cells using unified card ID system
   const cardNameText = cardData.name || cardName;
   const nameCell = document.getElementById(`card-list-${cardNum}`);
   const orientCell = document.getElementById(`card-orientation-list-${cardNum}`);
   
-  // 7.2 Update name cell in the spread table
+  // 8.2 Update name cell in the spread table
   if (nameCell) nameCell.textContent = cardNameText;
-  // 7.3 Update orientation cell in the spread table
+  // 8.3 Update orientation cell in the spread table
   if (orientCell) orientCell.textContent = orientationText;
 
-  // STEP 8: Resolve and display card meanings based on orientation
-  // 8.1 Get the meanings object from card data
+  // STEP 9: Resolve and display card meanings based on orientation
+  // 9.1 Get the meanings object from card data
   const meanings = cardData.meanings;
-  // 8.2 Define the meaning categories to process
+  // 9.2 Define the meaning categories to process
   const categories = ['person', 'creatureTrap', 'place', 'treasure', 'situation'];
   
-  // 8.3 Iterate through each category and update UI
+  // 9.3 Iterate through each category and update UI
   categories.forEach(cat => {
-    // 8.3.1 Map creatureTrap to the HTML ID 'creature'
+    // 9.3.1 Map creatureTrap to the HTML ID 'creature'
     const htmlId = cat === 'creatureTrap' ? 'creature' : cat;
-    // 8.3.2 Get the appropriate meaning based on orientation
+    // 9.3.2 Get the appropriate meaning based on orientation
     const val = cardOrientation === 0 ? meanings[cat].upright : meanings[cat].reverse;
-    // 8.3.3 Update the meaning text in the UI
+    // 9.3.3 Update the meaning text in the UI
     setText(`meaning-${htmlId}-${cardNum}`, val);
   });
 }
@@ -1249,4 +1256,79 @@ function toggleReplaceable() {
   ['adventure', 'fiveCard', 'threeCard', 'journey'].forEach(spread => {
     validateDeckSize(spread);
   });
+}
+
+function toggleManualSelection() {
+  const toggle = document.getElementById("manualSelectionToggle");
+  isManualSelectionEnabled = toggle.checked;
+  console.log(`Manual card selection is now ${isManualSelectionEnabled ? 'enabled' : 'disabled'}`);
+}
+
+function openManualCardPicker(cardNum, spreadKey, deckToUse) {
+  // STEP 1: Get reference to the manual card picker modal
+  const modal = document.getElementById('manualCardPicker');
+  if (!modal) {
+    console.error('Manual card picker modal not found in DOM');
+    return;
+  }
+  // STEP 2: Populate the dropdown with cards from the selected deck
+  const select = document.getElementById('manualCardSelect');
+  if (!select) {
+    console.error('Manual card select element not found in DOM');
+    return;
+  }
+  // 2.1 Clear existing options
+  select.innerHTML = '';
+  // 2.2 Add a default option
+  const defaultOption = document.createElement('option');
+  defaultOption.value = '';
+  defaultOption.textContent = '-- Select a card --';
+  select.appendChild(defaultOption);
+  // 2.3 Add options for each card in the deck
+  deckToUse.forEach(cardName => {
+    const option = document.createElement('option');
+    option.value = cardName;
+    option.textContent = cardName;
+    select.appendChild(option);
+  });
+
+  // STEP 3: Show the modal
+  modal.style.display = 'block';
+  // STEP 4: Handle card selection and confirmation
+  const confirmBtn = document.getElementById('manualCardConfirm');
+  const cancelBtn = document.getElementById('manualCardCancel');
+  const onConfirm = () => {
+    const selectedCard = select.value;
+    if (!selectedCard) {
+      alert('Please select a card before confirming.');
+      return;
+    }
+    // Set the selected card in the UI
+    const cardData = allCards.cards[selectedCard];
+    const orientation = 'Upright'; // Default to upright for manual selection
+    setText(`card-name-${cardNum}`, cardData.name);
+    setText(`card-orientation-${cardNum}`, orientation);
+    const nameCell = document.getElementById(`card-list-${cardNum}`);
+    const orientCell = document.getElementById(`card-orientation-list-${cardNum}`);
+    if (nameCell) nameCell.textContent = cardData.name;
+    if (orientCell) orientCell.textContent = orientation;
+    // Remove the selected card from the working deck if not replaceable
+    if (!isReplaceableEnabled) {
+      const index = workingDecks[spreadKey].indexOf(selectedCard);
+      if (index > -1) {
+        workingDecks[spreadKey].splice(index, 1);
+      }
+    }
+    // Close the modal and clean up event listeners
+    modal.style.display = 'none';
+    confirmBtn.removeEventListener('click', onConfirm);
+    cancelBtn.removeEventListener('click', onCancel);
+  };
+  const onCancel = () => {
+    modal.style.display = 'none';
+    confirmBtn.removeEventListener('click', onConfirm);
+    cancelBtn.removeEventListener('click', onCancel);
+  };
+  confirmBtn.addEventListener('click', onConfirm);
+  cancelBtn.addEventListener('click', onCancel);
 }
