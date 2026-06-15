@@ -1297,6 +1297,7 @@ function openManualCardPicker(cardNum, spreadKey, deckToUse) {
   // STEP 4: Handle card selection and confirmation
   const confirmBtn = document.getElementById('manualCardConfirm');
   const cancelBtn = document.getElementById('manualCardCancel');
+  // 4.1 Handle confirmation
   const onConfirm = () => {
     const selectedCard = select.value;
     if (!selectedCard) {
@@ -1324,6 +1325,7 @@ function openManualCardPicker(cardNum, spreadKey, deckToUse) {
     confirmBtn.removeEventListener('click', onConfirm);
     cancelBtn.removeEventListener('click', onCancel);
   };
+  // 4.2 Handle cancellation
   const onCancel = () => {
     modal.style.display = 'none';
     confirmBtn.removeEventListener('click', onConfirm);
