@@ -227,7 +227,9 @@ function createSpreadDeckSelector(spreadKey, selectId, label, deckLists) {
       // 3.3 Reinitialize working decks with the new deck
       initializeWorkingDecks();
       validateDeckSize(spreadKey); // Check if the new deck is valid for the spread and update UI
-      // 3.4 Log the change for debugging
+      // 3.4 Update the deck sidebar to show cards from the new deck
+      updateDeckSidebar();
+      // 3.5 Log the change for debugging
       console.log(`${spreadKey} spread now using deck: ${this.value}`);
     });
   }
@@ -447,6 +449,10 @@ function openSpread(evt, spreadName) {
     // 3.3 Mark the clicked button as active
     evt.currentTarget.classList.add("active");
   }
+  
+  // STEP 4: Update sidebar to show cards for the current spread's deck
+  // 4.1 Refresh sidebar contents when spread changes
+  updateDeckSidebar();
 }
 
 // Helper function to get the currently active spread
@@ -814,6 +820,8 @@ function generateCard(cardNum) {
   // 5.1 Splice out the drawn card so it cannot be drawn again
   if (!isReplaceableEnabled) {
     deckToUse.splice(randomIndex, 1);
+    // 5.2 Keep the sidebar in sync after consuming a card
+    updateDeckSidebar();
   }
 
   // STEP 6: Prepare card data and orientation
@@ -911,6 +919,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (defaultCardBtn) {
       defaultCardBtn.click();
     }
+    
+    // Initialize deck sidebar with cards from the default deck
+    setTimeout(() => updateDeckSidebar(), 100);
   }).catch(error => {
     console.error('Failed to initialize:', error);
   });
@@ -1256,6 +1267,9 @@ function toggleReplaceable() {
   ['adventure', 'fiveCard', 'threeCard', 'journey'].forEach(spread => {
     validateDeckSize(spread);
   });
+
+  // STEP 3: Refresh the sidebar so remaining / full deck display updates
+  updateDeckSidebar();
 }
 
 function toggleManualSelection() {
@@ -1319,6 +1333,7 @@ function openManualCardPicker(cardNum, spreadKey, deckToUse) {
       if (index > -1) {
         workingDecks[spreadKey].splice(index, 1);
       }
+      updateDeckSidebar();
     }
     // Close the modal and clean up event listeners
     modal.style.display = 'none';
@@ -1333,4 +1348,95 @@ function openManualCardPicker(cardNum, spreadKey, deckToUse) {
   };
   confirmBtn.addEventListener('click', onConfirm);
   cancelBtn.addEventListener('click', onCancel);
+}
+
+// ========== DECK SIDEBAR FUNCTIONS ==========
+
+/**
+ * Populate the sidebar with cards from the currently selected deck
+ * Updates display based on active spread and replacement mode
+ */
+function updateDeckSidebar() {
+  const activeSpread = getActiveSpread();
+  const spreadKey = {
+    'adventure-spread': 'adventure',
+    'five-card-spread': 'fiveCard',
+    'three-card-spread': 'threeCard',
+    'journey-spread': 'journey'
+  }[activeSpread] || 'adventure';
+  
+  const deckName = getSelectedDeckForSpread(spreadKey);
+  const fullDeckCards = allDecks[deckName] || [];
+  const remainingCards = isReplaceableEnabled ? [...fullDeckCards] : (workingDecks[spreadKey] || []);
+  const remainingCount = remainingCards.length;
+  
+  // Update sidebar header
+  document.getElementById('sidebar-deck-name').textContent = deckName;
+  document.getElementById('sidebar-card-count').textContent = `${fullDeckCards.length} cards`;
+  
+  // Populate full deck list
+  const fullList = document.getElementById('sidebar-full-list');
+  const remainingList = document.getElementById('sidebar-remaining-list');
+  fullList.innerHTML = '';
+  remainingList.innerHTML = '';
+
+  if (fullDeckCards.length === 0) {
+    fullList.innerHTML = '<div class="sidebar-empty-msg">No cards in this deck</div>';
+    remainingList.innerHTML = '<div class="sidebar-empty-msg">No remaining cards</div>';
+    return;
+  }
+
+  fullDeckCards.forEach(cardName => {
+    const cardItem = document.createElement('div');
+    cardItem.className = 'sidebar-card-item available';
+    cardItem.title = cardName;
+    
+    const nameSpan = document.createElement('span');
+    nameSpan.className = 'sidebar-card-name';
+    nameSpan.textContent = cardName;
+    
+    cardItem.appendChild(nameSpan);
+    cardItem.onclick = () => {
+      if (allCards && allCards.cards[cardName]) {
+        openAllCardPreview(cardName);
+      }
+    };
+    fullList.appendChild(cardItem);
+  });
+
+  if (isReplaceableEnabled) {
+    remainingList.innerHTML = '<div class="sidebar-empty-msg">Replaceable mode is active; cards remain in the deck.</div>';
+  } else if (remainingCount === 0) {
+    remainingList.innerHTML = '<div class="sidebar-empty-msg">No cards remain in this deck.</div>';
+  } else {
+    remainingCards.forEach(cardName => {
+      const cardItem = document.createElement('div');
+      cardItem.className = 'sidebar-card-item available';
+      cardItem.title = cardName;
+
+      const nameSpan = document.createElement('span');
+      nameSpan.className = 'sidebar-card-name';
+      nameSpan.textContent = cardName;
+
+      cardItem.appendChild(nameSpan);
+      cardItem.onclick = () => {
+        if (allCards && allCards.cards[cardName]) {
+          openAllCardPreview(cardName);
+        }
+      };
+      remainingList.appendChild(cardItem);
+    });
+  }
+}
+
+/**
+ * Toggle sidebar collapse/expand state
+ */
+function toggleSidebar() {
+  const sidebar = document.getElementById('deck-sidebar');
+  sidebar.classList.toggle('collapsed');
+  
+  // Update button text
+  const btn = sidebar.querySelector('.sidebar-collapse-btn');
+  btn.textContent = sidebar.classList.contains('collapsed') ? '+' : '−';
 }

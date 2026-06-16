@@ -7,6 +7,27 @@
         <link rel="stylesheet" type="text/css" href="cardReading.css">
     </head>
     <body>
+        <!-- Sidebar: Displays cards from currently selected deck -->
+        <div id="deck-sidebar" class="deck-sidebar">
+            <div class="sidebar-header">
+                <h3>Current Deck</h3>
+                <button class="sidebar-collapse-btn" onclick="toggleSidebar()">−</button>
+            </div>
+            <div class="sidebar-deck-info">
+                <p id="sidebar-deck-name" class="sidebar-deck-name">—</p>
+                <p id="sidebar-card-count" class="sidebar-card-count">0 cards</p>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Full Deck</div>
+                <div id="sidebar-full-list" class="sidebar-list"></div>
+            </div>
+            <div id="sidebar-remaining-section" class="sidebar-section">
+                <div class="sidebar-section-title">Remaining Cards</div>
+                <div id="sidebar-remaining-list" class="sidebar-list"></div>
+            </div>
+        </div>
+
+        <div id="main-content" class="main-content">
         <h1>Card Reading based on WotC's Deck of Many Things Card Reference Guide</h1>        <!--
             Simplified toggle switch replaces earlier nested label/slider markup.
             Original had a <code>switch</code> class with <code>span.slider.round</code> etc;
@@ -1061,5 +1082,6 @@
 		<script type="application/json" src="../JSON_Folder/CardsJsons/Aberration.json"></script>
 		<script type="application/json" src="../JSON_Folder/deckLists.json"></script>
 		-->
+        </div>  <!-- Close main-content -->
     </body>
 </html>
