@@ -13,6 +13,20 @@
                 <h3>Deck Inventory</h3>
                 <button class="sidebar-collapse-btn" onclick="toggleSidebar()">−</button>
             </div>
+			<!-- Sidebar Controls -->
+			<div class="sidebar-section" id="sidebar-controls">
+				<div class="sidebar-section-title">Manual Actions</div>
+				<div id="manual-controls" style="padding: 10px; background: var(--surface-bg-alt);">
+					<p id="target-slot-display" style="font-size: 12px; margin-bottom: 10px;">Target Slot: <b>None</b></p>
+					<button id="assign-btn" class="button1" style="width:100%;" onclick="performManualAssign()" disabled>Assign Card</button>
+				</div>
+                
+				<div class="sidebar-section-title">Global Controls</div>
+				<div id="global-actions" style="padding: 10px; display: flex; flex-direction: column; gap: 5px;">
+					<button class="button1" onclick="handleGlobalDraw()">Draw Selected Slot</button>
+					<button class="button1" onclick="handleGlobalRedraw()">Redraw Spread</button>
+				</div>
+			</div>
             <div class="sidebar-deck-info">
                 <p id="sidebar-deck-name" class="sidebar-deck-name">—</p>
                 <p id="sidebar-card-count" class="sidebar-card-count">0 cards left</p>
@@ -414,7 +428,7 @@
 						<div class="meanings-block upright-block">
 							<h4>Upright Meanings</h4>
 							<p><strong>Person:</strong> <span id="preview-up-person"></span></p>
-							<p><strong>Creature/Trap:</strong> <span id="preview-up-creature"></span></p>
+							<p><strong>Creature/Trap:</strong> <span id="preview-up-creature_trap"></span></p>
 							<p><strong>Place:</strong> <span id="preview-up-place"></span></p>
 							<p><strong>Treasure:</strong> <span id="preview-up-treasure"></span></p>
 							<p><strong>Situation:</strong> <span id="preview-up-situation"></span></p>
@@ -422,7 +436,7 @@
 						<div class="meanings-block reverse-block">
 							<h4>Reverse Meanings</h4>
 							<p><strong>Person:</strong> <span id="preview-rev-person"></span></p>
-							<p><strong>Creature/Trap:</strong> <span id="preview-rev-creature"></span></p>
+							<p><strong>Creature/Trap:</strong> <span id="preview-rev-creature_trap"></span></p>
 							<p><strong>Place:</strong> <span id="preview-rev-place"></span></p>
 							<p><strong>Treasure:</strong> <span id="preview-rev-treasure"></span></p>
 							<p><strong>Situation:</strong> <span id="preview-rev-situation"></span></p>
@@ -448,7 +462,7 @@
 			<h4>Meanings</h4>
 			<div id="meanings-C.00">
 				<h5>Person: <span id="meaning-person-C.00">Meaning for orientation</span></h5>
-				<h5>Creature or Trap: <span id="meaning-creature-C.00">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature_trap-C.00">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.00">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.00">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.00">Meaning for orientation</span></h5>
@@ -468,7 +482,7 @@
 			<h4>Meanings</h4>
 			<div id="meanings-C.01">
 				<h5>Person: <span id="meaning-person-C.01">Meaning for orientation</span></h5>
-				<h5>Creature or Trap: <span id="meaning-creature-C.01">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature_trap-C.01">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.01">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.01">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.01">Meaning for orientation</span></h5>
@@ -488,7 +502,7 @@
 			<h4>Meanings</h4>
 			<div id="meanings-C.02">
 				<h5>Person: <span id="meaning-person-C.02">Meaning for orientation</span></h5>
-				<h5>Creature or Trap: <span id="meaning-creature-C.02">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature_trap-C.02">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.02">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.02">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.02">Meaning for orientation</span></h5>
@@ -508,7 +522,7 @@
 			<h4>Meanings</h4>
 			<div id="meanings-C.03">
 				<h5>Person: <span id="meaning-person-C.03">Meaning for orientation</span></h5>
-				<h5>Creature or Trap: <span id="meaning-creature-C.03">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature_trap-C.03">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.03">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.03">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.03">Meaning for orientation</span></h5>
@@ -528,7 +542,7 @@
 			<h4>Meanings</h4>
 			<div id="meanings-C.04">
 				<h5>Person: <span id="meaning-person-C.04">Meaning for orientation</span></h5>
-				<h5>Creature or Trap: <span id="meaning-creature-C.04">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature_trap-C.04">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.04">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.04">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.04">Meaning for orientation</span></h5>
@@ -548,7 +562,7 @@
 			<h4>Meanings</h4>
 			<div id="meanings-C.05">
 				<h5>Person: <span id="meaning-person-C.05">Meaning for orientation</span></h5>
-				<h5>Creature or Trap: <span id="meaning-creature-C.05">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature_trap-C.05">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.05">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.05">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.05">Meaning for orientation</span></h5>
@@ -568,7 +582,7 @@
 			<h4>Meanings</h4>
 			<div id="meanings-C.06">
 				<h5>Person: <span id="meaning-person-C.06">Meaning for orientation</span></h5>
-				<h5>Creature or Trap: <span id="meaning-creature-C.06">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature_trap-C.06">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.06">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.06">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.06">Meaning for orientation</span></h5>
@@ -588,7 +602,7 @@
 			<h4>Meanings</h4>
 			<div id="meanings-C.07">
 				<h5>Person: <span id="meaning-person-C.07">Meaning for orientation</span></h5>
-				<h5>Creature or Trap: <span id="meaning-creature-C.07">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature_trap-C.07">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.07">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.07">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.07">Meaning for orientation</span></h5>
@@ -608,7 +622,7 @@
 			<h4>Meanings</h4>
 			<div id="meanings-C.08">
 				<h5>Person: <span id="meaning-person-C.08">Meaning for orientation</span></h5>
-				<h5>Creature or Trap: <span id="meaning-creature-C.08">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature_trap-C.08">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.08">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.08">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.08">Meaning for orientation</span></h5>
@@ -629,7 +643,7 @@
 			<h4>Meanings</h4>
 			<div id="meanings-C.09">
 				<h5>Person: <span id="meaning-person-C.09">Meaning for orientation</span></h5>
-				<h5>Creature or Trap: <span id="meaning-creature-C.09">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature_trap-C.09">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.09">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.09">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.09">Meaning for orientation</span></h5>
@@ -649,7 +663,7 @@
 			<h4>Meanings</h4>
 			<div id="meanings-C.10">
 				<h5>Person: <span id="meaning-person-C.10">Meaning for orientation</span></h5>
-				<h5>Creature or Trap: <span id="meaning-creature-C.10">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature_trap-C.10">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.10">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.10">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.10">Meaning for orientation</span></h5>
@@ -669,7 +683,7 @@
 			<h4>Meanings</h4>
 			<div id="meanings-C.11">
 				<h5>Person: <span id="meaning-person-C.11">Meaning for orientation</span></h5>
-				<h5>Creature or Trap: <span id="meaning-creature-C.11">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature_trap-C.11">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.11">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.11">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.11">Meaning for orientation</span></h5>
@@ -689,7 +703,7 @@
 			<h4>Meanings</h4>
 			<div id="meanings-C.12">
 				<h5>Person: <span id="meaning-person-C.12">Meaning for orientation</span></h5>
-				<h5>Creature or Trap: <span id="meaning-creature-C.12">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature_trap-C.12">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.12">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.12">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.12">Meaning for orientation</span></h5>
@@ -709,7 +723,7 @@
 			<h4>Meanings</h4>
 			<div id="meanings-C.13">
 				<h5>Person: <span id="meaning-person-C.13">Meaning for orientation</span></h5>
-				<h5>Creature or Trap: <span id="meaning-creature-C.13">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature_trap-C.13">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.13">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.13">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.13">Meaning for orientation</span></h5>
@@ -730,7 +744,7 @@
 			<h4>Meanings</h4>
 			<div id="meanings-C.14">
 				<h5>Person: <span id="meaning-person-C.14">Meaning for orientation</span></h5>
-				<h5>Creature or Trap: <span id="meaning-creature-C.14">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature_trap-C.14">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.14">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.14">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.14">Meaning for orientation</span></h5>
@@ -750,7 +764,7 @@
 			<h4>Meanings</h4>
 			<div id="meanings-C.15">
 				<h5>Person: <span id="meaning-person-C.15">Meaning for orientation</span></h5>
-				<h5>Creature or Trap: <span id="meaning-creature-C.15">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature_trap-C.15">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.15">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.15">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.15">Meaning for orientation</span></h5>
@@ -770,7 +784,7 @@
 			<h4>Meanings</h4>
 			<div id="meanings-C.16">
 				<h5>Person: <span id="meaning-person-C.16">Meaning for orientation</span></h5>
-				<h5>Creature or Trap: <span id="meaning-creature-C.16">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature_trap-C.16">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.16">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.16">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.16">Meaning for orientation</span></h5>
@@ -791,7 +805,7 @@
 			<h4>Meanings</h4>
 			<div id="meanings-C.17">
 				<h5>Person: <span id="meaning-person-C.17">Meaning for orientation</span></h5>
-				<h5>Creature or Trap: <span id="meaning-creature-C.17">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature_trap-C.17">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.17">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.17">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.17">Meaning for orientation</span></h5>
@@ -811,7 +825,7 @@
 			<h4>Meanings</h4>
 			<div id="meanings-C.18">
 				<h5>Person: <span id="meaning-person-C.18">Meaning for orientation</span></h5>
-				<h5>Creature or Trap: <span id="meaning-creature-C.18">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature_trap-C.18">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.18">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.18">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.18">Meaning for orientation</span></h5>
@@ -831,7 +845,7 @@
 			<h4>Meanings</h4>
 			<div id="meanings-C.19">
 				<h5>Person: <span id="meaning-person-C.19">Meaning for orientation</span></h5>
-				<h5>Creature or Trap: <span id="meaning-creature-C.19">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature_trap-C.19">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.19">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.19">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.19">Meaning for orientation</span></h5>
@@ -851,7 +865,7 @@
 			<h4>Meanings</h4>
 			<div id="meanings-C.20">
 				<h5>Person: <span id="meaning-person-C.20">Meaning for orientation</span></h5>
-				<h5>Creature or Trap: <span id="meaning-creature-C.20">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature_trap-C.20">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.20">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.20">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.20">Meaning for orientation</span></h5>
@@ -871,7 +885,7 @@
 			<h4>Meanings</h4>
 			<div id="meanings-C.21">
 				<h5>Person: <span id="meaning-person-C.21">Meaning for orientation</span></h5>
-				<h5>Creature or Trap: <span id="meaning-creature-C.21">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature_trap-C.21">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.21">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.21">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.21">Meaning for orientation</span></h5>
@@ -891,7 +905,7 @@
 			<h4>Meanings</h4>
 			<div id="meanings-C.22">
 				<h5>Person: <span id="meaning-person-C.22">Meaning for orientation</span></h5>
-				<h5>Creature or Trap: <span id="meaning-creature-C.22">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature_trap-C.22">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.22">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.22">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.22">Meaning for orientation</span></h5>
@@ -911,7 +925,7 @@
 			<h4>Meanings</h4>
 			<div id="meanings-C.23">
 				<h5>Person: <span id="meaning-person-C.23">Meaning for orientation</span></h5>
-				<h5>Creature or Trap: <span id="meaning-creature-C.23">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature_trap-C.23">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.23">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.23">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.23">Meaning for orientation</span></h5>
@@ -931,7 +945,7 @@
 			<h4>Meanings</h4>
 			<div id="meanings-C.24">
 				<h5>Person: <span id="meaning-person-C.24">Meaning for orientation</span></h5>
-				<h5>Creature or Trap: <span id="meaning-creature-C.24">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature_trap-C.24">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.24">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.24">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.24">Meaning for orientation</span></h5>
@@ -951,7 +965,7 @@
 			<h4>Meanings</h4>
 			<div id="meanings-C.25">
 				<h5>Person: <span id="meaning-person-C.25">Meaning for orientation</span></h5>
-				<h5>Creature or Trap: <span id="meaning-creature-C.25">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature_trap-C.25">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.25">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.25">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.25">Meaning for orientation</span></h5>
@@ -971,7 +985,7 @@
 			<h4>Meanings</h4>
 			<div id="meanings-C.26">
 				<h5>Person: <span id="meaning-person-C.26">Meaning for orientation</span></h5>
-				<h5>Creature or Trap: <span id="meaning-creature-C.26">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature_trap-C.26">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.26">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.26">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.26">Meaning for orientation</span></h5>
@@ -991,7 +1005,7 @@
 			<h4>Meanings</h4>
 			<div id="meanings-C.27">
 				<h5>Person: <span id="meaning-person-C.27">Meaning for orientation</span></h5>
-				<h5>Creature or Trap: <span id="meaning-creature-C.27">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature_trap-C.27">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.27">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.27">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.27">Meaning for orientation</span></h5>
@@ -1011,7 +1025,7 @@
 			<h4>Meanings</h4>
 			<div id="meanings-C.28">
 				<h5>Person: <span id="meaning-person-C.28">Meaning for orientation</span></h5>
-				<h5>Creature or Trap: <span id="meaning-creature-C.28">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature_trap-C.28">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.28">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.28">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.28">Meaning for orientation</span></h5>
@@ -1031,7 +1045,7 @@
 			<h4>Meanings</h4>
 			<div id="meanings-C.29">
 				<h5>Person: <span id="meaning-person-C.29">Meaning for orientation</span></h5>
-				<h5>Creature or Trap: <span id="meaning-creature-C.29">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature_trap-C.29">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.29">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.29">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.29">Meaning for orientation</span></h5>
@@ -1051,7 +1065,7 @@
 			<h4>Meanings</h4>
 			<div id="meanings-C.30">
 				<h5>Person: <span id="meaning-person-C.30">Meaning for orientation</span></h5>
-				<h5>Creature or Trap: <span id="meaning-creature-C.30">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature_trap-C.30">Meaning for orientation</span></h5>
 				<h5>Place: <span id="meaning-place-C.30">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.30">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.30">Meaning for orientation</span></h5>

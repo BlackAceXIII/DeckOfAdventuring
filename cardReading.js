@@ -9,6 +9,8 @@ let selectedDecks = {
 let isReplaceableEnabled = false; // Default to "No" to match common Tarot logic
 let isManualSelectionEnabled = false; // Default to "No" to match common Tarot logic
 let targetedSlot = null; // NEW: Tracks the active slot targeted for manual placement
+// Holds the currently-selected sidebar card awaiting assignment
+let pendingSidebarSelection = null;
 
 let allDecks = {}; // Combined deck lists from all sources
 let customDeckCart = {}; // Format: { "CardName": quantity }
@@ -494,6 +496,8 @@ function getOrientationTablePrefix() {
 }
 
 function redrawAll() {
+  // Reset manual-selection state to avoid stale targets before redrawing
+  clearTargetedSlot();
   // Legacy function - calls all spread functions
   redrawAdventureSpread();
   redrawFiveCardSpread();
@@ -895,6 +899,8 @@ function clearAllSpreads() {
 
   // 2. Refill the internal javascript decks to full capacity
   initializeWorkingDecks();
+  // Reset manual-selection state to avoid stale targets
+  clearTargetedSlot();
 }
 
 /*
@@ -1291,30 +1297,80 @@ function toggleManualSelection() {
 
 // Set the targeted slot for manual card selection
 function setTargetedSlot(cardNum) {
-  // Clear any existing targeted slot
+  // Clear previous target state
   clearTargetedSlot();
-  // Set the new targeted slot
   targetedSlot = cardNum;
+
+  // Update sidebar target display and enable assign button
+  const display = document.getElementById('target-slot-display');
+  if (display) display.innerHTML = `Target Slot: <b>${cardNum}</b>`;
+  const assignBtn = document.getElementById('assign-btn');
+  if (assignBtn) assignBtn.disabled = false;
+
+  // Highlight the slot button on the board
+  document.querySelectorAll('button[id^="generate-button-"]').forEach(b => b.classList.remove('targeted-slot-active'));
   const targetBtn = document.getElementById(`generate-button-${cardNum}`);
-  if (targetBtn) {
-    targetBtn.classList.add('targeted-slot-active');
-    const cardTab = document.getElementById(cardNum);
-    if (cardTab) {
-      cardTab.style.display = 'block';
-    }
-  }
+  if (targetBtn) targetBtn.classList.add('targeted-slot-active');
 }
 
 // Clears the target slot state and removes highlight styling
 function clearTargetedSlot() {
+  // Remove visual highlights from the previously targeted slot
   if (targetedSlot !== null) {
-    const oldBtn = document.getElementById(`generate-button-${targetedSlot}`); // Fixed: matches generate-button- template
-    if (oldBtn) {
-      oldBtn.classList.remove('targeted-slot-active');
-    }
-    // Fixed: Removed parentElement display close to keep detail panel visible for reading meanings
-    targetedSlot = null;
+    const oldBtn = document.getElementById(`generate-button-${targetedSlot}`);
+    if (oldBtn) oldBtn.classList.remove('targeted-slot-active');
   }
+  targetedSlot = null;
+
+  // Reset sidebar selection state and controls
+  pendingSidebarSelection = null;
+  const display = document.getElementById('target-slot-display');
+  if (display) display.innerHTML = `Target Slot: <b>None</b>`;
+  const assignBtn = document.getElementById('assign-btn');
+  if (assignBtn) assignBtn.disabled = true;
+
+  // Clear any sidebar item highlights
+  document.querySelectorAll('.sidebar-card-item').forEach(el => el.style.border = '');
+}
+
+/**
+ * Select a card inside the sidebar (does not assign until user clicks Assign)
+ * @param {string} cardName
+ * @param {HTMLElement} el - the clicked element in the sidebar
+ */
+function selectSidebarCard(cardName, el) {
+  pendingSidebarSelection = cardName;
+  // visually mark selection
+  document.querySelectorAll('.sidebar-card-item').forEach(x => x.style.border = '');
+  if (el) el.style.border = '2px solid var(--primary-color)';
+}
+
+function performManualAssign() {
+  if (!targetedSlot || !pendingSidebarSelection) {
+    alert("Please select a slot and a card.");
+    return;
+  }
+  // assignCardFromSidebar uses the global targetedSlot
+  assignCardFromSidebar(pendingSidebarSelection);
+  // clear pending state and UI
+  pendingSidebarSelection = null;
+  clearTargetedSlot();
+}
+
+function handleGlobalRedraw() {
+  const spread = getActiveSpread();
+  if (spread.includes('adventure')) redrawAdventureSpread();
+  else if (spread.includes('five')) redrawFiveCardSpread();
+  else if (spread.includes('three')) redrawThreeCardSpread();
+  else if (spread.includes('journey')) redrawJourneySpread();
+}
+
+function handleGlobalDraw() {
+  if (!targetedSlot) {
+    alert('No target slot selected. Click a slot to select it first.');
+    return;
+  }
+  generateCard(targetedSlot);
 }
 
 /**
@@ -1446,7 +1502,7 @@ function updateDeckSidebar() {
 
     htmlBuffer += `
       <div class="sidebar-card-item ${isExhausted ? 'exhausted' : 'available'}" 
-           onclick="if(allCards && allCards.cards['${cardName.replace(/'/g, "\\'")}']) assignCardFromSidebar('${cardName.replace(/'/g, "\\'")}');">
+           onclick="if(allCards && allCards.cards['${cardName.replace(/'/g, "\\'")}']) selectSidebarCard('${cardName.replace(/'/g, "\\'")}', this);">
         <span class="sidebar-card-name" title="${cardName}">${cardName}</span>
         <span class="sidebar-card-qty ${badgeClass}">${left}/${total}</span>
       </div>

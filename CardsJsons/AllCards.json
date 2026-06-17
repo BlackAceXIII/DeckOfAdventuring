@@ -8,7 +8,7 @@
                     "upright": "Someone with a distorted view of reality, perhaps a cultist or a warlock of the Great Old One; perhaps simply an eccentric person with a nonconformist style.",
                     "reverse": "A person (perhaps a druid) dedicated to preserving nature against corrupting influences."
                 },
-                "creatureTrap": {
+                "creature_trap": {
                     "upright": "A creature corrupted by the influence of the Far Realm, or an Aberration.",
                     "reverse": "A creature that has resisted the corruption of its nature, or a trap that deals psychic damage."
                 },

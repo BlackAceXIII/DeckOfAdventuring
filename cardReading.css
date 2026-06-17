@@ -923,3 +923,17 @@ body {
     background-color: var(--secondary-color);
   }
 }
+
+/* Sidebar list scrolling and compact button styles (added for Active Slot Manager) */
+#sidebar-card-list {
+  flex: 1; /* Allow the list to take remaining height */
+  overflow-y: auto;
+  max-height: calc(100vh - 350px); /* Adjust based on new sidebar height */
+  border-top: 1px solid var(--surface-border-light);
+}
+
+.button1 {
+  padding: 8px 12px;
+  font-size: 12px;
+  cursor: pointer;
+}
