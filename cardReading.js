@@ -1295,7 +1295,7 @@ function setTargetedSlot(cardNum) {
   clearTargetedSlot();
   // Set the new targeted slot
   targetedSlot = cardNum;
-  const targetBtn = document.getElementById(`generate-card-${cardNum}`);
+  const targetBtn = document.getElementById(`generate-button-${cardNum}`);
   if (targetBtn) {
     targetBtn.classList.add('targeted-slot-active');
     const cardTab = document.getElementById(cardNum);
