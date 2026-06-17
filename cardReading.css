@@ -905,3 +905,21 @@ body {
 #deck-sidebar.collapsed ~ #main-content {
   margin-left: 60px;
 }
+
+/* ========== TARGETED SLOT PLACEMENT HIGHLIGHT ========== */
+.targeted-slot-active {
+  animation: pulse-glow-target 1.5s ease-in-out infinite alternate !important;
+  border-color: var(--secondary-color) !important;
+  color: #000 !important;
+}
+
+@keyframes pulse-glow-target {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 208, 0, 0.4);
+    background-color: var(--generate-btn-bg-gradient-start);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(255, 208, 0, 0.9);
+    background-color: var(--secondary-color);
+  }
+}

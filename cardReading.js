@@ -8,6 +8,7 @@ let selectedDecks = {
 
 let isReplaceableEnabled = false; // Default to "No" to match common Tarot logic
 let isManualSelectionEnabled = false; // Default to "No" to match common Tarot logic
+let targetedSlot = null; // NEW: Tracks the active slot targeted for manual placement
 
 let allDecks = {}; // Combined deck lists from all sources
 let customDeckCart = {}; // Format: { "CardName": quantity }
@@ -540,7 +541,7 @@ function redrawThreeCardSpread() {
 }
 
 function redrawJourneySpread() {
-  const deckName = getSelectedDeckForSpread('adventure');
+  const deckName = getSelectedDeckForSpread('journey');
   if (!isReplaceableEnabled && (!allDecks[deckName] || allDecks[deckName].length < 14)) {
     alert(`Cannot draw: The "${deckName}" deck only has ${allDecks[deckName].length} cards, but this spread requires 14. Turn on Card Replacement or select a larger deck.`);
     return;
@@ -790,23 +791,18 @@ function generateCard(cardNum) {
   // 2.2 If using non-replaceable mode and deck is empty, silently refill it
   if (!deckToUse || deckToUse.length === 0) {
     if (!isReplaceableEnabled) {
-      alert('The ${deckName} deck is out of cards. Refill the deck to continue drawing, or turn on replaceable mode to draw from an infinite deck.');
+      alert(`The ${deckName} deck is out of cards. Refill the deck to continue drawing, or turn on replaceable mode to draw from an infinite deck.`);
     }
     else {
-      alert('The ${deckName} deck is out of cards. It will be refilled for the next draw.');
+      alert(`The ${deckName} deck is out of cards. It will be refilled for the next draw.`);
     }
+    return; // Halt the function if no cards are available
   }
 
-  // 2.3 Verify the deck has cards available to draw
-  if (deckToUse.length === 0) {
-    console.error(`No cards available in deck ${deckName}`);
-    alert(`The deck "${deckName}" is empty. Please select a different deck or enable replaceable mode.`);
-    return;
-  }
 
   // STEP 3: Check if manual selection mode is enabled before drawing
   if (isManualSelectionEnabled) {
-    openManualCardPicker(cardNum, spreadKey, deckToUse);
+    setTargetedSlot(cardNum);
     return; // Halt the automatic random generation
   }
 
@@ -837,6 +833,10 @@ function generateCard(cardNum) {
   setText(`card-name-${cardNum}`, cardData.name);
   // 7.2 Set the orientation in the detail panel
   setText(`card-orientation-${cardNum}`, orientationText);
+  // 7.3 Set the description in the detail panel
+  setText(`card-description-${cardNum}`, cardData.description);
+  // 7.4 Set the credit in the detail panel
+  setText(`card-credit-${cardNum}`, cardData.credit);
   
   // STEP 8: Update table cells for this card slot
   // 8.1 Get references to the table cells using unified card ID system
@@ -1275,86 +1275,129 @@ function toggleReplaceable() {
 function toggleManualSelection() {
   const toggle = document.getElementById("manualSelectionToggle");
   isManualSelectionEnabled = toggle.checked;
+
+  // STEP 1: Show or hide the placement container based on the toggle state
+  const placementContainer = document.getElementById("sidebar-placement-container");
+  if (placementContainer) {
+    placementContainer.style.display = isManualSelectionEnabled ? "block" : "none";
+  }
+
+  // STEP 2: Clear the targeted slot if manual selection is enabled
+  if (isManualSelectionEnabled) {
+    clearTargetedSlot();
+  }
   console.log(`Manual card selection is now ${isManualSelectionEnabled ? 'enabled' : 'disabled'}`);
 }
 
-function openManualCardPicker(cardNum, spreadKey, deckToUse) {
-  // STEP 1: Get reference to the manual card picker modal
-  const modal = document.getElementById('manualCardPicker');
-  if (!modal) {
-    console.error('Manual card picker modal not found in DOM');
-    return;
-  }
-  // STEP 2: Populate the dropdown with cards from the selected deck
-  const select = document.getElementById('manualCardSelect');
-  if (!select) {
-    console.error('Manual card select element not found in DOM');
-    return;
-  }
-  // 2.1 Clear existing options
-  select.innerHTML = '';
-  // 2.2 Add a default option
-  const defaultOption = document.createElement('option');
-  defaultOption.value = '';
-  defaultOption.textContent = '-- Select a card --';
-  select.appendChild(defaultOption);
-  // 2.3 Add options for each card in the deck
-  deckToUse.forEach(cardName => {
-    const option = document.createElement('option');
-    option.value = cardName;
-    option.textContent = cardName;
-    select.appendChild(option);
-  });
-
-  // STEP 3: Show the modal
-  modal.style.display = 'block';
-  // STEP 4: Handle card selection and confirmation
-  const confirmBtn = document.getElementById('manualCardConfirm');
-  const cancelBtn = document.getElementById('manualCardCancel');
-  // 4.1 Handle confirmation
-  const onConfirm = () => {
-    const selectedCard = select.value;
-    if (!selectedCard) {
-      alert('Please select a card before confirming.');
-      return;
+// Set the targeted slot for manual card selection
+function setTargetedSlot(cardNum) {
+  // Clear any existing targeted slot
+  clearTargetedSlot();
+  // Set the new targeted slot
+  targetedSlot = cardNum;
+  const targetBtn = document.getElementById(`generate-card-${cardNum}`);
+  if (targetBtn) {
+    targetBtn.classList.add('targeted-slot-active');
+    const cardTab = document.getElementById(cardNum);
+    if (cardTab) {
+      cardTab.style.display = 'block';
     }
-    // Set the selected card in the UI
-    const cardData = allCards.cards[selectedCard];
-    const orientation = 'Upright'; // Default to upright for manual selection
-    setText(`card-name-${cardNum}`, cardData.name);
-    setText(`card-orientation-${cardNum}`, orientation);
-    const nameCell = document.getElementById(`card-list-${cardNum}`);
-    const orientCell = document.getElementById(`card-orientation-list-${cardNum}`);
-    if (nameCell) nameCell.textContent = cardData.name;
-    if (orientCell) orientCell.textContent = orientation;
-    // Remove the selected card from the working deck if not replaceable
-    if (!isReplaceableEnabled) {
-      const index = workingDecks[spreadKey].indexOf(selectedCard);
-      if (index > -1) {
-        workingDecks[spreadKey].splice(index, 1);
-      }
-      updateDeckSidebar();
-    }
-    // Close the modal and clean up event listeners
-    modal.style.display = 'none';
-    confirmBtn.removeEventListener('click', onConfirm);
-    cancelBtn.removeEventListener('click', onCancel);
-  };
-  // 4.2 Handle cancellation
-  const onCancel = () => {
-    modal.style.display = 'none';
-    confirmBtn.removeEventListener('click', onConfirm);
-    cancelBtn.removeEventListener('click', onCancel);
-  };
-  confirmBtn.addEventListener('click', onConfirm);
-  cancelBtn.addEventListener('click', onCancel);
+  }
 }
 
-// ========== DECK SIDEBAR FUNCTIONS ==========
+// Clears the target slot state and removes highlight styling
+function clearTargetedSlot() {
+  if (targetedSlot !== null) {
+    const oldBtn = document.getElementById(`generate-button-${targetedSlot}`); // Fixed: matches generate-button- template
+    if (oldBtn) {
+      oldBtn.classList.remove('targeted-slot-active');
+    }
+    // Fixed: Removed parentElement display close to keep detail panel visible for reading meanings
+    targetedSlot = null;
+  }
+}
 
 /**
- * Populate the sidebar with cards from the currently selected deck
- * Updates display based on active spread and replacement mode
+ * Directly assigns a card clicked in the sidebar to the targeted slot on the board.
+ * Adjusted to match the AllCards.json schema.
+ */
+function assignCardFromSidebar(cardName) {
+  // STEP 1: Verify active target slot and mode
+  // 1.1 If no slot is actively targeted, open the card glossary preview instead
+  if (!targetedSlot) {
+    openAllCardPreview(cardName);
+    return;
+  }
+
+  // STEP 2: Resolve spread and deck states
+  // 2.1 Get active slot ID and its corresponding spread key
+  const cardNum = targetedSlot;
+  const spreadKey = getSpreadKey(cardNum);
+  // 2.2 Get selected deck name for this spread
+  const deckName = selectedDecks[spreadKey];
+  // 2.3 Select the correct deck array based on replaceability mode
+  const deckToUse = isReplaceableEnabled ? allDecks[deckName] : workingDecks[spreadKey];
+
+  // STEP 3: Verify card availability
+  // 3.1 Find the index of the clicked card in the current deck state
+  const index = deckToUse.indexOf(cardName);
+  // 3.2 Alert user and halt if the card is exhausted or unavailable
+  if (index === -1) {
+    alert(`The card "${cardName}" is exhausted or unavailable in the current deck.`);
+    return;
+  }
+
+  // STEP 4: Retrieve card data and resolve orientation
+  // 4.1 Get full card object from the AllCards database
+  const cardData = allCards.cards[cardName];
+  // 4.2 Determine placement orientation based on sidebar selector
+  const orientationSelect = document.getElementById('sidebar-placement-orientation');
+  const orientationText = orientationSelect ? orientationSelect.value : 'Upright';
+  // 4.3 Set lowercase key for lookup against the JSON meanings schema
+  const orientationKey = orientationText === 'Upright' ? 'upright' : 'reverse';
+
+  // STEP 5: Update detail panel UI
+  // 5.1 Set name, orientation, description, and credit elements
+  setText(`card-name-${cardNum}`, cardData.name);
+  setText(`card-orientation-${cardNum}`, orientationText);
+  setText(`card-description-${cardNum}`, cardData.description || 'No description provided.');
+  setText(`card-credit-${cardNum}`, cardData.credit || 'WotC Card Guide');
+
+  // STEP 6: Update spread table display
+  // 6.1 Get references to table row cells
+  const nameCell = document.getElementById(`card-list-${cardNum}`);
+  const orientCell = document.getElementById(`card-orientation-list-${cardNum}`);
+  // 6.2 Populate table cells with name and orientation
+  if (nameCell) nameCell.textContent = cardData.name;
+  if (orientCell) orientCell.textContent = orientationText;
+
+  // STEP 7: Resolve and populate card meanings
+  // 7.1 Iterate through meaning categories to apply current orientation values
+  const meanings = cardData.meanings;
+  const categories = ['person', 'creatureTrap', 'place', 'treasure', 'situation'];
+  categories.forEach(cat => {
+    const htmlId = cat === 'creatureTrap' ? 'creature' : cat;
+    const val = meanings[cat][orientationKey];
+    setText(`meaning-${htmlId}-${cardNum}`, val);
+  });
+
+  // STEP 8: Update deck quantities and UI states
+  // 8.1 Consume card from the working deck if replacement is disabled
+  if (!isReplaceableEnabled) {
+    workingDecks[spreadKey].splice(index, 1);
+  }
+  // 8.2 Clear active slot targeting highlights
+  clearTargetedSlot();
+  // 8.3 Synchronize the deck inventory sidebar display
+  updateDeckSidebar();
+}
+
+
+// ========== DECK SIDEBAR FUNCTIONS (OPTIMIZED) ==========
+
+/**
+ * High-performance sidebar population.
+ * Generates an O(N) frequency map and writes to DOM via a single template string.
  */
 function updateDeckSidebar() {
   const activeSpread = getActiveSpread();
@@ -1368,75 +1411,54 @@ function updateDeckSidebar() {
   const deckName = getSelectedDeckForSpread(spreadKey);
   const fullDeckCards = allDecks[deckName] || [];
   const remainingCards = isReplaceableEnabled ? [...fullDeckCards] : (workingDecks[spreadKey] || []);
-  const remainingCount = remainingCards.length;
-  
-  // Update sidebar header
-  document.getElementById('sidebar-deck-name').textContent = deckName;
-  document.getElementById('sidebar-card-count').textContent = `${fullDeckCards.length} cards`;
-  
-  // Populate full deck list
-  const fullList = document.getElementById('sidebar-full-list');
-  const remainingList = document.getElementById('sidebar-remaining-list');
-  fullList.innerHTML = '';
-  remainingList.innerHTML = '';
+
+  const sidebarNameEl = document.getElementById('sidebar-deck-name');
+  const sidebarCountEl = document.getElementById('sidebar-card-count');
+  const cardListEl = document.getElementById('sidebar-card-list');
+
+  if (!sidebarNameEl || !sidebarCountEl || !cardListEl) return;
+
+  sidebarNameEl.textContent = deckName;
+  sidebarCountEl.textContent = `${remainingCards.length} cards left`;
 
   if (fullDeckCards.length === 0) {
-    fullList.innerHTML = '<div class="sidebar-empty-msg">No cards in this deck</div>';
-    remainingList.innerHTML = '<div class="sidebar-empty-msg">No remaining cards</div>';
+    cardListEl.innerHTML = '<div class="sidebar-empty-msg">No cards in this deck</div>';
     return;
   }
 
-  fullDeckCards.forEach(cardName => {
-    const cardItem = document.createElement('div');
-    cardItem.className = 'sidebar-card-item available';
-    cardItem.title = cardName;
-    
-    const nameSpan = document.createElement('span');
-    nameSpan.className = 'sidebar-card-name';
-    nameSpan.textContent = cardName;
-    
-    cardItem.appendChild(nameSpan);
-    cardItem.onclick = () => {
-      if (allCards && allCards.cards[cardName]) {
-        openAllCardPreview(cardName);
-      }
-    };
-    fullList.appendChild(cardItem);
+  // O(N) Frequency map generation
+  const fullCounts = {};
+  fullDeckCards.forEach(c => fullCounts[c] = (fullCounts[c] || 0) + 1);
+
+  const remainingCounts = {};
+  remainingCards.forEach(c => remainingCounts[c] = (remainingCounts[c] || 0) + 1);
+
+  // Single-write template buffer to prevent layout thrashing
+  let htmlBuffer = '';
+  Object.keys(fullCounts).sort().forEach(cardName => {
+    const total = fullCounts[cardName];
+    const left = remainingCounts[cardName] || 0;
+    const isExhausted = left === 0;
+
+    let badgeClass = '';
+    if (isExhausted) badgeClass = 'empty';
+    else if (left < total) badgeClass = 'warning';
+
+    htmlBuffer += `
+      <div class="sidebar-card-item ${isExhausted ? 'exhausted' : 'available'}" 
+           onclick="if(allCards && allCards.cards['${cardName.replace(/'/g, "\\'")}']) assignCardFromSidebar('${cardName.replace(/'/g, "\\'")}');">
+        <span class="sidebar-card-name" title="${cardName}">${cardName}</span>
+        <span class="sidebar-card-qty ${badgeClass}">${left}/${total}</span>
+      </div>
+    `;
   });
 
-  if (isReplaceableEnabled) {
-    remainingList.innerHTML = '<div class="sidebar-empty-msg">Replaceable mode is active; cards remain in the deck.</div>';
-  } else if (remainingCount === 0) {
-    remainingList.innerHTML = '<div class="sidebar-empty-msg">No cards remain in this deck.</div>';
-  } else {
-    remainingCards.forEach(cardName => {
-      const cardItem = document.createElement('div');
-      cardItem.className = 'sidebar-card-item available';
-      cardItem.title = cardName;
-
-      const nameSpan = document.createElement('span');
-      nameSpan.className = 'sidebar-card-name';
-      nameSpan.textContent = cardName;
-
-      cardItem.appendChild(nameSpan);
-      cardItem.onclick = () => {
-        if (allCards && allCards.cards[cardName]) {
-          openAllCardPreview(cardName);
-        }
-      };
-      remainingList.appendChild(cardItem);
-    });
-  }
+  cardListEl.innerHTML = htmlBuffer;
 }
 
-/**
- * Toggle sidebar collapse/expand state
- */
 function toggleSidebar() {
   const sidebar = document.getElementById('deck-sidebar');
   sidebar.classList.toggle('collapsed');
-  
-  // Update button text
   const btn = sidebar.querySelector('.sidebar-collapse-btn');
   btn.textContent = sidebar.classList.contains('collapsed') ? '+' : '−';
 }
