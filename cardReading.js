@@ -359,7 +359,7 @@ function openAllCardPreview(cardName) {
   // 5.1 Set person upright meaning
   setText('preview-up-person', getMeaning(cardData.meanings?.person, 'upright'));
   // 5.2 Set creature/trap upright meaning
-  setText('preview-up-creature', getMeaning(cardData.meanings?.creatureTrap, 'upright'));
+  setText('preview-up-creature', getMeaning(cardData.meanings?.creature_trap, 'upright'));
   // 5.3 Set place upright meaning
   setText('preview-up-place', getMeaning(cardData.meanings?.place, 'upright'));
   // 5.4 Set treasure upright meaning
@@ -371,7 +371,7 @@ function openAllCardPreview(cardName) {
   // 6.1 Set person reverse meaning
   setText('preview-rev-person', getMeaning(cardData.meanings?.person, 'reverse'));
   // 6.2 Set creature/trap reverse meaning
-  setText('preview-rev-creature', getMeaning(cardData.meanings?.creatureTrap, 'reverse'));
+  setText('preview-rev-creature', getMeaning(cardData.meanings?.creature_trap, 'reverse'));
   // 6.3 Set place reverse meaning
   setText('preview-rev-place', getMeaning(cardData.meanings?.place, 'reverse'));
   // 6.4 Set treasure reverse meaning
@@ -857,12 +857,12 @@ function generateCard(cardNum) {
   // 9.1 Get the meanings object from card data
   const meanings = cardData.meanings;
   // 9.2 Define the meaning categories to process
-  const categories = ['person', 'creatureTrap', 'place', 'treasure', 'situation'];
+  const categories = ['person', 'creature_trap', 'place', 'treasure', 'situation'];
   
   // 9.3 Iterate through each category and update UI
   categories.forEach(cat => {
-    // 9.3.1 Map creatureTrap to the HTML ID 'creature'
-    const htmlId = cat === 'creatureTrap' ? 'creature' : cat;
+    // 9.3.1 Map creature_trap to the HTML ID 'creature'
+    const htmlId = cat === 'creature_trap' ? 'creature' : cat;
     // 9.3.2 Get the appropriate meaning based on orientation
     const val = cardOrientation === 0 ? meanings[cat].upright : meanings[cat].reverse;
     // 9.3.3 Update the meaning text in the UI
@@ -1196,12 +1196,12 @@ function importReading(event) {
         // 8.6.1 Get all meanings for the card
         const meanings = cardData.meanings;
         // 8.6.2 Define meaning categories
-        const categories = ['person', 'creatureTrap', 'place', 'treasure', 'situation'];
+        const categories = ['person', 'creature_trap', 'place', 'treasure', 'situation'];
         
         // 8.6.3 Iterate through each meaning category
         categories.forEach(cat => {
-          // 8.6.3.1 Map creatureTrap to HTML ID 'creature'
-          const htmlId = cat === 'creatureTrap' ? 'creature' : cat;
+          // 8.6.3.1 Map creature_trap to HTML ID 'creature'
+          const htmlId = cat === 'creature_trap' ? 'creature' : cat;
           // 8.6.3.2 Get appropriate meaning based on orientation
           const val = cardOrientation === 0 ? meanings[cat].upright : meanings[cat].reverse;
           // 8.6.3.3 Update the meaning in the UI
@@ -1430,12 +1430,8 @@ function assignCardFromSidebar(cardName) {
   // STEP 7: Resolve and populate card meanings
   // 7.1 Iterate through meaning categories to apply current orientation values
   const meanings = cardData.meanings;
-  const categories = ['person', 'creatureTrap', 'place', 'treasure', 'situation'];
-  categories.forEach(cat => {
-    const htmlId = cat === 'creatureTrap' ? 'creature' : cat;
-    const val = meanings[cat][orientationKey];
-    setText(`meaning-${htmlId}-${cardNum}`, val);
-  });
+  const categories = ['person', 'creature_trap', 'place', 'treasure', 'situation'];
+
 
   // STEP 8: Update deck quantities and UI states
   // 8.1 Consume card from the working deck if replacement is disabled

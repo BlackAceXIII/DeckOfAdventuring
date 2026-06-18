@@ -717,7 +717,7 @@ body {
   left: 0;
   top: 0;
   width: 280px;
-  min-height: 100vh;
+  height: 100vh;
   background: var(--surface);
   border-right: 3px solid var(--surface-border);
   display: flex;
@@ -727,6 +727,7 @@ body {
   z-index: 100;
   box-shadow: 6px 0 0 var(--shadow-sidebar);
   font-family: 'Courier New', Courier, monospace;
+  overflow-y: auto;
 }
 
 #deck-sidebar.collapsed {
@@ -924,11 +925,11 @@ body {
   }
 }
 
-/* Sidebar list scrolling and compact button styles (added for Active Slot Manager) */
+/* Sidebar list styling for deck card list */
 #sidebar-card-list {
-  flex: 1; /* Allow the list to take remaining height */
-  overflow-y: auto;
-  max-height: calc(100vh - 350px); /* Adjust based on new sidebar height */
+  flex: 0;
+  overflow-y: visible;
+  max-height: none;
   border-top: 1px solid var(--surface-border-light);
 }
 
