@@ -40,6 +40,48 @@ const drawData = {
   "C.30": { cType: "" }
 };
 
+const SPREAD_SLOTS = {
+  'adventure-spread': [
+    { id: 'C.00', label: 'Party Gathers' },
+    { id: 'C.01', label: 'Adventure Begins' },
+    { id: 'C.02', label: 'Journey' },
+    { id: 'C.03', label: 'Entrance' },
+    { id: 'C.04', label: 'Challenge 1' },
+    { id: 'C.05', label: 'Challenge 2' },
+    { id: 'C.06', label: 'Challenge 3' },
+    { id: 'C.07', label: 'Guardian' },
+    { id: 'C.08', label: 'Treasure' }
+  ],
+  'five-card-spread': [
+    { id: 'C.09', label: 'The Quest' },
+    { id: 'C.10', label: 'The Outcome' },
+    { id: 'C.11', label: 'The Challenge' },
+    { id: 'C.12', label: 'That Which is Hidden' },
+    { id: 'C.13', label: 'That Which is Needed' }
+  ],
+  'three-card-spread': [
+    { id: 'C.14', label: 'Past' },
+    { id: 'C.15', label: 'Present' },
+    { id: 'C.16', label: 'Future' }
+  ],
+  'journey-spread': [
+    { id: 'C.17', label: 'Stage 1 Challenge' },
+    { id: 'C.18', label: 'Stage 2 Challenge' },
+    { id: 'C.19', label: 'Stage 3 Challenge' },
+    { id: 'C.20', label: 'Stage 4 Challenge' },
+    { id: 'C.21', label: 'Stage 5 Challenge' },
+    { id: 'C.22', label: 'Stage 6 Challenge' },
+    { id: 'C.23', label: 'Stage 7 Challenge' },
+    { id: 'C.24', label: 'Stage 1 Reward' },
+    { id: 'C.25', label: 'Stage 2 Reward' },
+    { id: 'C.26', label: 'Stage 3 Reward' },
+    { id: 'C.27', label: 'Stage 4 Reward' },
+    { id: 'C.28', label: 'Stage 5 Reward' },
+    { id: 'C.29', label: 'Stage 6 Reward' },
+    { id: 'C.30', label: 'Stage 7 Reward' }
+  ]
+};
+
 // Card ID Organization:
 // All card slot IDs follow a unified naming convention:
 // - Card detail panels: card-name-C.## and card-orientation-C.##
@@ -100,6 +142,12 @@ async function fetchData() {
     populateAllCardsSpread(allExistingCards);
     // 7.3 Populate the blank slate spread with card slots
     populateBlankSlateSpread();
+    // 7.4 Populate the shared datalist used by Quick Fill autocomplete inputs
+    // Each <option> only needs a value attribute — no visible text needed for datalist
+    const datalist = document.getElementById('card-names-list');
+    if (datalist) {
+      datalist.innerHTML = allExistingCards.slice().sort().map(name => `<option value="${name}">`).join('');
+    }
 
     // 7.4 Create deck selection dropdowns for all spreads
     populateDropdown(allDecks);
@@ -469,46 +517,12 @@ function getActiveSpread() {
   return "adventure-spread"; // default
 }
 
-// Helper function to get table ID prefix based on active spread
-function getTablePrefix() {
-  const activeSpread = getActiveSpread();
-  switch(activeSpread) {
-    case "five-card-spread":
-      return "card-list-five-";
-    case "three-card-spread":
-      return "card-list-three-";
-    default:
-      return "card-list-";
-  }
-}
-
-// Helper function to get orientation table ID prefix based on active spread
-function getOrientationTablePrefix() {
-  const activeSpread = getActiveSpread();
-  switch(activeSpread) {
-    case "five-card-spread":
-      return "card-orientation-list-five-";
-    case "three-card-spread":
-      return "card-orientation-list-three-";
-    default:
-      return "card-orientation-list-";
-  }
-}
-
-function redrawAll() {
-  // Reset manual-selection state to avoid stale targets before redrawing
-  clearTargetedSlot();
-  // Legacy function - calls all spread functions
-  redrawAdventureSpread();
-  redrawFiveCardSpread();
-  redrawThreeCardSpread();
-  redrawJourneySpread();
-}
 
 function redrawAdventureSpread() {
   const deckName = getSelectedDeckForSpread('adventure');
-  if (!isReplaceableEnabled && (!allDecks[deckName] || allDecks[deckName].length < 9)) {
-    alert(`Cannot draw: The "${deckName}" deck only has ${allDecks[deckName].length} cards, but this spread requires 9. Turn on Card Replacement or select a larger deck.`);
+  const deckSize = allDecks[deckName] ? allDecks[deckName].length : 0;
+  if (!isReplaceableEnabled && deckSize < 9) {
+    alert(`Cannot draw: The "${deckName}" deck only has ${deckSize} cards, but this spread requires 9. Turn on Card Replacement or select a larger deck.`);
     return;
   }
   resetWorkingDeck('adventure');
@@ -520,8 +534,9 @@ function redrawAdventureSpread() {
 
 function redrawFiveCardSpread() {
   const deckName = getSelectedDeckForSpread('fiveCard');
-  if (!isReplaceableEnabled && (!allDecks[deckName] || allDecks[deckName].length < 5)) {
-    alert(`Cannot draw: The "${deckName}" deck only has ${allDecks[deckName].length} cards, but this spread requires 5. Turn on Card Replacement or select a larger deck.`);
+  const deckSize = allDecks[deckName] ? allDecks[deckName].length : 0;
+  if (!isReplaceableEnabled && deckSize < 5) {
+    alert(`Cannot draw: The "${deckName}" deck only has ${deckSize} cards, but this spread requires 5. Turn on Card Replacement or select a larger deck.`);
     return;
   }
   resetWorkingDeck('fiveCard');
@@ -533,8 +548,9 @@ function redrawFiveCardSpread() {
 
 function redrawThreeCardSpread() {
   const deckName = getSelectedDeckForSpread('threeCard');
-  if (!isReplaceableEnabled && (!allDecks[deckName] || allDecks[deckName].length < 3)) {
-    alert(`Cannot draw: The "${deckName}" deck only has ${allDecks[deckName].length} cards, but this spread requires 3. Turn on Card Replacement or select a larger deck.`);
+  const deckSize = allDecks[deckName] ? allDecks[deckName].length : 0;
+  if (!isReplaceableEnabled && deckSize < 3) {
+    alert(`Cannot draw: The "${deckName}" deck only has ${deckSize} cards, but this spread requires 3. Turn on Card Replacement or select a larger deck.`);
     return;
   }
   resetWorkingDeck('threeCard');
@@ -546,8 +562,9 @@ function redrawThreeCardSpread() {
 
 function redrawJourneySpread() {
   const deckName = getSelectedDeckForSpread('journey');
-  if (!isReplaceableEnabled && (!allDecks[deckName] || allDecks[deckName].length < 14)) {
-    alert(`Cannot draw: The "${deckName}" deck only has ${allDecks[deckName].length} cards, but this spread requires 14. Turn on Card Replacement or select a larger deck.`);
+  const deckSize = allDecks[deckName] ? allDecks[deckName].length : 0;
+  if (!isReplaceableEnabled && deckSize < 14) {
+    alert(`Cannot draw: The "${deckName}" deck only has ${deckSize} cards, but this spread requires 14. Turn on Card Replacement or select a larger deck.`);
     return;
   }
   resetWorkingDeck('journey');
@@ -611,6 +628,244 @@ function validateDeckSize(spreadKey) {
 function setText(id, value) {
   const el = document.getElementById(id);
   if (el) el.textContent = value;
+}
+
+// Directly place a card into a slot without random draw or deck management.
+// Used by Quick Fill so the GM can record a physical spread without touching the working deck.
+function placeCard(cardNum, cardName, orientationText) {
+  // STEP 1: Validate card exists in the database
+  // 1.1 Look up full card data from AllCards
+  const cardData = allCards.cards[cardName];
+  // 1.2 Return false if card is not found — caller handles the skip
+  if (!cardData) return false;
+
+  // STEP 2: Resolve numeric orientation code from text
+  // 2.1 Map "Upright" → 0, anything else ("Reverse") → 1
+  const cardOrientation = orientationText === 'Upright' ? 0 : 1;
+
+  // STEP 3: Populate the card detail panel
+  // 3.1 Set name in the detail panel header
+  setText(`card-name-${cardNum}`, cardData.name);
+  // 3.2 Set orientation label
+  setText(`card-orientation-${cardNum}`, orientationText);
+  // 3.3 Set the flavour description
+  setText(`card-description-${cardNum}`, cardData.description || '');
+  // 3.4 Set image credit line
+  setText(`card-credit-${cardNum}`, cardData.credit || '');
+
+  // STEP 4: Update the spread summary table row for this slot
+  // 4.1 Get the name cell in the table
+  const nameCell = document.getElementById(`card-list-${cardNum}`);
+  // 4.2 Get the orientation cell in the table
+  const orientCell = document.getElementById(`card-orientation-list-${cardNum}`);
+  // 4.3 Write the card name into the table cell
+  if (nameCell) nameCell.textContent = cardData.name;
+  // 4.4 Write the orientation into the table cell
+  if (orientCell) orientCell.textContent = orientationText;
+
+  // STEP 5: Populate meaning fields for the chosen orientation
+  // 5.1 Get the meanings object from card data
+  const meanings = cardData.meanings;
+  // 5.2 Iterate through all five meaning categories
+  ['person', 'creatureTrap', 'place', 'treasure', 'situation'].forEach(cat => {
+    // 5.2.1 Map creatureTrap to the DOM id segment used in the HTML
+    const htmlId = cat === 'creatureTrap' ? 'creature' : cat;
+    // 5.2.2 Select upright or reverse text based on orientation code
+    const val = cardOrientation === 0 ? meanings[cat].upright : meanings[cat].reverse;
+    // 5.2.3 Write the meaning into the panel
+    setText(`meaning-${htmlId}-${cardNum}`, val);
+  });
+
+  // STEP 6: Signal success to the caller
+  return true;
+}
+
+// Count how many times each card name is currently placed in the given spread's slots.
+// Used by the sidebar to detect when the GM has placed more copies than the deck contains.
+function getPlacedCounts(spreadKey) {
+  // STEP 1: Define the slot index range for each spread
+  // 1.1 Map spread key to its inclusive [start, end] card-number range
+  const ranges = { adventure: [0, 8], fiveCard: [9, 13], threeCard: [14, 16], journey: [17, 30] };
+  // 1.2 Get this spread's range, defaulting to adventure if unknown
+  const [start, end] = ranges[spreadKey] || [0, 8];
+
+  // STEP 2: Walk through every slot and accumulate a frequency map
+  // 2.1 Initialise the count object
+  const counts = {};
+  // 2.2 Iterate through card slot indices
+  for (let i = start; i <= end; i++) {
+    // 2.2.1 Format slot id with leading zero where needed
+    const cardNum = i < 10 ? `C.0${i}` : `C.${i}`;
+    // 2.2.2 Read the current card name shown in the detail panel
+    const nameEl = document.getElementById(`card-name-${cardNum}`);
+    if (nameEl) {
+      // 2.2.3 Trim whitespace from the element text
+      const name = nameEl.textContent.trim();
+      // 2.2.4 Ignore empty slots still showing the default placeholder
+      if (name && name !== 'Card Name') counts[name] = (counts[name] || 0) + 1;
+    }
+  }
+  // STEP 3: Return the completed frequency map to the caller
+  return counts;
+}
+
+// ========== QUICK FILL FUNCTIONS ==========
+
+/*
+ * Opens the Quick Fill panel for the currently active spread.
+ * Each spread slot gets a text input (with datalist autocomplete) and a U/R toggle button.
+ * Any cards already placed in the spread are pre-populated so the GM can make corrections
+ * rather than re-entering the full spread from scratch.
+ */
+function openQuickFill() {
+  // STEP 1: Validate that the active spread supports Quick Fill
+  // 1.1 Get the id of the currently visible spread tab
+  const activeSpread = getActiveSpread();
+  // 1.2 Look up the slot definitions for that spread
+  const slots = SPREAD_SLOTS[activeSpread];
+  // 1.3 Alert and bail if the spread (e.g. Blank Slate, Deck Forge) has no slot definitions
+  if (!slots) { alert('Quick Fill is not available for this spread type.'); return; }
+  // 1.4 Guard against opening before card data has loaded
+  if (!allCards) { alert('Card data not loaded yet. Please wait.'); return; }
+
+  // STEP 2: Set the panel title to reflect the active spread
+  // 2.1 Human-readable names keyed by spread element id
+  const spreadNames = {
+    'adventure-spread': 'Adventure Spread',
+    'five-card-spread': 'Five-Card Spread',
+    'three-card-spread': 'Three-Card Spread',
+    'journey-spread': 'Journey Spread'
+  };
+  // 2.2 Inject the name into the panel heading span
+  document.getElementById('qf-spread-name').textContent = spreadNames[activeSpread] || activeSpread;
+
+  // STEP 3: Build one input row per slot in the spread
+  // 3.1 Get the rows container and clear any stale rows from a previous open
+  const rowsContainer = document.getElementById('qf-rows');
+  rowsContainer.innerHTML = '';
+
+  // 3.2 Iterate through the slot definitions for this spread
+  slots.forEach(({ id, label }) => {
+    // 3.2.1 Read the card currently placed in this slot (if any)
+    const currentName = document.getElementById(`card-name-${id}`)?.textContent || '';
+    // 3.2.2 Read the current orientation
+    const currentOrient = document.getElementById(`card-orientation-${id}`)?.textContent || 'Upright';
+    // 3.2.3 Determine whether the slot currently holds a reversed card
+    const isReversed = currentOrient === 'Reverse';
+    // 3.2.4 Only pre-fill the input if a real card is present (not the default placeholder)
+    const hasCard = currentName && currentName !== 'Card Name';
+
+    // 3.3 Create the row container div and tag it with the slot id
+    const row = document.createElement('div');
+    row.className = 'qf-row';
+    row.dataset.slot = id;
+
+    // 3.4 Create the slot label (e.g. "Party Gathers")
+    const labelEl = document.createElement('span');
+    labelEl.className = 'qf-label';
+    labelEl.textContent = label;
+    labelEl.title = label; // show full label on hover in case it's truncated
+
+    // 3.5 Create the card name text input
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'qf-input';
+    // 3.5.1 Link to the shared datalist so the browser offers autocomplete suggestions
+    input.setAttribute('list', 'card-names-list');
+    input.placeholder = 'Card name...';
+    input.autocomplete = 'off';
+    // 3.5.2 Pre-populate with the current card name if one is placed
+    input.value = hasCard ? currentName : '';
+
+    // 3.6 Create the Upright/Reverse toggle button
+    const orientBtn = document.createElement('button');
+    orientBtn.type = 'button'; // prevent accidental form submission
+    orientBtn.className = 'qf-orient-btn' + (isReversed ? ' reversed' : '');
+    orientBtn.textContent = isReversed ? 'R' : 'U';
+    orientBtn.dataset.orient = isReversed ? 'Reverse' : 'Upright';
+    orientBtn.title = 'Toggle Upright / Reverse';
+    // 3.6.1 One click flips between U and R, updating text, class, and data attribute
+    orientBtn.onclick = function() {
+      const nowReversed = this.dataset.orient === 'Upright';
+      this.dataset.orient = nowReversed ? 'Reverse' : 'Upright';
+      this.textContent = nowReversed ? 'R' : 'U';
+      this.classList.toggle('reversed', nowReversed);
+    };
+
+    // 3.7 Assemble and append the row
+    row.appendChild(labelEl);
+    row.appendChild(input);
+    row.appendChild(orientBtn);
+    rowsContainer.appendChild(row);
+  });
+
+  // STEP 4: Show the overlay and focus the first empty input
+  // 4.1 Make the overlay visible (CSS handles centering)
+  document.getElementById('quick-fill-overlay').style.display = 'flex';
+  // 4.2 Find the first input that has no card name yet
+  const inputs = rowsContainer.querySelectorAll('.qf-input');
+  const firstEmpty = Array.from(inputs).find(el => !el.value) || inputs[0];
+  // 4.3 Delay focus slightly so the overlay transition completes first
+  if (firstEmpty) setTimeout(() => firstEmpty.focus(), 50);
+}
+
+/*
+ * Hides the Quick Fill overlay without applying any changes.
+ */
+function closeQuickFill() {
+  document.getElementById('quick-fill-overlay').style.display = 'none';
+}
+
+/*
+ * Closes the Quick Fill panel when the GM clicks the dark backdrop outside the panel.
+ */
+function handleQFOverlayClick(event) {
+  // Only close if the click target is the overlay itself, not a child element
+  if (event.target === document.getElementById('quick-fill-overlay')) closeQuickFill();
+}
+
+/*
+ * Reads every row in the Quick Fill panel and places valid cards into their slots.
+ * Empty rows are skipped. Invalid card names (not in AllCards.json) are collected
+ * and reported to the GM after applying the rest of the spread.
+ */
+function applyQuickFill() {
+  // STEP 1: Collect all row elements from the panel
+  const rows = document.querySelectorAll('#qf-rows .qf-row');
+  // 1.1 Track how many cards were successfully placed
+  let placed = 0;
+  // 1.2 Collect names that were entered but don't exist in the database
+  const invalid = [];
+
+  // STEP 2: Process each row
+  rows.forEach(row => {
+    // 2.1 Read the slot id stored on the row element
+    const cardNum = row.dataset.slot;
+    // 2.2 Read the card name from the text input
+    const input = row.querySelector('.qf-input');
+    // 2.3 Read the chosen orientation from the toggle button's data attribute
+    const orientBtn = row.querySelector('.qf-orient-btn');
+    // 2.4 Trim whitespace from the input value
+    const cardName = input.value.trim();
+    // 2.5 Skip rows the GM left blank
+    if (!cardName) return;
+    // 2.6 If the name isn't in the database, log it for the warning and skip
+    if (!allCards.cards[cardName]) { invalid.push(`"${cardName}" (${cardNum})`); return; }
+    // 2.7 Place the card into the slot using the shared helper
+    placeCard(cardNum, cardName, orientBtn.dataset.orient);
+    placed++;
+  });
+
+  // STEP 3: Close the panel and refresh the sidebar inventory
+  // 3.1 Hide the overlay
+  closeQuickFill();
+  // 3.2 Recalculate the sidebar so over-quota warnings update immediately
+  updateDeckSidebar();
+
+  // STEP 4: Alert the GM if any names were unrecognised
+  if (invalid.length > 0) {
+    alert(`${placed} card(s) placed.\n\nNot found in card database (skipped):\n${invalid.join('\n')}`);
+  }
 }
 
 // ========== CART MANAGEMENT FUNCTIONS ==========
@@ -804,13 +1059,7 @@ function generateCard(cardNum) {
   }
 
 
-  // STEP 3: Check if manual selection mode is enabled before drawing
-  if (isManualSelectionEnabled) {
-    setTargetedSlot(cardNum);
-    return; // Halt the automatic random generation
-  }
-
-  // STEP 4: Draw a random card from the selected deck
+  // STEP 3: Draw a random card from the selected deck
   // 4.1 Generate random index into the deck array
   const randomIndex = Math.floor(Math.random() * deckToUse.length);
   // 4.2 Retrieve the card name at that index
@@ -827,9 +1076,16 @@ function generateCard(cardNum) {
   // STEP 6: Prepare card data and orientation
   // 6.1 Look up the full card data from AllCards
   const cardData = allCards.cards[cardName];
-  // 6.2 Randomly determine orientation (0=Upright, 1=Reverse)
+  // 6.2 Guard: card exists in the deck but not in AllCards (data mismatch).
+  // Without this check a TypeError on cardData.name would propagate to the
+  // redraw for-loop and stop it mid-way, leaving remaining slots undrawn.
+  if (!cardData) {
+    console.warn(`generateCard: "${cardName}" is in the "${deckName}" deck but missing from AllCards — skipping ${cardNum}.`);
+    return;
+  }
+  // 6.3 Randomly determine orientation (0=Upright, 1=Reverse)
   const cardOrientation = Math.floor(Math.random() * 2);
-  // 6.3 Create human-readable orientation text
+  // 6.4 Create human-readable orientation text
   const orientationText = cardOrientation === 0 ? "Upright" : "Reverse";
 
   // STEP 7: Update detail panel with card information
@@ -857,15 +1113,19 @@ function generateCard(cardNum) {
   // 9.1 Get the meanings object from card data
   const meanings = cardData.meanings;
   // 9.2 Define the meaning categories to process
-  const categories = ['person', 'creature_trap', 'place', 'treasure', 'situation'];
-  
+  const categories = ['person', 'creatureTrap', 'place', 'treasure', 'situation'];
+
   // 9.3 Iterate through each category and update UI
   categories.forEach(cat => {
-    // 9.3.1 Map creature_trap to the HTML ID 'creature'
-    const htmlId = cat === 'creature_trap' ? 'creature' : cat;
-    // 9.3.2 Get the appropriate meaning based on orientation
+    // 9.3.1 Map creatureTrap to the HTML ID 'creature'
+    const htmlId = cat === 'creatureTrap' ? 'creature' : cat;
+    // 9.3.2 Guard: skip this category if the card's data is missing it.
+    // Without this check, meanings[cat].upright throws a TypeError that
+    // propagates out of generateCard and stops the redraw for-loop mid-way.
+    if (!meanings || !meanings[cat]) return;
+    // 9.3.3 Get the appropriate meaning based on orientation
     const val = cardOrientation === 0 ? meanings[cat].upright : meanings[cat].reverse;
-    // 9.3.3 Update the meaning text in the UI
+    // 9.3.4 Update the meaning text in the UI
     setText(`meaning-${htmlId}-${cardNum}`, val);
   });
 }
@@ -1357,21 +1617,6 @@ function performManualAssign() {
   clearTargetedSlot();
 }
 
-function handleGlobalRedraw() {
-  const spread = getActiveSpread();
-  if (spread.includes('adventure')) redrawAdventureSpread();
-  else if (spread.includes('five')) redrawFiveCardSpread();
-  else if (spread.includes('three')) redrawThreeCardSpread();
-  else if (spread.includes('journey')) redrawJourneySpread();
-}
-
-function handleGlobalDraw() {
-  if (!targetedSlot) {
-    alert('No target slot selected. Click a slot to select it first.');
-    return;
-  }
-  generateCard(targetedSlot);
-}
 
 /**
  * Directly assigns a card clicked in the sidebar to the targeted slot on the board.
@@ -1485,22 +1730,43 @@ function updateDeckSidebar() {
   const remainingCounts = {};
   remainingCards.forEach(c => remainingCounts[c] = (remainingCounts[c] || 0) + 1);
 
+  // Count how many copies of each card are currently placed in the active spread's slots.
+  // This is independent of the working deck — it reads the live DOM so Quick Fill placements
+  // are reflected immediately without having touched the working deck at all.
+  const placedCounts = getPlacedCounts(spreadKey);
+
   // Single-write template buffer to prevent layout thrashing
   let htmlBuffer = '';
   Object.keys(fullCounts).sort().forEach(cardName => {
     const total = fullCounts[cardName];
     const left = remainingCounts[cardName] || 0;
+    // How many copies of this card are on the spread right now (random draws + Quick Fill)
+    const placed = placedCounts[cardName] || 0;
     const isExhausted = left === 0;
+    // Over-quota: the GM has placed more copies than this deck contains
+    const isOverQuota = placed > total;
 
+    // Build the item class list — over-quota overrides exhausted styling
+    let itemClass = isExhausted ? 'exhausted' : 'available';
+    if (isOverQuota) itemClass += ' over-quota';
+
+    // Badge shows placed/total when over-quota so the GM immediately sees the mismatch
+    // (e.g. "3/2" means 3 placed but deck only has 2), otherwise shows remaining/total
     let badgeClass = '';
-    if (isExhausted) badgeClass = 'empty';
-    else if (left < total) badgeClass = 'warning';
+    let badgeText = '';
+    if (isOverQuota) {
+      badgeClass = 'over';
+      badgeText = `${placed}/${total}`;
+    } else {
+      if (isExhausted) badgeClass = 'empty';
+      else if (left < total) badgeClass = 'warning';
+      badgeText = `${left}/${total}`;
+    }
 
     htmlBuffer += `
-      <div class="sidebar-card-item ${isExhausted ? 'exhausted' : 'available'}" 
-           onclick="if(allCards && allCards.cards['${cardName.replace(/'/g, "\\'")}']) selectSidebarCard('${cardName.replace(/'/g, "\\'")}', this);">
+      <div class="sidebar-card-item ${itemClass}">
         <span class="sidebar-card-name" title="${cardName}">${cardName}</span>
-        <span class="sidebar-card-qty ${badgeClass}">${left}/${total}</span>
+        <span class="sidebar-card-qty ${badgeClass}" title="${isOverQuota ? `${placed} placed — deck only has ${total}` : `${left} of ${total} remaining`}">${badgeText}</span>
       </div>
     `;
   });

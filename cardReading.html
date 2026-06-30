@@ -13,32 +13,10 @@
                 <h3>Deck Inventory</h3>
                 <button class="sidebar-collapse-btn" onclick="toggleSidebar()">−</button>
             </div>
-			<!-- Sidebar Controls -->
-			<div class="sidebar-section" id="sidebar-controls">
-				<div class="sidebar-section-title">Manual Actions</div>
-				<div id="manual-controls" style="padding: 10px; background: var(--surface-bg-alt);">
-					<p id="target-slot-display" style="font-size: 12px; margin-bottom: 10px;">Target Slot: <b>None</b></p>
-					<button id="assign-btn" class="button1" style="width:100%;" onclick="performManualAssign()" disabled>Assign Card</button>
-				</div>
-                
-				<div class="sidebar-section-title">Global Controls</div>
-				<div id="global-actions" style="padding: 10px; display: flex; flex-direction: column; gap: 5px;">
-					<button class="button1" onclick="handleGlobalDraw()">Draw Selected Slot</button>
-					<button class="button1" onclick="handleGlobalRedraw()">Redraw Spread</button>
-				</div>
-			</div>
             <div class="sidebar-deck-info">
                 <p id="sidebar-deck-name" class="sidebar-deck-name">—</p>
                 <p id="sidebar-card-count" class="sidebar-card-count">0 cards left</p>
                 
-                <!-- Placement Orientation Selector for Manual Mode -->
-                <div id="sidebar-placement-container" class="sidebar-placement-container" style="display: none; margin-top: 8px; border-top: 1px dashed var(--surface-border-soft); padding-top: 8px;">
-                    <label style="font-size: 11px; font-weight: 700; text-transform: uppercase;">Place As:</label>
-                    <select id="sidebar-placement-orientation" style="font-size: 11px; padding: 2px 4px; border: 1px solid var(--surface-border); background: var(--surface-bg-panel); font-family: monospace; width: 100%; margin-top: 4px;">
-                        <option value="Upright">Upright</option>
-                        <option value="Reverse">Reverse</option>
-                    </select>
-                </div>
             </div>
             <div class="sidebar-section">
                 <div class="sidebar-section-title">Card Availability [Left / Total]</div>
@@ -65,18 +43,6 @@
 			</div>
 		</div>
 
-		<div class="manual-selection-toggle">
-			<h2>Do you want to manually select cards for each slot instead of drawing randomly?</h2>
-			<div class="toggle-labels">
-				<label>No</label>
-				<label class="toggle-switch">
-					<input type="checkbox" id="manualSelectionToggle" onchange="toggleManualSelection()">
-					<span></span>
-				</label>
-				<label>Yes</label>
-			</div>
-		</div>
-		
 		<!-- Import/Export Controls -->
 		<div class="import-export-section">
 			<button class="button button1 export-btn" onclick="exportReading()">
@@ -90,7 +56,11 @@
 			<button class="button button1 clear-btn" onclick="confirmAndClearBoard()">
 				<span>🧹</span> Clear Board
 			</button>
-			
+
+			<button class="button button1 quickfill-btn" onclick="openQuickFill()">
+				<span>✏️</span> Quick Fill
+			</button>
+
 			<input type="file" id="importFileInput" accept=".json" style="display: none;" onchange="importReading(event)">
 		</div>
 		
@@ -1072,6 +1042,22 @@
 			</div>
 		</div>
 
+
+		<datalist id="card-names-list"></datalist>
+
+		<div id="quick-fill-overlay" class="quick-fill-overlay" style="display:none;" onclick="handleQFOverlayClick(event)">
+			<div class="quick-fill-panel">
+				<div class="quick-fill-header">
+					<h3>Quick Fill: <span id="qf-spread-name"></span></h3>
+					<span class="topright" onclick="closeQuickFill()">×</span>
+				</div>
+				<div id="qf-rows" class="qf-rows"></div>
+				<div class="quick-fill-footer">
+					<button class="button button1 export-btn" onclick="applyQuickFill()">Apply Spread</button>
+					<button class="button button1 clear-btn" onclick="closeQuickFill()">Cancel</button>
+				</div>
+			</div>
+		</div>
 
         <script type="text/javascript" src="cardReading.js"></script>
         <!--
