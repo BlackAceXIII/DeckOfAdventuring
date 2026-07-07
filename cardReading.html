@@ -24,7 +24,12 @@
             </div>
         </div>
 
+        <!-- Mobile backdrop: tapping it closes the sidebar drawer -->
+        <div id="sidebar-backdrop" onclick="closeMobileSidebar()"></div>
+
         <div id="main-content" class="main-content">
+        <!-- Hamburger button: only visible on mobile (≤768px) -->
+        <button id="mobile-sidebar-toggle" onclick="toggleSidebar()" aria-label="Open deck inventory">☰ Deck</button>
         <h1>Card Reading based on WotC's Deck of Many Things Card Reference Guide</h1>        <!--
             Simplified toggle switch replaces earlier nested label/slider markup.
             Original had a <code>switch</code> class with <code>span.slider.round</code> etc;

@@ -75,8 +75,7 @@ Notes:
 
 ## Known Limitations
 
-- Card images currently point to a placeholder path (`../JSON_Folder/Generic Soldier 4.png`). Real card images are not yet wired to individual cards.
-- The `input type="switch"` on the replacement toggle is not a valid HTML type — browsers fall back to `type="text"`. Should be `type="checkbox"`.
+- Card images currently point to a placeholder path (`../JSON_Folder/Generic Soldier 4.png`). Real card images are not yet wired to individual cards. (Tracked under **item 9: CSS and Visual Improvements**.)
 
 ---
 
@@ -164,20 +163,20 @@ Lets users construct their own named decks from the cards available in `AllCards
 
 ---
 
-### 5. ❌ Manual Card Selection
+### 5. ✅ Manual Card Selection — Complete Implementation
 **Complexity: Moderate–High**
 
-Adds a mode where the user chooses a specific card to assign to a slot rather than drawing randomly.
+Allows the GM to assign specific cards to specific slots rather than drawing randomly.
 
-**What needs doing:**
-- An intermediate card-picker UI: when in manual mode, clicking a slot position button opens a searchable list of cards from the relevant deck rather than immediately drawing.
-- The user selects a card and optionally sets orientation (or orientation remains random).
-- Manual and random-draw modes must coexist — some slots in a spread may be manually set while others remain randomly drawn.
-- The picker UI can share component logic with the **Custom Deck Building** checklist.
+**What was implemented:**
+- The **Quick Fill** panel serves as the manual card selection UI — it opens an overlay listing every slot in the active spread, each with a card name input and an Upright/Reverse toggle button.
+- Card name inputs use a `<datalist>` for browser-native autocomplete, scoped to the cards in the currently selected deck for that spread. Suggestions update each time Quick Fill opens.
+- Individual slot **Draw a Card** buttons coexist with Quick Fill — random and manual assignment can be mixed freely within the same spread.
+- Orientation is set per slot via the toggle button; leaving a slot's input blank skips it without disturbing already-placed cards.
 
 **Dependencies:**
-- Easier with **Per-Spread Deck Selection** done first.
-- Harder if the **Multi-Deck Adventure Spread** is added first without manual selection in mind.
+- ✅ Per-Spread Deck Selection — autocomplete is scoped per spread automatically.
+- ✅ Custom Deck Building — custom deck cards appear as autocomplete suggestions immediately.
 
 ---
 
@@ -190,11 +189,13 @@ The Blank Slate spread tab already exists and populates slot buttons for C.00–
 - Decide and implement label behaviour: the current slot buttons show IDs (`C.00` etc.) which are meaningless without positional roles.
 - Optionally: a number input to control how many slots are active, rather than always showing all 17.
 - Connect to the replacement toggle so without-replacement coordinates across individual slot draws within this spread.
-- Ensure per-spread deck selection (item #3) applies here automatically.
+
+**Already done:**
+- ✅ Per-spread deck selection applies to this spread automatically (completed under item #3).
 
 **Dependencies:**
-- Easier with the **Replacement Toggle** fully implemented first.
-- Easier with **Per-Spread Deck Selection** done first.
+- ✅ Replacement Toggle — fully implemented.
+- ✅ Per-Spread Deck Selection — fully implemented.
 
 ---
 
@@ -229,22 +230,43 @@ A modified Adventure Spread where different slot types draw from different named
 
 ---
 
+### 9. ❌ CSS and Visual Improvements
+**Complexity: Low–Moderate (iterative)**
+
+A final polish pass covering responsive layout, sizing, and visual consistency across the full application. Treated as the last task so that all features are in their final form before UI decisions are locked in.
+
+**What needs doing:**
+- Finalize the responsive CSS for mobile and tablet screen sizes, replacing all temporary in-progress rules with clean, settled values. Current breakpoints (≤768px mobile, 769–1024px tablet) need validation across real device sizes and orientations.
+- Audit fixed pixel values remaining in the stylesheet and convert any that should scale (font sizes, spacing, component dimensions) to `clamp()`, `rem`, or percentage-based units.
+- Card slot buttons (`.tab-grid .tablinks`) need confirmed final dimensions that work across all four spread layouts at both mobile and desktop widths.
+- Review all spread tab layouts for visual consistency — padding, gap, and font size should feel uniform across Adventure, Five-Card, Three-Card, Journey, Blank Slate, and Deck Forge tabs.
+- Wire real card images into the card detail panels, replacing the current placeholder path (`../JSON_Folder/Generic Soldier 4.png`). Each card in `AllCards.json` should reference its own image.
+- Evaluate and resolve any remaining visual inconsistencies introduced when new features (Free-Form Spread, Cascading Deck, Multi-Deck Adventure) were added.
+
+**Dependencies:**
+- Should be done **last** — all feature work must be in its final form before visual decisions are finalized.
+- Card image wiring requires agreement on the image asset format and file naming convention.
+
+---
+
 ## Completed Features Summary
 
 ✅ **Replacement Toggle** — Draw behavior fully connected to toggle state.
 ✅ **Import / Export** — Full session persistence and sharing support.
 ✅ **Per-Spread Deck Selection** — Each spread independently selects its deck.
 ✅ **Custom Deck Building** — In-browser Deck Forge with quantity controls, local storage persistence, and JSON export integration.
+✅ **Manual Card Selection** — Fulfilled by the Quick Fill panel with per-deck autocomplete; random and manual assignment coexist freely.
+✅ **Quick Fill Autocomplete** — Card name inputs suggest only cards from the active spread's selected deck; datalist refreshes on every open.
 
 ## Recommended Implementation Order for Remaining Features
 
 ```
-        ├──▶ 5. Manual Card Selection
-        │
         ├──▶ 6. Free-Form Spread (full)
         │
         ├──▶ 7. Cascading Deck Spread
         │
+        ├──▶ 8. Multi-Deck Adventure Spread
+        │
         ▼
-8. Multi-Deck Adventure Spread
+9. CSS and Visual Improvements (final pass)
 ```

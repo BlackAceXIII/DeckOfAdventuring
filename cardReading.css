@@ -1067,3 +1067,286 @@ body {
 .sidebar-card-qty.over {
   background: #c0392b;
 }
+
+/* ========== RESPONSIVE LAYOUT ========== */
+
+/* Backdrop overlay behind mobile sidebar drawer */
+#sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 99;
+}
+#sidebar-backdrop.active {
+  display: block;
+}
+
+/* Mobile hamburger button — hidden on desktop */
+#mobile-sidebar-toggle {
+  display: none;
+}
+
+/* ---- Tablet (769px–1024px): narrower sidebar ---- */
+@media (max-width: 1024px) and (min-width: 769px) {
+  #deck-sidebar {
+    width: 220px;
+  }
+  #main-content {
+    margin-left: 220px;
+  }
+  #deck-sidebar.collapsed ~ #main-content {
+    margin-left: 60px;
+  }
+  .tab-grid .tablinks {
+    width: clamp(60px, 8vw, 80px);
+    height: clamp(120px, 16vw, 160px);
+    font-size: clamp(13px, 1.8vw, 17px);
+  }
+  .tab-spacer {
+    width: clamp(60px, 8vw, 80px);
+    height: clamp(120px, 16vw, 160px);
+  }
+}
+
+/* ---- Mobile (≤768px): full responsive overhaul ---- */
+@media (max-width: 768px) {
+
+  /* Sidebar becomes a slide-in drawer */
+  #deck-sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    z-index: 200;
+    width: min(280px, 85vw);
+  }
+  #deck-sidebar.mobile-open {
+    transform: translateX(0);
+  }
+  /* Collapsed class has no visual effect on mobile — drawer is always full-width when open */
+  #deck-sidebar.collapsed {
+    width: min(280px, 85vw);
+    transform: translateX(-100%);
+  }
+  #deck-sidebar.collapsed .sidebar-header h3,
+  #deck-sidebar.collapsed .sidebar-deck-name,
+  #deck-sidebar.collapsed .sidebar-card-count,
+  #deck-sidebar.collapsed .sidebar-card-name {
+    display: block;
+  }
+
+  /* Main content takes full viewport width */
+  #main-content {
+    margin-left: 0 !important;
+    padding-top: 56px;
+  }
+  #deck-sidebar.collapsed ~ #main-content {
+    margin-left: 0 !important;
+  }
+
+  /* Hamburger toggle button */
+  #mobile-sidebar-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 150;
+    background: var(--primary-color);
+    color: var(--text-light);
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 2px 8px var(--shadow-medium);
+  }
+
+  /* Prevent all content from causing horizontal scroll */
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Horizontal padding so text never butts against screen edge */
+  #main-content {
+    padding-left: 12px;
+    padding-right: 12px;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  /* Page headings — scale and wrap */
+  #main-content h1 {
+    font-size: clamp(0.95rem, 4.5vw, 1.4rem);
+    margin-top: 0;
+    line-height: 1.3;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  #main-content h2 {
+    font-size: clamp(0.85rem, 3.5vw, 1.1rem);
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  /* Replaceable toggle row */
+  .replaceable-toggle {
+    gap: 8px;
+  }
+  .replaceable-toggle h2 {
+    font-size: clamp(0.8rem, 3vw, 1rem);
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  /* Action buttons — 2-column CSS grid
+     (flex + calc width fails because .button1 lacks box-sizing:border-box;
+     grid fr units account for gaps automatically) */
+  .import-export-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+  .export-btn,
+  .import-btn,
+  .clear-btn,
+  .quickfill-btn {
+    display: flex !important;
+    width: 100%;
+    min-width: 0 !important;
+    font-size: 12px;
+    padding: 8px 6px;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  /* Spread tabs — scrollable horizontal row */
+  .spread-tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-bottom: 12px;
+    border-bottom: 2px solid var(--surface-border-standard);
+  }
+  .spread-tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .spread-tabs button {
+    flex-shrink: 0;
+    float: none;
+    padding: 10px 10px;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  /* Card slot buttons — scale with viewport */
+  .tab-grid .tablinks {
+    width: clamp(44px, 12vw, 80px);
+    height: clamp(88px, 24vw, 160px);
+    padding: 4px 2px;
+    font-size: clamp(11px, 3vw, 17px);
+    overflow-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
+    line-height: 1.2;
+  }
+  .tab-grid .tablinks.three-card {
+    width: clamp(56px, 15vw, 100px);
+    font-size: clamp(10px, 2.5vw, 14px);
+  }
+  .tab-spacer {
+    width: clamp(44px, 12vw, 80px);
+    height: clamp(88px, 24vw, 160px);
+  }
+  .tab-grid {
+    gap: clamp(2px, 1vw, 5px);
+  }
+  .tab-row {
+    gap: clamp(2px, 1vw, 5px);
+  }
+
+  /* Table+grid side-by-side → stacked */
+  .table-grid-container {
+    flex-direction: column;
+  }
+  .table-section {
+    overflow-x: auto;
+    width: 100%;
+  }
+  .table-section table {
+    min-width: max-content;
+  }
+
+  /* Deck builder: stack library and cart vertically */
+  .deck-builder-container {
+    flex-direction: column;
+  }
+  .cart-section {
+    position: static;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .library-section {
+    max-height: 400px;
+  }
+
+  /* Deck Forge preview panel */
+  .preview-content {
+    flex-direction: column;
+  }
+  .preview-image-col {
+    border-right: none;
+    border-bottom: 1px solid var(--surface-border-lightest);
+    padding-right: 0;
+    padding-bottom: 12px;
+  }
+  .preview-meanings-col {
+    flex-wrap: wrap;
+  }
+  .meanings-block {
+    flex: 1 1 100%;
+  }
+
+  /* Quick Fill overlay */
+  .quick-fill-panel {
+    max-width: 100%;
+    max-height: 92vh;
+  }
+  .qf-label {
+    flex: 0 0 100px;
+    font-size: 11px;
+  }
+  .quick-fill-footer {
+    flex-wrap: wrap;
+  }
+
+  /* Spread deck selector */
+  .spread-deck-selector {
+    padding: 8px;
+    box-sizing: border-box;
+  }
+  .deck-selection {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .deck-select-spread {
+    font-size: 12px;
+    padding: 6px 8px;
+    max-width: 100%;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  /* Meanings section — prevent overflow */
+  div[id^="meanings-C."] {
+    padding: 10px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+}

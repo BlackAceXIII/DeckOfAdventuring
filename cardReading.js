@@ -142,14 +142,14 @@ async function fetchData() {
     populateAllCardsSpread(allExistingCards);
     // 7.3 Populate the blank slate spread with card slots
     populateBlankSlateSpread();
-    // 7.4 Populate the shared datalist used by Quick Fill autocomplete inputs
-    // Each <option> only needs a value attribute — no visible text needed for datalist
+    // 7.4 Seed the shared datalist with all card names as an initial fallback
+    // openQuickFill() replaces these with deck-filtered options each time the panel opens
     const datalist = document.getElementById('card-names-list');
     if (datalist) {
       datalist.innerHTML = allExistingCards.slice().sort().map(name => `<option value="${name}">`).join('');
     }
 
-    // 7.4 Create deck selection dropdowns for all spreads
+    // 7.5 Create deck selection dropdowns for all spreads
     populateDropdown(allDecks);
     return allDecks;
 
@@ -728,63 +728,81 @@ function openQuickFill() {
   // 1.4 Guard against opening before card data has loaded
   if (!allCards) { alert('Card data not loaded yet. Please wait.'); return; }
 
-  // STEP 2: Set the panel title to reflect the active spread
-  // 2.1 Human-readable names keyed by spread element id
+  // STEP 2: Narrow the datalist to cards in the selected deck for this spread
+  // 2.1 Map the spread element id to the internal deck selector key
+  const spreadKey = {
+    'adventure-spread': 'adventure',
+    'five-card-spread': 'fiveCard',
+    'three-card-spread': 'threeCard',
+    'journey-spread': 'journey'
+  }[activeSpread] || 'adventure';
+  // 2.2 Resolve which deck is active for this spread
+  const activeDeckName = getSelectedDeckForSpread(spreadKey);
+  // 2.3 Get that deck's card list, sorted alphabetically for predictable suggestion order
+  const deckCardNames = (allDecks[activeDeckName] || []).slice().sort();
+  // 2.4 Replace the datalist options — inputs already reference it via list="card-names-list"
+  const datalist = document.getElementById('card-names-list');
+  if (datalist) {
+    datalist.innerHTML = deckCardNames.map(name => `<option value="${name}">`).join('');
+  }
+
+  // STEP 3: Set the panel title to reflect the active spread
+  // 3.1 Human-readable names keyed by spread element id
   const spreadNames = {
     'adventure-spread': 'Adventure Spread',
     'five-card-spread': 'Five-Card Spread',
     'three-card-spread': 'Three-Card Spread',
     'journey-spread': 'Journey Spread'
   };
-  // 2.2 Inject the name into the panel heading span
+  // 3.2 Inject the name into the panel heading span
   document.getElementById('qf-spread-name').textContent = spreadNames[activeSpread] || activeSpread;
 
-  // STEP 3: Build one input row per slot in the spread
-  // 3.1 Get the rows container and clear any stale rows from a previous open
+  // STEP 4: Build one input row per slot in the spread
+  // 4.1 Get the rows container and clear any stale rows from a previous open
   const rowsContainer = document.getElementById('qf-rows');
   rowsContainer.innerHTML = '';
 
-  // 3.2 Iterate through the slot definitions for this spread
+  // 4.2 Iterate through the slot definitions for this spread
   slots.forEach(({ id, label }) => {
-    // 3.2.1 Read the card currently placed in this slot (if any)
+    // 4.2.1 Read the card currently placed in this slot (if any)
     const currentName = document.getElementById(`card-name-${id}`)?.textContent || '';
-    // 3.2.2 Read the current orientation
+    // 4.2.2 Read the current orientation
     const currentOrient = document.getElementById(`card-orientation-${id}`)?.textContent || 'Upright';
-    // 3.2.3 Determine whether the slot currently holds a reversed card
+    // 4.2.3 Determine whether the slot currently holds a reversed card
     const isReversed = currentOrient === 'Reverse';
-    // 3.2.4 Only pre-fill the input if a real card is present (not the default placeholder)
+    // 4.2.4 Only pre-fill the input if a real card is present (not the default placeholder)
     const hasCard = currentName && currentName !== 'Card Name';
 
-    // 3.3 Create the row container div and tag it with the slot id
+    // 4.3 Create the row container div and tag it with the slot id
     const row = document.createElement('div');
     row.className = 'qf-row';
     row.dataset.slot = id;
 
-    // 3.4 Create the slot label (e.g. "Party Gathers")
+    // 4.4 Create the slot label (e.g. "Party Gathers")
     const labelEl = document.createElement('span');
     labelEl.className = 'qf-label';
     labelEl.textContent = label;
     labelEl.title = label; // show full label on hover in case it's truncated
 
-    // 3.5 Create the card name text input
+    // 4.5 Create the card name text input
     const input = document.createElement('input');
     input.type = 'text';
     input.className = 'qf-input';
-    // 3.5.1 Link to the shared datalist so the browser offers autocomplete suggestions
+    // 4.5.1 Link to the shared datalist so the browser offers autocomplete suggestions
     input.setAttribute('list', 'card-names-list');
     input.placeholder = 'Card name...';
     input.autocomplete = 'off';
-    // 3.5.2 Pre-populate with the current card name if one is placed
+    // 4.5.2 Pre-populate with the current card name if one is placed
     input.value = hasCard ? currentName : '';
 
-    // 3.6 Create the Upright/Reverse toggle button
+    // 4.6 Create the Upright/Reverse toggle button
     const orientBtn = document.createElement('button');
     orientBtn.type = 'button'; // prevent accidental form submission
     orientBtn.className = 'qf-orient-btn' + (isReversed ? ' reversed' : '');
     orientBtn.textContent = isReversed ? 'R' : 'U';
     orientBtn.dataset.orient = isReversed ? 'Reverse' : 'Upright';
     orientBtn.title = 'Toggle Upright / Reverse';
-    // 3.6.1 One click flips between U and R, updating text, class, and data attribute
+    // 4.6.1 One click flips between U and R, updating text, class, and data attribute
     orientBtn.onclick = function() {
       const nowReversed = this.dataset.orient === 'Upright';
       this.dataset.orient = nowReversed ? 'Reverse' : 'Upright';
@@ -792,20 +810,20 @@ function openQuickFill() {
       this.classList.toggle('reversed', nowReversed);
     };
 
-    // 3.7 Assemble and append the row
+    // 4.7 Assemble and append the row
     row.appendChild(labelEl);
     row.appendChild(input);
     row.appendChild(orientBtn);
     rowsContainer.appendChild(row);
   });
 
-  // STEP 4: Show the overlay and focus the first empty input
-  // 4.1 Make the overlay visible (CSS handles centering)
+  // STEP 5: Show the overlay and focus the first empty input
+  // 5.1 Make the overlay visible (CSS handles centering)
   document.getElementById('quick-fill-overlay').style.display = 'flex';
-  // 4.2 Find the first input that has no card name yet
+  // 5.2 Find the first input that has no card name yet
   const inputs = rowsContainer.querySelectorAll('.qf-input');
   const firstEmpty = Array.from(inputs).find(el => !el.value) || inputs[0];
-  // 4.3 Delay focus slightly so the overlay transition completes first
+  // 5.3 Delay focus slightly so the overlay transition completes first
   if (firstEmpty) setTimeout(() => firstEmpty.focus(), 50);
 }
 
@@ -1772,7 +1790,19 @@ function updateDeckSidebar() {
 
 function toggleSidebar() {
   const sidebar = document.getElementById('deck-sidebar');
-  sidebar.classList.toggle('collapsed');
-  const btn = sidebar.querySelector('.sidebar-collapse-btn');
-  btn.textContent = sidebar.classList.contains('collapsed') ? '+' : '−';
+  const backdrop = document.getElementById('sidebar-backdrop');
+  if (window.innerWidth <= 768) {
+    sidebar.classList.toggle('mobile-open');
+    backdrop && backdrop.classList.toggle('active');
+  } else {
+    sidebar.classList.toggle('collapsed');
+    const btn = sidebar.querySelector('.sidebar-collapse-btn');
+    btn.textContent = sidebar.classList.contains('collapsed') ? '+' : '−';
+  }
+}
+
+function closeMobileSidebar() {
+  document.getElementById('deck-sidebar').classList.remove('mobile-open');
+  const backdrop = document.getElementById('sidebar-backdrop');
+  backdrop && backdrop.classList.remove('active');
 }
