@@ -1,357 +1,127 @@
-# Import/Export Feature - Implementation Summary
+# Technical Context Document: Card Reading Tool
 
-## What Was Implemented
+This document establishes the precise state of the application architecture, active data structures, completed integrations, and scrapped design patterns for use in bootstrapping new development sessions.
 
-Successfully added full import/export functionality to the Card Reading application, allowing users to save and load their reading sessions.
+---
 
-## Files Modified
+## 1. Core Architecture & Stack
+- **Engine:** Client-side only; vanilla HTML5, CSS3 (using CSS custom properties), and ES6+ JavaScript.
+- **Hosting Context:** Runs locally via `file://` protocol or a simple local web server. No build step (Webpack/Vite) or external runtime is used. Note: `fetch()` fails on `file://` in most mobile browsers — a local web server is required for mobile testing.
+- **I/O Mechanics:** Asynchronous initialization. All data is fetched once at load time via parallel `fetch()` calls. No sequential server requests are executed during active card draws.
 
-### 1. cardReading.html
-**Changes**: Added import/export UI controls
+### Primary Data Dependencies (Fetched in Parallel)
+1. **`CardsJsons/AllCards.json`:** Master glossary containing all 66 cards.
+   - *Schema:* Each card has `name`, `description`, `credit` (sometimes empty — use `cardData.credit || 'WotC Card Guide'` as a safe fallback), and a `meanings` object.
+   - *Schema:* The `meanings` object uses five camelCase category keys: `person`, `creatureTrap`, `place`, `treasure`, `situation`. Each category contains `upright` and `reverse` string properties. Example: `meanings.creatureTrap.upright`.
+   - *Schema:* The HTML element IDs for meaning panels use a shortened form: `creatureTrap` maps to `creature` via `const htmlId = cat === 'creatureTrap' ? 'creature' : cat`. All 31 meaning panel IDs follow the pattern `meaning-{htmlId}-C.##`.
+2. **`CardsJsons/deckLists.json`:** Immutable built-in deck recipes containing arrays of card name strings.
+3. **`CardsJsons/customDecks.json`** *(optional, not shipped by default):* User-editable deck definitions merged over `deckLists.json` on load. If a custom deck has the same name as a built-in one, it replaces it.
 
-**Location**: Between replacement toggle and spread tabs (lines ~26-36)
+---
 
-**New Elements**:
-```html
-<div class="import-export-section">
-  <button class="button button1 export-btn" onclick="exportReading()">
-    <span>📥</span> Export Reading
-  </button>
-  <button class="button button1 import-btn" onclick="document.getElementById('importFileInput').click()">
-    <span>📤</span> Import Reading
-  </button>
-  <input type="file" id="importFileInput" accept=".json" style="display: none;" onchange="importReading(event)">
-</div>
+## 2. Global State Schema
+The application's runtime is managed via the following globally scoped variables inside `cardReading.js`:
+
+```javascript
+let allCards = null;                 // Raw JSON object from AllCards.json
+let allDecks = {};                   // Combined map of default, localStorage, and imported decks
+let customDeckCart = {};             // Deck Forge staging state: { "CardName": quantity }
+let isReplaceableEnabled = false;    // Controls whether the same card can appear multiple times
+let isManualSelectionEnabled = false;// Controls whether slot clicks target for sidebar placement
+let targetedSlot = null;             // Tracks the card slot ID targeted for manual placement
+let workingDecks = {                 // Per-spread card pools, spliced on each draw (non-replaceable)
+  adventure: [], fiveCard: [], threeCard: [], journey: []
+};
+let selectedDecks = {                // Active deck name per spread; falls back to first deck in allDecks
+  adventure: 'Default', fiveCard: 'Default', threeCard: 'Default', journey: 'Default'
+};
 ```
 
-### 2. cardReading.css
-**Changes**: Added styling for import/export section
+### Slot ID System
+| Spread | Slots | Card ID Range |
+|---|---|---|
+| Adventure | 9 | C.00–C.08 |
+| Five-Card | 5 | C.09–C.13 |
+| Three-Card | 3 | C.14–C.16 |
+| Journey | 14 | C.17–C.30 |
 
-**New CSS Classes**:
-- `.import-export-section` - Container styling
-- `.export-btn` - Blue export button with icon
-- `.import-btn` - Orange import button with icon
+`getSpreadKey(cardNum)` maps a card ID to its spread key (`'adventure'`, `'fiveCard'`, `'threeCard'`, `'journey'`).
 
-**Features**:
-- Flexbox layout with gap spacing
-- Distinct colors (blue/orange) for easy identification
-- Hover effects without the hexagon clip-path
-- Emoji icons for visual clarity
-- Responsive padding and spacing
+---
 
-### 3. cardReading.js
-**Changes**: Added two main functions
+## 3. Implemented Features & Integrations
 
-**New Functions**:
+### ✅ Save State Engine (JSON Import/Export)
+- **Mechanism:** Single-file standard `.json` saves.
+- **Payload structure:** Encapsulates active session `settings`, drawn `cards` mapped to positions with orientation, and copies of any user `customDecks`.
+- **Portability:** Importing a session instantly merges foreign custom decks into the user's live memory and persists them automatically to `localStorage`.
 
-#### `exportReading()`
-- Collects all current card data from the DOM
-- Gathers settings (replacement toggle, deck selections)
-- Creates JSON object with metadata
-- Generates timestamped filename
-- Triggers browser download via Blob API
-- Shows confirmation alert with card count
+### ✅ The Deck Forge (Custom Deck Builder)
+- **UI:** Repurposed from the legacy static "All Cards Spread". Features a split UI containing a card glossary list and an interactive quantity assembly cart.
+- **Counters:** Supports weighted decks (`+`/`-` counters per card, hard-capped at 99 copies per entry).
+- **Saves:** Merges built arrays into `allDecks` under the namespace `"Custom: [Deck Name]"` and writes them directly to `localStorage` under the key `userCustomDecks`.
+- **Dynamic Preview Panel (`#deck-forge-preview`):** Fully static in the HTML. Displays both Upright and Reversed meanings of a highlighted card simultaneously. Completely replaced legacy dynamic DOM tab creation.
 
-#### `importReading(event)`
-- Reads uploaded JSON file
-- Validates file format and version
-- Restores settings (toggle, deck selections)
-- Restores each card's data
-- Validates cards exist in current AllCards.json
-- Updates all UI elements (detail panels, tables)
-- Shows success/warning messages
-- Handles missing cards gracefully
+### ✅ Unified High-Performance Sidebar
+- **Complexity:** Runs in O(N) time. Generates a real-time availability count (`[Remaining / Total]`) of the active deck.
+- **Rendering:** Built completely in memory as an HTML string buffer and updated via a single DOM write to eliminate browser layout thrashing.
+- **Availability indicators:** Color-coded class markers (`available`, `exhausted`) and warning badges (`over-quota`).
+- **Collapse behavior:** Desktop: toggles `.collapsed` class to shrink to a 60px icon strip. Mobile (≤768px): toggles `.mobile-open` class as a drawer overlay instead — the collapsed state has no visual effect on mobile.
 
-## Feature Capabilities
+### ✅ Manual Card Selection (Quick Fill)
+- **Primary mechanism:** The **Quick Fill** panel (`openQuickFill()`) opens a modal overlay listing every slot in the active spread, each with a card name input and an Upright/Reverse orientation toggle.
+- **Autocomplete:** Each input uses `<datalist id="card-names-list">`. On every open, `openQuickFill()` refreshes the datalist with only the cards from the spread's currently selected deck (alphabetically sorted). The initial seed at page load contains all 66 cards as a fallback; it is overwritten each time the panel opens.
+- **Coexistence:** Individual per-slot **Draw a Card** buttons still perform random draws. Manual (Quick Fill) and random assignment can be mixed freely within the same spread.
+- **Validation:** `applyQuickFill()` checks each entered name against `allCards.cards`. Unrecognized names are skipped and reported in a summary alert after apply.
 
-### Export Features
-✅ Saves all 31 card slots (C.00-C.30)
-✅ Captures card names and orientations
-✅ Records deck selection for each spread
-✅ Saves replacement toggle state
-✅ Includes timestamp and version metadata
-✅ Auto-generates descriptive filename
-✅ Skips empty card slots
-✅ Provides user feedback (alert with count)
-✅ Console logging for debugging
+### ✅ Direct Sidebar Placement (Manual Draw Mode)
+An alternative manual placement flow using the sidebar:
+1. User enables the **Manual Selection** toggle (`isManualSelectionEnabled = true`).
+2. User clicks **Draw a Card** on a board slot.
+3. That slot highlights with a pulsing gold animation (`.targeted-slot-active`) and its ID is stored in `targetedSlot`.
+4. User clicks a card item in the sidebar list.
+5. `assignCardFromSidebar(cardName)` populates the board slot, removes the card from the working array (non-replaceable mode), updates the sidebar counters, and clears the targeting highlight.
 
-### Import Features
-✅ File picker with .json filter
-✅ JSON validation before processing
-✅ Version checking for compatibility
-✅ Settings restoration (toggle + decks)
-✅ Card data restoration with validation
-✅ Graceful handling of missing cards
-✅ Updates all UI elements automatically
-✅ User feedback (success/warning alerts)
-✅ Console logging for debugging
-✅ File input reset for re-import capability
+### ✅ Responsive Layout (Mobile / Tablet)
+- **Breakpoints:** ≤768px (mobile), 769–1024px (tablet).
+- **Sidebar:** On mobile, converts from a fixed 280px panel to an off-screen drawer (`transform: translateX(-100%)`). A fixed-position hamburger button (`#mobile-sidebar-toggle`) opens it; a backdrop overlay (`#sidebar-backdrop`) closes it on outside tap. `toggleSidebar()` branches on `window.innerWidth` to switch between drawer and collapse behavior.
+- **Main content:** `margin-left: 0` on mobile (full viewport width); 56px top padding clears the fixed hamburger button.
+- **Action buttons:** Switch from flex row to `display: grid; grid-template-columns: 1fr 1fr` on mobile. The grid avoids the box-sizing issue that causes `flex: 1 1 calc(50%)` to overflow when elements lack `box-sizing: border-box`.
+- **Spread tabs:** `overflow-x: auto` with `flex-wrap: nowrap` so tabs scroll horizontally on small screens.
+- **Card slot buttons:** `clamp(44px, 12vw, 80px)` width / `clamp(88px, 24vw, 160px)` height / `clamp(11px, 3vw, 17px)` font size.
+- **Status:** In progress — temporary values are in place. Final values are locked in as the last task (item 9 in the README).
 
-## Data Flow
+---
 
-### Export Process
-```
-User clicks Export
-    ↓
-collectCardData() - Read DOM elements
-    ↓
-createJSON() - Build data structure
-    ↓
-generateFilename() - Create timestamp name
-    ↓
-createBlob() - Convert to downloadable file
-    ↓
-triggerDownload() - Browser download
-    ↓
-showConfirmation() - Alert user
-```
+## 4. Scrapped & Deprecated Paradigms
+To prevent regressions, avoid reverting to these previous strategies:
 
-### Import Process
-```
-User selects file
-    ↓
-readFile() - FileReader API
-    ↓
-parseJSON() - Parse and validate
-    ↓
-validateFormat() - Check version/structure
-    ↓
-restoreSettings() - Update toggles/dropdowns
-    ↓
-restoreCards() - For each card:
-    - Validate exists in AllCards.json
-    - Update detail panel
-    - Update table cells
-    - Update meanings
-    ↓
-showResults() - Alert with stats
-```
+| Deprecated Feature | Replaced By | Why It Was Scrapped |
+|:---|:---|:---|
+| **URL Parameter Decks** | **JSON-Only Local Decks** | The 2,000-character safe URL limit prevented sharing multiple custom decks. Run-length encoding logic (`Name:Count`) introduced high string parsing fragility. |
+| **Separate Sidebar Lists** | **Unified Inventory Map** | Maintaining separate "Full Deck" and "Remaining Deck" DOM columns doubled rendering times and introduced severe visual redundancy. |
+| **Dynamic Tab Generation** | **Static Preview Panel** | Spawning new nodes at the bottom of the DOM for card details led to memory leaks, scroll bugs, and stacking layout issues. |
+| **Dead global functions** | *(removed entirely)* | `getTablePrefix`, `getOrientationTablePrefix`, `redrawAll`, `handleGlobalRedraw`, and `handleGlobalDraw` were replaced by four explicit per-spread redraw functions. Removing them eliminated ambiguity about which function was the live entry point. |
 
-## JSON File Format
+**Note on modal/dropdown card picker:** A per-slot card-selection modal and table-with-dropdown-menus approach were both evaluated during design review and rejected before implementation — they were never built. The rejected reason: Quick Fill already covers the use case more efficiently, and dropdown menus have `box-sizing` issues on mobile. Do not implement either pattern.
 
-### Structure
-```json
-{
-  "version": "1.0",
-  "timestamp": "ISO 8601 string",
-  "settings": {
-    "isReplaceableEnabled": boolean,
-    "selectedDecks": {
-      "adventure": "deck name",
-      "fiveCard": "deck name",
-      "threeCard": "deck name",
-      "journey": "deck name"
-    }
-  },
-  "cards": {
-    "C.##": {
-      "name": "card name",
-      "orientation": "Upright|Reverse"
-    }
-  }
-}
-```
+---
 
-### Example
-See `example-reading.json` for a working sample file.
+## 5. Key Invariants & Common Pitfalls
 
-## Error Handling
+- **`creatureTrap` is camelCase throughout.** AllCards.json uses `creatureTrap`, JS uses `creatureTrap`, HTML element IDs use `creature` (mapped via `htmlId`). Never use `creature_trap` (snake_case) — it was a temporary naming experiment, fully reverted.
+- **Null-guard `cardData` before accessing properties.** `generateCard()` returns early if the card name from the deck is absent from `allCards.cards`. Without this guard, `cardData.name` throws and halts the `for` loop in the redraw functions, leaving the spread partially drawn.
+- **Null-guard meaning categories inside `forEach`.** Use `if (!meanings || !meanings[cat]) return;` before accessing `meanings[cat].upright`. A missing category throws a `TypeError` that propagates out of the callback and stops iteration — the root cause of the "Redraw All Cards stops after first card" regression.
+- **`deckSize` before the size-check alert.** Compute `const deckSize = allDecks[deckName] ? allDecks[deckName].length : 0` before using it in a string — accessing `.length` on an undefined deck throws if the deck doesn't exist.
+- **Callback overrides:** Declare button callbacks as direct assignment (`btn.onclick = function() {...}`) rather than `addEventListener` to prevent event-stacking memory leaks when the same element is reused across multiple panel opens.
 
-### Export Errors
-- **No data to export**: Still creates valid JSON (empty cards object)
-- **Browser blocks download**: User sees browser permission prompt
-- **DOM elements missing**: Skips missing elements, continues export
+---
 
-### Import Errors
-- **Invalid JSON**: Alert with parse error, no changes made
-- **Missing version**: Rejects file, alert shown
-- **Missing cards field**: Rejects file, alert shown
-- **Card not in database**: Skips card, counts as "missing", continues import
-- **Deck not found**: Falls back to first available deck
-- **File read error**: Alert with error message
+## 6. Immediate Next Steps / Uncompleted Roadmap
 
-## User Interface
+Ordered by the README to-do list:
 
-### Visual Design
-- **Location**: Prominent position below main toggle
-- **Colors**: 
-  - Export: Blue (#2196F3) - Common download color
-  - Import: Orange (#FF9800) - Common upload color
-- **Icons**: 
-  - 📥 for Export (arrow into tray)
-  - 📤 for Import (arrow from tray)
-- **Layout**: Horizontal flex layout, centered buttons
-- **Spacing**: Consistent 15px gap, padding for breathing room
-
-### User Experience
-- **One-click export**: No configuration needed
-- **Standard file picker**: Familiar import flow
-- **Clear feedback**: Alerts show success/failure
-- **Descriptive filenames**: Auto-generated with timestamp
-- **Non-destructive**: Can import without losing ability to re-export
-- **Reversible**: Can export before importing to create backup
-
-## Testing Recommendations
-
-### Test Case 1: Basic Export
-1. Draw cards in any spread
-2. Click "Export Reading"
-3. Verify file downloads
-4. Open JSON file, verify structure
-5. Check card count matches drawn cards
-
-### Test Case 2: Basic Import
-1. Export a reading (or use example-reading.json)
-2. Redraw all cards (clear the spread)
-3. Click "Import Reading"
-4. Select exported file
-5. Verify cards restore correctly
-6. Check orientations match
-7. Verify meanings display
-
-### Test Case 3: Settings Preservation
-1. Change replacement toggle
-2. Select different decks for each spread
-3. Export reading
-4. Change settings to different values
-5. Import reading
-6. Verify toggle returns to saved state
-7. Verify deck selections restore
-
-### Test Case 4: Missing Card Handling
-1. Export reading with several cards
-2. Manually edit JSON, change one card name to "NonExistentCard"
-3. Import modified JSON
-4. Verify warning appears
-5. Verify other cards still import
-6. Check console for details
-
-### Test Case 5: Round-Trip Test
-1. Draw complete Adventure Spread
-2. Export as "test1.json"
-3. Clear all cards
-4. Import "test1.json"
-5. Export as "test2.json"
-6. Compare test1.json and test2.json
-7. Should be identical (except timestamp)
-
-### Test Case 6: Multiple Spreads
-1. Draw cards in all spreads (Adventure, Five-Card, Three-Card, Journey)
-2. Export reading
-3. Clear everything
-4. Import
-5. Navigate between spreads
-6. Verify all cards restored correctly
-
-## Integration Notes
-
-### Compatibility with Existing Features
-- ✅ Works with replacement toggle (imports saved state)
-- ✅ Works with per-spread deck selection (imports saved selections)
-- ✅ Works with all spread types
-- ✅ Works with dynamic table updates
-- ✅ Compatible with future custom decks
-
-### DOM Dependencies
-The import/export relies on these ID patterns:
-- Card names: `card-name-C.##`
-- Orientations: `card-orientation-C.##`
-- Table cells: `card-list-C.##` and `card-orientation-list-C.##`
-- Meanings: `meaning-{category}-C.##`
-
-**Important**: If HTML IDs change, update import/export functions accordingly.
-
-### Global Variables Used
-- `selectedDecks` - Read and written
-- `isReplaceableEnabled` - Read and written
-- `allCards` - Read only (for validation)
-- `setText()` - Helper function called
-
-## Performance Considerations
-
-### Export Performance
-- **Fast**: O(n) where n = 31 (card slots checked)
-- **Memory**: Minimal - single JSON object
-- **File size**: Typically 1-3 KB per reading
-- **No blocking**: Async file download
-
-### Import Performance  
-- **Fast**: O(n) where n = number of saved cards
-- **Validation**: O(1) lookup per card in allCards object
-- **DOM updates**: Batched, non-blocking
-- **File size limit**: None enforced, but JSON parse has browser limits
-
-## Browser Support
-
-### Required APIs
-- ✅ FileReader API (all modern browsers)
-- ✅ Blob API (all modern browsers)
-- ✅ URL.createObjectURL (all modern browsers)
-- ✅ Download attribute (all modern browsers)
-- ✅ JSON.parse/stringify (all browsers)
-
-### Tested Browsers
-- Chrome 90+ ✅
-- Firefox 88+ ✅
-- Safari 14+ ✅
-- Edge 90+ ✅
-
-### Not Supported
-- Internet Explorer (lacks modern APIs)
-- Very old mobile browsers
-
-## Security Considerations
-
-### File Upload Safety
-- ✅ Only accepts .json files (file picker filter)
-- ✅ Validates JSON structure before processing
-- ✅ No arbitrary code execution
-- ✅ No external network calls
-- ✅ All data stays in browser
-
-### Data Privacy
-- ✅ No server upload - purely client-side
-- ✅ Files stored only where user chooses
-- ✅ No telemetry or tracking
-- ✅ No cloud dependency
-
-## Future Enhancement Ideas
-
-1. **Auto-save**: Periodic localStorage backup
-2. **Cloud sync**: Optional cloud storage integration
-3. **Reading library**: Built-in history view
-4. **Export formats**: PDF, CSV, plain text
-5. **Import preview**: Show cards before importing
-6. **Partial import**: Select which spreads to import
-7. **Merge readings**: Combine multiple readings
-8. **Compression**: Gzip for large reading archives
-9. **Encryption**: Password-protected readings
-10. **Sharing**: Direct link sharing with encoding
-
-## Documentation Provided
-
-1. **IMPORT_EXPORT_GUIDE.md**: Comprehensive user guide
-   - Feature overview
-   - Step-by-step instructions
-   - Use cases and workflows
-   - Troubleshooting
-   - Technical reference
-
-2. **example-reading.json**: Sample export file
-   - Valid format example
-   - Can be imported for testing
-   - Shows data structure
-
-3. **This file**: Implementation details for developers
-
-## Conclusion
-
-The import/export feature is fully implemented and production-ready. It provides:
-- ✅ Complete session persistence
-- ✅ Easy sharing between users
-- ✅ Backup/restore capability
-- ✅ Graceful error handling
-- ✅ Intuitive user interface
-- ✅ Comprehensive documentation
-
-The implementation follows the to-do list specification from README.md and provides a solid foundation for future enhancements like custom deck building and the multi-deck adventure spread.
+1. **Free-Form / Blank Slate Spread (item 6):** The tab exists and slot buttons render. Remaining work: decide slot label behavior (currently shows raw IDs like `C.00`), optionally add an active-slot count control, and wire without-replacement coordination across slots within this spread.
+2. **Cascading Deck Spread (item 7):** Not started. Requires design decisions on cascade logic before implementation.
+3. **Multi-Deck Adventure Spread (item 8):** Not started. Highest complexity; depends on items 6 and 7 being settled first.
+4. **CSS and Visual Improvements (item 9 — final pass):** Finalize all responsive CSS temporary values, audit remaining fixed pixel sizes, wire real card images to replace the placeholder path (`../JSON_Folder/Generic Soldier 4.png`), and do a cross-spread visual consistency pass once all features are in final form.
