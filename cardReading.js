@@ -7,10 +7,12 @@ let selectedDecks = {
 };
 
 let isReplaceableEnabled = false; // Default to "No" to match common Tarot logic
-let isManualSelectionEnabled = false; // Default to "No" to match common Tarot logic
-let targetedSlot = null; // NEW: Tracks the active slot targeted for manual placement
-// Holds the currently-selected sidebar card awaiting assignment
-let pendingSidebarSelection = null;
+// isManualSelectionEnabled, targetedSlot, and pendingSidebarSelection were removed.
+// They supported a sidebar-based manual card placement flow: the GM would target a slot,
+// select a card from the sidebar list, then confirm with an Assign button. The approach
+// was abandoned because Quick Fill covers the same need more cleanly and the sidebar
+// placement UI (sidebar-placement-container, assign-btn, manualSelectionToggle) was never
+// added to the HTML — these variables were silently no-oping against missing elements.
 
 let allDecks = {}; // Combined deck lists from all sources
 let customDeckCart = {}; // Format: { "CardName": quantity }
@@ -1177,8 +1179,6 @@ function clearAllSpreads() {
 
   // 2. Refill the internal javascript decks to full capacity
   initializeWorkingDecks();
-  // Reset manual-selection state to avoid stale targets
-  clearTargetedSlot();
 }
 
 /*
@@ -1558,150 +1558,22 @@ function toggleReplaceable() {
   updateDeckSidebar();
 }
 
-function toggleManualSelection() {
-  const toggle = document.getElementById("manualSelectionToggle");
-  isManualSelectionEnabled = toggle.checked;
-
-  // STEP 1: Show or hide the placement container based on the toggle state
-  const placementContainer = document.getElementById("sidebar-placement-container");
-  if (placementContainer) {
-    placementContainer.style.display = isManualSelectionEnabled ? "block" : "none";
-  }
-
-  // STEP 2: Clear the targeted slot if manual selection is enabled
-  if (isManualSelectionEnabled) {
-    clearTargetedSlot();
-  }
-  console.log(`Manual card selection is now ${isManualSelectionEnabled ? 'enabled' : 'disabled'}`);
-}
-
-// Set the targeted slot for manual card selection
-function setTargetedSlot(cardNum) {
-  // Clear previous target state
-  clearTargetedSlot();
-  targetedSlot = cardNum;
-
-  // Update sidebar target display and enable assign button
-  const display = document.getElementById('target-slot-display');
-  if (display) display.innerHTML = `Target Slot: <b>${cardNum}</b>`;
-  const assignBtn = document.getElementById('assign-btn');
-  if (assignBtn) assignBtn.disabled = false;
-
-  // Highlight the slot button on the board
-  document.querySelectorAll('button[id^="generate-button-"]').forEach(b => b.classList.remove('targeted-slot-active'));
-  const targetBtn = document.getElementById(`generate-button-${cardNum}`);
-  if (targetBtn) targetBtn.classList.add('targeted-slot-active');
-}
-
-// Clears the target slot state and removes highlight styling
-function clearTargetedSlot() {
-  // Remove visual highlights from the previously targeted slot
-  if (targetedSlot !== null) {
-    const oldBtn = document.getElementById(`generate-button-${targetedSlot}`);
-    if (oldBtn) oldBtn.classList.remove('targeted-slot-active');
-  }
-  targetedSlot = null;
-
-  // Reset sidebar selection state and controls
-  pendingSidebarSelection = null;
-  const display = document.getElementById('target-slot-display');
-  if (display) display.innerHTML = `Target Slot: <b>None</b>`;
-  const assignBtn = document.getElementById('assign-btn');
-  if (assignBtn) assignBtn.disabled = true;
-
-  // Clear any sidebar item highlights
-  document.querySelectorAll('.sidebar-card-item').forEach(el => el.style.border = '');
-}
-
-/**
- * Select a card inside the sidebar (does not assign until user clicks Assign)
- * @param {string} cardName
- * @param {HTMLElement} el - the clicked element in the sidebar
- */
-function selectSidebarCard(cardName, el) {
-  pendingSidebarSelection = cardName;
-  // visually mark selection
-  document.querySelectorAll('.sidebar-card-item').forEach(x => x.style.border = '');
-  if (el) el.style.border = '2px solid var(--primary-color)';
-}
-
-function performManualAssign() {
-  if (!targetedSlot || !pendingSidebarSelection) {
-    alert("Please select a slot and a card.");
-    return;
-  }
-  // assignCardFromSidebar uses the global targetedSlot
-  assignCardFromSidebar(pendingSidebarSelection);
-  // clear pending state and UI
-  pendingSidebarSelection = null;
-  clearTargetedSlot();
-}
-
-
-/**
- * Directly assigns a card clicked in the sidebar to the targeted slot on the board.
- * Adjusted to match the AllCards.json schema.
- */
-function assignCardFromSidebar(cardName) {
-  // STEP 1: Verify active target slot and mode
-  // 1.1 If no slot is actively targeted, open the card glossary preview instead
-  if (!targetedSlot) {
-    openAllCardPreview(cardName);
-    return;
-  }
-
-  // STEP 2: Resolve spread and deck states
-  // 2.1 Get active slot ID and its corresponding spread key
-  const cardNum = targetedSlot;
-  const spreadKey = getSpreadKey(cardNum);
-  // 2.2 Get selected deck name for this spread
-  const deckName = selectedDecks[spreadKey];
-  // 2.3 Select the correct deck array based on replaceability mode
-  const deckToUse = isReplaceableEnabled ? allDecks[deckName] : workingDecks[spreadKey];
-
-  // STEP 3: Verify card availability
-  // 3.1 Find the index of the clicked card in the current deck state
-  const index = deckToUse.indexOf(cardName);
-  // 3.2 Alert user and halt if the card is exhausted or unavailable
-  if (index === -1) {
-    alert(`The card "${cardName}" is exhausted or unavailable in the current deck.`);
-    return;
-  }
-
-  // STEP 4: Retrieve card data and resolve orientation
-  // 4.1 Get full card object from the AllCards database
-  const cardData = allCards.cards[cardName];
-  // 4.2 Determine placement orientation based on sidebar selector
-  const orientationSelect = document.getElementById('sidebar-placement-orientation');
-  const orientationText = orientationSelect ? orientationSelect.value : 'Upright';
-  // 4.3 Set lowercase key for lookup against the JSON meanings schema
-  const orientationKey = orientationText === 'Upright' ? 'upright' : 'reverse';
-
-  // STEP 5: Update detail panel UI
-  // 5.1 Set name, orientation, description, and credit elements
-  setText(`card-name-${cardNum}`, cardData.name);
-  setText(`card-orientation-${cardNum}`, orientationText);
-  setText(`card-description-${cardNum}`, cardData.description || 'No description provided.');
-  setText(`card-credit-${cardNum}`, cardData.credit || 'WotC Card Guide');
-
-  // STEP 6: Update spread table display
-  // 6.1 Get references to table row cells
-  const nameCell = document.getElementById(`card-list-${cardNum}`);
-  const orientCell = document.getElementById(`card-orientation-list-${cardNum}`);
-  // 6.2 Populate table cells with name and orientation
-  if (nameCell) nameCell.textContent = cardData.name;
-  if (orientCell) orientCell.textContent = orientationText;
-
-  // STEP 7: Update deck quantities and UI states
-  // 8.1 Consume card from the working deck if replacement is disabled
-  if (!isReplaceableEnabled) {
-    workingDecks[spreadKey].splice(index, 1);
-  }
-  // 8.2 Clear active slot targeting highlights
-  clearTargetedSlot();
-  // 8.3 Synchronize the deck inventory sidebar display
-  updateDeckSidebar();
-}
+// toggleManualSelection, setTargetedSlot, clearTargetedSlot, selectSidebarCard,
+// performManualAssign, and assignCardFromSidebar were removed.
+//
+// These functions implemented a sidebar-based manual card placement workflow:
+//   1. GM enables a "Manual Selection" toggle (manualSelectionToggle checkbox).
+//   2. GM clicks "Draw a Card" on a slot — instead of drawing, the slot is highlighted
+//      with a pulsing gold animation (.targeted-slot-active) and stored in targetedSlot.
+//   3. GM clicks a card name in the sidebar list — stored in pendingSidebarSelection.
+//   4. GM clicks an Assign button in a sidebar placement panel — assignCardFromSidebar
+//      reads targetedSlot + pendingSidebarSelection, places the card, and clears state.
+//
+// Why removed: The sidebar placement UI (sidebar-placement-container, assign-btn,
+// manualSelectionToggle, sidebar-placement-orientation) was never added to the HTML,
+// so all functions were silently no-oping against missing elements. Quick Fill replaced
+// this use case entirely — it provides the same manual assignment capability via a
+// cleaner overlay panel without requiring a two-global intermediate state machine.
 
 
 // ========== DECK SIDEBAR FUNCTIONS (OPTIMIZED) ==========
