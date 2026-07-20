@@ -391,9 +391,7 @@ function openAllCardPreview(cardName) {
   // STEP 3: Populate header and image column
   // 3.1 Set the card name in the preview header
   setText('preview-name', cardData.name);
-  // 3.2 Set the card credit/artist attribution
-  setText('preview-credit', cardData.credit || 'Unknown');
-  // 3.3 Set the card description
+  // 3.2 Set the card description
   setText('preview-description', cardData.description || 'No description provided.');
   
   // STEP 4: Define helper function to extract meanings by orientation
@@ -652,8 +650,6 @@ function placeCard(cardNum, cardName, orientationText) {
   setText(`card-orientation-${cardNum}`, orientationText);
   // 3.3 Set the flavour description
   setText(`card-description-${cardNum}`, cardData.description || '');
-  // 3.4 Set image credit line
-  setText(`card-credit-${cardNum}`, cardData.credit || '');
 
   // STEP 4: Update the spread summary table row for this slot
   // 4.1 Get the name cell in the table
@@ -1115,8 +1111,6 @@ function generateCard(cardNum) {
   setText(`card-orientation-${cardNum}`, orientationText);
   // 7.3 Set the description in the detail panel
   setText(`card-description-${cardNum}`, cardData.description);
-  // 7.4 Set the credit in the detail panel
-  setText(`card-credit-${cardNum}`, cardData.credit);
   
   // STEP 8: Update table cells for this card slot
   // 8.1 Get references to the table cells using unified card ID system
@@ -1168,11 +1162,7 @@ function clearAllSpreads() {
     setText(`card-name-${cardNum}`, 'Card Name');
     setText(`card-orientation-${cardNum}`, 'Upright or Reversed');
     setText(`card-description-${cardNum}`, '{@i Description of the card.}');
-    setText(`card-credit-${cardNum}`, 'Credit Name');
-    
-    const imgEl = document.getElementById(`card-image-${cardNum}`);
-    if (imgEl) imgEl.src = '../JSON_Folder/Generic Soldier 4.png';
-    
+
     const categories = ['person', 'creature', 'place', 'treasure', 'situation'];
     categories.forEach(cat => setText(`meaning-${cat}-${cardNum}`, 'Meaning for orientation'));
   }
@@ -1629,8 +1619,9 @@ function updateDeckSidebar() {
     // How many copies of this card are on the spread right now (random draws + Quick Fill)
     const placed = placedCounts[cardName] || 0;
     const isExhausted = left === 0;
-    // Over-quota: the GM has placed more copies than this deck contains
-    const isOverQuota = placed > total;
+    // Over-quota only applies in non-replaceable mode: in replaceable mode the same card
+    // appearing in multiple slots is expected and is not a mismatch.
+    const isOverQuota = !isReplaceableEnabled && placed > total;
 
     // Build the item class list — over-quota overrides exhausted styling
     let itemClass = isExhausted ? 'exhausted' : 'available';

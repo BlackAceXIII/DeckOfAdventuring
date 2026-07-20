@@ -103,7 +103,6 @@ Every card slot has this fixed set of IDs. All are written by `generateCard()` a
 | `card-name-C.##` | Card name string | `generateCard`, `placeCard`, `importReading` |
 | `card-orientation-C.##` | `'Upright'` or `'Reverse'` (string) | `generateCard`, `placeCard`, `importReading` |
 | `card-description-C.##` | Flavour description text | `generateCard`, `placeCard` |
-| `card-credit-C.##` | Attribution string | `generateCard`, `placeCard` |
 | `card-list-C.##` | Card name in summary table | `generateCard`, `placeCard`, `clearAllSpreads` |
 | `card-orientation-list-C.##` | Orientation in summary table | `generateCard`, `placeCard`, `clearAllSpreads` |
 | `meaning-person-C.##` | Person meaning text | `generateCard`, `placeCard`, `importReading`, `clearAllSpreads` |
@@ -146,7 +145,7 @@ three-card-deck-selector    journey-deck-selector
 
 ### Deck Forge Preview Panel IDs
 ```
-preview-name        preview-credit      preview-description
+preview-name        preview-description
 preview-up-person   preview-rev-person
 preview-up-creature preview-rev-creature
 preview-up-place    preview-rev-place
@@ -192,7 +191,7 @@ openCard(evt, cardNum, buttonElement)
        ├─ getSelectedDeckForSpread(key)  → deckName
        ├─ splice from workingDecks[key]  (non-replaceable mode)
        ├─ updateDeckSidebar()            (non-replaceable only, after splice)
-       ├─ writes to card-name-*, card-orientation-*, card-description-*, card-credit-*
+       ├─ writes to card-name-*, card-orientation-*, card-description-*
        ├─ writes to card-list-*, card-orientation-list-*
        └─ writes to meaning-{htmlId}-*  (all five categories)
 ```
@@ -205,7 +204,7 @@ openQuickFill()
 
 applyQuickFill()
   └─ for each row: placeCard(cardNum, cardName, orientationText)
-       ├─ writes to card-name-*, card-orientation-*, card-description-*, card-credit-*
+       ├─ writes to card-name-*, card-orientation-*, card-description-*
        ├─ writes to card-list-*, card-orientation-list-*
        └─ writes to meaning-{htmlId}-*
   └─ closeQuickFill() → updateDeckSidebar()
@@ -319,7 +318,7 @@ function exampleFunction() {
 ```
 
 **Schema constraints:**
-- `credit` key exists but is often an empty string — always use `cardData.credit || 'WotC Card Guide'` as fallback
+- `credit` key exists in the JSON but is no longer read by the page — image and credit stubs were removed; the field is retained in the data files only.
 - Meaning category keys are always camelCase: `creatureTrap` (not `creature_trap`)
 - Meaning value keys are always lowercase: `upright`, `reverse`
 - Access cards via `allCards.cards[cardName]`, not `allCards[cardName]`

@@ -75,7 +75,7 @@ Notes:
 
 ## Known Limitations
 
-- Card images currently point to a placeholder path (`../JSON_Folder/Generic Soldier 4.png`). Real card images are not yet wired to individual cards. (Tracked under **item 9: CSS and Visual Improvements**.)
+- Card images are not currently displayed. The card detail panels contain no image elements; if images are added in the future, the HTML, JS, and JSON data will all need to be updated.
 
 ---
 
@@ -240,8 +240,8 @@ A final polish pass covering responsive layout, sizing, and visual consistency a
 - Audit fixed pixel values remaining in the stylesheet and convert any that should scale (font sizes, spacing, component dimensions) to `clamp()`, `rem`, or percentage-based units.
 - Card slot buttons (`.tab-grid .tablinks`) need confirmed final dimensions that work across all four spread layouts at both mobile and desktop widths.
 - Review all spread tab layouts for visual consistency — padding, gap, and font size should feel uniform across Adventure, Five-Card, Three-Card, Journey, Blank Slate, and Deck Forge tabs.
-- Wire real card images into the card detail panels, replacing the current placeholder path (`../JSON_Folder/Generic Soldier 4.png`). Each card in `AllCards.json` should reference its own image.
 - Evaluate and resolve any remaining visual inconsistencies introduced when new features (Free-Form Spread, Cascading Deck, Multi-Deck Adventure) were added.
+- If card images are sourced in the future, add `<img>` elements to the card detail panels, add a `credit` display if attribution is required, and map each `AllCards.json` entry to its image path.
 
 **Dependencies:**
 - Should be done **last** — all feature work must be in its final form before visual decisions are finalized.
