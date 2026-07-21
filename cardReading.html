@@ -352,9 +352,62 @@
 
 		<!-- Blank Slate Spread -->
 		<div id="blank-slate-spread" class="spread-tabcontent">
-			<h2>Blank Slate Spread - Draw Cards Freely</h2>
-			<div id="blank-slate-grid" class="blank-slate-grid">
-				<!-- Card slots will be populated here by JavaScript -->
+			<h2>Blank Slate Spread</h2>
+			<div id="blankSlate-deck-selector" class="spread-deck-selector"></div>
+			<div class="table-grid-container">
+				<div class="table-section">
+					<table class="card-list" border="1">
+						<tr>
+							<th>Slot</th>
+							<th>Card Name</th>
+							<th>Orientation</th>
+						</tr>
+						<tr><td>Slot 1</td><td id="card-list-C.31">—</td><td id="card-orientation-list-C.31">—</td></tr>
+						<tr><td>Slot 2</td><td id="card-list-C.32">—</td><td id="card-orientation-list-C.32">—</td></tr>
+						<tr><td>Slot 3</td><td id="card-list-C.33">—</td><td id="card-orientation-list-C.33">—</td></tr>
+						<tr><td>Slot 4</td><td id="card-list-C.34">—</td><td id="card-orientation-list-C.34">—</td></tr>
+						<tr><td>Slot 5</td><td id="card-list-C.35">—</td><td id="card-orientation-list-C.35">—</td></tr>
+						<tr><td>Slot 6</td><td id="card-list-C.36">—</td><td id="card-orientation-list-C.36">—</td></tr>
+						<tr><td>Slot 7</td><td id="card-list-C.37">—</td><td id="card-orientation-list-C.37">—</td></tr>
+						<tr><td>Slot 8</td><td id="card-list-C.38">—</td><td id="card-orientation-list-C.38">—</td></tr>
+						<tr><td>Slot 9</td><td id="card-list-C.39">—</td><td id="card-orientation-list-C.39">—</td></tr>
+						<tr><td>Slot 10</td><td id="card-list-C.40">—</td><td id="card-orientation-list-C.40">—</td></tr>
+						<tr><td>Slot 11</td><td id="card-list-C.41">—</td><td id="card-orientation-list-C.41">—</td></tr>
+						<tr><td>Slot 12</td><td id="card-list-C.42">—</td><td id="card-orientation-list-C.42">—</td></tr>
+						<tr><td>Slot 13</td><td id="card-list-C.43">—</td><td id="card-orientation-list-C.43">—</td></tr>
+						<tr><td>Slot 14</td><td id="card-list-C.44">—</td><td id="card-orientation-list-C.44">—</td></tr>
+						<tr><td>Slot 15</td><td id="card-list-C.45">—</td><td id="card-orientation-list-C.45">—</td></tr>
+					</table>
+				</div>
+				<div class="grid-section">
+					<p>Click on the x button in the top right corner to close the current tab:</p>
+					<div class="tab-grid">
+						<div class="tab-row">
+							<button class="tablinks" id="bs-btn-C.31" onclick="openCard(event, 'C.31', this)">1<br>blank</button>
+							<button class="tablinks" id="bs-btn-C.32" onclick="openCard(event, 'C.32', this)">2<br>blank</button>
+							<button class="tablinks" id="bs-btn-C.33" onclick="openCard(event, 'C.33', this)">3<br>blank</button>
+							<button class="tablinks" id="bs-btn-C.34" onclick="openCard(event, 'C.34', this)">4<br>blank</button>
+							<button class="tablinks" id="bs-btn-C.35" onclick="openCard(event, 'C.35', this)">5<br>blank</button>
+						</div>
+						<div class="tab-row">
+							<button class="tablinks" id="bs-btn-C.36" onclick="openCard(event, 'C.36', this)">6<br>blank</button>
+							<button class="tablinks" id="bs-btn-C.37" onclick="openCard(event, 'C.37', this)">7<br>blank</button>
+							<button class="tablinks" id="bs-btn-C.38" onclick="openCard(event, 'C.38', this)">8<br>blank</button>
+							<button class="tablinks" id="bs-btn-C.39" onclick="openCard(event, 'C.39', this)">9<br>blank</button>
+							<button class="tablinks" id="bs-btn-C.40" onclick="openCard(event, 'C.40', this)">10<br>blank</button>
+						</div>
+						<div class="tab-row">
+							<button class="tablinks" id="bs-btn-C.41" onclick="openCard(event, 'C.41', this)">11<br>blank</button>
+							<button class="tablinks" id="bs-btn-C.42" onclick="openCard(event, 'C.42', this)">12<br>blank</button>
+							<button class="tablinks" id="bs-btn-C.43" onclick="openCard(event, 'C.43', this)">13<br>blank</button>
+							<button class="tablinks" id="bs-btn-C.44" onclick="openCard(event, 'C.44', this)">14<br>blank</button>
+							<button class="tablinks" id="bs-btn-C.45" onclick="openCard(event, 'C.45', this)">15<br>blank</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div>
+				<button class="button button1" onclick="redrawBlankSlateSpread()">Redraw All Cards</button>
 			</div>
 		</div>
 
@@ -980,6 +1033,248 @@
 				<h5>Place: <span id="meaning-place-C.30">Meaning for orientation</span></h5>
 				<h5>Treasure: <span id="meaning-treasure-C.30">Meaning for orientation</span></h5>
 				<h5>Situation: <span id="meaning-situation-C.30">Meaning for orientation</span></h5>
+			</div>
+		</div>
+
+		<!-- Blank Slate card panels: C.31-C.45 (Slots 1-15) -->
+		<div id="C.31" class="tabcontent">
+			<button id="generate-button-C.31">Draw a Card</button>
+			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+			<h3>Card: <span id="card-name-C.31">Card Name</span></h3>
+			<div></div>
+			<h4>Card Orientation: <span id="card-orientation-C.31">Upright or Reversed</span></h4>
+			<h4>Description: <span id="card-description-C.31">{@i Description of the card.}</span></h4>
+			<h4>Meanings</h4>
+			<div id="meanings-C.31">
+				<h5>Person: <span id="meaning-person-C.31">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature-C.31">Meaning for orientation</span></h5>
+				<h5>Place: <span id="meaning-place-C.31">Meaning for orientation</span></h5>
+				<h5>Treasure: <span id="meaning-treasure-C.31">Meaning for orientation</span></h5>
+				<h5>Situation: <span id="meaning-situation-C.31">Meaning for orientation</span></h5>
+			</div>
+		</div>
+		<div id="C.32" class="tabcontent">
+			<button id="generate-button-C.32">Draw a Card</button>
+			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+			<h3>Card: <span id="card-name-C.32">Card Name</span></h3>
+			<div></div>
+			<h4>Card Orientation: <span id="card-orientation-C.32">Upright or Reversed</span></h4>
+			<h4>Description: <span id="card-description-C.32">{@i Description of the card.}</span></h4>
+			<h4>Meanings</h4>
+			<div id="meanings-C.32">
+				<h5>Person: <span id="meaning-person-C.32">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature-C.32">Meaning for orientation</span></h5>
+				<h5>Place: <span id="meaning-place-C.32">Meaning for orientation</span></h5>
+				<h5>Treasure: <span id="meaning-treasure-C.32">Meaning for orientation</span></h5>
+				<h5>Situation: <span id="meaning-situation-C.32">Meaning for orientation</span></h5>
+			</div>
+		</div>
+		<div id="C.33" class="tabcontent">
+			<button id="generate-button-C.33">Draw a Card</button>
+			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+			<h3>Card: <span id="card-name-C.33">Card Name</span></h3>
+			<div></div>
+			<h4>Card Orientation: <span id="card-orientation-C.33">Upright or Reversed</span></h4>
+			<h4>Description: <span id="card-description-C.33">{@i Description of the card.}</span></h4>
+			<h4>Meanings</h4>
+			<div id="meanings-C.33">
+				<h5>Person: <span id="meaning-person-C.33">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature-C.33">Meaning for orientation</span></h5>
+				<h5>Place: <span id="meaning-place-C.33">Meaning for orientation</span></h5>
+				<h5>Treasure: <span id="meaning-treasure-C.33">Meaning for orientation</span></h5>
+				<h5>Situation: <span id="meaning-situation-C.33">Meaning for orientation</span></h5>
+			</div>
+		</div>
+		<div id="C.34" class="tabcontent">
+			<button id="generate-button-C.34">Draw a Card</button>
+			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+			<h3>Card: <span id="card-name-C.34">Card Name</span></h3>
+			<div></div>
+			<h4>Card Orientation: <span id="card-orientation-C.34">Upright or Reversed</span></h4>
+			<h4>Description: <span id="card-description-C.34">{@i Description of the card.}</span></h4>
+			<h4>Meanings</h4>
+			<div id="meanings-C.34">
+				<h5>Person: <span id="meaning-person-C.34">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature-C.34">Meaning for orientation</span></h5>
+				<h5>Place: <span id="meaning-place-C.34">Meaning for orientation</span></h5>
+				<h5>Treasure: <span id="meaning-treasure-C.34">Meaning for orientation</span></h5>
+				<h5>Situation: <span id="meaning-situation-C.34">Meaning for orientation</span></h5>
+			</div>
+		</div>
+		<div id="C.35" class="tabcontent">
+			<button id="generate-button-C.35">Draw a Card</button>
+			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+			<h3>Card: <span id="card-name-C.35">Card Name</span></h3>
+			<div></div>
+			<h4>Card Orientation: <span id="card-orientation-C.35">Upright or Reversed</span></h4>
+			<h4>Description: <span id="card-description-C.35">{@i Description of the card.}</span></h4>
+			<h4>Meanings</h4>
+			<div id="meanings-C.35">
+				<h5>Person: <span id="meaning-person-C.35">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature-C.35">Meaning for orientation</span></h5>
+				<h5>Place: <span id="meaning-place-C.35">Meaning for orientation</span></h5>
+				<h5>Treasure: <span id="meaning-treasure-C.35">Meaning for orientation</span></h5>
+				<h5>Situation: <span id="meaning-situation-C.35">Meaning for orientation</span></h5>
+			</div>
+		</div>
+		<div id="C.36" class="tabcontent">
+			<button id="generate-button-C.36">Draw a Card</button>
+			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+			<h3>Card: <span id="card-name-C.36">Card Name</span></h3>
+			<div></div>
+			<h4>Card Orientation: <span id="card-orientation-C.36">Upright or Reversed</span></h4>
+			<h4>Description: <span id="card-description-C.36">{@i Description of the card.}</span></h4>
+			<h4>Meanings</h4>
+			<div id="meanings-C.36">
+				<h5>Person: <span id="meaning-person-C.36">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature-C.36">Meaning for orientation</span></h5>
+				<h5>Place: <span id="meaning-place-C.36">Meaning for orientation</span></h5>
+				<h5>Treasure: <span id="meaning-treasure-C.36">Meaning for orientation</span></h5>
+				<h5>Situation: <span id="meaning-situation-C.36">Meaning for orientation</span></h5>
+			</div>
+		</div>
+		<div id="C.37" class="tabcontent">
+			<button id="generate-button-C.37">Draw a Card</button>
+			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+			<h3>Card: <span id="card-name-C.37">Card Name</span></h3>
+			<div></div>
+			<h4>Card Orientation: <span id="card-orientation-C.37">Upright or Reversed</span></h4>
+			<h4>Description: <span id="card-description-C.37">{@i Description of the card.}</span></h4>
+			<h4>Meanings</h4>
+			<div id="meanings-C.37">
+				<h5>Person: <span id="meaning-person-C.37">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature-C.37">Meaning for orientation</span></h5>
+				<h5>Place: <span id="meaning-place-C.37">Meaning for orientation</span></h5>
+				<h5>Treasure: <span id="meaning-treasure-C.37">Meaning for orientation</span></h5>
+				<h5>Situation: <span id="meaning-situation-C.37">Meaning for orientation</span></h5>
+			</div>
+		</div>
+		<div id="C.38" class="tabcontent">
+			<button id="generate-button-C.38">Draw a Card</button>
+			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+			<h3>Card: <span id="card-name-C.38">Card Name</span></h3>
+			<div></div>
+			<h4>Card Orientation: <span id="card-orientation-C.38">Upright or Reversed</span></h4>
+			<h4>Description: <span id="card-description-C.38">{@i Description of the card.}</span></h4>
+			<h4>Meanings</h4>
+			<div id="meanings-C.38">
+				<h5>Person: <span id="meaning-person-C.38">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature-C.38">Meaning for orientation</span></h5>
+				<h5>Place: <span id="meaning-place-C.38">Meaning for orientation</span></h5>
+				<h5>Treasure: <span id="meaning-treasure-C.38">Meaning for orientation</span></h5>
+				<h5>Situation: <span id="meaning-situation-C.38">Meaning for orientation</span></h5>
+			</div>
+		</div>
+		<div id="C.39" class="tabcontent">
+			<button id="generate-button-C.39">Draw a Card</button>
+			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+			<h3>Card: <span id="card-name-C.39">Card Name</span></h3>
+			<div></div>
+			<h4>Card Orientation: <span id="card-orientation-C.39">Upright or Reversed</span></h4>
+			<h4>Description: <span id="card-description-C.39">{@i Description of the card.}</span></h4>
+			<h4>Meanings</h4>
+			<div id="meanings-C.39">
+				<h5>Person: <span id="meaning-person-C.39">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature-C.39">Meaning for orientation</span></h5>
+				<h5>Place: <span id="meaning-place-C.39">Meaning for orientation</span></h5>
+				<h5>Treasure: <span id="meaning-treasure-C.39">Meaning for orientation</span></h5>
+				<h5>Situation: <span id="meaning-situation-C.39">Meaning for orientation</span></h5>
+			</div>
+		</div>
+		<div id="C.40" class="tabcontent">
+			<button id="generate-button-C.40">Draw a Card</button>
+			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+			<h3>Card: <span id="card-name-C.40">Card Name</span></h3>
+			<div></div>
+			<h4>Card Orientation: <span id="card-orientation-C.40">Upright or Reversed</span></h4>
+			<h4>Description: <span id="card-description-C.40">{@i Description of the card.}</span></h4>
+			<h4>Meanings</h4>
+			<div id="meanings-C.40">
+				<h5>Person: <span id="meaning-person-C.40">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature-C.40">Meaning for orientation</span></h5>
+				<h5>Place: <span id="meaning-place-C.40">Meaning for orientation</span></h5>
+				<h5>Treasure: <span id="meaning-treasure-C.40">Meaning for orientation</span></h5>
+				<h5>Situation: <span id="meaning-situation-C.40">Meaning for orientation</span></h5>
+			</div>
+		</div>
+		<div id="C.41" class="tabcontent">
+			<button id="generate-button-C.41">Draw a Card</button>
+			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+			<h3>Card: <span id="card-name-C.41">Card Name</span></h3>
+			<div></div>
+			<h4>Card Orientation: <span id="card-orientation-C.41">Upright or Reversed</span></h4>
+			<h4>Description: <span id="card-description-C.41">{@i Description of the card.}</span></h4>
+			<h4>Meanings</h4>
+			<div id="meanings-C.41">
+				<h5>Person: <span id="meaning-person-C.41">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature-C.41">Meaning for orientation</span></h5>
+				<h5>Place: <span id="meaning-place-C.41">Meaning for orientation</span></h5>
+				<h5>Treasure: <span id="meaning-treasure-C.41">Meaning for orientation</span></h5>
+				<h5>Situation: <span id="meaning-situation-C.41">Meaning for orientation</span></h5>
+			</div>
+		</div>
+		<div id="C.42" class="tabcontent">
+			<button id="generate-button-C.42">Draw a Card</button>
+			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+			<h3>Card: <span id="card-name-C.42">Card Name</span></h3>
+			<div></div>
+			<h4>Card Orientation: <span id="card-orientation-C.42">Upright or Reversed</span></h4>
+			<h4>Description: <span id="card-description-C.42">{@i Description of the card.}</span></h4>
+			<h4>Meanings</h4>
+			<div id="meanings-C.42">
+				<h5>Person: <span id="meaning-person-C.42">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature-C.42">Meaning for orientation</span></h5>
+				<h5>Place: <span id="meaning-place-C.42">Meaning for orientation</span></h5>
+				<h5>Treasure: <span id="meaning-treasure-C.42">Meaning for orientation</span></h5>
+				<h5>Situation: <span id="meaning-situation-C.42">Meaning for orientation</span></h5>
+			</div>
+		</div>
+		<div id="C.43" class="tabcontent">
+			<button id="generate-button-C.43">Draw a Card</button>
+			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+			<h3>Card: <span id="card-name-C.43">Card Name</span></h3>
+			<div></div>
+			<h4>Card Orientation: <span id="card-orientation-C.43">Upright or Reversed</span></h4>
+			<h4>Description: <span id="card-description-C.43">{@i Description of the card.}</span></h4>
+			<h4>Meanings</h4>
+			<div id="meanings-C.43">
+				<h5>Person: <span id="meaning-person-C.43">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature-C.43">Meaning for orientation</span></h5>
+				<h5>Place: <span id="meaning-place-C.43">Meaning for orientation</span></h5>
+				<h5>Treasure: <span id="meaning-treasure-C.43">Meaning for orientation</span></h5>
+				<h5>Situation: <span id="meaning-situation-C.43">Meaning for orientation</span></h5>
+			</div>
+		</div>
+		<div id="C.44" class="tabcontent">
+			<button id="generate-button-C.44">Draw a Card</button>
+			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+			<h3>Card: <span id="card-name-C.44">Card Name</span></h3>
+			<div></div>
+			<h4>Card Orientation: <span id="card-orientation-C.44">Upright or Reversed</span></h4>
+			<h4>Description: <span id="card-description-C.44">{@i Description of the card.}</span></h4>
+			<h4>Meanings</h4>
+			<div id="meanings-C.44">
+				<h5>Person: <span id="meaning-person-C.44">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature-C.44">Meaning for orientation</span></h5>
+				<h5>Place: <span id="meaning-place-C.44">Meaning for orientation</span></h5>
+				<h5>Treasure: <span id="meaning-treasure-C.44">Meaning for orientation</span></h5>
+				<h5>Situation: <span id="meaning-situation-C.44">Meaning for orientation</span></h5>
+			</div>
+		</div>
+		<div id="C.45" class="tabcontent">
+			<button id="generate-button-C.45">Draw a Card</button>
+			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
+			<h3>Card: <span id="card-name-C.45">Card Name</span></h3>
+			<div></div>
+			<h4>Card Orientation: <span id="card-orientation-C.45">Upright or Reversed</span></h4>
+			<h4>Description: <span id="card-description-C.45">{@i Description of the card.}</span></h4>
+			<h4>Meanings</h4>
+			<div id="meanings-C.45">
+				<h5>Person: <span id="meaning-person-C.45">Meaning for orientation</span></h5>
+				<h5>Creature or Trap: <span id="meaning-creature-C.45">Meaning for orientation</span></h5>
+				<h5>Place: <span id="meaning-place-C.45">Meaning for orientation</span></h5>
+				<h5>Treasure: <span id="meaning-treasure-C.45">Meaning for orientation</span></h5>
+				<h5>Situation: <span id="meaning-situation-C.45">Meaning for orientation</span></h5>
 			</div>
 		</div>
 

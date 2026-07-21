@@ -3,7 +3,8 @@ let selectedDecks = {
   adventure: 'Default',
   fiveCard: 'Default',
   threeCard: 'Default',
-  journey: 'Default'
+  journey: 'Default',
+  blankSlate: 'Default'
 };
 
 let isReplaceableEnabled = false; // Default to "No" to match common Tarot logic
@@ -23,7 +24,8 @@ let workingDecks = {
   adventure: [],    // C.00-C.08
   fiveCard: [],     // C.09-C.13
   threeCard: [],    // C.14-C.16
-  journey: []       // C.17-C.30
+  journey: [],      // C.17-C.30
+  blankSlate: []    // C.31-C.45
 };
 
 const CARD_DIR = './CardsJsons';
@@ -39,7 +41,12 @@ const drawData = {
   "C.21": { cType: "" }, "C.22": { cType: "" }, "C.23": { cType: "" },
   "C.24": { cType: "" }, "C.25": { cType: "" }, "C.26": { cType: "" },
   "C.27": { cType: "" }, "C.28": { cType: "" }, "C.29": { cType: "" },
-  "C.30": { cType: "" }
+  "C.30": { cType: "" },
+  "C.31": { cType: "" }, "C.32": { cType: "" }, "C.33": { cType: "" },
+  "C.34": { cType: "" }, "C.35": { cType: "" }, "C.36": { cType: "" },
+  "C.37": { cType: "" }, "C.38": { cType: "" }, "C.39": { cType: "" },
+  "C.40": { cType: "" }, "C.41": { cType: "" }, "C.42": { cType: "" },
+  "C.43": { cType: "" }, "C.44": { cType: "" }, "C.45": { cType: "" }
 };
 
 const SPREAD_SLOTS = {
@@ -81,6 +88,16 @@ const SPREAD_SLOTS = {
     { id: 'C.28', label: 'Stage 5 Reward' },
     { id: 'C.29', label: 'Stage 6 Reward' },
     { id: 'C.30', label: 'Stage 7 Reward' }
+  ],
+  'blank-slate-spread': [
+    { id: 'C.31', label: 'Slot 1' },  { id: 'C.32', label: 'Slot 2' },
+    { id: 'C.33', label: 'Slot 3' },  { id: 'C.34', label: 'Slot 4' },
+    { id: 'C.35', label: 'Slot 5' },  { id: 'C.36', label: 'Slot 6' },
+    { id: 'C.37', label: 'Slot 7' },  { id: 'C.38', label: 'Slot 8' },
+    { id: 'C.39', label: 'Slot 9' },  { id: 'C.40', label: 'Slot 10' },
+    { id: 'C.41', label: 'Slot 11' }, { id: 'C.42', label: 'Slot 12' },
+    { id: 'C.43', label: 'Slot 13' }, { id: 'C.44', label: 'Slot 14' },
+    { id: 'C.45', label: 'Slot 15' }
   ]
 };
 
@@ -89,10 +106,11 @@ const SPREAD_SLOTS = {
 // - Card detail panels: card-name-C.## and card-orientation-C.##
 // - Spread tables: card-list-C.## and card-orientation-list-C.##
 // This allows universal selectors that work across all spreads:
-//   Adventure Spread: C.00-C.08
-//   Five-Card Spread: C.09-C.13
-//   Three-Card Spread: C.14-C.16
-//   Journey Spread: C.17-C.30
+//   Adventure Spread:   C.00-C.08
+//   Five-Card Spread:   C.09-C.13
+//   Three-Card Spread:  C.14-C.16
+//   Journey Spread:     C.17-C.30
+//   Blank Slate Spread: C.31-C.45
 // The unified naming eliminates the need for spread-specific prefixes
 // and makes getElementById() lookups fast and efficient.
 
@@ -142,9 +160,7 @@ async function fetchData() {
 
     // 7.2 Populate the Deck Forge library with card buttons
     populateAllCardsSpread(allExistingCards);
-    // 7.3 Populate the blank slate spread with card slots
-    populateBlankSlateSpread();
-    // 7.4 Seed the shared datalist with all card names as an initial fallback
+    // 7.3 Seed the shared datalist with all card names as an initial fallback
     // openQuickFill() replaces these with deck-filtered options each time the panel opens
     const datalist = document.getElementById('card-names-list');
     if (datalist) {
@@ -182,13 +198,14 @@ function getSpreadKey(cardNum) {
   if (cardNumber >= 9 && cardNumber <= 13) return 'fiveCard';
   if (cardNumber >= 14 && cardNumber <= 16) return 'threeCard';
   if (cardNumber >= 17 && cardNumber <= 30) return 'journey';
+  if (cardNumber >= 31 && cardNumber <= 45) return 'blankSlate';
   return 'adventure'; // default
 }
 
 // IMPROVED: Robust initialization of working decks
 function initializeWorkingDecks() {
   // STEP 1: Define all spread types to initialize
-  const spreads = ['adventure', 'fiveCard', 'threeCard', 'journey'];
+  const spreads = ['adventure', 'fiveCard', 'threeCard', 'journey', 'blankSlate'];
   
   // STEP 2: Initialize a working copy of the deck for each spread
   spreads.forEach(spread => {
@@ -227,16 +244,18 @@ function populateDropdown(deckLists) {
   selectedDecks.fiveCard = defaultDeck;
   selectedDecks.threeCard = defaultDeck;
   selectedDecks.journey = defaultDeck;
+  selectedDecks.blankSlate = defaultDeck;
   // 1.3 Initialize the working decks (copies for card drawing)
   initializeWorkingDecks();
 
   // STEP 2: Define metadata for each spread's deck selector
   // 2.1 Create configuration objects with spread info and HTML IDs
   const spreads = [
-    { key: 'adventure', id: 'deck-select-adventure', label: 'Adventure Spread' },
-    { key: 'fiveCard', id: 'deck-select-fiveCard', label: 'Five-Card Spread' },
-    { key: 'threeCard', id: 'deck-select-threeCard', label: 'Three-Card Spread' },
-    { key: 'journey', id: 'deck-select-journey', label: 'Journey Spread' }
+    { key: 'adventure',  id: 'deck-select-adventure',  label: 'Adventure Spread' },
+    { key: 'fiveCard',   id: 'deck-select-fiveCard',   label: 'Five-Card Spread' },
+    { key: 'threeCard',  id: 'deck-select-threeCard',  label: 'Three-Card Spread' },
+    { key: 'journey',    id: 'deck-select-journey',    label: 'Journey Spread' },
+    { key: 'blankSlate', id: 'deck-select-blankSlate', label: 'Blank Slate Spread' }
   ];
 
   // STEP 3: Create dropdown selectors for each spread
@@ -362,18 +381,16 @@ function populateAllCardsSpread(allCardsArray) {
   });
 }
 
-function populateBlankSlateSpread() {
-  const grid = document.getElementById('blank-slate-grid');
-  grid.innerHTML = ''; // Clear any existing content
+// populateBlankSlateSpread() was removed. The blank slate now uses static HTML panels
+// (C.31-C.45) with a fixed 5×3 grid layout, matching the structure of all other spreads.
 
-  for (let i = 0; i <= 16; i++) {
-    const cardNum = i < 10 ? `C.0${i}` : `C.${i}`;
-    const button = document.createElement('button');
-    button.className = 'slot-button';
-    button.textContent = cardNum;
-    button.onclick = function(event) { openCard(event, cardNum, this); };
-    grid.appendChild(button);
-  }
+// Updates the label on a blank slate grid button to show the placed card name,
+// or "blank" when the slot is empty. Silently no-ops for non-blank-slate slots.
+function updateBlankSlateButton(cardNum, cardName) {
+  const btn = document.getElementById(`bs-btn-${cardNum}`);
+  if (!btn) return;
+  const slotNum = parseInt(cardNum.replace('C.', '')) - 30;
+  btn.innerHTML = `${slotNum}<br>${cardName || 'blank'}`;
 }
 
 // Updated preview function: displays card details in a unified static panel instead of creating dynamic tabs
@@ -574,6 +591,19 @@ function redrawJourneySpread() {
   }
 }
 
+function redrawBlankSlateSpread() {
+  const deckName = getSelectedDeckForSpread('blankSlate');
+  const deckSize = allDecks[deckName] ? allDecks[deckName].length : 0;
+  if (!isReplaceableEnabled && deckSize < 15) {
+    alert(`Cannot draw: The "${deckName}" deck only has ${deckSize} cards, but this spread requires 15. Turn on Card Replacement or select a larger deck.`);
+    return;
+  }
+  resetWorkingDeck('blankSlate');
+  for (let i = 31; i <= 45; i++) {
+    generateCard(`C.${i}`);
+  }
+}
+
 // Validates if the selected deck has enough cards for the spread
 function validateDeckSize(spreadKey) {
   const indicator = document.getElementById(`validity-${spreadKey}`);
@@ -585,10 +615,11 @@ function validateDeckSize(spreadKey) {
   // Determine required cards based on spread
   let requiredCards = 0;
   switch (spreadKey) {
-    case 'adventure': requiredCards = 9; break;
-    case 'fiveCard': requiredCards = 5; break;
-    case 'threeCard': requiredCards = 3; break;
-    case 'journey': requiredCards = 14; break;
+    case 'adventure':  requiredCards = 9;  break;
+    case 'fiveCard':   requiredCards = 5;  break;
+    case 'threeCard':  requiredCards = 3;  break;
+    case 'journey':    requiredCards = 14; break;
+    case 'blankSlate': requiredCards = 15; break;
   }
 
   // If replacement is ON, any deck with at least 1 card is valid
@@ -674,7 +705,10 @@ function placeCard(cardNum, cardName, orientationText) {
     setText(`meaning-${htmlId}-${cardNum}`, val);
   });
 
-  // STEP 6: Signal success to the caller
+  // STEP 6: Update blank slate button label if this slot is on the blank slate grid
+  updateBlankSlateButton(cardNum, cardData.name);
+
+  // STEP 7: Signal success to the caller
   return true;
 }
 
@@ -683,7 +717,7 @@ function placeCard(cardNum, cardName, orientationText) {
 function getPlacedCounts(spreadKey) {
   // STEP 1: Define the slot index range for each spread
   // 1.1 Map spread key to its inclusive [start, end] card-number range
-  const ranges = { adventure: [0, 8], fiveCard: [9, 13], threeCard: [14, 16], journey: [17, 30] };
+  const ranges = { adventure: [0, 8], fiveCard: [9, 13], threeCard: [14, 16], journey: [17, 30], blankSlate: [31, 45] };
   // 1.2 Get this spread's range, defaulting to adventure if unknown
   const [start, end] = ranges[spreadKey] || [0, 8];
 
@@ -729,10 +763,11 @@ function openQuickFill() {
   // STEP 2: Narrow the datalist to cards in the selected deck for this spread
   // 2.1 Map the spread element id to the internal deck selector key
   const spreadKey = {
-    'adventure-spread': 'adventure',
-    'five-card-spread': 'fiveCard',
-    'three-card-spread': 'threeCard',
-    'journey-spread': 'journey'
+    'adventure-spread':   'adventure',
+    'five-card-spread':   'fiveCard',
+    'three-card-spread':  'threeCard',
+    'journey-spread':     'journey',
+    'blank-slate-spread': 'blankSlate'
   }[activeSpread] || 'adventure';
   // 2.2 Resolve which deck is active for this spread
   const activeDeckName = getSelectedDeckForSpread(spreadKey);
@@ -1143,14 +1178,17 @@ function generateCard(cardNum) {
     // 9.3.4 Update the meaning text in the UI
     setText(`meaning-${htmlId}-${cardNum}`, val);
   });
+
+  // STEP 10: Update blank slate button label if this slot is on the blank slate grid
+  updateBlankSlateButton(cardNum, cardData.name);
 }
 
 /*
  * Wipes the UI clean and resets the internal decks
  */
 function clearAllSpreads() {
-  // 1. Reset all 31 card UI slots
-  for (let i = 0; i <= 30; i++) {
+  // 1. Reset all 46 card UI slots (C.00-C.30 structured spreads + C.31-C.45 blank slate)
+  for (let i = 0; i <= 45; i++) {
     const cardNum = i < 10 ? `C.0${i}` : `C.${i}`;
     
     // 1.1 Reset Spread Tables
@@ -1166,6 +1204,9 @@ function clearAllSpreads() {
 
     const categories = ['person', 'creature', 'place', 'treasure', 'situation'];
     categories.forEach(cat => setText(`meaning-${cat}-${cardNum}`, 'Meaning for orientation'));
+
+    // 1.3 Reset blank slate button label for blank slate slots
+    updateBlankSlateButton(cardNum, null);
   }
 
   // 2. Refill the internal javascript decks to full capacity
@@ -1267,9 +1308,9 @@ function exportReading() {
     cards: {}
   };
 
-  // STEP 2: Collect all drawn cards from C.00 to C.30
-  // 2.1 Iterate through all 31 card slots
-  for (let i = 0; i <= 30; i++) {
+  // STEP 2: Collect all drawn cards from C.00 to C.45
+  // 2.1 Iterate through all 46 card slots (C.00-C.30 structured spreads + C.31-C.45 blank slate)
+  for (let i = 0; i <= 45; i++) {
     // 2.2 Format card number with leading zero (C.00-C.30)
     const cardNum = i < 10 ? `C.0${i}` : `C.${i}`;
     
@@ -1392,7 +1433,7 @@ function importReading(event) {
           
           // 5.3.3 Update all deck selector dropdowns in UI
           // 5.3.3.1 Define all spread keys
-          const spreads = ['adventure', 'fiveCard', 'threeCard', 'journey'];
+          const spreads = ['adventure', 'fiveCard', 'threeCard', 'journey', 'blankSlate'];
           // 5.3.3.2 Update each spread's deck selector
           spreads.forEach(spread => {
             const selectEl = document.getElementById(`deck-select-${spread}`);
@@ -1487,7 +1528,10 @@ function importReading(event) {
           }
         }
 
-        // 8.8 Increment counter of successfully restored cards
+        // 8.8 Update blank slate button label if this slot is on the blank slate grid
+        updateBlankSlateButton(cardNum, cardData.name);
+
+        // 8.9 Increment counter of successfully restored cards
         cardsRestored++;
       }
 
@@ -1576,10 +1620,11 @@ function toggleReplaceable() {
 function updateDeckSidebar() {
   const activeSpread = getActiveSpread();
   const spreadKey = {
-    'adventure-spread': 'adventure',
-    'five-card-spread': 'fiveCard',
-    'three-card-spread': 'threeCard',
-    'journey-spread': 'journey'
+    'adventure-spread':   'adventure',
+    'five-card-spread':   'fiveCard',
+    'three-card-spread':  'threeCard',
+    'journey-spread':     'journey',
+    'blank-slate-spread': 'blankSlate'
   }[activeSpread] || 'adventure';
   
   const deckName = getSelectedDeckForSpread(spreadKey);
