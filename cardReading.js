@@ -1085,9 +1085,10 @@ function generateCard(cardNum) {
   // 5.1 Splice out the drawn card so it cannot be drawn again
   if (!isReplaceableEnabled) {
     deckToUse.splice(randomIndex, 1);
-    // 5.2 Keep the sidebar in sync after consuming a card
-    updateDeckSidebar();
   }
+  // 5.2 Keep the sidebar in sync — needed in both modes so the placed-count
+  // badges update immediately after each draw in replaceable mode.
+  updateDeckSidebar();
 
   // STEP 6: Prepare card data and orientation
   // 6.1 Look up the full card data from AllCards
@@ -1618,32 +1619,41 @@ function updateDeckSidebar() {
     const left = remainingCounts[cardName] || 0;
     // How many copies of this card are on the spread right now (random draws + Quick Fill)
     const placed = placedCounts[cardName] || 0;
-    const isExhausted = left === 0;
-    // Over-quota only applies in non-replaceable mode: in replaceable mode the same card
-    // appearing in multiple slots is expected and is not a mismatch.
-    const isOverQuota = !isReplaceableEnabled && placed > total;
 
-    // Build the item class list — over-quota overrides exhausted styling
-    let itemClass = isExhausted ? 'exhausted' : 'available';
-    if (isOverQuota) itemClass += ' over-quota';
+    let itemClass, badgeClass, badgeText, badgeTitle;
 
-    // Badge shows placed/total when over-quota so the GM immediately sees the mismatch
-    // (e.g. "3/2" means 3 placed but deck only has 2), otherwise shows remaining/total
-    let badgeClass = '';
-    let badgeText = '';
-    if (isOverQuota) {
-      badgeClass = 'over';
-      badgeText = `${placed}/${total}`;
+    if (isReplaceableEnabled) {
+      // In replaceable mode cards are never depleted, so left/total is always N/N and meaningless.
+      // Instead show ×N only when the card has actually been placed, so the GM can spot duplicates.
+      itemClass = 'available';
+      badgeClass = placed > 0 ? 'placed' : '';
+      badgeText  = placed > 0 ? `×${placed}` : '';
+      badgeTitle = placed > 0 ? `${placed} cop${placed === 1 ? 'y' : 'ies'} in this spread` : '';
     } else {
-      if (isExhausted) badgeClass = 'empty';
-      else if (left < total) badgeClass = 'warning';
-      badgeText = `${left}/${total}`;
+      // Non-replaceable mode: show left/total with exhausted / warning / over-quota states.
+      const isExhausted = left === 0;
+      // Over-quota means the GM placed more copies than the deck contains (e.g. via Quick Fill).
+      const isOverQuota = placed > total;
+      itemClass = isExhausted ? 'exhausted' : 'available';
+      if (isOverQuota) itemClass += ' over-quota';
+      if (isOverQuota) {
+        badgeClass = 'over';
+        badgeText  = `${placed}/${total}`;
+        badgeTitle = `${placed} placed — deck only has ${total}`;
+      } else {
+        badgeClass = isExhausted ? 'empty' : (left < total ? 'warning' : '');
+        badgeText  = `${left}/${total}`;
+        badgeTitle = `${left} of ${total} remaining`;
+      }
     }
 
+    const badgeHtml = badgeText
+      ? `<span class="sidebar-card-qty ${badgeClass}" title="${badgeTitle}">${badgeText}</span>`
+      : '';
     htmlBuffer += `
       <div class="sidebar-card-item ${itemClass}">
         <span class="sidebar-card-name" title="${cardName}">${cardName}</span>
-        <span class="sidebar-card-qty ${badgeClass}" title="${isOverQuota ? `${placed} placed — deck only has ${total}` : `${left} of ${total} remaining`}">${badgeText}</span>
+        ${badgeHtml}
       </div>
     `;
   });

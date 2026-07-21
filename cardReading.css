@@ -1051,6 +1051,12 @@ body {
   background: #c0392b;
 }
 
+/* Replaceable-mode placed count badge (×N) */
+.sidebar-card-qty.placed {
+  background: #2e6da4;
+  color: #fff;
+}
+
 /* ========== RESPONSIVE LAYOUT ========== */
 
 /* Backdrop overlay behind mobile sidebar drawer */
