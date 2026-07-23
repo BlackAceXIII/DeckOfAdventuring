@@ -1121,9 +1121,6 @@ function generateCard(cardNum) {
   if (!isReplaceableEnabled) {
     deckToUse.splice(randomIndex, 1);
   }
-  // 5.2 Keep the sidebar in sync — needed in both modes so the placed-count
-  // badges update immediately after each draw in replaceable mode.
-  updateDeckSidebar();
 
   // STEP 6: Prepare card data and orientation
   // 6.1 Look up the full card data from AllCards
@@ -1181,6 +1178,10 @@ function generateCard(cardNum) {
 
   // STEP 10: Update blank slate button label if this slot is on the blank slate grid
   updateBlankSlateButton(cardNum, cardData.name);
+
+  // STEP 11: Refresh sidebar after all DOM writes so placed-counts read the new card name,
+  // not the stale value that was in the slot before this draw.
+  updateDeckSidebar();
 }
 
 /*
