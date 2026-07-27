@@ -699,9 +699,11 @@ function placeCard(cardNum, cardName, orientationText) {
   ['person', 'creatureTrap', 'place', 'treasure', 'situation'].forEach(cat => {
     // 5.2.1 Map creatureTrap to the DOM id segment used in the HTML
     const htmlId = cat === 'creatureTrap' ? 'creature' : cat;
-    // 5.2.2 Select upright or reverse text based on orientation code
+    // 5.2.2 Guard against missing category data
+    if (!meanings || !meanings[cat]) return;
+    // 5.2.3 Select upright or reverse text based on orientation code
     const val = cardOrientation === 0 ? meanings[cat].upright : meanings[cat].reverse;
-    // 5.2.3 Write the meaning into the panel
+    // 5.2.4 Write the meaning into the panel
     setText(`meaning-${htmlId}-${cardNum}`, val);
   });
 
@@ -785,7 +787,8 @@ function openQuickFill() {
     'adventure-spread': 'Adventure Spread',
     'five-card-spread': 'Five-Card Spread',
     'three-card-spread': 'Three-Card Spread',
-    'journey-spread': 'Journey Spread'
+    'journey-spread': 'Journey Spread',
+    'blank-slate-spread': 'Blank Slate Spread'
   };
   // 3.2 Inject the name into the panel heading span
   document.getElementById('qf-spread-name').textContent = spreadNames[activeSpread] || activeSpread;
@@ -1212,6 +1215,9 @@ function clearAllSpreads() {
 
   // 2. Refill the internal javascript decks to full capacity
   initializeWorkingDecks();
+
+  // 3. Refresh sidebar so it reflects the cleared/refilled state immediately
+  updateDeckSidebar();
 }
 
 /*
@@ -1460,6 +1466,14 @@ function importReading(event) {
         
         // 6.4 Rebuild dropdowns to show newly imported custom decks
         populateDropdown(allDecks);
+        // 6.5 Re-apply imported deck selections — populateDropdown resets selectedDecks to defaults
+        if (readingData.settings && readingData.settings.selectedDecks) {
+          Object.assign(selectedDecks, readingData.settings.selectedDecks);
+          ['adventure', 'fiveCard', 'threeCard', 'journey', 'blankSlate'].forEach(spread => {
+            const selectEl = document.getElementById(`deck-select-${spread}`);
+            if (selectEl && selectedDecks[spread]) selectEl.value = selectedDecks[spread];
+          });
+        }
       }
       // STEP 7: Clear the current board before restoring
       // 7.1 Clear all existing cards from the display
@@ -1549,8 +1563,11 @@ function importReading(event) {
       // 9.4 Alert user with import results
       alert(message);
 
-      // STEP 10: Reset file input for future imports
-      // 10.1 Clear the file input value so same file can be imported again if needed
+      // STEP 10: Refresh sidebar to show correct counts for the restored reading
+      updateDeckSidebar();
+
+      // STEP 11: Reset file input for future imports
+      // 11.1 Clear the file input value so same file can be imported again if needed
       event.target.value = '';
 
     } catch (error) {
@@ -1586,7 +1603,7 @@ function toggleReplaceable() {
   console.log(`Card replacement is now ${isReplaceableEnabled ? 'enabled' : 'disabled'}`);
 
   // Re-validate all spread indicators based on new replacement rule
-  ['adventure', 'fiveCard', 'threeCard', 'journey'].forEach(spread => {
+  ['adventure', 'fiveCard', 'threeCard', 'journey', 'blankSlate'].forEach(spread => {
     validateDeckSize(spread);
   });
 
