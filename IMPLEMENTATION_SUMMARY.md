@@ -32,14 +32,14 @@
 // Declared at top of cardReading.js
 let selectedDecks = {
   adventure: 'Default', fiveCard: 'Default',
-  threeCard: 'Default', journey: 'Default'
+  threeCard: 'Default', journey: 'Default', blankSlate: 'Default'
 };                              // Active deck name per spread; falls back to Object.keys(allDecks)[0]
 let isReplaceableEnabled = false;       // Replacement toggle state
 let allDecks = {};             // Combined deck map: { [deckName]: string[] }
 let customDeckCart = {};       // Deck Forge staging: { [cardName]: quantity }
 let allCards = null;           // Parsed AllCards.json — access cards via allCards.cards[name]
 let workingDecks = {           // Per-spread draw pools; spliced on each non-replaceable draw
-  adventure: [], fiveCard: [], threeCard: [], journey: []
+  adventure: [], fiveCard: [], threeCard: [], journey: [], blankSlate: []
 };
 const CARD_DIR = './CardsJsons';        // Base path for all JSON fetches
 ```
@@ -71,8 +71,17 @@ const SPREAD_SLOTS = {
     { id: 'C.25', label: 'Stage 2 Reward' },    { id: 'C.26', label: 'Stage 3 Reward' },
     { id: 'C.27', label: 'Stage 4 Reward' },    { id: 'C.28', label: 'Stage 5 Reward' },
     { id: 'C.29', label: 'Stage 6 Reward' },    { id: 'C.30', label: 'Stage 7 Reward' }
+  ],
+  'blank-slate-spread': [
+    { id: 'C.31', label: 'Slot 1' },  { id: 'C.32', label: 'Slot 2' },
+    { id: 'C.33', label: 'Slot 3' },  { id: 'C.34', label: 'Slot 4' },
+    { id: 'C.35', label: 'Slot 5' },  { id: 'C.36', label: 'Slot 6' },
+    { id: 'C.37', label: 'Slot 7' },  { id: 'C.38', label: 'Slot 8' },
+    { id: 'C.39', label: 'Slot 9' },  { id: 'C.40', label: 'Slot 10' },
+    { id: 'C.41', label: 'Slot 11' }, { id: 'C.42', label: 'Slot 12' },
+    { id: 'C.43', label: 'Slot 13' }, { id: 'C.44', label: 'Slot 14' },
+    { id: 'C.45', label: 'Slot 15' }
   ]
-  // Blank Slate reuses C.00–C.16 in a free-form context; no SPREAD_SLOTS entry.
   // Deck Forge is not a spread; it has no SPREAD_SLOTS entry.
 };
 ```
@@ -86,7 +95,7 @@ Functions use one of two forms. Do not mix them.
 | Five-Card Spread | `'five-card-spread'` | `'fiveCard'` |
 | Three-Card Spread | `'three-card-spread'` | `'threeCard'` |
 | Journey Spread | `'journey-spread'` | `'journey'` |
-| Blank Slate Spread | `'blank-slate-spread'` | *(no workingDeck entry)* |
+| Blank Slate Spread | `'blank-slate-spread'` | `'blankSlate'` |
 | Deck Forge | `'deck-forge-spread'` | *(not a spread)* |
 
 `getActiveSpread()` returns the **element ID form**. `getSpreadKey(cardNum)` returns the **spread key form**. Many functions contain a local mapping object between the two.
@@ -95,7 +104,7 @@ Functions use one of two forms. Do not mix them.
 
 ## 3. HTML Element ID Taxonomy
 
-### Per-Card IDs (31 slots: C.00–C.30)
+### Per-Card IDs (46 slots: C.00–C.45)
 Every card slot has this fixed set of IDs. All are written by `generateCard()` and `placeCard()`, reset by `clearAllSpreads()`.
 
 | Pattern | Contains | Written by |
@@ -119,10 +128,19 @@ adventure-spread        five-card-spread        three-card-spread
 journey-spread          blank-slate-spread      deck-forge-spread
 ```
 
-### Deck Selector IDs (injected by `createSpreadDeckSelector`)
+### Blank Slate Grid Button IDs
+```
+bs-btn-C.31  bs-btn-C.32  bs-btn-C.33  bs-btn-C.34  bs-btn-C.35
+bs-btn-C.36  bs-btn-C.37  bs-btn-C.38  bs-btn-C.39  bs-btn-C.40
+bs-btn-C.41  bs-btn-C.42  bs-btn-C.43  bs-btn-C.44  bs-btn-C.45
+```
+Each button displays `slotNum<br>cardName` (or `slotNum<br>blank`). Written by `updateBlankSlateButton(cardNum, cardName)`, called from `generateCard`, `placeCard`, `clearAllSpreads`, and `importReading`.
+
+### Deck Selector IDs (injected by `populateDropdown`)
 ```
 adventure-deck-selector     five-card-deck-selector
 three-card-deck-selector    journey-deck-selector
+blankSlate-deck-selector
 ```
 
 ### Sidebar IDs
@@ -190,10 +208,11 @@ openCard(evt, cardNum, buttonElement)
        ├─ getSpreadKey(cardNum)          → spreadKey
        ├─ getSelectedDeckForSpread(key)  → deckName
        ├─ splice from workingDecks[key]  (non-replaceable mode)
-       ├─ updateDeckSidebar()            (non-replaceable only, after splice)
        ├─ writes to card-name-*, card-orientation-*, card-description-*
        ├─ writes to card-list-*, card-orientation-list-*
-       └─ writes to meaning-{htmlId}-*  (all five categories)
+       ├─ writes to meaning-{htmlId}-*  (all five categories)
+       ├─ updateBlankSlateButton()       (no-ops for non-blank-slate slots)
+       └─ updateDeckSidebar()            (always last — reads fresh DOM values)
 ```
 
 ### Manual placement (Quick Fill)
@@ -206,14 +225,15 @@ applyQuickFill()
   └─ for each row: placeCard(cardNum, cardName, orientationText)
        ├─ writes to card-name-*, card-orientation-*, card-description-*
        ├─ writes to card-list-*, card-orientation-list-*
-       └─ writes to meaning-{htmlId}-*
+       ├─ writes to meaning-{htmlId}-*
+       └─ updateBlankSlateButton()
   └─ closeQuickFill() → updateDeckSidebar()
 ```
 
 ### Redraw all (per spread)
 ```
-redrawAdventureSpread()             redrawFiveCardSpread()
-redrawThreeCardSpread()             redrawJourneySpread()
+redrawAdventureSpread()   redrawFiveCardSpread()
+redrawThreeCardSpread()   redrawJourneySpread()   redrawBlankSlateSpread()
   ├─ validateDeckSize(spreadKey)    (alerts and returns if deck too small)
   ├─ resetWorkingDeck(spreadKey)    (refills workingDecks[key] from allDecks[deckName])
   └─ for each slot: generateCard(cardNum)
@@ -227,29 +247,30 @@ redrawThreeCardSpread()             redrawJourneySpread()
 |---|---|---|
 | `fetchData()` | `async ()` | Loads AllCards + deckLists + customDecks in parallel; populates all globals; initializes UI |
 | `getActiveSpread()` | `() → string` | Returns element ID of the visible spread tab (e.g. `'adventure-spread'`); defaults to `'adventure-spread'` |
-| `getSpreadKey(cardNum)` | `(string) → string` | Maps `'C.00'`–`'C.30'` to spread key (`'adventure'`, `'fiveCard'`, etc.) |
+| `getSpreadKey(cardNum)` | `(string) → string` | Maps `'C.00'`–`'C.45'` to spread key (`'adventure'`, `'fiveCard'`, `'threeCard'`, `'journey'`, `'blankSlate'`) |
 | `getSelectedDeckForSpread(key)` | `(string) → string` | Returns `selectedDecks[key]` or first deck in `allDecks` |
 | `generateCard(cardNum)` | `(string) → void` | Randomly draws a card into a slot; writes all DOM IDs for that slot |
 | `placeCard(cardNum, cardName, orientationText)` | `(string, string, string) → bool` | Places a specific card into a slot; does NOT touch `workingDecks`; returns `false` if card not in AllCards |
 | `setText(id, value)` | `(string, string) → void` | Safe `getElementById` + `textContent` setter; silently no-ops if element not found |
 | `resetWorkingDeck(key)` | `(string) → void` | Refills `workingDecks[key]` from a fresh copy of `allDecks[selectedDecks[key]]` |
-| `initializeWorkingDecks()` | `() → void` | Calls `resetWorkingDeck` for all four spreads; called once at load |
-| `updateDeckSidebar()` | `() → void` | Rebuilds sidebar card list HTML string in memory; single DOM write |
-| `getPlacedCounts(key)` | `(string) → {[cardName]: count}` | Reads current DOM state for a spread's slots; used by sidebar to detect over-quota |
+| `initializeWorkingDecks()` | `() → void` | Calls `resetWorkingDeck` for all five spreads (including `blankSlate`); called once at load and by `clearAllSpreads` |
+| `updateDeckSidebar()` | `() → void` | Rebuilds sidebar card list HTML string in memory; single DOM write. In replaceable mode shows ×N placed-count badge; in non-replaceable mode shows left/total with exhausted/warning/over-quota states. |
+| `getPlacedCounts(key)` | `(string) → {[cardName]: count}` | Reads `card-name-C.##` DOM elements for a spread's slot range; returns frequency map used by sidebar for over-quota detection |
+| `updateBlankSlateButton(cardNum, cardName)` | `(string, string\|null) → void` | Sets `innerHTML` of `bs-btn-C.##` to `slotNum<br>cardName`; silently no-ops for non-blank-slate card IDs |
+| `redrawBlankSlateSpread()` | `() → void` | Validates deck size, resets working deck, draws all 15 blank slate slots |
 | `openQuickFill()` | `() → void` | Validates spread, refreshes datalist, builds QF rows, shows overlay, focuses first empty input |
 | `applyQuickFill()` | `() → void` | Reads all QF rows; calls `placeCard` per row; reports invalid names |
 | `closeQuickFill()` | `() → void` | Hides overlay; does not clear row data |
-| `clearAllSpreads()` | `() → void` | Resets all 31 slots in DOM to placeholder text; reinitializes working decks |
+| `clearAllSpreads()` | `() → void` | Resets all 46 slots (C.00–C.45) in DOM to placeholder text; resets blank slate grid buttons; reinitializes working decks; refreshes sidebar |
 | `exportReading()` | `() → void` | Reads DOM state → JSON blob → browser download |
 | `importReading(event)` | `(Event) → void` | Reads uploaded file → validates → restores settings, decks, and all card slots |
 | `toggleSidebar()` | `() → void` | Mobile (≤768px): toggles `.mobile-open` + backdrop. Desktop: toggles `.collapsed` |
 | `closeMobileSidebar()` | `() → void` | Removes `.mobile-open` and backdrop `.active`; called by backdrop click |
 | `toggleReplaceable()` | `() → void` | Syncs `isReplaceableEnabled` from checkbox; reinitializes working decks |
-| `populateBlankSlateSpread()` | `() → void` | Builds slot buttons C.00–C.16 in `#blank-slate-grid`; labels are raw IDs (`'C.00'` etc.) |
-| `populateAllCardsSpread()` | `(string[]) → void` | Builds Deck Forge card library buttons |
+| `populateAllCardsSpread(names)` | `(string[]) → void` | Builds Deck Forge card library buttons |
 | `openAllCardPreview(name)` | `(string) → void` | Populates `#deck-forge-preview` panel with a card's full data |
-| `openSpread(evt, name)` | `(Event, string) → void` | Shows the named spread tab; hides all others |
-| `openCard(evt, cardNum, btn)` | `(Event, string, HTMLElement) → void` | Opens card detail panel; if manual mode active, calls `setTargetedSlot` instead of `generateCard` |
+| `openSpread(evt, name)` | `(Event, string) → void` | Shows the named spread tab; hides all others; refreshes sidebar |
+| `openCard(evt, cardNum, btn)` | `(Event, string, HTMLElement) → void` | Shows the card detail panel for the given slot |
 | `validateDeckSize(key)` | `(string) → bool` | Alerts and returns `false` if deck too small for the spread; used before redraw-all |
 | `saveCustomDeck()` | `() → void` | Validates cart → names deck → merges into `allDecks` → persists to `localStorage` |
 
@@ -391,17 +412,8 @@ Each value is a flat array of card name strings. Duplicates are allowed (weighte
 
 ## 12. Roadmap & Function Touch Points
 
-### Item 6 — Free-Form / Blank Slate Spread
-**What's left:** Slot label behavior (currently raw IDs), optional active-slot count input, without-replacement coordination.
-
-| Function | Change needed |
-|---|---|
-| `populateBlankSlateSpread()` | Replace raw `cardNum` label with user-friendly text or input field |
-| *(new)* `redrawBlankSlateSpread()` | Create — parallel to `redrawAdventureSpread` but for active slots only |
-| `clearAllSpreads()` | Already resets C.00–C.16; no change needed |
-| `workingDecks` | Add a `'blankSlate'` key if without-replacement should be isolated from Adventure/Three-Card |
-
-**Already done:** Per-spread deck selection applies automatically. Replacement toggle global applies but without cross-slot coordination within the spread.
+### Item 6 — Free-Form / Blank Slate Spread ✅ Complete
+Dedicated 5×3 grid using C.31–C.45. All integration points (working deck, sidebar, Quick Fill, export/import) are fully wired. No further changes needed for this item.
 
 ### Item 7 — Cascading Deck Spread
 New spread tab. No existing code to modify — additive only. Needs: new `SPREAD_SLOTS` entry, new tab in HTML, cascade logic that reads a drawn card's result to select the next slot's deck, visual indicator per slot of which deck it draws from.

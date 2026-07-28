@@ -31,7 +31,7 @@ The summary table at the left of each spread updates alongside the detail panels
 | Five-Card Spread | 5 | C.09–C.13 | Cross pattern: The Quest (centre), The Outcome, The Challenge, That Which is Hidden, That Which is Needed |
 | Three-Card Spread | 3 | C.14–C.16 | Linear: Past, Present, Future |
 | Journey Spread | 14 | C.17–C.30 | Two rows: Stage 1–7 Challenges (C.17–C.23) and Stage 1–7 Rewards (C.24–C.30) |
-| Blank Slate Spread | 17 | C.00–C.16 | Free-form grid reusing all slots from the three structured spreads above. No positional meaning. |
+| Blank Slate Spread | 15 | C.31–C.45 | Free-form 5×3 grid of unlabelled slots. Each button shows its slot number and current card name (or "blank"). No positional meaning. |
 | Deck Forge | All | — | Repurposed from the "All Cards" spread. Serves as a library reference and an interactive shopping-cart-style deck builder. |
 
 ### Deck Selection
@@ -111,7 +111,8 @@ Full import/export functionality has been implemented. Users can now save card r
       "adventure": "Default",
       "fiveCard": "Default",
       "threeCard": "Default",
-      "journey": "Default"
+      "journey": "Default",
+      "blankSlate": "Default"
     }
   },
   "cards": {
@@ -180,18 +181,20 @@ Allows the GM to assign specific cards to specific slots rather than drawing ran
 
 ---
 
-### 6. ⚠️ Free-Form / Blank Slate Spread — Full Implementation
+### 6. ✅ Free-Form / Blank Slate Spread — Complete Implementation
 **Complexity: Moderate**
 
-The Blank Slate spread tab already exists and populates slot buttons for C.00–C.16. Full implementation means clarifying its behaviour and connecting it to the replacement toggle and per-spread deck selection.
+A dedicated free-form spread with 15 card slots (C.31–C.45) arranged in a 5×3 grid. Slots have no positional labels — the GM assigns meaning as needed.
 
-**What needs doing:**
-- Decide and implement label behaviour: the current slot buttons show IDs (`C.00` etc.) which are meaningless without positional roles.
-- Optionally: a number input to control how many slots are active, rather than always showing all 17.
-- Connect to the replacement toggle so without-replacement coordinates across individual slot draws within this spread.
-
-**Already done:**
-- ✅ Per-spread deck selection applies to this spread automatically (completed under item #3).
+**What was implemented:**
+- Dedicated card slots C.31–C.45, isolated from all structured spreads. No cross-contamination between Blank Slate draws and Adventure / Five-Card / Three-Card / Journey slots.
+- 5×3 grid of slot buttons. Each button displays the slot number on the first line and the current card name (or "blank") on the second line, updated after every draw.
+- Summary table listing all 15 slots (Slot 1–15) with card name and orientation columns.
+- Full per-spread deck selection (`blankSlate` key added to `selectedDecks` and `workingDecks`).
+- Replacement toggle connected: without-replacement mode coordinates correctly across individual slot draws within the spread.
+- Redraw All button (`redrawBlankSlateSpread`) resets the working deck and redraws all 15 slots.
+- Quick Fill support: all 15 slots appear in Quick Fill with "Slot N" labels.
+- Export and Import include Blank Slate slots (C.31–C.45) and the `selectedDecks.blankSlate` value.
 
 **Dependencies:**
 - ✅ Replacement Toggle — fully implemented.
@@ -257,6 +260,7 @@ A final polish pass covering responsive layout, sizing, and visual consistency a
 ✅ **Custom Deck Building** — In-browser Deck Forge with quantity controls, local storage persistence, and JSON export integration.
 ✅ **Manual Card Selection** — Fulfilled by the Quick Fill panel with per-deck autocomplete; random and manual assignment coexist freely.
 ✅ **Quick Fill Autocomplete** — Card name inputs suggest only cards from the active spread's selected deck; datalist refreshes on every open.
+✅ **Blank Slate Spread** — 15-slot free-form 5×3 grid (C.31–C.45) with per-slot card labels, dedicated working deck, full replacement-toggle integration, Quick Fill support, and export/import coverage.
 
 ## Recommended Implementation Order for Remaining Features
 
