@@ -39,7 +39,8 @@ let allDecks = {};             // Combined deck map: { [deckName]: string[] }
 let customDeckCart = {};       // Deck Forge staging: { [cardName]: quantity }
 let allCards = null;           // Parsed AllCards.json — access cards via allCards.cards[name]
 let workingDecks = {           // Per-spread draw pools; spliced on each non-replaceable draw
-  adventure: [], fiveCard: [], threeCard: [], journey: [], blankSlate: []
+  adventure: [], fiveCard: [], threeCard: [], journey: [], blankSlate: [],
+  dungeonStory: [], dungeonLocations: [], dungeonFeatures: []  // Dungeon Spread — fixed decks, one pool per source deck
 };
 const CARD_DIR = './CardsJsons';        // Base path for all JSON fetches
 ```
@@ -81,6 +82,19 @@ const SPREAD_SLOTS = {
     { id: 'C.41', label: 'Slot 11' }, { id: 'C.42', label: 'Slot 12' },
     { id: 'C.43', label: 'Slot 13' }, { id: 'C.44', label: 'Slot 14' },
     { id: 'C.45', label: 'Slot 15' }
+  ],
+  // Dungeon Spread entries include two new optional fields: deck (hardcoded source deck name)
+  // and secondId + secondDeck (for two-card slots). Existing entries do not use these fields.
+  'dungeon-spread': [
+    { id: 'C.46', label: 'Party Gathers',   deck: 'Story Deck' },
+    { id: 'C.47', label: 'Adventure Begins', deck: 'Story Deck' },
+    { id: 'C.48', label: 'Journey',          deck: 'Story Deck' },
+    { id: 'C.49', label: 'Entrance',         deck: 'Locations Deck', secondId: 'C.50', secondDeck: 'Features Deck' },
+    { id: 'C.51', label: 'Challenge 1',      deck: 'Locations Deck', secondId: 'C.52', secondDeck: 'Features Deck' },
+    { id: 'C.53', label: 'Challenge 2',      deck: 'Locations Deck', secondId: 'C.54', secondDeck: 'Features Deck' },
+    { id: 'C.55', label: 'Challenge 3',      deck: 'Locations Deck', secondId: 'C.56', secondDeck: 'Features Deck' },
+    { id: 'C.57', label: 'Guardian',         deck: 'Features Deck' },
+    { id: 'C.58', label: 'Treasure',         deck: 'Features Deck',  secondId: 'C.59', secondDeck: 'Locations Deck' }
   ]
   // Deck Forge is not a spread; it has no SPREAD_SLOTS entry.
 };
@@ -96,6 +110,7 @@ Functions use one of two forms. Do not mix them.
 | Three-Card Spread | `'three-card-spread'` | `'threeCard'` |
 | Journey Spread | `'journey-spread'` | `'journey'` |
 | Blank Slate Spread | `'blank-slate-spread'` | `'blankSlate'` |
+| Dungeon Spread | `'dungeon-spread'` | `'dungeonStory'` / `'dungeonLocations'` / `'dungeonFeatures'` — keyed per card ID, not per spread (see `getSpreadKey`) |
 | Deck Forge | `'deck-forge-spread'` | *(not a spread)* |
 
 `getActiveSpread()` returns the **element ID form**. `getSpreadKey(cardNum)` returns the **spread key form**. Many functions contain a local mapping object between the two.
@@ -104,8 +119,8 @@ Functions use one of two forms. Do not mix them.
 
 ## 3. HTML Element ID Taxonomy
 
-### Per-Card IDs (46 slots: C.00–C.45)
-Every card slot has this fixed set of IDs. All are written by `generateCard()` and `placeCard()`, reset by `clearAllSpreads()`.
+### Per-Card IDs (60 slots: C.00–C.59)
+Every card slot has this fixed set of IDs. All are written by `generateCard()` and `placeCard()`, reset by `clearAllSpreads()`. Dungeon Spread slots C.46–C.59 use the same ID patterns; two-card slots (C.49+C.50, C.51+C.52, C.53+C.54, C.55+C.56, C.58+C.59) each own a full independent set of IDs for both cards.
 
 | Pattern | Contains | Written by |
 |---|---|---|
@@ -247,13 +262,13 @@ redrawThreeCardSpread()   redrawJourneySpread()   redrawBlankSlateSpread()
 |---|---|---|
 | `fetchData()` | `async ()` | Loads AllCards + deckLists + customDecks in parallel; populates all globals; initializes UI |
 | `getActiveSpread()` | `() → string` | Returns element ID of the visible spread tab (e.g. `'adventure-spread'`); defaults to `'adventure-spread'` |
-| `getSpreadKey(cardNum)` | `(string) → string` | Maps `'C.00'`–`'C.45'` to spread key (`'adventure'`, `'fiveCard'`, `'threeCard'`, `'journey'`, `'blankSlate'`) |
+| `getSpreadKey(cardNum)` | `(string) → string` | Maps `'C.00'`–`'C.45'` to spread key (`'adventure'`, `'fiveCard'`, `'threeCard'`, `'journey'`, `'blankSlate'`); C.46–C.59 map per-card to `'dungeonStory'`, `'dungeonLocations'`, or `'dungeonFeatures'` via a lookup object |
 | `getSelectedDeckForSpread(key)` | `(string) → string` | Returns `selectedDecks[key]` or first deck in `allDecks` |
 | `generateCard(cardNum)` | `(string) → void` | Randomly draws a card into a slot; writes all DOM IDs for that slot |
 | `placeCard(cardNum, cardName, orientationText)` | `(string, string, string) → bool` | Places a specific card into a slot; does NOT touch `workingDecks`; returns `false` if card not in AllCards |
 | `setText(id, value)` | `(string, string) → void` | Safe `getElementById` + `textContent` setter; silently no-ops if element not found |
 | `resetWorkingDeck(key)` | `(string) → void` | Refills `workingDecks[key]` from a fresh copy of `allDecks[selectedDecks[key]]` |
-| `initializeWorkingDecks()` | `() → void` | Calls `resetWorkingDeck` for all five spreads (including `blankSlate`); called once at load and by `clearAllSpreads` |
+| `initializeWorkingDecks()` | `() → void` | Calls `resetWorkingDeck` for all five spreads (including `blankSlate`); directly assigns `workingDecks.dungeonStory/Locations/Features` from hardcoded deck names (bypasses `selectedDecks`); called once at load and by `clearAllSpreads` |
 | `updateDeckSidebar()` | `() → void` | Rebuilds sidebar card list HTML string in memory; single DOM write. In replaceable mode shows ×N placed-count badge; in non-replaceable mode shows left/total with exhausted/warning/over-quota states. |
 | `getPlacedCounts(key)` | `(string) → {[cardName]: count}` | Reads `card-name-C.##` DOM elements for a spread's slot range; returns frequency map used by sidebar for over-quota detection |
 | `updateBlankSlateButton(cardNum, cardName)` | `(string, string\|null) → void` | Sets `innerHTML` of `bs-btn-C.##` to `slotNum<br>cardName`; silently no-ops for non-blank-slate card IDs |
@@ -261,7 +276,7 @@ redrawThreeCardSpread()   redrawJourneySpread()   redrawBlankSlateSpread()
 | `openQuickFill()` | `() → void` | Validates spread, refreshes datalist, builds QF rows, shows overlay, focuses first empty input |
 | `applyQuickFill()` | `() → void` | Reads all QF rows; calls `placeCard` per row; reports invalid names |
 | `closeQuickFill()` | `() → void` | Hides overlay; does not clear row data |
-| `clearAllSpreads()` | `() → void` | Resets all 46 slots (C.00–C.45) in DOM to placeholder text; resets blank slate grid buttons; reinitializes working decks; refreshes sidebar |
+| `clearAllSpreads()` | `() → void` | Resets all 60 slots (C.00–C.59) in DOM to placeholder text; resets blank slate grid buttons; reinitializes all working decks including the 3 dungeon fixed-deck pools; refreshes sidebar |
 | `exportReading()` | `() → void` | Reads DOM state → JSON blob → browser download |
 | `importReading(event)` | `(Event) → void` | Reads uploaded file → validates → restores settings, decks, and all card slots |
 | `toggleSidebar()` | `() → void` | Mobile (≤768px): toggles `.mobile-open` + backdrop. Desktop: toggles `.collapsed` |
@@ -418,8 +433,8 @@ Dedicated 5×3 grid using C.31–C.45. All integration points (working deck, sid
 ### Item 7 — Cascading Deck Spread
 New spread tab. No existing code to modify — additive only. Needs: new `SPREAD_SLOTS` entry, new tab in HTML, cascade logic that reads a drawn card's result to select the next slot's deck, visual indicator per slot of which deck it draws from.
 
-### Item 8 — Multi-Deck Adventure Spread
-Modifies the adventure spread heavily. Touch points: `redrawAdventureSpread()`, `generateCard()` (or a new variant), `SPREAD_SLOTS` (variable challenge slot count), `selectedDecks` schema extension (per-slot rather than per-spread).
+### Item 8 — Dungeon Spread
+New separate spread tab. Design fully locked — see README for slot-deck assignments and card ID table. Touch points: `getSpreadKey()` (new per-card lookup for C.46–C.59 returning one of three working-deck keys), `initializeWorkingDecks()` (3 hardcoded entries populated directly from `deckLists.json`), new HTML tab with 9 slot buttons and a new dual-card detail panel template, `generateCard()` (conditional single-or-dual draw based on card ID), `updateDeckSidebar()` (3 rows when dungeon spread is active), `clearAllSpreads()` (60 slots + 3 new working decks), `SPREAD_SLOTS` (new `deck`/`secondId`/`secondDeck` fields for Quick Fill). Does not use `selectedDecks` — deck assignments are fixed at the code level.
 
 ### Item 9 — CSS and Visual Improvements (final pass)
 - Finalize all `clamp()` values in the mobile media query

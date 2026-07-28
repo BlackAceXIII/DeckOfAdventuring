@@ -32,6 +32,7 @@ The summary table at the left of each spread updates alongside the detail panels
 | Three-Card Spread | 3 | C.14–C.16 | Linear: Past, Present, Future |
 | Journey Spread | 14 | C.17–C.30 | Two rows: Stage 1–7 Challenges (C.17–C.23) and Stage 1–7 Rewards (C.24–C.30) |
 | Blank Slate Spread | 15 | C.31–C.45 | Free-form 5×3 grid of unlabelled slots. Each button shows its slot number and current card name (or "blank"). No positional meaning. |
+| Dungeon Spread | 9 buttons / 14 cards | C.46–C.59 | Fixed deck assignments per slot. Single-deck slots draw one card; two-deck slots open a dual-card panel (Location + Feature side by side). |
 | Deck Forge | All | — | Repurposed from the "All Cards" spread. Serves as a library reference and an interactive shopping-cart-style deck builder. |
 
 ### Deck Selection
@@ -127,7 +128,7 @@ Full import/export functionality has been implemented. Users can now save card r
 
 **Dependencies:**
 - Aids **Custom Deck Building** — custom decks inherit persistence automatically via import/export.
-- Aids **Multi-Deck Adventure Spread** — sessions for that spread are easiest to manage via save/restore.
+- Aids **Dungeon Spread** — sessions for that spread are easiest to manage via save/restore.
 - Works seamlessly with **Per-Spread Deck Selection** (also completed).
 
 ---
@@ -139,7 +140,7 @@ Replaced one global string with a small object tracking selection per spread.
 
 **Dependencies:**
 - Directly enables **Custom Deck Building** to be meaningful per-spread rather than global.
-- Is a stepping stone toward the **Multi-Deck Adventure Spread** — per-slot deck assignment in that spread is a small extension of per-spread assignment.
+- Established the per-spread working-deck pattern that the **Dungeon Spread** extends to three simultaneous hardcoded keys.
 - Makes the **Free-Form Spread** automatically inherit its own deck choice.
 
 ---
@@ -160,7 +161,7 @@ Lets users construct their own named decks from the cards available in `AllCards
 **Dependencies:**
 - **Import/Export** already complete — persistence and sharing via JSON files is fully functional.
 - Easier with **Per-Spread Deck Selection** done first.
-- Directly enables the **Multi-Deck Adventure Spread**, which requires specifically named decks.
+- Enables the **Cascading Deck Spread**, which will require custom decks as cascade targets.
 
 ---
 
@@ -221,15 +222,59 @@ A specialized spread that uses a cascading deck system exclusively designed for 
 
 ---
 
-### 8. ❌ Multi-Deck Adventure Spread
-**Complexity: Highest**
+### 8. ❌ Dungeon Spread
+**Complexity: Moderate–High**
 
-A modified Adventure Spread where different slot types draw from different named decks simultaneously, some slots require two cards, the number of challenge slots is variable (1–3), and some slots are optional.
+A new spread tab based on the Dungeon Spread from the WotC source book. Nine slot buttons draw from pre-determined, hardcoded decks — no deck selector. Single-deck slots draw one card; two-deck slots draw one card from each deck and show them in a side-by-side dual-card detail panel.
+
+**Slot–deck assignments (locked):**
+
+| Slot | Name | Deck(s) | Card ID(s) |
+|---|---|---|---|
+| 0 | Party Gathers | Story Deck | C.46 |
+| 1 | Adventure Begins | Story Deck | C.47 |
+| 2 | Journey | Story Deck | C.48 |
+| 3 | Entrance | Locations + Features | C.49, C.50 |
+| 4 | Challenge 1 | Locations + Features | C.51, C.52 |
+| 5 | Challenge 2 | Locations + Features | C.53, C.54 |
+| 6 | Challenge 3 | Locations + Features | C.55, C.56 |
+| 7 | Guardian | Features Deck | C.57 |
+| 8 | Treasure | Features + Locations | C.58, C.59 |
+
+**Key design decisions:**
+- **14 card IDs** (C.46–C.59) across 9 slot buttons. Sequential IDs only — no lettered sub-IDs.
+- **Dual-card detail panel** for the 5 two-deck slots: one slot button opens a panel with a Location card and a Feature card side by side, each with its own individual Redraw button.
+- **Three working decks**: `dungeonStory`, `dungeonLocations`, `dungeonFeatures` — depleted independently in non-replaceable mode. Sidebar shows 3 rows when this spread is active.
+- **Deck selector greyed out** on this tab; deck assignments are fixed at the code level, not user-configurable.
+
+**What needs doing:**
+- `getSpreadKey()` extended with a per-card lookup for C.46–C.59 (returns one of three working-deck keys, not a single spread key)
+- `initializeWorkingDecks()` adds 3 hardcoded entries populated directly from `deckLists.json` deck names
+- New `dungeon-spread` tab in HTML with 9 slot buttons
+- New dual-card detail panel HTML structure alongside the existing single-card template
+- `generateCard()` draws once or twice depending on whether the card ID belongs to a two-card slot
+- `updateDeckSidebar()` shows 3 rows when dungeon spread is active
+- `clearAllSpreads()` resets the 3 new working decks and the 14 dungeon slot DOM elements
+- `SPREAD_SLOTS` updated for Quick Fill support (new fields: `deck`, `secondId`, `secondDeck`)
 
 **Dependencies:**
-- Significantly easier if **Per-Spread Deck Selection** is done first.
-- Significantly easier if **Custom Deck Building** is done first.
-- Easier if **Import/Export** is done first.
+- ✅ All prerequisites are complete.
+
+---
+
+### Cascading Deck vs. Dungeon Spread — Complexity Comparison
+
+| | Item 7: Cascading Deck | Item 8: Dungeon Spread |
+|---|---|---|
+| Design status | **Incomplete** — cascade rules not yet defined | **Complete** — all decisions locked |
+| Implementation blocker | Must define cascade rules before any code | None |
+| Changes to existing code | Additive only | `getSpreadKey`, `initializeWorkingDecks`, `generateCard`, `updateDeckSidebar`, `clearAllSpreads` |
+| New HTML structures | Standard single-card panels (no new template) | Dual-card detail panel (new template) |
+| Working decks affected | 1 new entry | 3 new entries |
+| Deck selector | User-configurable cascade targets | Greyed out (fixed decks) |
+| **Overall complexity** | Low–Moderate (architecture) + design cost | **Moderate–High** |
+
+**Bottom line:** The Dungeon Spread is more complex to code but can begin immediately. The Cascading Deck Spread is architecturally lighter but cannot start until cascade rules are defined — what a drawn card maps to, how cascade levels are configured, and what the UI shows per slot.
 
 ---
 
@@ -243,7 +288,7 @@ A final polish pass covering responsive layout, sizing, and visual consistency a
 - Audit fixed pixel values remaining in the stylesheet and convert any that should scale (font sizes, spacing, component dimensions) to `clamp()`, `rem`, or percentage-based units.
 - Card slot buttons (`.tab-grid .tablinks`) need confirmed final dimensions that work across all four spread layouts at both mobile and desktop widths.
 - Review all spread tab layouts for visual consistency — padding, gap, and font size should feel uniform across Adventure, Five-Card, Three-Card, Journey, Blank Slate, and Deck Forge tabs.
-- Evaluate and resolve any remaining visual inconsistencies introduced when new features (Free-Form Spread, Cascading Deck, Multi-Deck Adventure) were added.
+- Evaluate and resolve any remaining visual inconsistencies introduced when new features (Free-Form Spread, Cascading Deck, Dungeon Spread) were added.
 - If card images are sourced in the future, add `<img>` elements to the card detail panels, add a `credit` display if attribution is required, and map each `AllCards.json` entry to its image path.
 
 **Dependencies:**
@@ -269,7 +314,7 @@ A final polish pass covering responsive layout, sizing, and visual consistency a
         │
         ├──▶ 7. Cascading Deck Spread
         │
-        ├──▶ 8. Multi-Deck Adventure Spread
+        ├──▶ 8. Dungeon Spread
         │
         ▼
 9. CSS and Visual Improvements (final pass)
