@@ -32,15 +32,18 @@
 // Declared at top of cardReading.js
 let selectedDecks = {
   adventure: 'Default', fiveCard: 'Default',
-  threeCard: 'Default', journey: 'Default', blankSlate: 'Default'
+  threeCard: 'Default', journey: 'Default', blankSlate: 'Default',
+  cascadeCurrent: 'Default', cascadeNext: 'Default'
 };                              // Active deck name per spread; falls back to Object.keys(allDecks)[0]
 let isReplaceableEnabled = false;       // Replacement toggle state
 let allDecks = {};             // Combined deck map: { [deckName]: string[] }
 let customDeckCart = {};       // Deck Forge staging: { [cardName]: quantity }
 let allCards = null;           // Parsed AllCards.json — access cards via allCards.cards[name]
+let graveyardCards = [];       // Cascade Spread accumulator: { name, orientation, sourceDeck }[] — never refilled, only cleared by clearAllSpreads
 let workingDecks = {           // Per-spread draw pools; spliced on each non-replaceable draw
   adventure: [], fiveCard: [], threeCard: [], journey: [], blankSlate: [],
-  dungeonStory: [], dungeonLocations: [], dungeonFeatures: []  // Dungeon Spread — fixed decks, one pool per source deck
+  dungeonStory: [], dungeonLocations: [], dungeonFeatures: [],  // Dungeon Spread — fixed decks, one pool per source deck
+  cascadeCurrent: [], cascadeNext: []  // Cascade Spread — holds { name, sourceDeck }[] objects, NOT plain strings
 };
 const CARD_DIR = './CardsJsons';        // Base path for all JSON fetches
 ```
@@ -96,7 +99,8 @@ const SPREAD_SLOTS = {
     { id: 'C.57', label: 'Guardian',         deck: 'Features Deck' },
     { id: 'C.58', label: 'Treasure',         deck: 'Features Deck',  secondId: 'C.59', secondDeck: 'Locations Deck' }
   ]
-  // Deck Forge is not a spread; it has no SPREAD_SLOTS entry.
+  // Deck Forge has no SPREAD_SLOTS entry (not a spread).
+  // Cascade Spread also has no SPREAD_SLOTS entry — it has no fixed positional slots; Quick Fill does not apply.
 };
 ```
 
@@ -110,6 +114,7 @@ Functions use one of two forms. Do not mix them.
 | Three-Card Spread | `'three-card-spread'` | `'threeCard'` |
 | Journey Spread | `'journey-spread'` | `'journey'` |
 | Blank Slate Spread | `'blank-slate-spread'` | `'blankSlate'` |
+| Cascading Deck Spread | `'cascade-spread'` | *(no spread key — uses `cascadeCurrent` / `cascadeNext` directly via `cascadeDraw()`, bypasses `getSpreadKey`)* |
 | Dungeon Spread | `'dungeon-spread'` | `'dungeonStory'` / `'dungeonLocations'` / `'dungeonFeatures'` — keyed per card ID, not per spread (see `getSpreadKey`) |
 | Deck Forge | `'deck-forge-spread'` | *(not a spread)* |
 
@@ -431,7 +436,7 @@ Each value is a flat array of card name strings. Duplicates are allowed (weighte
 Dedicated 5×3 grid using C.31–C.45. All integration points (working deck, sidebar, Quick Fill, export/import) are fully wired. No further changes needed for this item.
 
 ### Item 7 — Cascading Deck Spread
-New spread tab. No existing code to modify — additive only. Needs: new `SPREAD_SLOTS` entry, new tab in HTML, cascade logic that reads a drawn card's result to select the next slot's deck, visual indicator per slot of which deck it draws from.
+New spread tab. Design fully locked — see README for column design and cascade mechanics. Fully additive — no existing functions are modified. Touch points: new `cascadeCurrent`/`cascadeNext` entries in `selectedDecks` and `workingDecks` (as `{ name, sourceDeck }[]` object arrays, not plain strings), new `graveyardCards = []` global, new `cascadeDraw()` function, new `cascade-spread` tab HTML with three-column layout (no slot buttons, no SPREAD_SLOTS entry), sidebar updated to show 3 rows when spread is active, export/import updated to include `graveyardCards` and cascade deck states. Does not use `generateCard()` or `getSpreadKey()`.
 
 ### Item 8 — Dungeon Spread
 New separate spread tab. Design fully locked — see README for slot-deck assignments and card ID table. Touch points: `getSpreadKey()` (new per-card lookup for C.46–C.59 returning one of three working-deck keys), `initializeWorkingDecks()` (3 hardcoded entries populated directly from `deckLists.json`), new HTML tab with 9 slot buttons and a new dual-card detail panel template, `generateCard()` (conditional single-or-dual draw based on card ID), `updateDeckSidebar()` (3 rows when dungeon spread is active), `clearAllSpreads()` (60 slots + 3 new working decks), `SPREAD_SLOTS` (new `deck`/`secondId`/`secondDeck` fields for Quick Fill). Does not use `selectedDecks` — deck assignments are fixed at the code level.

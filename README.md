@@ -204,21 +204,31 @@ A dedicated free-form spread with 15 card slots (C.31–C.45) arranged in a 5×3
 ---
 
 ### 7. ❌ Cascading Deck Spread
-**Complexity: Moderate–High**
+**Complexity: Moderate**
 
-A specialized spread that uses a cascading deck system exclusively designed for that tab. Cards drawn from earlier positions determine which custom deck subsequent positions draw from, creating dynamic, interconnected outcomes.
+A new spread tab with three columns: **Graveyard**, **Current Area**, and **Next Area**. Cards cascade on each draw: the drawn card moves from Current to Graveyard, and a random card from Next simultaneously moves into Current. Every card displays its **source deck label** regardless of which column it currently occupies.
+
+**Design decisions (locked):**
+- **Three columns**: Graveyard (starts empty, accumulates drawn cards), Current Area (user-selectable deck), Next Area (user-selectable deck).
+- **On draw**: one random card spliced from Current → pushed to Graveyard; one random card spliced from Next → pushed to Current. Both transfers are atomic on a single draw action.
+- **Source deck tracking**: each card is stamped with a `sourceDeck` label at initialization time — Current cards with the Current deck name, Next cards with the Next deck name. The label persists as cards move between columns.
+- **Refresh**: Current and Next can each be independently refilled from their selected deck without clearing the Graveyard.
+- **Graveyard**: never refilled. Only cleared by the global Clear All Spreads action.
+- **Three-column layout**: Graveyard column shows a scrollable list of drawn cards (name + orientation + source deck label). Current column shows deck selector + remaining count + Draw button + drawn card panel. Next column shows deck selector + remaining count + Refresh button.
+- **No fixed positional slots**: no C.## card IDs. A new `cascadeDraw()` function handles all draw logic; `generateCard()` is not used.
 
 **What needs doing:**
-- Design the cascade logic: define how drawn cards map to subsequent deck selections.
-- Build a new spread tab with cascading positions.
-- Extend `generateCard()` or create a new function to support deck selection that depends on the result of a previous draw.
-- Each position in the cascade must visually show which deck it is drawing from.
-- The cascade should work seamlessly with the existing custom deck system.
-- Define a configuration object or UI controls to set up cascade rules.
+- Add `cascadeCurrent` and `cascadeNext` to `selectedDecks`
+- Add `cascadeCurrent` and `cascadeNext` to `workingDecks` as `{ name, sourceDeck }[]` object arrays — a departure from the existing `string[]` pattern used by all other spreads
+- Add `graveyardCards = []` global accumulator (`{ name, orientation, sourceDeck }[]`)
+- New `cascadeDraw()` function: splices random card from `cascadeCurrent`, assigns orientation, pushes to `graveyardCards`, splices random card from `cascadeNext` into `cascadeCurrent`
+- New `cascade-spread` tab HTML with three-column layout; no fixed slot buttons
+- Drawn card detail displayed inline in the Current column
+- Sidebar shows 3 rows when this spread is active: Graveyard count, Current remaining, Next remaining
+- Export/import updated to serialize `graveyardCards` and both cascade working deck states
 
 **Dependencies:**
-- Requires **Custom Deck Building** to be completed first.
-- Works well with **Import/Export**.
+- ✅ All prerequisites are complete.
 
 ---
 
@@ -266,15 +276,16 @@ A new spread tab based on the Dungeon Spread from the WotC source book. Nine slo
 
 | | Item 7: Cascading Deck | Item 8: Dungeon Spread |
 |---|---|---|
-| Design status | **Incomplete** — cascade rules not yet defined | **Complete** — all decisions locked |
-| Implementation blocker | Must define cascade rules before any code | None |
+| Design status | **Complete** — all decisions locked | **Complete** — all decisions locked |
+| New card IDs | None — no positional slots | C.46–C.59 (14 new IDs) |
 | Changes to existing code | Additive only | `getSpreadKey`, `initializeWorkingDecks`, `generateCard`, `updateDeckSidebar`, `clearAllSpreads` |
-| New HTML structures | Standard single-card panels (no new template) | Dual-card detail panel (new template) |
-| Working decks affected | 1 new entry | 3 new entries |
-| Deck selector | User-configurable cascade targets | Greyed out (fixed decks) |
-| **Overall complexity** | Low–Moderate (architecture) + design cost | **Moderate–High** |
+| New HTML structures | Three-column layout (no slot buttons) | Three-column layout + dual-card detail panel |
+| Working decks affected | 2 new entries (`{ name, sourceDeck }[]` type) | 3 new entries (`string[]` type) |
+| New globals | `graveyardCards = []` accumulator | None beyond working decks |
+| Deck selector | Two selectors (Current + Next) | Greyed out (fixed decks) |
+| **Overall complexity** | **Moderate** | **Moderate–High** |
 
-**Bottom line:** The Dungeon Spread is more complex to code but can begin immediately. The Cascading Deck Spread is architecturally lighter but cannot start until cascade rules are defined — what a drawn card maps to, how cascade levels are configured, and what the UI shows per slot.
+**Bottom line:** Cascading Deck is the simpler of the two. It is fully additive, requires no new card ID range, and modifies no existing functions. The Dungeon Spread modifies five existing functions and introduces a new dual-card panel template.
 
 ---
 
