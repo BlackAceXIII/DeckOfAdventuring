@@ -218,14 +218,30 @@ A new spread tab with three columns: **Graveyard**, **Current Area**, and **Next
 - **No fixed positional slots**: no C.## card IDs. A new `cascadeDraw()` function handles all draw logic; `generateCard()` is not used.
 
 **What needs doing:**
-- Add `cascadeCurrent` and `cascadeNext` to `selectedDecks`
-- Add `cascadeCurrent` and `cascadeNext` to `workingDecks` as `{ name, sourceDeck }[]` object arrays — a departure from the existing `string[]` pattern used by all other spreads
-- Add `graveyardCards = []` global accumulator (`{ name, orientation, sourceDeck }[]`)
-- New `cascadeDraw()` function: splices random card from `cascadeCurrent`, assigns orientation, pushes to `graveyardCards`, splices random card from `cascadeNext` into `cascadeCurrent`
-- New `cascade-spread` tab HTML with three-column layout; no fixed slot buttons
-- Drawn card detail displayed inline in the Current column
-- Sidebar shows 3 rows when this spread is active: Graveyard count, Current remaining, Next remaining
-- Export/import updated to serialize `graveyardCards` and both cascade working deck states
+
+*Globals & state*
+- [ ] Add `cascadeCurrent` and `cascadeNext` to `selectedDecks`
+- [ ] Add `cascadeCurrent` and `cascadeNext` to `workingDecks` as `{ name, sourceDeck }[]` (not plain strings)
+- [ ] Add `graveyardCards = []` global accumulator (`{ name, orientation, sourceDeck }[]`)
+
+*Core logic*
+- [ ] Update `initializeWorkingDecks()` to populate `cascadeCurrent` and `cascadeNext`, stamping each card object with `sourceDeck` at init time
+- [ ] Write `cascadeDraw()`: splice random card from `cascadeCurrent` → push to `graveyardCards` with orientation; splice random card from `cascadeNext` → push to `cascadeCurrent`
+
+*HTML (new tab)*
+- [ ] Add `cascade-spread` tab button to the nav
+- [ ] Build three-column tab layout: Graveyard column, Current column, Next column
+- [ ] Current column: deck selector dropdown, remaining count, Draw button, drawn card detail panel (inline, not overlay)
+- [ ] Next column: deck selector dropdown, remaining count, Refresh button
+- [ ] Graveyard column: scrollable list container (each entry shows card name, orientation, source deck label)
+
+*Deck selectors*
+- [ ] Add `cascade-current-deck-selector` and `cascade-next-deck-selector`; hook into `populateDropdown()`
+
+*Updates to existing functions*
+- [ ] `updateDeckSidebar()` — add 3-row cascade state (Graveyard count, Current remaining, Next remaining) when cascade spread is active
+- [ ] `clearAllSpreads()` — reset `graveyardCards = []`, reinitialize cascade working decks, clear Graveyard column DOM
+- [ ] `exportReading()` / `importReading()` — serialize and restore `graveyardCards`, `selectedDecks.cascadeCurrent/Next`, and cascade working deck states
 
 **Dependencies:**
 - ✅ All prerequisites are complete.
@@ -258,14 +274,26 @@ A new spread tab based on the Dungeon Spread from the WotC source book. Nine slo
 - **Deck selector greyed out** on this tab; deck assignments are fixed at the code level, not user-configurable.
 
 **What needs doing:**
-- `getSpreadKey()` extended with a per-card lookup for C.46–C.59 (returns one of three working-deck keys, not a single spread key)
-- `initializeWorkingDecks()` adds 3 hardcoded entries populated directly from `deckLists.json` deck names
-- New `dungeon-spread` tab in HTML with 9 slot buttons
-- New dual-card detail panel HTML structure alongside the existing single-card template
-- `generateCard()` draws once or twice depending on whether the card ID belongs to a two-card slot
-- `updateDeckSidebar()` shows 3 rows when dungeon spread is active
-- `clearAllSpreads()` resets the 3 new working decks and the 14 dungeon slot DOM elements
-- `SPREAD_SLOTS` updated for Quick Fill support (new fields: `deck`, `secondId`, `secondDeck`)
+
+*Core logic*
+- [ ] Add `DUNGEON_CARD_DECKS` lookup object mapping C.46–C.59 to `'dungeonStory'`, `'dungeonLocations'`, or `'dungeonFeatures'`
+- [ ] Extend `getSpreadKey()` to use the lookup for C.46–C.59
+- [ ] Update `initializeWorkingDecks()` to populate `dungeonStory`, `dungeonLocations`, `dungeonFeatures` from hardcoded deck names (bypasses `selectedDecks`)
+- [ ] Extend `generateCard()` to detect two-card dungeon slots and draw from each of the two deck keys for that slot
+- [ ] Write `redrawDungeonSpread()`: validate all 3 deck sizes, reset 3 working decks, call `generateCard` for all 14 card IDs
+
+*HTML (new tab)*
+- [ ] Add `dungeon-spread` tab button to the nav
+- [ ] Build dungeon slot grid (9 buttons, same asymmetric layout as Adventure Spread)
+- [ ] Add static single-card detail panels for C.46, C.47, C.48, C.57
+- [ ] Add dual-card detail panels for the 5 two-card slots (C.49/C.50, C.51/C.52, C.53/C.54, C.55/C.56, C.58/C.59) — Location and Feature side by side, each with its own Redraw button
+- [ ] Add dungeon summary table (9 rows; two-card rows show both Location and Feature name/orientation)
+
+*Updates to existing functions*
+- [ ] `updateDeckSidebar()` — show 3 rows (Story, Locations, Features remaining) when dungeon spread is active; grey out deck selector dropdown
+- [ ] `openQuickFill()` — handle dungeon two-card slots (two input rows per slot, autocomplete scoped per deck)
+- [ ] `clearAllSpreads()` — reset C.46–C.59 DOM, reinitialize 3 dungeon working decks
+- [ ] `exportReading()` / `importReading()` — verify C.46–C.59 coverage; confirm dual-card slot restore works correctly
 
 **Dependencies:**
 - ✅ All prerequisites are complete.

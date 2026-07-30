@@ -436,10 +436,49 @@ Each value is a flat array of card name strings. Duplicates are allowed (weighte
 Dedicated 5×3 grid using C.31–C.45. All integration points (working deck, sidebar, Quick Fill, export/import) are fully wired. No further changes needed for this item.
 
 ### Item 7 — Cascading Deck Spread
-New spread tab. Design fully locked — see README for column design and cascade mechanics. Fully additive — no existing functions are modified. Touch points: new `cascadeCurrent`/`cascadeNext` entries in `selectedDecks` and `workingDecks` (as `{ name, sourceDeck }[]` object arrays, not plain strings), new `graveyardCards = []` global, new `cascadeDraw()` function, new `cascade-spread` tab HTML with three-column layout (no slot buttons, no SPREAD_SLOTS entry), sidebar updated to show 3 rows when spread is active, export/import updated to include `graveyardCards` and cascade deck states. Does not use `generateCard()` or `getSpreadKey()`.
+New spread tab. Design fully locked — see README for column design and cascade mechanics. Fully additive; no existing functions are modified. Does not use `generateCard()` or `getSpreadKey()`.
+
+**Globals & state**
+- [ ] Add `cascadeCurrent`, `cascadeNext` to `selectedDecks`
+- [ ] Add `cascadeCurrent`, `cascadeNext` to `workingDecks` as `{ name, sourceDeck }[]` (not `string[]`)
+- [ ] Add `graveyardCards = []` global (`{ name, orientation, sourceDeck }[]`)
+
+**Core logic**
+- [ ] `initializeWorkingDecks()` — populate cascade decks, stamp each card with `sourceDeck` at init
+- [ ] `cascadeDraw()` — splice from `cascadeCurrent` → `graveyardCards`; splice from `cascadeNext` → `cascadeCurrent`
+
+**HTML**
+- [ ] Tab nav button (`cascade-spread`)
+- [ ] Three-column layout: Graveyard (scrollable list with source deck label per entry), Current (selector + count + Draw + inline detail panel), Next (selector + count + Refresh)
+- [ ] `cascade-current-deck-selector` and `cascade-next-deck-selector` wired into `populateDropdown()`
+
+**Existing function updates**
+- [ ] `updateDeckSidebar()` — 3 rows when cascade active: Graveyard count, Current remaining, Next remaining
+- [ ] `clearAllSpreads()` — reset `graveyardCards`, reinitialize cascade decks, clear Graveyard DOM
+- [ ] `exportReading()` / `importReading()` — serialize/restore `graveyardCards`, cascade `selectedDecks`, cascade working deck states
 
 ### Item 8 — Dungeon Spread
-New separate spread tab. Design fully locked — see README for slot-deck assignments and card ID table. Touch points: `getSpreadKey()` (new per-card lookup for C.46–C.59 returning one of three working-deck keys), `initializeWorkingDecks()` (3 hardcoded entries populated directly from `deckLists.json`), new HTML tab with 9 slot buttons and a new dual-card detail panel template, `generateCard()` (conditional single-or-dual draw based on card ID), `updateDeckSidebar()` (3 rows when dungeon spread is active), `clearAllSpreads()` (60 slots + 3 new working decks), `SPREAD_SLOTS` (new `deck`/`secondId`/`secondDeck` fields for Quick Fill). Does not use `selectedDecks` — deck assignments are fixed at the code level.
+New separate spread tab. Design fully locked — see README for slot-deck assignments and card ID table. Does not use `selectedDecks` — deck assignments are fixed at the code level.
+
+**Core logic**
+- [ ] `DUNGEON_CARD_DECKS` lookup object: C.46–C.59 → `'dungeonStory'` / `'dungeonLocations'` / `'dungeonFeatures'`
+- [ ] `getSpreadKey()` — use lookup for C.46–C.59
+- [ ] `initializeWorkingDecks()` — populate `dungeonStory`, `dungeonLocations`, `dungeonFeatures` from hardcoded deck names
+- [ ] `generateCard()` — detect two-card slots; draw from each of the two deck keys per slot
+- [ ] `redrawDungeonSpread()` — validate 3 deck sizes, reset 3 working decks, `generateCard` for all 14 IDs
+
+**HTML**
+- [ ] Tab nav button (`dungeon-spread`)
+- [ ] 9-button slot grid (asymmetric layout matching Adventure Spread)
+- [ ] Single-card detail panels for C.46, C.47, C.48, C.57
+- [ ] Dual-card detail panels for C.49/C.50, C.51/C.52, C.53/C.54, C.55/C.56, C.58/C.59 (Location + Feature side by side, each with Redraw button)
+- [ ] Summary table (9 rows; two-card rows show both card names + orientations)
+
+**Existing function updates**
+- [ ] `updateDeckSidebar()` — 3 rows (Story, Locations, Features remaining); grey out deck selector
+- [ ] `openQuickFill()` — two input rows per two-card slot, autocomplete scoped per deck
+- [ ] `clearAllSpreads()` — reset C.46–C.59 DOM, reinitialize 3 dungeon working decks
+- [ ] `exportReading()` / `importReading()` — verify C.46–C.59 coverage; confirm dual-card slot restore
 
 ### Item 9 — CSS and Visual Improvements (final pass)
 - Finalize all `clamp()` values in the mobile media query
