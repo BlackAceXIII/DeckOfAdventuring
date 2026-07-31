@@ -1355,6 +1355,12 @@ function updateCascadeCounts() {
   setText('cascade-next-count',    `${nextCount} card${nextCount !== 1 ? 's' : ''} remaining`);
 }
 
+// Empties the graveyard without affecting Current or Next working decks
+function cascadeClearGraveyard() {
+  graveyardCards = [];
+  updateGraveyardDisplay();
+}
+
 // Rebuilds the graveyard list and updates its card count label
 function updateGraveyardDisplay() {
   const list = document.getElementById('cascade-graveyard-list');

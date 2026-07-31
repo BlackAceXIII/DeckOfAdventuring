@@ -1220,6 +1220,12 @@ body {
   color: var(--muted);
 }
 
+.graveyard-clear-btn {
+  margin-top: 6px;
+  font-size: 0.75rem;
+  padding: 4px 10px;
+}
+
 .cascade-draw-bar {
   margin-top: 14px;
   max-width: 75%;
