@@ -511,8 +511,9 @@ body {
   background-color: var(--secondary-color);
 }
 
-/* Meanings section — retro terminal display */
-div[id^="meanings-C."] {
+/* Meanings section — retro terminal display (card slots + cascade drawn-card panel) */
+div[id^="meanings-C."],
+#cascade-card-meanings {
   background: #0d0d0d;
   padding: 12px 14px;
   border-radius: 0;
@@ -521,7 +522,8 @@ div[id^="meanings-C."] {
   font-family: 'Courier New', Courier, monospace;
 }
 
-div[id^="meanings-C."] h5 {
+div[id^="meanings-C."] h5,
+#cascade-card-meanings h5 {
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -533,17 +535,20 @@ div[id^="meanings-C."] h5 {
   border-bottom: none;
 }
 
-div[id^="meanings-C."] h5:first-child {
+div[id^="meanings-C."] h5:first-child,
+#cascade-card-meanings h5:first-child {
   margin-top: 0;
   padding-top: 0;
   border-top: none;
 }
 
-div[id^="meanings-C."] h5::before {
+div[id^="meanings-C."] h5::before,
+#cascade-card-meanings h5::before {
   content: '> ';
 }
 
-div[id^="meanings-C."] h5 span {
+div[id^="meanings-C."] h5 span,
+#cascade-card-meanings h5 span {
   display: block;
   font-weight: 400;
   font-size: 0.8rem;
@@ -1090,6 +1095,84 @@ body {
 .sidebar-card-qty.placed {
   background: #2e6da4;
   color: #fff;
+}
+
+/* ========== CASCADE SPREAD STYLES ========== */
+.cascade-columns {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 16px;
+  align-items: start;
+  margin-top: 12px;
+}
+
+.cascade-col {
+  border: 1px solid var(--surface-border-standard);
+  border-radius: 6px;
+  padding: 14px;
+  background: var(--surface);
+}
+
+.cascade-col-header {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary-color);
+  color: var(--surface-text);
+}
+
+.cascade-col-count {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0 0 10px 0;
+}
+
+.cascade-graveyard-list {
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+.cascade-empty-msg {
+  color: var(--muted);
+  font-style: italic;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.cascade-graveyard-entry {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--surface-border-lighter);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.cascade-graveyard-entry:last-child {
+  border-bottom: none;
+}
+
+.cascade-graveyard-entry .cascade-entry-name {
+  font-weight: 600;
+  color: var(--surface-text);
+}
+
+.cascade-graveyard-entry .cascade-entry-meta {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.cascade-drawn-card {
+  margin-top: 14px;
+  padding: 12px;
+  background: var(--surface2);
+  border-radius: 4px;
+  border: 1px solid var(--surface-border-light);
+}
+
+.cascade-source-label {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin: 2px 0 8px 0;
 }
 
 /* ========== RESPONSIVE LAYOUT ========== */
