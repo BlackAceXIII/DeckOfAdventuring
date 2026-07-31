@@ -114,7 +114,7 @@ Functions use one of two forms. Do not mix them.
 | Three-Card Spread | `'three-card-spread'` | `'threeCard'` |
 | Journey Spread | `'journey-spread'` | `'journey'` |
 | Blank Slate Spread | `'blank-slate-spread'` | `'blankSlate'` |
-| Cascading Deck Spread | `'cascade-spread'` | *(no spread key — uses `cascadeCurrent` / `cascadeNext` directly via `cascadeDraw()`, bypasses `getSpreadKey`)* |
+| Random Encounter Table | `'cascade-spread'` | *(no spread key — uses `cascadeCurrent` / `cascadeNext` directly via `cascadeDraw()`, bypasses `getSpreadKey`)* |
 | Dungeon Spread | `'dungeon-spread'` | `'dungeonStory'` / `'dungeonLocations'` / `'dungeonFeatures'` — keyed per card ID, not per spread (see `getSpreadKey`) |
 | Deck Forge | `'deck-forge-spread'` | *(not a spread)* |
 
@@ -435,7 +435,7 @@ Each value is a flat array of card name strings. Duplicates are allowed (weighte
 ### Item 6 — Free-Form / Blank Slate Spread ✅ Complete
 Dedicated 5×3 grid using C.31–C.45. All integration points (working deck, sidebar, Quick Fill, export/import) are fully wired. No further changes needed for this item.
 
-### Item 7 — Cascading Deck Spread
+### Item 7 — Random Encounter Table
 New spread tab. Design fully locked — see README for column design and cascade mechanics. Fully additive; no existing functions are modified. Does not use `generateCard()` or `getSpreadKey()`.
 
 **Globals & state**

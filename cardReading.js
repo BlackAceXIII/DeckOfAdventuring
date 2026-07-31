@@ -4,7 +4,9 @@ let selectedDecks = {
   fiveCard: 'Default',
   threeCard: 'Default',
   journey: 'Default',
-  blankSlate: 'Default'
+  blankSlate: 'Default',
+  cascadeCurrent: 'Default',
+  cascadeNext: 'Default'
 };
 
 let isReplaceableEnabled = false; // Default to "No" to match common Tarot logic
@@ -25,8 +27,12 @@ let workingDecks = {
   fiveCard: [],     // C.09-C.13
   threeCard: [],    // C.14-C.16
   journey: [],      // C.17-C.30
-  blankSlate: []    // C.31-C.45
+  blankSlate: [],   // C.31-C.45
+  cascadeCurrent: [], // {name, sourceDeck}[] — Current Area pool
+  cascadeNext: []     // {name, sourceDeck}[] — Next Area pool
 };
+
+let graveyardCards = []; // {name, orientation, sourceDeck}[]
 
 const CARD_DIR = './CardsJsons';
 
@@ -211,7 +217,7 @@ function initializeWorkingDecks() {
   spreads.forEach(spread => {
     // 2.1 Get the selected deck name for this spread
     const deckName = selectedDecks[spread];
-    
+
     // 2.2 If the selected deck exists, create a copy for the working deck
     if (allDecks && allDecks[deckName]) {
       // 2.2.1 Spread operator [...] creates a shallow copy to avoid mutating original
@@ -224,6 +230,20 @@ function initializeWorkingDecks() {
       workingDecks[spread] = [...allDecks[firstDeck]];
     }
   });
+
+  // STEP 3: Initialize cascade working decks as {name, sourceDeck}[] objects
+  // Cards must carry their origin deck so the label persists through Graveyard
+  ['cascadeCurrent', 'cascadeNext'].forEach(key => {
+    const deckName = selectedDecks[key];
+    const source = (allDecks && allDecks[deckName]) ? deckName : (allDecks ? Object.keys(allDecks)[0] : null);
+    const cards = source && allDecks[source] ? allDecks[source] : [];
+    workingDecks[key] = cards.map(name => ({ name, sourceDeck: source }));
+  });
+
+  // STEP 4: Refresh the cascade column lists to reflect the new pools
+  updateCurrentList();
+  updateNextList();
+  updateCascadeCounts();
 }
 
 // Helper function to reset a specific spread's working deck
@@ -245,17 +265,21 @@ function populateDropdown(deckLists) {
   selectedDecks.threeCard = defaultDeck;
   selectedDecks.journey = defaultDeck;
   selectedDecks.blankSlate = defaultDeck;
+  selectedDecks.cascadeCurrent = defaultDeck;
+  selectedDecks.cascadeNext = defaultDeck;
   // 1.3 Initialize the working decks (copies for card drawing)
   initializeWorkingDecks();
 
   // STEP 2: Define metadata for each spread's deck selector
   // 2.1 Create configuration objects with spread info and HTML IDs
   const spreads = [
-    { key: 'adventure',  id: 'deck-select-adventure',  label: 'Adventure Spread' },
-    { key: 'fiveCard',   id: 'deck-select-fiveCard',   label: 'Five-Card Spread' },
-    { key: 'threeCard',  id: 'deck-select-threeCard',  label: 'Three-Card Spread' },
-    { key: 'journey',    id: 'deck-select-journey',    label: 'Journey Spread' },
-    { key: 'blankSlate', id: 'deck-select-blankSlate', label: 'Blank Slate Spread' }
+    { key: 'adventure',      id: 'deck-select-adventure',      label: 'Adventure Spread' },
+    { key: 'fiveCard',       id: 'deck-select-fiveCard',       label: 'Five-Card Spread' },
+    { key: 'threeCard',      id: 'deck-select-threeCard',      label: 'Three-Card Spread' },
+    { key: 'journey',        id: 'deck-select-journey',        label: 'Journey Spread' },
+    { key: 'blankSlate',     id: 'deck-select-blankSlate',     label: 'Blank Slate Spread' },
+    { key: 'cascadeCurrent', id: 'deck-select-cascadeCurrent', label: '' },
+    { key: 'cascadeNext',    id: 'deck-select-cascadeNext',    label: '' }
   ];
 
   // STEP 3: Create dropdown selectors for each spread
@@ -271,8 +295,9 @@ function populateDropdown(deckLists) {
 // Create a deck selector for a specific spread
 function createSpreadDeckSelector(spreadKey, selectId, label, deckLists) {
   // STEP 1: Build the HTML select element and options
-  // 1.1 Create the select element with label and class
-  let dropdown = `<label>${label} Deck:</label><select id="${selectId}" class="deck-select-spread">`;
+  // 1.1 Create the select element; label is omitted when empty (e.g. cascade columns where the h3 already names the deck)
+  let dropdown = label ? `<label>${label} Deck:</label>` : '';
+  dropdown += `<select id="${selectId}" class="deck-select-spread">`;
   // 1.2 Iterate through all available decks and create option elements
   for (let deckName in deckLists) {
     dropdown += `<option value="${deckName}">${deckName}</option>`;
@@ -499,6 +524,13 @@ function openSpread(evt, spreadName) {
   for (let i = 0; i < spreadTabcontent.length; i++) {
     spreadTabcontent[i].style.display = "none";
   }
+
+  // STEP 1.5: Close any open card detail panels — these live outside spread-tabcontent
+  // and would otherwise remain visible when switching to a different spread (including Deck Forge)
+  const openTabcontent = document.getElementsByClassName("tabcontent");
+  for (let i = 0; i < openTabcontent.length; i++) {
+    openTabcontent[i].style.display = "none";
+  }
   
   // STEP 2: Remove active state from all spread tab links
   // 2.1 Get all spread tab buttons
@@ -518,8 +550,31 @@ function openSpread(evt, spreadName) {
     evt.currentTarget.classList.add("active");
   }
   
-  // STEP 4: Update sidebar to show cards for the current spread's deck
-  // 4.1 Refresh sidebar contents when spread changes
+  // STEP 4: Switch sidebar content based on active spread
+  const sidebarTitle       = document.getElementById('sidebar-title');
+  const sidebarInventory   = document.getElementById('sidebar-content-inventory');
+  const sidebarGraveyard   = document.getElementById('sidebar-content-graveyard');
+  const deckSidebar        = document.getElementById('deck-sidebar');
+
+  if (spreadName === 'cascade-spread') {
+    // Show graveyard in sidebar; hide deck inventory
+    if (sidebarTitle)     sidebarTitle.textContent = 'Graveyard';
+    if (sidebarInventory) sidebarInventory.style.display = 'none';
+    if (sidebarGraveyard) sidebarGraveyard.style.display = '';
+    if (deckSidebar)      deckSidebar.style.display = '';
+  } else if (spreadName === 'deck-forge-spread') {
+    // Deck Forge needs neither — hide the sidebar
+    if (deckSidebar) deckSidebar.style.display = 'none';
+  } else {
+    // All other spreads: show deck inventory
+    if (sidebarTitle)     sidebarTitle.textContent = 'Deck Inventory';
+    if (sidebarInventory) sidebarInventory.style.display = '';
+    if (sidebarGraveyard) sidebarGraveyard.style.display = 'none';
+    if (deckSidebar)      deckSidebar.style.display = '';
+  }
+
+  // STEP 5: Update sidebar to show cards for the current spread's deck
+  // 5.1 Refresh sidebar contents when spread changes
   updateDeckSidebar();
 }
 
@@ -1216,7 +1271,16 @@ function clearAllSpreads() {
   // 2. Refill the internal javascript decks to full capacity
   initializeWorkingDecks();
 
-  // 3. Refresh sidebar so it reflects the cleared/refilled state immediately
+  // 3. Reset cascade state
+  graveyardCards = [];
+  updateGraveyardDisplay();
+  updateCurrentList();
+  updateNextList();
+  updateCascadeCounts();
+  const drawnPanel = document.getElementById('cascade-drawn-card');
+  if (drawnPanel) drawnPanel.style.display = 'none';
+
+  // 4. Refresh sidebar so it reflects the cleared/refilled state immediately
   updateDeckSidebar();
 }
 
@@ -1277,6 +1341,158 @@ document.addEventListener('click', function(e) {
     }
   }
 });
+
+// ========== RANDOM ENCOUNTER TABLE FUNCTIONS ==========
+
+// Updates the "N cards remaining" counters under each column header
+function updateCascadeCounts() {
+  // STEP 1: Read how many cards are left in each working pool
+  const currentCount = workingDecks.cascadeCurrent ? workingDecks.cascadeCurrent.length : 0;
+  const nextCount    = workingDecks.cascadeNext    ? workingDecks.cascadeNext.length    : 0;
+
+  // STEP 2: Write count text to each column's counter element
+  setText('cascade-current-count', `${currentCount} card${currentCount !== 1 ? 's' : ''} remaining`);
+  setText('cascade-next-count',    `${nextCount} card${nextCount !== 1 ? 's' : ''} remaining`);
+}
+
+// Rebuilds the graveyard list and updates its card count label
+function updateGraveyardDisplay() {
+  const list = document.getElementById('cascade-graveyard-list');
+  if (!list) return;
+
+  // STEP 1: Show placeholder when graveyard is empty
+  if (graveyardCards.length === 0) {
+    list.innerHTML = '<p class="cascade-empty-msg">No cards drawn yet.</p>';
+  } else {
+    // STEP 2: Render entries newest-first (reverse order) as name + orientation + source label
+    list.innerHTML = graveyardCards.slice().reverse().map(card =>
+      `<div class="cascade-graveyard-entry">
+        <span class="cascade-entry-name">${card.name}</span> — ${card.orientation}
+        <div class="cascade-entry-meta">From: ${card.sourceDeck}</div>
+      </div>`
+    ).join('');
+  }
+
+  // STEP 3: Update the graveyard count label
+  setText('cascade-graveyard-count', `${graveyardCards.length} card${graveyardCards.length !== 1 ? 's' : ''}`);
+}
+
+// Rebuilds the card list shown inside the Current Area column
+function updateCurrentList() {
+  const list = document.getElementById('cascade-current-list');
+  if (!list) return;
+  const cards = workingDecks.cascadeCurrent || [];
+  if (cards.length === 0) {
+    list.innerHTML = '<p class="cascade-empty-msg">No cards loaded.</p>';
+  } else {
+    // STEP 1: Render each card name; source deck label shown when it differs from selection (post-migration from Next)
+    list.innerHTML = cards.map(card =>
+      `<div class="cascade-col-list-entry">
+        <span class="cascade-entry-name">${card.name}</span>
+        <div class="cascade-entry-meta">From: ${card.sourceDeck}</div>
+      </div>`
+    ).join('');
+  }
+}
+
+// Rebuilds the card list shown inside the Next Area column
+function updateNextList() {
+  const list = document.getElementById('cascade-next-list');
+  if (!list) return;
+  const cards = workingDecks.cascadeNext || [];
+  if (cards.length === 0) {
+    list.innerHTML = '<p class="cascade-empty-msg">No cards loaded.</p>';
+  } else {
+    list.innerHTML = cards.map(card =>
+      `<div class="cascade-col-list-entry">
+        <span class="cascade-entry-name">${card.name}</span>
+        <div class="cascade-entry-meta">From: ${card.sourceDeck}</div>
+      </div>`
+    ).join('');
+  }
+}
+
+function cascadeDraw() {
+  // STEP 1: Guard — need cards in Current
+  if (!workingDecks.cascadeCurrent || workingDecks.cascadeCurrent.length === 0) {
+    alert('Current Area is empty. Use Refresh Current to refill it.');
+    return;
+  }
+
+  // STEP 2: Draw a random card from cascadeCurrent
+  const idx = Math.floor(Math.random() * workingDecks.cascadeCurrent.length);
+  const drawn = workingDecks.cascadeCurrent.splice(idx, 1)[0];
+
+  // STEP 3: Assign random orientation
+  const isUpright = Math.random() < 0.5;
+  const orientationText = isUpright ? 'Upright' : 'Reversed';
+
+  // STEP 4: Move drawn card to graveyard
+  graveyardCards.push({ name: drawn.name, orientation: orientationText, sourceDeck: drawn.sourceDeck });
+
+  // STEP 5: Pull one random card from cascadeNext into cascadeCurrent
+  if (workingDecks.cascadeNext && workingDecks.cascadeNext.length > 0) {
+    const nextIdx = Math.floor(Math.random() * workingDecks.cascadeNext.length);
+    const pulled = workingDecks.cascadeNext.splice(nextIdx, 1)[0];
+    workingDecks.cascadeCurrent.push(pulled);
+  }
+
+  // STEP 6: Populate the drawn card detail panel
+  const cardData = allCards && allCards.cards ? allCards.cards[drawn.name] : null;
+  setText('cascade-card-name', drawn.name);
+  setText('cascade-card-source', drawn.sourceDeck);
+  setText('cascade-card-orientation', orientationText);
+  setText('cascade-card-description', cardData ? (cardData.description || '—') : '—');
+
+  // STEP 7: Fill meanings for the drawn orientation
+  const meanings = cardData ? cardData.meanings : null;
+  const orientKey = isUpright ? 'upright' : 'reverse';
+  const meaningMap = { person: 'person', creatureTrap: 'creature', place: 'place', treasure: 'treasure', situation: 'situation' };
+  Object.entries(meaningMap).forEach(([srcKey, domKey]) => {
+    const val = meanings && meanings[srcKey] ? (meanings[srcKey][orientKey] || '—') : '—';
+    setText(`cascade-meaning-${domKey}`, val);
+  });
+
+  // STEP 8: Show the detail panel
+  const panel = document.getElementById('cascade-drawn-card');
+  if (panel) panel.style.display = 'block';
+
+  // STEP 9: Update all column displays and counts
+  updateGraveyardDisplay();
+  updateCurrentList();
+  updateNextList();
+  updateCascadeCounts();
+}
+
+// Refills the Current Area working deck from the currently selected deck
+// Does NOT touch the Graveyard — only the draw pool resets
+function cascadeRefreshCurrent() {
+  // STEP 1: Get the selected deck name for Current Area
+  const deckName = selectedDecks.cascadeCurrent;
+  if (!deckName || !allDecks[deckName]) return;
+
+  // STEP 2: Stamp each card with its source deck so it tracks through to Graveyard
+  workingDecks.cascadeCurrent = allDecks[deckName].map(name => ({ name, sourceDeck: deckName }));
+
+  // STEP 3: Update the count display and card list
+  updateCurrentList();
+  updateCascadeCounts();
+}
+
+// Refills the Next Area working deck from the currently selected deck
+// Does NOT touch the Graveyard or Current Area
+function cascadeRefreshNext() {
+  // STEP 1: Get the selected deck name for Next Area
+  const deckName = selectedDecks.cascadeNext;
+  if (!deckName || !allDecks[deckName]) return;
+
+  // STEP 2: Stamp each card with its source deck so it tracks when moved to Current
+  workingDecks.cascadeNext = allDecks[deckName].map(name => ({ name, sourceDeck: deckName }));
+
+  // STEP 3: Update the count display and card list
+  updateNextList();
+  updateCascadeCounts();
+}
 
 // ========== IMPORT/EXPORT FUNCTIONS ==========
 //

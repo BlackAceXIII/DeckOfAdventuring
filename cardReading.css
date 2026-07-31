@@ -367,7 +367,9 @@ body {
 }
 /* Spread selection tabs */
 .spread-tabs {
-  overflow: hidden;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
   border: 1px solid var(--surface-border-standard);
   background-color: var(--surface-bg-alt);
   margin-bottom: 20px;
@@ -375,13 +377,18 @@ body {
 
 .spread-tabs button {
   background-color: inherit;
-  float: left;
   border: none;
   outline: none;
   cursor: pointer;
   padding: 14px 16px;
   transition: 0.3s;
   font-size: 16px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.spread-tabs .deck-forge-tab {
+  margin-left: auto;
 }
 
 .spread-tabs button:hover {
@@ -1098,12 +1105,14 @@ body {
 }
 
 /* ========== CASCADE SPREAD STYLES ========== */
+
 .cascade-columns {
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
   gap: 16px;
-  align-items: start;
+  align-items: stretch;
   margin-top: 12px;
+  max-width: 75%;
 }
 
 .cascade-col {
@@ -1113,13 +1122,36 @@ body {
   background: var(--surface);
 }
 
+.cascade-col-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary-color);
+}
+
 .cascade-col-header {
   font-size: 1rem;
   font-weight: 700;
+  margin: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+  color: var(--surface-text);
+  white-space: nowrap;
+}
+
+/* Standalone header (Graveyard — no selector) keeps its bottom border */
+.cascade-graveyard-col .cascade-col-header {
   margin: 0 0 10px 0;
   padding-bottom: 8px;
   border-bottom: 2px solid var(--primary-color);
-  color: var(--surface-text);
+}
+
+.cascade-col-title-row .spread-deck-selector {
+  flex: 1;
+  min-width: 0;
 }
 
 .cascade-col-count {
@@ -1161,12 +1193,50 @@ body {
   color: var(--muted);
 }
 
-.cascade-drawn-card {
+.cascade-col-list {
+  margin-top: 12px;
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+.cascade-col-list-entry {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--surface-border-lighter);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.cascade-col-list-entry:last-child {
+  border-bottom: none;
+}
+
+.cascade-col-list-entry .cascade-entry-name {
+  font-weight: 600;
+  color: var(--surface-text);
+}
+
+.cascade-col-list-entry .cascade-entry-meta {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.cascade-draw-bar {
   margin-top: 14px;
-  padding: 12px;
+  max-width: 75%;
+}
+
+.cascade-draw-btn {
+  font-size: 1rem;
+  padding: 10px 28px;
+}
+
+.cascade-drawn-card {
+  margin-top: 10px;
+  padding: 16px;
   background: var(--surface2);
   border-radius: 4px;
   border: 1px solid var(--surface-border-light);
+  max-width: 75%;
 }
 
 .cascade-source-label {

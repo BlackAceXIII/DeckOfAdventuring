@@ -7,20 +7,31 @@
         <link rel="stylesheet" type="text/css" href="cardReading.css">
     </head>
     <body>
-        <!-- Sidebar: High-Efficiency Deck Inventory -->
+        <!-- Sidebar: Deck Inventory (most spreads) or Graveyard (Random Encounter Table) -->
         <div id="deck-sidebar" class="deck-sidebar">
             <div class="sidebar-header">
-                <h3>Deck Inventory</h3>
+                <h3 id="sidebar-title">Deck Inventory</h3>
                 <button class="sidebar-collapse-btn" onclick="toggleSidebar()">−</button>
             </div>
-            <div class="sidebar-deck-info">
-                <p id="sidebar-deck-name" class="sidebar-deck-name">—</p>
-                <p id="sidebar-card-count" class="sidebar-card-count">0 cards left</p>
-                
+            <!-- Standard deck inventory — shown for all spreads except RET -->
+            <div id="sidebar-content-inventory">
+                <div class="sidebar-deck-info">
+                    <p id="sidebar-deck-name" class="sidebar-deck-name">—</p>
+                    <p id="sidebar-card-count" class="sidebar-card-count">0 cards left</p>
+                </div>
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title">Card Availability [Left / Total]</div>
+                    <div id="sidebar-card-list" class="sidebar-list"></div>
+                </div>
             </div>
-            <div class="sidebar-section">
-                <div class="sidebar-section-title">Card Availability [Left / Total]</div>
-                <div id="sidebar-card-list" class="sidebar-list"></div>
+            <!-- Graveyard — shown only on the Random Encounter Table -->
+            <div id="sidebar-content-graveyard" style="display:none;">
+                <div class="sidebar-deck-info">
+                    <p id="cascade-graveyard-count" class="sidebar-card-count">0 cards</p>
+                </div>
+                <div class="sidebar-section">
+                    <div id="cascade-graveyard-list" class="sidebar-list"></div>
+                </div>
             </div>
         </div>
 
@@ -76,8 +87,8 @@
 			<button class="spread-tablinks" onclick="openSpread(event, 'three-card-spread')">Three-Card Spread</button>
 			<button class="spread-tablinks" onclick="openSpread(event, 'journey-spread')">Journey Spread</button>
 			<button class="spread-tablinks" onclick="openSpread(event, 'blank-slate-spread')">Blank Slate Spread</button>
-			<button class="spread-tablinks" onclick="openSpread(event, 'deck-forge-spread')">Deck Forge</button>
-			<button class="spread-tablinks" onclick="openSpread(event, 'cascade-spread')">Cascading Deck</button>
+			<button class="spread-tablinks" onclick="openSpread(event, 'cascade-spread')">Random Encounter Table</button>
+			<button class="spread-tablinks deck-forge-tab" onclick="openSpread(event, 'deck-forge-spread')">Deck Forge</button>
 		</div>
 
 		<!-- Adventure Spread -->
@@ -475,53 +486,58 @@
 
 
 
-		<!-- Cascading Deck Spread -->
+		<!-- Random Encounter Table Spread -->
 		<div id="cascade-spread" class="spread-tabcontent">
-			<h2>Cascading Deck Spread</h2>
+			<h2>Random Encounter Table Spread</h2>
 			<div class="cascade-columns">
 
-				<!-- Column 1: Graveyard -->
-				<div class="cascade-col cascade-graveyard-col">
-					<h3 class="cascade-col-header">Graveyard</h3>
-					<p id="cascade-graveyard-count" class="cascade-col-count">0 cards</p>
-					<div id="cascade-graveyard-list" class="cascade-graveyard-list">
-						<p class="cascade-empty-msg">No cards drawn yet.</p>
-					</div>
-				</div>
-
-				<!-- Column 2: Current Area -->
+				<!-- Column 1: Current Area -->
 				<div class="cascade-col cascade-current-col">
-					<h3 class="cascade-col-header">Current Area</h3>
-					<div id="cascade-current-deck-selector" class="spread-deck-selector"></div>
+					<div class="cascade-col-title-row">
+						<h3 class="cascade-col-header">Current Area</h3>
+						<div id="cascadeCurrent-deck-selector" class="spread-deck-selector"></div>
+					</div>
 					<p id="cascade-current-count" class="cascade-col-count">— cards remaining</p>
-					<button class="button button1" onclick="cascadeDraw()">Draw a Card</button>
 					<button class="button button1" onclick="cascadeRefreshCurrent()">Refresh Current</button>
-
-					<!-- Inline drawn card detail — hidden until first draw -->
-					<div id="cascade-drawn-card" class="cascade-drawn-card" style="display:none;">
-						<h4>Card: <span id="cascade-card-name">—</span></h4>
-						<p class="cascade-source-label">From: <span id="cascade-card-source">—</span></p>
-						<h4>Orientation: <span id="cascade-card-orientation">—</span></h4>
-						<h4>Description: <span id="cascade-card-description">—</span></h4>
-						<h4>Meanings</h4>
-						<div id="cascade-card-meanings">
-							<h5>Person: <span id="cascade-meaning-person">—</span></h5>
-							<h5>Creature or Trap: <span id="cascade-meaning-creature">—</span></h5>
-							<h5>Place: <span id="cascade-meaning-place">—</span></h5>
-							<h5>Treasure: <span id="cascade-meaning-treasure">—</span></h5>
-							<h5>Situation: <span id="cascade-meaning-situation">—</span></h5>
-						</div>
+					<div id="cascade-current-list" class="cascade-col-list">
+						<p class="cascade-empty-msg">No cards loaded.</p>
 					</div>
 				</div>
 
-				<!-- Column 3: Next Area -->
+				<!-- Column 2: Next Area -->
 				<div class="cascade-col cascade-next-col">
-					<h3 class="cascade-col-header">Next Area</h3>
-					<div id="cascade-next-deck-selector" class="spread-deck-selector"></div>
+					<div class="cascade-col-title-row">
+						<h3 class="cascade-col-header">Next Area</h3>
+						<div id="cascadeNext-deck-selector" class="spread-deck-selector"></div>
+					</div>
 					<p id="cascade-next-count" class="cascade-col-count">— cards remaining</p>
 					<button class="button button1" onclick="cascadeRefreshNext()">Refresh Next</button>
+					<div id="cascade-next-list" class="cascade-col-list">
+						<p class="cascade-empty-msg">No cards loaded.</p>
+					</div>
 				</div>
 
+			</div>
+
+			<!-- Draw bar: sits between the column lists and the card detail -->
+			<div class="cascade-draw-bar">
+				<button class="button button1 cascade-draw-btn" onclick="cascadeDraw()">Draw a Card</button>
+			</div>
+
+			<!-- Drawn card detail — shown below columns after each draw -->
+			<div id="cascade-drawn-card" class="cascade-drawn-card" style="display:none;">
+				<h4>Card: <span id="cascade-card-name">—</span></h4>
+				<p class="cascade-source-label">From: <span id="cascade-card-source">—</span></p>
+				<h4>Orientation: <span id="cascade-card-orientation">—</span></h4>
+				<h4>Description: <span id="cascade-card-description">—</span></h4>
+				<h4>Meanings</h4>
+				<div id="cascade-card-meanings">
+					<h5>Person: <span id="cascade-meaning-person">—</span></h5>
+					<h5>Creature or Trap: <span id="cascade-meaning-creature">—</span></h5>
+					<h5>Place: <span id="cascade-meaning-place">—</span></h5>
+					<h5>Treasure: <span id="cascade-meaning-treasure">—</span></h5>
+					<h5>Situation: <span id="cascade-meaning-situation">—</span></h5>
+				</div>
 			</div>
 		</div>
 

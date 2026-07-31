@@ -161,7 +161,7 @@ Lets users construct their own named decks from the cards available in `AllCards
 **Dependencies:**
 - **Import/Export** already complete — persistence and sharing via JSON files is fully functional.
 - Easier with **Per-Spread Deck Selection** done first.
-- Enables the **Cascading Deck Spread**, which will require custom decks as cascade targets.
+- Enables the **Random Encounter Table**, which will require custom decks as cascade targets.
 
 ---
 
@@ -203,7 +203,7 @@ A dedicated free-form spread with 15 card slots (C.31–C.45) arranged in a 5×3
 
 ---
 
-### 7. ❌ Cascading Deck Spread
+### 7. ❌ Random Encounter Table
 **Complexity: Moderate**
 
 A new spread tab with three columns: **Graveyard**, **Current Area**, and **Next Area**. Cards cascade on each draw: the drawn card moves from Current to Graveyard, and a random card from Next simultaneously moves into Current. Every card displays its **source deck label** regardless of which column it currently occupies.
@@ -300,9 +300,9 @@ A new spread tab based on the Dungeon Spread from the WotC source book. Nine slo
 
 ---
 
-### Cascading Deck vs. Dungeon Spread — Complexity Comparison
+### Random Encounter Table vs. Dungeon Spread — Complexity Comparison
 
-| | Item 7: Cascading Deck | Item 8: Dungeon Spread |
+| | Item 7: Random Encounter Table | Item 8: Dungeon Spread |
 |---|---|---|
 | Design status | **Complete** — all decisions locked | **Complete** — all decisions locked |
 | New card IDs | None — no positional slots | C.46–C.59 (14 new IDs) |
@@ -313,7 +313,7 @@ A new spread tab based on the Dungeon Spread from the WotC source book. Nine slo
 | Deck selector | Two selectors (Current + Next) | Greyed out (fixed decks) |
 | **Overall complexity** | **Moderate** | **Moderate–High** |
 
-**Bottom line:** Cascading Deck is the simpler of the two. It is fully additive, requires no new card ID range, and modifies no existing functions. The Dungeon Spread modifies five existing functions and introduces a new dual-card panel template.
+**Bottom line:** Random Encounter Table is the simpler of the two. It is fully additive, requires no new card ID range, and modifies no existing functions. The Dungeon Spread modifies five existing functions and introduces a new dual-card panel template.
 
 ---
 
@@ -327,7 +327,7 @@ A final polish pass covering responsive layout, sizing, and visual consistency a
 - Audit fixed pixel values remaining in the stylesheet and convert any that should scale (font sizes, spacing, component dimensions) to `clamp()`, `rem`, or percentage-based units.
 - Card slot buttons (`.tab-grid .tablinks`) need confirmed final dimensions that work across all four spread layouts at both mobile and desktop widths.
 - Review all spread tab layouts for visual consistency — padding, gap, and font size should feel uniform across Adventure, Five-Card, Three-Card, Journey, Blank Slate, and Deck Forge tabs.
-- Evaluate and resolve any remaining visual inconsistencies introduced when new features (Free-Form Spread, Cascading Deck, Dungeon Spread) were added.
+- Evaluate and resolve any remaining visual inconsistencies introduced when new features (Free-Form Spread, Random Encounter Table, Dungeon Spread) were added.
 - If card images are sourced in the future, add `<img>` elements to the card detail panels, add a `credit` display if attribution is required, and map each `AllCards.json` entry to its image path.
 
 **Dependencies:**
@@ -351,7 +351,7 @@ A final polish pass covering responsive layout, sizing, and visual consistency a
 ```
         ├──▶ 6. Free-Form Spread (full)
         │
-        ├──▶ 7. Cascading Deck Spread
+        ├──▶ 7. Random Encounter Table
         │
         ├──▶ 8. Dungeon Spread
         │
