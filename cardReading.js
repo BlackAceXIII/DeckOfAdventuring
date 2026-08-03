@@ -33,6 +33,7 @@ let workingDecks = {
 };
 
 let graveyardCards = []; // {name, orientation, sourceDeck}[]
+let lastOpenCard = {}; // spreadName -> last shown cardNum, restored when switching back to that spread
 
 const CARD_DIR = './CardsJsons';
 
@@ -499,6 +500,8 @@ function openCard(evt, cardNum, buttonElement) {
   if (cardElement) {
     // 3.2 Make the card tab visible
     cardElement.style.display = "block";
+    // 3.3 Remember this card for the active spread so we can restore it on tab switch
+    lastOpenCard[getActiveSpread()] = cardNum;
   } else {
     // 3.3 Log error if card element not found
     console.error(`Card element ${cardNum} not found`);
@@ -548,6 +551,12 @@ function openSpread(evt, spreadName) {
     target.style.display = "block";
     // 3.3 Mark the clicked button as active
     evt.currentTarget.classList.add("active");
+    // 3.4 Restore last open card detail panel for this spread (hidden by STEP 1.5)
+    const lastCard = lastOpenCard[spreadName];
+    if (lastCard) {
+      const panel = document.getElementById(lastCard);
+      if (panel) panel.style.display = 'block';
+    }
   }
   
   // STEP 4: Switch sidebar content based on active spread
@@ -1271,7 +1280,8 @@ function clearAllSpreads() {
   // 2. Refill the internal javascript decks to full capacity
   initializeWorkingDecks();
 
-  // 3. Reset cascade state
+  // 3. Reset cascade state and card memory
+  lastOpenCard = {};
   graveyardCards = [];
   updateGraveyardDisplay();
   updateCurrentList();
@@ -1327,6 +1337,8 @@ document.addEventListener('click', function(e) {
     const cardTab = document.getElementById(cardNum);
     if (cardTab) {
       cardTab.style.display = 'block';
+      // Remember this card so openSpread can restore it when switching back to this spread
+      lastOpenCard[getActiveSpread()] = cardNum;
       // Also highlight the card slot button as active if it exists
       const tablinks = document.getElementsByClassName("tablinks");
       for (let i = 0; i < tablinks.length; i++) {
@@ -1564,52 +1576,62 @@ function exportReading() {
     }
   }
 
-  // STEP 3: Extract all custom decks into the JSON payload
-  // 3.1 Initialize empty object for custom decks
+  // STEP 3: Save Random Encounter Table state
+  // 3.1 Snapshot the graveyard array (deck selections are already in settings.selectedDecks)
+  readingData.cascade = {
+    graveyard: [...graveyardCards]
+  };
+
+  // STEP 4: Extract all custom decks into the JSON payload
+  // 4.1 Initialize empty object for custom decks
   readingData.customDecks = {};
-  // 3.2 Iterate through all decks in the live collection
+  // 4.2 Iterate through all decks in the live collection
   for (const [deckName, deckArray] of Object.entries(allDecks)) {
-    // 3.3 Add only decks prefixed with "Custom:" to the export
+    // 4.3 Add only decks prefixed with "Custom:" to the export
     if (deckName.startsWith('Custom:')) {
-      // 3.3.1 Store the custom deck array
+      // 4.3.1 Store the custom deck array
       readingData.customDecks[deckName] = deckArray;
     }
   }
 
-  // STEP 4: Generate filename with ISO timestamp
-  // 4.1 Create timestamp and remove colons/periods for filename compatibility
+  // STEP 5: Generate filename with ISO timestamp
+  // 5.1 Create timestamp and remove colons/periods for filename compatibility
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
-  // 4.2 Build filename: card-reading-YYYY-MM-DDTHH-MM-SS.json
+  // 5.2 Build filename: card-reading-YYYY-MM-DDTHH-MM-SS.json
   const filename = `card-reading-${timestamp}.json`;
 
-  // STEP 5: Create downloadable blob from reading data
-  // 5.1 Convert reading data object to formatted JSON string
-  // 5.2 Create blob with application/json MIME type for proper file handling
+  // STEP 6: Create downloadable blob from reading data
+  // 6.1 Convert reading data object to formatted JSON string
+  // 6.2 Create blob with application/json MIME type for proper file handling
   const blob = new Blob([JSON.stringify(readingData, null, 2)], { type: 'application/json' });
-  
-  // STEP 6: Trigger file download to user's device
-  // 6.1 Create a URL pointing to the blob data
+
+  // STEP 7: Trigger file download to user's device
+  // 7.1 Create a URL pointing to the blob data
   const url = URL.createObjectURL(blob);
-  // 6.2 Create a temporary anchor element for the download
+  // 7.2 Create a temporary anchor element for the download
   const a = document.createElement('a');
-  // 6.3 Set the download link to the blob URL
+  // 7.3 Set the download link to the blob URL
   a.href = url;
-  // 6.4 Set the filename for the downloaded file
+  // 7.4 Set the filename for the downloaded file
   a.download = filename;
-  // 6.5 Add anchor to DOM (required for some browsers)
+  // 7.5 Add anchor to DOM (required for some browsers)
   document.body.appendChild(a);
-  // 6.6 Simulate a click to trigger the download
+  // 7.6 Simulate a click to trigger the download
   a.click();
-  // 6.7 Remove the temporary anchor from DOM
+  // 7.7 Remove the temporary anchor from DOM
   document.body.removeChild(a);
-  // 6.8 Revoke the blob URL to free memory resources
+  // 7.8 Revoke the blob URL to free memory resources
   URL.revokeObjectURL(url);
 
-  // STEP 7: Provide feedback to the user
-  // 7.1 Log export details to browser console
+  // STEP 8: Provide feedback to the user
+  // 8.1 Log export details to browser console
   console.log(`Exported reading with ${Object.keys(readingData.cards).length} cards to ${filename}`);
-  // 7.2 Show success alert with card count
-  alert(`Reading exported successfully!\n${Object.keys(readingData.cards).length} cards saved.`);
+  // 8.2 Build success message with graveyard count if applicable
+  let exportMsg = `Reading exported successfully!\n${Object.keys(readingData.cards).length} cards saved.`;
+  if (graveyardCards.length > 0) {
+    exportMsg += `\n${graveyardCards.length} graveyard card${graveyardCards.length === 1 ? '' : 's'} saved.`;
+  }
+  alert(exportMsg);
 }
 
 /*
@@ -1661,8 +1683,8 @@ function importReading(event) {
           Object.assign(selectedDecks, readingData.settings.selectedDecks);
           
           // 5.3.3 Update all deck selector dropdowns in UI
-          // 5.3.3.1 Define all spread keys
-          const spreads = ['adventure', 'fiveCard', 'threeCard', 'journey', 'blankSlate'];
+          // 5.3.3.1 Define all spread keys (cascade keys use separate selector IDs)
+          const spreads = ['adventure', 'fiveCard', 'threeCard', 'journey', 'blankSlate', 'cascadeCurrent', 'cascadeNext'];
           // 5.3.3.2 Update each spread's deck selector
           spreads.forEach(spread => {
             const selectEl = document.getElementById(`deck-select-${spread}`);
@@ -1691,7 +1713,7 @@ function importReading(event) {
         // 6.5 Re-apply imported deck selections — populateDropdown resets selectedDecks to defaults
         if (readingData.settings && readingData.settings.selectedDecks) {
           Object.assign(selectedDecks, readingData.settings.selectedDecks);
-          ['adventure', 'fiveCard', 'threeCard', 'journey', 'blankSlate'].forEach(spread => {
+          ['adventure', 'fiveCard', 'threeCard', 'journey', 'blankSlate', 'cascadeCurrent', 'cascadeNext'].forEach(spread => {
             const selectEl = document.getElementById(`deck-select-${spread}`);
             if (selectEl && selectedDecks[spread]) selectEl.value = selectedDecks[spread];
           });
@@ -1772,13 +1794,35 @@ function importReading(event) {
         cardsRestored++;
       }
 
+      // STEP 8.5: Restore Random Encounter Table state
+      // 8.5.1 Restore graveyard history if present (clearAllSpreads reset it above)
+      if (readingData.cascade && Array.isArray(readingData.cascade.graveyard)) {
+        graveyardCards = readingData.cascade.graveyard;
+        updateGraveyardDisplay();
+      }
+      // 8.5.2 Reinitialize cascade working decks fresh from the restored deck selections
+      // (pools are not snapshotted — they always start full on import)
+      ['cascadeCurrent', 'cascadeNext'].forEach(key => {
+        const deckName = selectedDecks[key];
+        if (deckName && allDecks[deckName]) {
+          workingDecks[key] = allDecks[deckName].map(name => ({ name, sourceDeck: deckName }));
+        }
+      });
+      updateCurrentList();
+      updateNextList();
+      updateCascadeCounts();
+
       // STEP 9: Provide feedback to user about import results
       // 9.1 Log import summary to console
       console.log(`Import complete: ${cardsRestored} cards restored, ${cardsMissing} cards missing`);
       
       // 9.2 Build user-friendly message
       let message = `Reading imported successfully!\n${cardsRestored} cards restored.`;
-      // 9.3 Add warning if any cards were missing
+      // 9.3 Add graveyard count if any were restored
+      if (graveyardCards.length > 0) {
+        message += `\n${graveyardCards.length} graveyard card${graveyardCards.length === 1 ? '' : 's'} restored.`;
+      }
+      // 9.4 Add warning if any cards were missing
       if (cardsMissing > 0) {
         message += `\n\n⚠️ ${cardsMissing} cards were not found in the current deck and were skipped.`;
       }
