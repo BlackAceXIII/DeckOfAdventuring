@@ -1251,6 +1251,40 @@ body {
   margin: 2px 0 8px 0;
 }
 
+/* ========== DUNGEON SPREAD STYLES ========== */
+
+.dungeon-fixed-decks-note {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0 0 16px 0;
+}
+
+/* Two-card slots (Entrance, Challenge 1-3, Treasure) show Location + Feature
+   side by side inside one panel, each with its own independent Draw button. */
+.dungeon-dual-card {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.dungeon-card-block {
+  flex: 1 1 260px;
+  min-width: 260px;
+}
+
+.dungeon-card-block:not(:last-child) {
+  border-right: 1px solid var(--surface-border-light);
+  padding-right: 24px;
+}
+
+.dungeon-block-label {
+  margin: 0 0 6px 0;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
 /* ========== RESPONSIVE LAYOUT ========== */
 
 /* Backdrop overlay behind mobile sidebar drawer */
@@ -1294,6 +1328,16 @@ body {
 
 /* ---- Mobile (≤768px): full responsive overhaul ---- */
 @media (max-width: 768px) {
+
+  /* Dungeon Spread dual-card blocks stack instead of sitting side by side —
+     drop the vertical divider so it doesn't sit mid-block once stacked */
+  .dungeon-card-block:not(:last-child) {
+    border-right: none;
+    padding-right: 0;
+    border-bottom: 1px solid var(--surface-border-light);
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+  }
 
   /* Sidebar becomes a slide-in drawer */
   #deck-sidebar {
