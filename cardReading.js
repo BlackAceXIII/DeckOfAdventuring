@@ -380,9 +380,22 @@ function createSpreadDeckSelector(spreadKey, selectId, label, deckLists) {
     sel.addEventListener("change", function() {
       // 3.2 Update the selectedDecks object with new choice
       selectedDecks[spreadKey] = this.value;
-      // 3.3 Reinitialize working decks with the new deck
-      initializeWorkingDecks();
-      validateDeckSize(spreadKey); // Check if the new deck is valid for the spread and update UI
+      // 3.3 Reinitialize only the changed spread's working deck, preserving
+      //     all other in-progress spread state (cascade pools, dungeon pools).
+      if (spreadKey === 'cascadeCurrent' || spreadKey === 'cascadeNext') {
+        // Cascade pools use {name, sourceDeck}[] objects; rebuild just this column.
+        const deckName = selectedDecks[spreadKey];
+        const source = (allDecks && allDecks[deckName]) ? deckName : (allDecks ? Object.keys(allDecks)[0] : null);
+        const cards = source && allDecks[source] ? allDecks[source] : [];
+        workingDecks[spreadKey] = cards.map(name => ({ name, sourceDeck: source }));
+        updateCurrentList();
+        updateNextList();
+        updateCascadeCounts();
+      } else {
+        // Regular spread: reset only this spread's working deck.
+        resetWorkingDeck(spreadKey);
+      }
+      validateDeckSize(spreadKey);
       // 3.4 Update the deck sidebar to show cards from the new deck
       updateDeckSidebar();
       // 3.5 Log the change for debugging
