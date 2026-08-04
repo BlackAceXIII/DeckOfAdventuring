@@ -40,6 +40,7 @@ let allDecks = {};             // Combined deck map: { [deckName]: string[] }
 let customDeckCart = {};       // Deck Forge staging: { [cardName]: quantity }
 let allCards = null;           // Parsed AllCards.json — access cards via allCards.cards[name]
 let graveyardCards = [];       // Cascade Spread accumulator: { name, orientation, sourceDeck }[] — never refilled, only cleared by clearAllSpreads
+let lastOpenCard = {};          // spreadName → last shown cardNum; restored by openSpread() after STEP 1.5 hides all tabcontent panels
 let workingDecks = {           // Per-spread draw pools; spliced on each non-replaceable draw
   adventure: [], fiveCard: [], threeCard: [], journey: [], blankSlate: [],
   dungeonStory: [], dungeonLocations: [], dungeonFeatures: [],  // Dungeon Spread — fixed decks, one pool per source deck
@@ -96,8 +97,8 @@ const SPREAD_SLOTS = {
     { id: 'C.51', label: 'Challenge 1',      deck: 'Locations Deck', secondId: 'C.52', secondDeck: 'Features Deck' },
     { id: 'C.53', label: 'Challenge 2',      deck: 'Locations Deck', secondId: 'C.54', secondDeck: 'Features Deck' },
     { id: 'C.55', label: 'Challenge 3',      deck: 'Locations Deck', secondId: 'C.56', secondDeck: 'Features Deck' },
-    { id: 'C.57', label: 'Guardian',         deck: 'Features Deck' },
-    { id: 'C.58', label: 'Treasure',         deck: 'Features Deck',  secondId: 'C.59', secondDeck: 'Locations Deck' }
+    { id: 'C.57', label: 'Treasure (Feature)', deck: 'Features Deck' },
+    { id: 'C.58', label: 'Guardian (Feature)', deck: 'Features Deck', secondId: 'C.59', secondDeck: 'Locations Deck' }
   ]
   // Deck Forge has no SPREAD_SLOTS entry (not a spread).
   // Cascade Spread also has no SPREAD_SLOTS entry — it has no fixed positional slots; Quick Fill does not apply.
@@ -172,6 +173,17 @@ blankSlate-deck-selector
 | `sidebar-card-list` | Card availability list container |
 | `sidebar-backdrop` | Mobile full-screen tap-to-close overlay |
 | `mobile-sidebar-toggle` | Fixed hamburger button; visible only at ≤768px |
+| `sidebar-content-inventory` | Standard deck inventory panel (shown for all spreads except cascade, dungeon, and Deck Forge) |
+| `sidebar-content-graveyard` | Cascade graveyard panel; swaps in when cascade-spread is active |
+| `sidebar-content-dungeon` | Dungeon deck accordion panel; swaps in when dungeon-spread is active |
+| `sidebar-dungeon-list` | Container rebuilt by `updateDungeonSidebar()`; holds `.dungeon-accordion-section` elements |
+| `cascade-graveyard-count` | Graveyard card count label in cascade sidebar |
+| `cascade-graveyard-list` | Graveyard card list in cascade sidebar |
+| `cascade-current-list` | Current Area card list container |
+| `cascade-next-list` | Next Area card list container |
+| `cascade-current-count` | Current Area remaining count |
+| `cascade-next-count` | Next Area remaining count |
+| `cascade-drawn-card` | Drawn card detail panel for cascade spread (hidden until first draw) |
 
 ### Quick Fill IDs
 | ID | Purpose |
@@ -290,9 +302,20 @@ redrawThreeCardSpread()   redrawJourneySpread()   redrawBlankSlateSpread()
 | `populateAllCardsSpread(names)` | `(string[]) → void` | Builds Deck Forge card library buttons |
 | `openAllCardPreview(name)` | `(string) → void` | Populates `#deck-forge-preview` panel with a card's full data |
 | `openSpread(evt, name)` | `(Event, string) → void` | Shows the named spread tab; hides all others; refreshes sidebar |
-| `openCard(evt, cardNum, btn)` | `(Event, string, HTMLElement) → void` | Shows the card detail panel for the given slot |
+| `openCard(evt, cardNum, btn)` | `(Event, string, HTMLElement) → void` | Shows the card detail panel for the given slot; records `lastOpenCard[getActiveSpread()] = cardNum` so `openSpread()` restores it on tab switch |
 | `validateDeckSize(key)` | `(string) → bool` | Alerts and returns `false` if deck too small for the spread; used before redraw-all |
 | `saveCustomDeck()` | `() → void` | Validates cart → names deck → merges into `allDecks` → persists to `localStorage` |
+| `cascadeDraw()` | `() → void` | Splices random card from `cascadeCurrent` into `graveyardCards` (with orientation); splices random card from `cascadeNext` into `cascadeCurrent`; updates all cascade UI |
+| `cascadeRefreshCurrent()` | `() → void` | Refills `workingDecks.cascadeCurrent` from selected deck, stamping each card with `sourceDeck` |
+| `cascadeRefreshNext()` | `() → void` | Refills `workingDecks.cascadeNext` from selected deck, stamping each card with `sourceDeck` |
+| `cascadeClearGraveyard()` | `() → void` | Empties `graveyardCards`; calls `updateGraveyardDisplay()` |
+| `updateCascadeCounts()` | `() → void` | Updates `cascade-current-count` and `cascade-next-count` text |
+| `updateCurrentList()` | `() → void` | Rebuilds `cascade-current-list` from `workingDecks.cascadeCurrent` |
+| `updateNextList()` | `() → void` | Rebuilds `cascade-next-list` from `workingDecks.cascadeNext` |
+| `updateGraveyardDisplay()` | `() → void` | Rebuilds `cascade-graveyard-list` (newest-first) and updates `cascade-graveyard-count` |
+| `updateDungeonSidebar()` | `() → void` | Rebuilds the dungeon accordion sidebar (3 sections: Story, Locations, Features); preserves open/closed state across rebuilds |
+| `toggleDungeonSection(key)` | `(string) → void` | Toggles one dungeon accordion section open/closed without rebuilding the full list |
+| `redrawDungeonSpread()` | `() → void` | Validates all 3 dungeon deck sizes, resets 3 working decks, calls `generateCard` for all 14 card IDs C.46–C.59 |
 
 ---
 
@@ -435,50 +458,11 @@ Each value is a flat array of card name strings. Duplicates are allowed (weighte
 ### Item 6 — Free-Form / Blank Slate Spread ✅ Complete
 Dedicated 5×3 grid using C.31–C.45. All integration points (working deck, sidebar, Quick Fill, export/import) are fully wired. No further changes needed for this item.
 
-### Item 7 — Random Encounter Table
-New spread tab. Design fully locked — see README for column design and cascade mechanics. Fully additive; no existing functions are modified. Does not use `generateCard()` or `getSpreadKey()`.
+### Item 7 — Random Encounter Table ✅ Complete
+All globals, core logic, HTML, deck selectors, sidebar (graveyard with Clear button), `clearAllSpreads`, and export/import are fully implemented. See README Item 7 for the complete feature summary.
 
-**Globals & state**
-- [ ] Add `cascadeCurrent`, `cascadeNext` to `selectedDecks`
-- [ ] Add `cascadeCurrent`, `cascadeNext` to `workingDecks` as `{ name, sourceDeck }[]` (not `string[]`)
-- [ ] Add `graveyardCards = []` global (`{ name, orientation, sourceDeck }[]`)
-
-**Core logic**
-- [ ] `initializeWorkingDecks()` — populate cascade decks, stamp each card with `sourceDeck` at init
-- [ ] `cascadeDraw()` — splice from `cascadeCurrent` → `graveyardCards`; splice from `cascadeNext` → `cascadeCurrent`
-
-**HTML**
-- [ ] Tab nav button (`cascade-spread`)
-- [ ] Three-column layout: Graveyard (scrollable list with source deck label per entry), Current (selector + count + Draw + inline detail panel), Next (selector + count + Refresh)
-- [ ] `cascade-current-deck-selector` and `cascade-next-deck-selector` wired into `populateDropdown()`
-
-**Existing function updates**
-- [ ] `updateDeckSidebar()` — 3 rows when cascade active: Graveyard count, Current remaining, Next remaining
-- [ ] `clearAllSpreads()` — reset `graveyardCards`, reinitialize cascade decks, clear Graveyard DOM
-- [ ] `exportReading()` / `importReading()` — serialize/restore `graveyardCards`, cascade `selectedDecks`, cascade working deck states
-
-### Item 8 — Dungeon Spread
-New separate spread tab. Design fully locked — see README for slot-deck assignments and card ID table. Does not use `selectedDecks` — deck assignments are fixed at the code level.
-
-**Core logic**
-- [ ] `DUNGEON_CARD_DECKS` lookup object: C.46–C.59 → `'dungeonStory'` / `'dungeonLocations'` / `'dungeonFeatures'`
-- [ ] `getSpreadKey()` — use lookup for C.46–C.59
-- [ ] `initializeWorkingDecks()` — populate `dungeonStory`, `dungeonLocations`, `dungeonFeatures` from hardcoded deck names
-- [ ] `generateCard()` — detect two-card slots; draw from each of the two deck keys per slot
-- [ ] `redrawDungeonSpread()` — validate 3 deck sizes, reset 3 working decks, `generateCard` for all 14 IDs
-
-**HTML**
-- [ ] Tab nav button (`dungeon-spread`)
-- [ ] 9-button slot grid (asymmetric layout matching Adventure Spread)
-- [ ] Single-card detail panels for C.46, C.47, C.48, C.57
-- [ ] Dual-card detail panels for C.49/C.50, C.51/C.52, C.53/C.54, C.55/C.56, C.58/C.59 (Location + Feature side by side, each with Redraw button)
-- [ ] Summary table (9 rows; two-card rows show both card names + orientations)
-
-**Existing function updates**
-- [ ] `updateDeckSidebar()` — 3 rows (Story, Locations, Features remaining); grey out deck selector
-- [ ] `openQuickFill()` — two input rows per two-card slot, autocomplete scoped per deck
-- [ ] `clearAllSpreads()` — reset C.46–C.59 DOM, reinitialize 3 dungeon working decks
-- [ ] `exportReading()` / `importReading()` — verify C.46–C.59 coverage; confirm dual-card slot restore
+### Item 8 — Dungeon Spread ✅ Complete
+All globals, core logic, HTML (9-button grid, single-card and dual-card panels, summary table), accordion sidebar, Quick Fill, `clearAllSpreads`, and export/import are fully implemented. Slot assignments: Treasure = C.57 (Feature only), Guardian = C.58 (Feature) + C.59 (Location). See README Item 8 for the complete feature summary.
 
 ### Item 9 — CSS and Visual Improvements (final pass)
 - Finalize all `clamp()` values in the mobile media query

@@ -62,9 +62,9 @@ const DUNGEON_CARD_DECKS = {
   'C.54': 'dungeonFeatures',   // Challenge 2 - Feature
   'C.55': 'dungeonLocations',  // Challenge 3 - Location
   'C.56': 'dungeonFeatures',   // Challenge 3 - Feature
-  'C.57': 'dungeonFeatures',   // Guardian
-  'C.58': 'dungeonFeatures',   // Treasure - Feature
-  'C.59': 'dungeonLocations'   // Treasure - Location
+  'C.57': 'dungeonFeatures',   // Treasure — Feature
+  'C.58': 'dungeonFeatures',   // Guardian — Feature
+  'C.59': 'dungeonLocations'   // Guardian — Location
 };
 
 const drawData = {
@@ -95,8 +95,8 @@ const SPREAD_SLOTS = {
     { id: 'C.04', label: 'Challenge 1' },
     { id: 'C.05', label: 'Challenge 2' },
     { id: 'C.06', label: 'Challenge 3' },
-    { id: 'C.07', label: 'Guardian' },
-    { id: 'C.08', label: 'Treasure' }
+    { id: 'C.07', label: 'Treasure' },
+    { id: 'C.08', label: 'Guardian' }
   ],
   'five-card-spread': [
     { id: 'C.09', label: 'The Quest' },
@@ -148,9 +148,9 @@ const SPREAD_SLOTS = {
     { id: 'C.54', label: 'Challenge 2 (Feature)' },
     { id: 'C.55', label: 'Challenge 3 (Location)' },
     { id: 'C.56', label: 'Challenge 3 (Feature)' },
-    { id: 'C.57', label: 'Guardian' },
-    { id: 'C.58', label: 'Treasure (Feature)' },
-    { id: 'C.59', label: 'Treasure (Location)' }
+    { id: 'C.57', label: 'Treasure (Feature)' },
+    { id: 'C.58', label: 'Guardian (Feature)' },
+    { id: 'C.59', label: 'Guardian (Location)' }
   ]
 };
 
@@ -2015,23 +2015,56 @@ function toggleReplaceable() {
 // generic single-deck sidebar, this has no over-quota detection — Dungeon
 // Spread decks are fixed and not meant to be GM-resized.
 function updateDungeonSidebar() {
-  const list = document.getElementById('sidebar-dungeon-list');
-  if (!list) return;
+  const container = document.getElementById('sidebar-dungeon-list');
+  if (!container) return;
 
-  const rows = Object.keys(DUNGEON_FIXED_DECKS).map(key => {
+  // Preserve which accordion sections are currently open before rebuilding
+  const openSections = new Set();
+  container.querySelectorAll('.dungeon-accordion-section').forEach(sec => {
+    if (sec.dataset.open === 'true') openSections.add(sec.dataset.key);
+  });
+
+  const html = Object.keys(DUNGEON_FIXED_DECKS).map(key => {
     const deckName = DUNGEON_FIXED_DECKS[key];
-    const total = (allDecks && allDecks[deckName]) ? allDecks[deckName].length : 0;
-    const remaining = isReplaceableEnabled ? total : (workingDecks[key] ? workingDecks[key].length : 0);
-    const itemClass = remaining === 0 ? 'exhausted' : 'available';
+    const allCards_  = (allDecks && allDecks[deckName]) ? allDecks[deckName] : [];
+    const total      = allCards_.length;
+    const pool       = isReplaceableEnabled ? allCards_ : (workingDecks[key] || []);
+    const remaining  = pool.length;
+    const isOpen     = openSections.has(key);
+    const exhausted  = remaining === 0;
+
+    const cardRows = pool.length > 0
+      ? pool.map(c => `<div class="sidebar-card-item available"><span class="sidebar-card-name">${c}</span></div>`).join('')
+      : `<div class="sidebar-card-item exhausted"><span class="sidebar-card-name">Deck exhausted</span></div>`;
+
     return `
-      <div class="sidebar-card-item ${itemClass}">
-        <span class="sidebar-card-name" title="${deckName}">${deckName}</span>
-        <span class="sidebar-card-qty">${remaining}/${total}</span>
-      </div>
-    `;
+      <div class="dungeon-accordion-section${exhausted ? ' exhausted' : ''}" data-key="${key}" data-open="${isOpen}">
+        <div class="dungeon-accordion-header" onclick="toggleDungeonSection('${key}')">
+          <span class="dungeon-accordion-label">${deckName}</span>
+          <span class="dungeon-accordion-count">${remaining}/${total}</span>
+          <span class="dungeon-accordion-arrow">${isOpen ? '▼' : '▶'}</span>
+        </div>
+        <div class="dungeon-accordion-body" style="display:${isOpen ? 'block' : 'none'};">
+          ${cardRows}
+        </div>
+      </div>`;
   }).join('');
 
-  list.innerHTML = rows;
+  container.innerHTML = html;
+}
+
+// Toggle one accordion section open/closed without rebuilding the whole list
+function toggleDungeonSection(key) {
+  const container = document.getElementById('sidebar-dungeon-list');
+  if (!container) return;
+  const section = container.querySelector(`.dungeon-accordion-section[data-key="${key}"]`);
+  if (!section) return;
+  const isOpen = section.dataset.open === 'true';
+  section.dataset.open = isOpen ? 'false' : 'true';
+  const body  = section.querySelector('.dungeon-accordion-body');
+  const arrow = section.querySelector('.dungeon-accordion-arrow');
+  if (body)  body.style.display  = isOpen ? 'none' : 'block';
+  if (arrow) arrow.textContent   = isOpen ? '▶' : '▼';
 }
 
 function updateDeckSidebar() {

@@ -37,8 +37,8 @@
             <!-- Dungeon Decks — shown only on the Dungeon Spread. Fixed decks, not user-selectable. -->
             <div id="sidebar-content-dungeon" style="display:none;">
                 <div class="sidebar-section">
-                    <div class="sidebar-section-title">Dungeon Decks [Remaining / Total]</div>
-                    <div id="sidebar-dungeon-list" class="sidebar-list"></div>
+                    <div class="sidebar-section-title">Dungeon Decks</div>
+                    <div id="sidebar-dungeon-list"></div>
                 </div>
             </div>
         </div>
@@ -148,12 +148,12 @@
 							<td id="card-orientation-list-C.06">—</td>
 						</tr>
 						<tr>
-							<td>C.07 (Guardian)</td>
+							<td>C.07 (Treasure)</td>
 							<td id="card-list-C.07">—</td>
 							<td id="card-orientation-list-C.07">—</td>
 						</tr>
 						<tr>
-							<td>C.08 (Treasure)</td>
+							<td>C.08 (Guardian)</td>
 							<td id="card-list-C.08">—</td>
 							<td id="card-orientation-list-C.08">—</td>
 						</tr>
@@ -168,15 +168,15 @@
 							<span class="tab-spacer"></span>
 							<span class="tab-spacer"></span>
 							<button class="tablinks" onclick="openCard(event, 'C.04', this)">Challenge 1</button>
-							<button class="tablinks" onclick="openCard(event, 'C.08', this)">Treasure</button>
+							<button class="tablinks" onclick="openCard(event, 'C.07', this)">Treasure</button>
 						</div>
-						<!-- Row 2: 01 02 03 05 07 -->
+						<!-- Row 2: 01 02 03 05 08 -->
 						<div class="tab-row">
 							<button class="tablinks" onclick="openCard(event, 'C.01', this)">Adventure Begins</button>
 							<button class="tablinks" onclick="openCard(event, 'C.02', this)">Journey</button>
 							<button class="tablinks" onclick="openCard(event, 'C.03', this)">Entrance</button>
 							<button class="tablinks" onclick="openCard(event, 'C.05', this)">Challenge 2</button>
-							<button class="tablinks" onclick="openCard(event, 'C.07', this)">Guardian</button>
+							<button class="tablinks" onclick="openCard(event, 'C.08', this)">Guardian</button>
 						</div>
 						<!-- Row 3: -- -- -- 06 -- -->
 						<div class="tab-row">
@@ -565,17 +565,17 @@
 							<td id="card-orientation-list-C.56">—</td>
 						</tr>
 						<tr>
-							<td>C.57 (Guardian — Feature)</td>
+							<td>C.57 (Treasure — Feature)</td>
 							<td id="card-list-C.57">—</td>
 							<td id="card-orientation-list-C.57">—</td>
 						</tr>
 						<tr>
-							<td>C.58 (Treasure — Feature)</td>
+							<td>C.58 (Guardian — Feature)</td>
 							<td id="card-list-C.58">—</td>
 							<td id="card-orientation-list-C.58">—</td>
 						</tr>
 						<tr>
-							<td>C.59 (Treasure — Location)</td>
+							<td>C.59 (Guardian — Location)</td>
 							<td id="card-list-C.59">—</td>
 							<td id="card-orientation-list-C.59">—</td>
 						</tr>
@@ -584,21 +584,21 @@
 				<div class="grid-section">
 					<p>Click on the x button in the top right corner to close the current tab:</p>
 					<div class="tab-grid">
-						<!-- Row 1: 46 -- -- 51 58 (mirrors Adventure Spread's row 1: 00 -- -- 04 08) -->
+						<!-- Row 1: 46 -- -- 51 57 (mirrors Adventure Spread's row 1: 00 -- -- 04 07) -->
 						<div class="tab-row">
 							<button class="tablinks" onclick="openCard(event, 'C.46', this)">Party Gathers</button>
 							<span class="tab-spacer"></span>
 							<span class="tab-spacer"></span>
 							<button class="tablinks" onclick="openCard(event, 'C.51', this)">Challenge 1</button>
-							<button class="tablinks" onclick="openCard(event, 'C.58', this)">Treasure</button>
+							<button class="tablinks" onclick="openCard(event, 'C.57', this)">Treasure</button>
 						</div>
-						<!-- Row 2: 47 48 49 53 57 (mirrors Adventure Spread's row 2: 01 02 03 05 07) -->
+						<!-- Row 2: 47 48 49 53 59 (mirrors Adventure Spread's row 2: 01 02 03 05 08) -->
 						<div class="tab-row">
 							<button class="tablinks" onclick="openCard(event, 'C.47', this)">Adventure Begins</button>
 							<button class="tablinks" onclick="openCard(event, 'C.48', this)">Journey</button>
 							<button class="tablinks" onclick="openCard(event, 'C.49', this)">Entrance</button>
 							<button class="tablinks" onclick="openCard(event, 'C.53', this)">Challenge 2</button>
-							<button class="tablinks" onclick="openCard(event, 'C.57', this)">Guardian</button>
+							<button class="tablinks" onclick="openCard(event, 'C.58', this)">Guardian</button>
 						</div>
 						<!-- Row 3: -- -- -- 55 -- (mirrors Adventure Spread's row 3: -- -- -- 06 --) -->
 						<div class="tab-row">
@@ -1693,7 +1693,7 @@
 			</div>
 		</div>
 
-		<!-- Dual-card slot: Treasure (C.58 Feature + C.59 Location) -->
+		<!-- Dual-card slot: Guardian (C.58 Feature + C.59 Location) -->
 		<div id="C.58" class="tabcontent">
 			<span onclick="this.parentElement.style.display='none'" class="topright">&times;</span>
 			<div class="dungeon-dual-card">

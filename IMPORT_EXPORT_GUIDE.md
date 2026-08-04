@@ -33,11 +33,15 @@ The Card Reading application now supports saving and loading your reading sessio
 ### What Gets Exported?
 
 The export file contains:
-- **All drawn cards** (C.00 through C.30)
+- **All drawn cards** (C.00 through C.59 — covers all spreads including Dungeon Spread)
 - **Card orientations** (Upright or Reverse)
 - **Deck selections** (which deck is selected for each spread)
 - **Settings**:
   - Replacement toggle state (with/without replacement)
+- **Cascade (Random Encounter Table) state**:
+  - `cascade.graveyard`: full graveyard history (`{ name, orientation, sourceDeck }[]`)
+  - Deck selections for Current Area and Next Area (via `settings.selectedDecks.cascadeCurrent` / `cascadeNext`)
+- **Custom decks**: any decks built in Deck Forge (`customDecks` object, keyed `"Custom: name"`)
 - **Metadata**:
   - Export timestamp
   - File format version
@@ -51,25 +55,27 @@ The export file contains:
   "settings": {
     "isReplaceableEnabled": false,
     "selectedDecks": {
-      "adventure": "Default",
+      "adventure": "Deck of Many More Things",
       "fiveCard": "Default",
-      "threeCard": "Custom Deck 1",
-      "journey": "Default"
+      "threeCard": "Story Deck",
+      "journey": "Default",
+      "blankSlate": "Default",
+      "cascadeCurrent": "Locations Deck",
+      "cascadeNext": "Features Deck"
     }
   },
   "cards": {
-    "C.00": {
-      "name": "Aberration",
-      "orientation": "Upright"
-    },
-    "C.01": {
-      "name": "Balance",
-      "orientation": "Reverse"
-    },
-    "C.17": {
-      "name": "Void",
-      "orientation": "Upright"
-    }
+    "C.00": { "name": "Aberration", "orientation": "Upright" },
+    "C.01": { "name": "Balance", "orientation": "Reverse" },
+    "C.46": { "name": "Path", "orientation": "Upright" }
+  },
+  "cascade": {
+    "graveyard": [
+      { "name": "Undead", "orientation": "Upright", "sourceDeck": "Locations Deck" }
+    ]
+  },
+  "customDecks": {
+    "Custom: Boss Loot": ["Beast", "Beast", "Skull"]
   }
 }
 ```
@@ -296,7 +302,10 @@ For developers or advanced users who want to manually create/edit reading files:
       "adventure": "string (optional) - Deck name for Adventure spread",
       "fiveCard": "string (optional) - Deck name for Five-Card spread",
       "threeCard": "string (optional) - Deck name for Three-Card spread",
-      "journey": "string (optional) - Deck name for Journey spread"
+      "journey": "string (optional) - Deck name for Journey spread",
+      "blankSlate": "string (optional) - Deck name for Blank Slate spread",
+      "cascadeCurrent": "string (optional) - Deck name for RET Current Area",
+      "cascadeNext": "string (optional) - Deck name for RET Next Area"
     }
   },
   "cards": {
@@ -304,6 +313,12 @@ For developers or advanced users who want to manually create/edit reading files:
       "name": "string (required) - Card name matching AllCards.json",
       "orientation": "string (required) - 'Upright' or 'Reverse'"
     }
+  },
+  "cascade": {
+    "graveyard": "array (optional) - [{name, orientation, sourceDeck}] — Random Encounter Table graveyard history"
+  },
+  "customDecks": {
+    "Custom: name": "string[] (optional) - Card arrays for Deck Forge custom decks"
   }
 }
 ```
@@ -321,7 +336,7 @@ For developers or advanced users who want to manually create/edit reading files:
 - `settings.selectedDecks` (object)
 
 **Card Slots**:
-- Valid range: `C.00` through `C.30`
+- Valid range: `C.00` through `C.59` (C.00–C.45 structured spreads and Blank Slate; C.46–C.59 Dungeon Spread)
 - Format: `C.` followed by two-digit number (leading zero for 0-9)
 
 **Card Names**:

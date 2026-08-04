@@ -909,6 +909,62 @@ body {
   white-space: nowrap;
 }
 
+/* ── Dungeon sidebar accordion ── */
+.dungeon-accordion-section {
+  border-bottom: 1px solid var(--surface-border-mid);
+}
+
+.dungeon-accordion-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 10px;
+  cursor: pointer;
+  background: var(--surface7);
+  user-select: none;
+}
+
+.dungeon-accordion-header:hover {
+  background: var(--surface6);
+}
+
+.dungeon-accordion-section.exhausted .dungeon-accordion-header {
+  opacity: 0.6;
+}
+
+.dungeon-accordion-label {
+  flex: 1;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dungeon-accordion-count {
+  font-size: 0.72rem;
+  color: var(--surface-text);
+  opacity: 0.75;
+  white-space: nowrap;
+}
+
+.dungeon-accordion-arrow {
+  font-size: 0.65rem;
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+
+.dungeon-accordion-body {
+  padding: 4px 0 4px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
 #deck-sidebar.collapsed .sidebar-card-name {
   display: none;
 }
