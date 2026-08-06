@@ -212,19 +212,77 @@ h1.site-title {
 #dropdown { display: contents; }
 
 /* ----------------------------------------------------------------
+   PER-SPREAD DECK SELECTOR (JS-injected label + select + validity)
+   ---------------------------------------------------------------- */
+.spread-deck-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 20px;
+  flex-wrap: wrap;
+}
+
+.spread-deck-selector label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  white-space: nowrap;
+}
+
+.deck-select-spread {
+  font-family: 'IM Fell English', serif;
+  font-size: 0.95rem;
+  background: rgba(10,6,2,0.85);
+  color: var(--parchment);
+  border: 1px solid var(--gold-dim);
+  border-radius: 2px;
+  padding: 7px 30px 7px 12px;
+  cursor: pointer;
+  outline: none;
+  min-width: 180px;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a5c1e' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.deck-select-spread:hover {
+  border-color: var(--gold);
+  box-shadow: 0 0 8px rgba(201,168,76,0.2);
+}
+
+.deck-select-spread:focus {
+  border-color: var(--gold-bright);
+  box-shadow: 0 0 14px rgba(201,168,76,0.35);
+}
+
+.deck-validity {
+  font-size: 1rem;
+  opacity: 0.85;
+  flex-shrink: 0;
+}
+
+/* ----------------------------------------------------------------
    SPREAD SELECTION TABS
    ---------------------------------------------------------------- */
 .spread-tabs {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 0;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
   margin: 0 auto 0;
   max-width: 900px;
   border: 1px solid rgba(201,168,76,0.2);
   border-radius: 4px 4px 0 0;
   background: rgba(8,5,2,0.8);
   position: relative;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold-dim) transparent;
 }
 
 .spread-tabs::before {
@@ -237,17 +295,18 @@ h1.site-title {
 
 .spread-tablinks {
   font-family: 'Cinzel', serif;
-  font-size: 0.8rem;
-  letter-spacing: 0.2em;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--parchment-dark);
   background: transparent;
   border: none;
   border-right: 1px solid rgba(201,168,76,0.15);
-  padding: 16px 28px;
+  padding: 14px 18px;
   cursor: pointer;
   transition: all 0.3s ease;
-  flex: 1;
+  flex: 0 0 auto;
+  white-space: nowrap;
   position: relative;
   overflow: hidden;
 }
@@ -727,23 +786,30 @@ h1.site-title {
   letter-spacing: 0.25em;
 }
 
-/* Legacy .button1 mapped to redraw-btn style */
+/* Legacy .button1 — arcane redraw button default */
 .button1 {
   font-family: 'Cinzel', serif;
-  font-size: 0.78rem;
-  letter-spacing: 0.2em;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--parchment);
-  padding: 12px 28px;
+  background: linear-gradient(135deg, rgba(70,40,6,0.9), rgba(45,25,4,0.9));
+  border: 1px solid var(--gold-dim);
+  padding: 11px 26px;
   cursor: pointer;
-  margin-top: 20px;
+  margin-top: 18px;
   display: inline-block;
   transition: all 0.3s ease;
-  border-radius: 3px;
+  border-radius: 2px;
   clip-path: none;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.4);
 }
 
 .button1:hover {
+  background: linear-gradient(135deg, rgba(110,65,10,0.95), rgba(75,42,6,0.95));
+  border-color: var(--gold);
+  box-shadow: 0 0 14px rgba(201,168,76,0.25), 0 2px 10px rgba(0,0,0,0.4);
+  color: var(--gold-bright);
   clip-path: none;
   transform: translateY(-1px);
 }
