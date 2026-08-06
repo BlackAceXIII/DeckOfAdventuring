@@ -1133,3 +1133,1261 @@ body.deck-druid .site-title {
   overflow: hidden;
   clip: rect(0,0,0,0);
 }
+
+/* ================================================================
+   LAYOUT — sidebar offset
+   ================================================================ */
+#main-content {
+  margin-left: 280px;
+  transition: margin-left 0.2s;
+}
+
+#deck-sidebar.collapsed ~ #main-content {
+  margin-left: 60px;
+}
+
+/* ================================================================
+   DECK SIDEBAR
+   ================================================================ */
+#deck-sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 280px;
+  height: 100vh;
+  background: linear-gradient(180deg, #180f04 0%, #0d0804 100%);
+  border-right: 2px solid var(--gold-dim);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  z-index: 100;
+  box-shadow: 4px 0 24px rgba(0,0,0,0.8);
+  font-family: 'IM Fell English', Georgia, serif;
+  overflow-y: auto;
+}
+
+#deck-sidebar.collapsed {
+  width: 60px;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 12px;
+  border-bottom: 1px solid var(--gold-dim);
+  background: linear-gradient(180deg, #2a1a06 0%, #1c1006 100%);
+  flex-shrink: 0;
+}
+
+.sidebar-header h3 {
+  margin: 0;
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+#deck-sidebar.collapsed .sidebar-header h3 {
+  display: none;
+}
+
+.sidebar-collapse-btn {
+  background: rgba(201,168,76,0.1);
+  border: 1px solid var(--gold-dim);
+  color: var(--gold);
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.sidebar-collapse-btn:hover {
+  border-color: var(--gold);
+  background: rgba(201,168,76,0.2);
+}
+
+.sidebar-deck-info {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(201,168,76,0.18);
+  background: rgba(12,7,2,0.55);
+  flex-shrink: 0;
+}
+
+.sidebar-deck-name {
+  margin: 0;
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: var(--gold-bright);
+  word-break: break-word;
+}
+
+#deck-sidebar.collapsed .sidebar-deck-name {
+  font-size: 0.58rem;
+}
+
+.sidebar-card-count {
+  margin: 4px 0 0;
+  font-family: 'IM Fell English', serif;
+  font-size: 0.8rem;
+  color: var(--parchment-dark);
+  opacity: 0.65;
+}
+
+#deck-sidebar.collapsed .sidebar-card-count {
+  display: none;
+}
+
+.sidebar-section {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(201,168,76,0.1);
+}
+
+.sidebar-section-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  padding: 3px 6px;
+  margin-bottom: 8px;
+  background: rgba(201,168,76,0.05);
+  border: 1px solid rgba(201,168,76,0.12);
+  border-radius: 2px;
+}
+
+#sidebar-full-list,
+#sidebar-remaining-list {
+  max-height: 240px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-right: 2px;
+}
+
+.sidebar-card-item {
+  background: rgba(12,7,2,0.55);
+  border: 1px solid rgba(201,168,76,0.18);
+  padding: 6px 10px;
+  font-family: 'IM Fell English', serif;
+  font-size: 0.82rem;
+  color: var(--parchment-dark);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  line-height: 1.3;
+}
+
+.sidebar-card-item.available {
+  border-color: rgba(201,168,76,0.22);
+}
+
+.sidebar-card-item.exhausted {
+  opacity: 0.45;
+  background: rgba(8,5,1,0.55);
+  border-color: rgba(201,168,76,0.08);
+}
+
+.sidebar-card-item.over-quota {
+  border-color: var(--ember);
+  border-left: 3px solid var(--ember);
+}
+
+.sidebar-card-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#deck-sidebar.collapsed .sidebar-card-name {
+  display: none;
+}
+
+.sidebar-card-qty {
+  background: var(--gold-dim);
+  color: var(--ink);
+  padding: 1px 6px;
+  border-radius: 2px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.sidebar-card-qty.over {
+  background: var(--ember);
+  color: var(--parchment);
+}
+
+.sidebar-card-qty.placed {
+  background: var(--cel-accent);
+  color: var(--ink);
+}
+
+.sidebar-empty-msg {
+  padding: 10px 8px;
+  text-align: center;
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  color: var(--parchment-dark);
+  font-size: 0.8rem;
+  opacity: 0.55;
+  border: 1px dashed rgba(201,168,76,0.12);
+}
+
+#sidebar-card-list {
+  flex: 0;
+  overflow-y: visible;
+  max-height: none;
+  border-top: 1px solid rgba(201,168,76,0.12);
+}
+
+/* ── Dungeon accordion ── */
+.dungeon-accordion-section {
+  border-bottom: 1px solid rgba(201,168,76,0.1);
+}
+
+.dungeon-accordion-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  background: rgba(201,168,76,0.03);
+  user-select: none;
+}
+
+.dungeon-accordion-header:hover {
+  background: rgba(201,168,76,0.07);
+}
+
+.dungeon-accordion-section.exhausted .dungeon-accordion-header {
+  opacity: 0.5;
+}
+
+.dungeon-accordion-label {
+  flex: 1;
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gold-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dungeon-accordion-count {
+  font-family: 'IM Fell English', serif;
+  font-size: 0.75rem;
+  color: var(--parchment-dark);
+  opacity: 0.65;
+}
+
+.dungeon-accordion-arrow {
+  font-size: 0.58rem;
+  opacity: 0.45;
+  color: var(--gold-dim);
+  flex-shrink: 0;
+}
+
+.dungeon-accordion-body {
+  padding: 4px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+/* ================================================================
+   MOBILE SIDEBAR TOGGLE + BACKDROP
+   ================================================================ */
+#sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  z-index: 99;
+}
+
+#sidebar-backdrop.active {
+  display: block;
+}
+
+#mobile-sidebar-toggle {
+  display: none;
+}
+
+/* ================================================================
+   REPLACEABLE TOGGLE
+   ================================================================ */
+.replaceable-toggle {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 auto 18px;
+  flex-wrap: wrap;
+  padding: 13px 20px;
+  background: linear-gradient(135deg, rgba(28,16,4,0.75), rgba(18,10,3,0.75));
+  border: 1px solid rgba(201,168,76,0.18);
+  border-radius: 3px;
+  max-width: 900px;
+}
+
+.replaceable-toggle h2 {
+  margin: 0;
+  font-family: 'IM Fell English', serif;
+  font-size: 0.95rem;
+  color: var(--parchment-dark);
+  font-weight: normal;
+  line-height: 1.4;
+}
+
+.toggle-labels {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.toggle-labels label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 26px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-switch span {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(40,22,5,0.85);
+  border: 1px solid var(--gold-dim);
+  border-radius: 26px;
+  transition: 0.3s;
+}
+
+.toggle-switch span:before {
+  position: absolute;
+  content: '';
+  height: 20px;
+  width: 20px;
+  left: 2px;
+  bottom: 2px;
+  background: var(--parchment-dark);
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+.toggle-switch input:checked + span {
+  background: rgba(160,120,20,0.3);
+  border-color: var(--gold);
+}
+
+.toggle-switch input:checked + span:before {
+  transform: translateX(22px);
+  background: var(--gold-bright);
+}
+
+/* ================================================================
+   IMPORT / EXPORT SECTION + ACTION BUTTONS
+   ================================================================ */
+.import-export-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 auto 20px;
+  padding: 13px 20px;
+  background: linear-gradient(135deg, rgba(22,13,3,0.85), rgba(13,8,2,0.85));
+  border: 1px solid rgba(201,168,76,0.18);
+  border-radius: 3px;
+  flex-wrap: wrap;
+  max-width: 900px;
+}
+
+.export-btn,
+.import-btn,
+.clear-btn,
+.quickfill-btn {
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  display: flex !important;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border: 1px solid;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  clip-path: none !important;
+  min-width: 136px;
+  justify-content: center;
+  margin-top: 0;
+}
+
+.export-btn {
+  color: var(--cel-star);
+  border-color: rgba(126,184,247,0.35);
+  background: linear-gradient(135deg, #06102a, #0c1a40);
+  box-shadow: 0 0 6px rgba(126,184,247,0.08);
+}
+
+.export-btn:hover {
+  border-color: var(--cel-accent);
+  box-shadow: 0 0 14px rgba(126,184,247,0.3);
+  background: linear-gradient(135deg, #0c1a40, #162460);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.import-btn {
+  color: var(--adv-text);
+  border-color: rgba(212,137,42,0.35);
+  background: linear-gradient(135deg, #1a0d04, #2c1808);
+  box-shadow: 0 0 6px rgba(212,137,42,0.08);
+}
+
+.import-btn:hover {
+  border-color: var(--adv-accent);
+  box-shadow: 0 0 14px rgba(212,137,42,0.3);
+  background: linear-gradient(135deg, #2c1808, #481e0a);
+  color: var(--gold-bright);
+  transform: translateY(-1px);
+}
+
+.clear-btn {
+  color: rgba(220,90,70,0.9);
+  border-color: rgba(192,57,43,0.35);
+  background: linear-gradient(135deg, #180504, #280a07);
+  box-shadow: 0 0 6px rgba(192,57,43,0.08);
+}
+
+.clear-btn:hover {
+  border-color: var(--ember-glow);
+  box-shadow: 0 0 14px rgba(231,76,60,0.3);
+  background: linear-gradient(135deg, #280a07, #3e100a);
+  color: #ff8878;
+  transform: translateY(-1px);
+}
+
+.quickfill-btn {
+  color: var(--ora-text);
+  border-color: rgba(61,214,181,0.3);
+  background: linear-gradient(135deg, #030e0c, #061c18);
+  box-shadow: 0 0 6px rgba(61,214,181,0.06);
+}
+
+.quickfill-btn:hover {
+  border-color: var(--ora-accent);
+  box-shadow: 0 0 14px rgba(61,214,181,0.3);
+  background: linear-gradient(135deg, #061c18, #0c2e28);
+  color: #d0fff5;
+  transform: translateY(-1px);
+}
+
+.export-btn span,
+.import-btn span,
+.clear-btn span,
+.quickfill-btn span {
+  font-size: 1em;
+  line-height: 1;
+}
+
+/* ================================================================
+   QUICK FILL OVERLAY
+   ================================================================ */
+.quick-fill-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.78);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.quick-fill-panel {
+  background: linear-gradient(160deg, #1e1206 0%, #0f0803 100%);
+  border: 1px solid var(--gold);
+  border-radius: 3px;
+  width: 100%;
+  max-width: 580px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 16px 56px rgba(0,0,0,0.85), 0 0 40px rgba(201,168,76,0.06);
+}
+
+.quick-fill-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  border-bottom: 1px solid rgba(201,168,76,0.2);
+  background: linear-gradient(180deg, rgba(38,22,6,0.95) 0%, rgba(22,13,3,0.95) 100%);
+  border-radius: 2px 2px 0 0;
+  flex-shrink: 0;
+}
+
+.quick-fill-header h3 {
+  margin: 0;
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.92rem;
+  color: var(--gold-bright);
+  letter-spacing: 0.05em;
+}
+
+.qf-rows {
+  overflow-y: auto;
+  flex: 1;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.qf-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.qf-label {
+  flex: 0 0 150px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.qf-input {
+  flex: 1;
+  padding: 7px 10px;
+  border: 1px solid rgba(201,168,76,0.22);
+  border-radius: 2px;
+  font-family: 'IM Fell English', serif;
+  font-size: 0.9rem;
+  background: rgba(8,5,1,0.85);
+  color: var(--parchment);
+  min-width: 0;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.qf-input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 8px rgba(201,168,76,0.18);
+}
+
+.qf-orient-btn {
+  flex: 0 0 36px;
+  height: 32px;
+  border: 1px solid rgba(201,168,76,0.28);
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  background: rgba(70,40,6,0.6);
+  color: var(--gold);
+  transition: all 0.15s;
+}
+
+.qf-orient-btn.reversed {
+  background: rgba(28,10,4,0.8);
+  border-color: var(--ember);
+  color: rgba(220,90,70,0.9);
+}
+
+.quick-fill-footer {
+  display: flex;
+  gap: 10px;
+  padding: 12px 20px;
+  border-top: 1px solid rgba(201,168,76,0.14);
+  flex-shrink: 0;
+  justify-content: flex-end;
+}
+
+/* ================================================================
+   JOURNEY SPREAD — Twilight Path
+   ================================================================ */
+
+/* Per-spread CSS vars for Journey */
+:root {
+  --jrn-bg1: #060410;
+  --jrn-bg2: #0c0820;
+  --jrn-accent: #b08ae0;
+  --jrn-text: #d0c0f0;
+  --jrn-glow: rgba(160,120,220,0.3);
+}
+
+#journey-spread {
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 100%, rgba(60,30,100,0.18) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 40% at 20% 20%, rgba(40,20,80,0.12) 0%, transparent 60%),
+    linear-gradient(180deg, var(--jrn-bg1) 0%, var(--jrn-bg2) 100%);
+  border-color: rgba(160,120,220,0.22);
+  box-shadow: inset 0 0 80px rgba(60,30,100,0.1), 0 4px 24px rgba(0,0,0,0.7);
+}
+
+#journey-spread h2 {
+  color: var(--jrn-accent);
+  text-shadow: 0 0 20px var(--jrn-glow);
+  border-bottom-color: rgba(160,120,220,0.22);
+}
+
+#journey-spread .tablinks {
+  background: linear-gradient(160deg, #08061a, #100e2c);
+  border-color: rgba(160,120,220,0.38);
+  color: var(--jrn-text);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.6), inset 0 1px 0 rgba(160,120,220,0.1);
+}
+
+#journey-spread .tablinks:hover {
+  background: linear-gradient(160deg, #100e2c, #1a1846);
+  border-color: var(--jrn-accent);
+  color: #fff;
+  box-shadow: 0 0 16px var(--jrn-glow), 0 2px 8px rgba(0,0,0,0.6);
+}
+
+#journey-spread .tablinks.active {
+  background: linear-gradient(160deg, #1e1848, #2c2468);
+  border-color: #c8aaf8;
+  color: #f0e8ff;
+  box-shadow: 0 0 22px rgba(180,140,255,0.32), 0 0 6px rgba(160,120,220,0.4);
+}
+
+#journey-spread .button1 {
+  background: linear-gradient(135deg, #0e0a28, #1c1450);
+  border: 1px solid rgba(160,120,220,0.4);
+  color: var(--jrn-text);
+  box-shadow: 0 0 14px rgba(120,80,200,0.22);
+}
+
+#journey-spread .button1:hover {
+  background: linear-gradient(135deg, #1c1450, #2a1e70);
+  box-shadow: 0 0 24px rgba(160,120,220,0.38);
+  color: #f0e8ff;
+}
+
+#journey-spread .card-list {
+  border-color: rgba(160,120,220,0.22);
+  background: rgba(4,2,14,0.8);
+}
+
+#journey-spread .card-list th {
+  background: linear-gradient(135deg, rgba(30,20,70,0.9), rgba(18,12,48,0.9));
+  color: #c8aaf8;
+  border-color: rgba(160,120,220,0.28);
+}
+
+#journey-spread .card-list td {
+  border-color: rgba(160,120,220,0.12);
+  color: var(--jrn-text);
+}
+
+#journey-spread .card-list tr:hover td {
+  background: rgba(160,120,220,0.06);
+}
+
+/* ================================================================
+   BLANK SLATE SPREAD — Ancient Tome
+   ================================================================ */
+#blank-slate-spread {
+  background:
+    radial-gradient(ellipse 50% 70% at 0% 50%, rgba(160,120,20,0.06) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 50% at 100% 60%, rgba(120,90,15,0.05) 0%, transparent 60%),
+    linear-gradient(180deg, #0e0e08 0%, #181608 100%);
+  border-color: rgba(201,168,76,0.22);
+  box-shadow: inset 0 0 60px rgba(140,110,20,0.06), 0 4px 24px rgba(0,0,0,0.7);
+}
+
+#blank-slate-spread h2 {
+  color: var(--gold-bright);
+  text-shadow: 0 0 18px rgba(201,168,76,0.28);
+  border-bottom-color: rgba(201,168,76,0.22);
+}
+
+#blank-slate-spread .tablinks {
+  background: linear-gradient(160deg, #121006, #1e1c08);
+  border-color: rgba(201,168,76,0.38);
+  color: var(--parchment-dark);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.55), inset 0 1px 0 rgba(201,168,76,0.1);
+}
+
+#blank-slate-spread .tablinks:hover {
+  background: linear-gradient(160deg, #1e1c08, #2e2a10);
+  border-color: var(--gold);
+  color: var(--gold-bright);
+  box-shadow: 0 0 16px rgba(201,168,76,0.22), 0 2px 8px rgba(0,0,0,0.55);
+}
+
+#blank-slate-spread .tablinks.active {
+  background: linear-gradient(160deg, #302810, #4a3c18);
+  border-color: var(--gold-bright);
+  color: #fff8e0;
+  box-shadow: 0 0 22px rgba(201,168,76,0.28), 0 0 6px rgba(240,200,90,0.25);
+}
+
+#blank-slate-spread .button1 {
+  background: linear-gradient(135deg, #1e1806, #302c0e);
+  border: 1px solid rgba(201,168,76,0.38);
+  color: var(--parchment);
+  box-shadow: 0 0 12px rgba(201,168,76,0.16);
+}
+
+#blank-slate-spread .button1:hover {
+  background: linear-gradient(135deg, #302c0e, #504416);
+  box-shadow: 0 0 24px rgba(201,168,76,0.3);
+  color: var(--gold-bright);
+}
+
+#blank-slate-spread .card-list {
+  border-color: rgba(201,168,76,0.22);
+  background: rgba(10,9,4,0.82);
+}
+
+#blank-slate-spread .card-list th {
+  background: linear-gradient(135deg, rgba(60,50,12,0.9), rgba(38,30,6,0.9));
+  color: var(--gold-bright);
+  border-color: rgba(201,168,76,0.28);
+}
+
+#blank-slate-spread .card-list td {
+  border-color: rgba(201,168,76,0.14);
+  color: var(--parchment-dark);
+}
+
+#blank-slate-spread .card-list tr:hover td {
+  background: rgba(201,168,76,0.05);
+}
+
+/* ================================================================
+   DUNGEON SPREAD — Charred Stone
+   ================================================================ */
+#dungeon-spread {
+  background:
+    radial-gradient(ellipse 80% 40% at 50% 100%, rgba(26,10,3,0.5) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 8% 30%, rgba(80,28,5,0.1) 0%, transparent 60%),
+    linear-gradient(180deg, #0e0704 0%, #160e06 100%);
+  border-color: rgba(180,90,20,0.28);
+  box-shadow: inset 0 0 80px rgba(100,40,5,0.1), 0 4px 24px rgba(0,0,0,0.8);
+}
+
+#dungeon-spread h2 {
+  color: var(--adv-accent);
+  text-shadow: 0 0 20px rgba(180,90,20,0.38);
+  border-bottom-color: rgba(180,90,20,0.28);
+}
+
+#dungeon-spread .tablinks {
+  background: linear-gradient(160deg, #140a04, #221206);
+  border-color: rgba(180,90,20,0.42);
+  color: var(--adv-text);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.65), inset 0 1px 0 rgba(180,90,20,0.12);
+}
+
+#dungeon-spread .tablinks:hover {
+  background: linear-gradient(160deg, #221206, #341a08);
+  border-color: var(--adv-accent);
+  color: var(--gold-bright);
+  box-shadow: 0 0 16px rgba(180,90,20,0.32), 0 2px 8px rgba(0,0,0,0.65);
+}
+
+#dungeon-spread .tablinks.active {
+  background: linear-gradient(160deg, #461c08, #6a2c0e);
+  border-color: var(--gold-bright);
+  color: #fff4e0;
+  box-shadow: 0 0 22px rgba(180,90,20,0.38), 0 0 8px rgba(220,140,50,0.28);
+}
+
+#dungeon-spread button[id^="generate-button"] {
+  background: linear-gradient(135deg, #260e04, #401606);
+  border-color: rgba(180,90,20,0.5);
+  color: var(--adv-text);
+  box-shadow: 0 0 14px rgba(180,90,20,0.22);
+}
+
+#dungeon-spread button[id^="generate-button"]:hover {
+  background: linear-gradient(135deg, #401606, #661e08);
+  border-color: var(--adv-accent);
+  box-shadow: 0 0 24px rgba(200,100,20,0.4);
+  color: var(--gold-bright);
+}
+
+#dungeon-spread .button1 {
+  background: linear-gradient(135deg, #260e04, #401606);
+  border: 1px solid rgba(180,90,20,0.45);
+  color: var(--adv-text);
+  box-shadow: 0 0 12px rgba(180,90,20,0.18);
+}
+
+#dungeon-spread .button1:hover {
+  background: linear-gradient(135deg, #401606, #661e08);
+  box-shadow: 0 0 24px rgba(200,100,20,0.38);
+  color: var(--gold-bright);
+}
+
+#dungeon-spread .card-list {
+  border-color: rgba(180,90,20,0.28);
+  background: rgba(10,6,2,0.82);
+}
+
+#dungeon-spread .card-list th {
+  background: linear-gradient(135deg, rgba(80,34,6,0.9), rgba(50,20,4,0.9));
+  color: var(--adv-accent);
+  border-color: rgba(180,90,20,0.28);
+}
+
+#dungeon-spread .card-list td {
+  border-color: rgba(180,90,20,0.14);
+  color: var(--adv-text);
+}
+
+#dungeon-spread .card-list tr:hover td {
+  background: rgba(180,90,20,0.06);
+}
+
+.dungeon-fixed-decks-note {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--parchment-dark);
+  opacity: 0.65;
+  margin: 0 0 16px;
+}
+
+.dungeon-dual-card {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.dungeon-card-block {
+  flex: 1 1 260px;
+  min-width: 240px;
+}
+
+.dungeon-card-block:not(:last-child) {
+  border-right: 1px solid rgba(180,90,20,0.18);
+  padding-right: 24px;
+}
+
+.dungeon-block-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--adv-accent);
+  opacity: 0.7;
+  margin: 0 0 8px;
+}
+
+/* ================================================================
+   CASCADE SPREAD (Random Encounter Table) — Oracle Waters
+   ================================================================ */
+#cascade-spread {
+  background:
+    radial-gradient(ellipse 60% 70% at 50% 0%, rgba(10,50,40,0.14) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 60% at 80% 80%, rgba(5,40,30,0.1) 0%, transparent 60%),
+    linear-gradient(180deg, var(--ora-bg1) 0%, var(--ora-bg2) 100%);
+  border-color: rgba(61,214,181,0.18);
+  box-shadow: inset 0 0 80px rgba(20,80,60,0.08), 0 4px 24px rgba(0,0,0,0.7);
+}
+
+#cascade-spread h2 {
+  color: var(--ora-accent);
+  text-shadow: 0 0 20px var(--ora-glow);
+  border-bottom-color: rgba(61,214,181,0.2);
+}
+
+.cascade-columns {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  align-items: stretch;
+  margin-top: 12px;
+  max-width: 75%;
+}
+
+.cascade-col {
+  border: 1px solid rgba(61,214,181,0.18);
+  border-radius: 3px;
+  padding: 14px;
+  background: rgba(2,10,8,0.82);
+}
+
+.cascade-col-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(61,214,181,0.22);
+}
+
+.cascade-col-header {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ora-accent);
+  margin: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+  white-space: nowrap;
+}
+
+.cascade-graveyard-col .cascade-col-header {
+  color: var(--parchment-dark);
+  margin: 0 0 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(61,214,181,0.18);
+}
+
+.cascade-col-title-row .spread-deck-selector {
+  flex: 1;
+  min-width: 0;
+  font-family: 'IM Fell English', serif;
+  font-size: 0.88rem;
+  background: rgba(2,10,8,0.85);
+  color: var(--ora-text);
+  border: 1px solid rgba(61,214,181,0.22);
+  border-radius: 2px;
+  padding: 4px 8px;
+  outline: none;
+  cursor: pointer;
+}
+
+.cascade-col-count {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 0.82rem;
+  color: var(--ora-text);
+  opacity: 0.6;
+  margin: 0 0 10px;
+}
+
+.cascade-graveyard-list,
+.cascade-col-list {
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+.cascade-empty-msg {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  color: var(--ora-text);
+  font-size: 0.85rem;
+  opacity: 0.5;
+  margin: 0;
+}
+
+.cascade-graveyard-entry,
+.cascade-col-list-entry {
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(61,214,181,0.09);
+  font-family: 'IM Fell English', serif;
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+
+.cascade-graveyard-entry:last-child,
+.cascade-col-list-entry:last-child {
+  border-bottom: none;
+}
+
+.cascade-entry-name {
+  color: var(--ora-text);
+}
+
+.cascade-entry-meta {
+  font-size: 0.76rem;
+  color: var(--parchment-dark);
+  opacity: 0.58;
+  font-style: italic;
+}
+
+.graveyard-clear-btn {
+  margin-top: 6px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  background: rgba(8,30,24,0.8);
+  border: 1px solid rgba(61,214,181,0.25);
+  color: var(--ora-text);
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+
+.graveyard-clear-btn:hover {
+  border-color: var(--ora-accent);
+  background: rgba(16,55,44,0.85);
+}
+
+.cascade-draw-bar {
+  margin-top: 14px;
+  max-width: 75%;
+}
+
+.cascade-draw-btn {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 10px 26px;
+  background: linear-gradient(135deg, #041e18, #0a3226);
+  border: 1px solid rgba(61,214,181,0.35);
+  color: var(--ora-text);
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.25s;
+  box-shadow: 0 0 10px rgba(61,214,181,0.08);
+}
+
+.cascade-draw-btn:hover {
+  background: linear-gradient(135deg, #0a3226, #143e30);
+  border-color: var(--ora-accent);
+  box-shadow: 0 0 20px rgba(61,214,181,0.28);
+  color: #d0fff5;
+  transform: translateY(-1px);
+}
+
+.cascade-drawn-card {
+  margin-top: 10px;
+  padding: 14px 18px;
+  background: rgba(2,12,10,0.9);
+  border-radius: 2px;
+  border: 1px solid rgba(61,214,181,0.16);
+  max-width: 75%;
+}
+
+.cascade-source-label {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 0.8rem;
+  color: var(--ora-text);
+  opacity: 0.55;
+  margin: 2px 0 8px;
+}
+
+/* ================================================================
+   DECK FORGE SPREAD — Arcane Workshop
+   ================================================================ */
+:root {
+  --frg-accent: #a088e0;
+  --frg-bg1: #080810;
+  --frg-bg2: #10101a;
+  --frg-border: rgba(120,100,200,0.22);
+}
+
+#deck-forge-spread {
+  background: linear-gradient(180deg, var(--frg-bg1) 0%, var(--frg-bg2) 100%);
+  border-color: var(--frg-border);
+  box-shadow: inset 0 0 60px rgba(50,35,100,0.06), 0 4px 24px rgba(0,0,0,0.7);
+}
+
+#deck-forge-spread h2 {
+  color: var(--frg-accent);
+  text-shadow: 0 0 16px rgba(120,90,200,0.28);
+  border-bottom-color: var(--frg-border);
+}
+
+.deck-builder-container {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+#deck-forge-spread input[type="text"],
+#deck-forge-spread input[type="number"],
+#deck-forge-spread textarea,
+#deck-forge-spread select {
+  font-family: 'IM Fell English', serif;
+  font-size: 0.9rem;
+  background: rgba(6,6,12,0.9);
+  color: var(--parchment);
+  border: 1px solid rgba(120,100,200,0.28);
+  border-radius: 2px;
+  padding: 7px 10px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#deck-forge-spread input[type="text"]:focus,
+#deck-forge-spread input[type="number"]:focus,
+#deck-forge-spread textarea:focus,
+#deck-forge-spread select:focus {
+  border-color: rgba(180,150,255,0.55);
+  box-shadow: 0 0 8px rgba(120,90,200,0.18);
+}
+
+#deck-forge-spread button:not(.tablinks):not(.spread-tablinks) {
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, rgba(50,35,90,0.8), rgba(32,22,65,0.8));
+  border: 1px solid rgba(120,100,200,0.38);
+  color: #c0aef8;
+  padding: 8px 18px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.25s;
+}
+
+#deck-forge-spread button:not(.tablinks):not(.spread-tablinks):hover {
+  background: linear-gradient(135deg, rgba(80,55,140,0.9), rgba(55,38,105,0.9));
+  border-color: rgba(180,150,255,0.55);
+  box-shadow: 0 0 12px rgba(120,90,200,0.28);
+  color: #e0d8ff;
+}
+
+/* ================================================================
+   RESPONSIVE — TABLET + MOBILE
+   ================================================================ */
+@media (max-width: 1024px) and (min-width: 769px) {
+  #deck-sidebar {
+    width: 220px;
+  }
+
+  #main-content {
+    margin-left: 220px;
+  }
+
+  #deck-sidebar.collapsed ~ #main-content {
+    margin-left: 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Sidebar becomes a slide-in drawer */
+  #deck-sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    z-index: 200;
+    width: min(280px, 85vw);
+  }
+
+  #deck-sidebar.mobile-open {
+    transform: translateX(0);
+  }
+
+  #deck-sidebar.collapsed {
+    width: min(280px, 85vw);
+    transform: translateX(-100%);
+  }
+
+  #deck-sidebar.collapsed .sidebar-header h3,
+  #deck-sidebar.collapsed .sidebar-deck-name,
+  #deck-sidebar.collapsed .sidebar-card-count,
+  #deck-sidebar.collapsed .sidebar-card-name {
+    display: block;
+  }
+
+  #main-content {
+    margin-left: 0 !important;
+    padding-top: 56px;
+  }
+
+  #deck-sidebar.collapsed ~ #main-content {
+    margin-left: 0 !important;
+  }
+
+  #mobile-sidebar-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 150;
+    background: rgba(38,22,5,0.92);
+    border: 1px solid var(--gold-dim);
+    color: var(--gold);
+    border-radius: 2px;
+    padding: 8px 12px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.55);
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+  .import-export-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .export-btn,
+  .import-btn,
+  .clear-btn,
+  .quickfill-btn {
+    min-width: 0;
+    padding: 8px 8px;
+    font-size: 0.6rem;
+  }
+
+  .cascade-columns {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+  }
+
+  .cascade-draw-bar,
+  .cascade-drawn-card {
+    max-width: 100%;
+  }
+
+  .dungeon-card-block:not(:last-child) {
+    border-right: none;
+    padding-right: 0;
+    border-bottom: 1px solid rgba(180,90,20,0.18);
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+  }
+}
