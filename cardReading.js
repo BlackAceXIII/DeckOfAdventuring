@@ -1,117 +1,653 @@
+// Ensure defaults are set immediately to prevent null errors
+let selectedDecks = {
+  adventure: 'Default',
+  fiveCard: 'Default',
+  threeCard: 'Default',
+  journey: 'Default',
+  blankSlate: 'Default',
+  cascadeCurrent: 'Default',
+  cascadeNext: 'Default'
+};
+
+let isReplaceableEnabled = false; // Default to "No" to match common Tarot logic
+// isManualSelectionEnabled, targetedSlot, and pendingSidebarSelection were removed.
+// They supported a sidebar-based manual card placement flow: the GM would target a slot,
+// select a card from the sidebar list, then confirm with an Assign button. The approach
+// was abandoned because Quick Fill covers the same need more cleanly and the sidebar
+// placement UI (sidebar-placement-container, assign-btn, manualSelectionToggle) was never
+// added to the HTML — these variables were silently no-oping against missing elements.
+
 let allDecks = {}; // Combined deck lists from all sources
+let customDeckCart = {}; // Format: { "CardName": quantity }
 let allCards = null; // Card data from AllCards.json
-let selectedDeck = null; // Default deck selection
 let cardName = null; // This will hold the name of the card
 let deckName = null; // This will hold the name of the deck
+let workingDecks = {
+  adventure: [],    // C.00-C.08
+  fiveCard: [],     // C.09-C.13
+  threeCard: [],    // C.14-C.16
+  journey: [],      // C.17-C.30
+  blankSlate: [],   // C.31-C.45
+  cascadeCurrent: [], // {name, sourceDeck}[] — Current Area pool
+  cascadeNext: [],    // {name, sourceDeck}[] — Next Area pool
+  dungeonStory: [],      // C.46-C.48 — fixed deck, plain string array like adventure/etc
+  dungeonLocations: [],  // C.49,51,53,55,59 — fixed deck
+  dungeonFeatures: []    // C.50,52,54,56,57,58 — fixed deck
+};
+
+let graveyardCards = []; // {name, orientation, sourceDeck}[]
+let lastOpenCard = {}; // spreadName -> last shown cardNum, restored when switching back to that spread
 
 const CARD_DIR = './CardsJsons';
 
-const drawData = {
-  "C.00": { cType: "" }, "C.01": { cType: "" }, "C.02": { cType: "" },
-  "C.03": { cType: "" }, "C.04": { cType: "" }, "C.05": { cType: "" },
-  "C.06": { cType: "" }, "C.07": { cType: "" }, "C.08": { cType: "" },
-  "C.09": { cType: "" }, "C.10": { cType: "" }, "C.11": { cType: "" },
-  "C.12": { cType: "" }, "C.13": { cType: "" }, "C.14": { cType: "" },
-  "C.15": { cType: "" }, "C.16": { cType: "" }
+// Dungeon Spread deck assignments are fixed at the code level — not user-selectable.
+// These deck names must exist in deckLists.json (see "Locations Deck", "Story Deck", "Features Deck").
+const DUNGEON_FIXED_DECKS = {
+  dungeonStory: 'Story Deck',
+  dungeonLocations: 'Locations Deck',
+  dungeonFeatures: 'Features Deck'
 };
+
+// Maps each Dungeon Spread card ID to which of the 3 fixed working decks it draws from.
+// Two-card slots (Entrance, Challenge 1-3, Treasure) map their two IDs to different decks.
+const DUNGEON_CARD_DECKS = {
+  'C.46': 'dungeonStory',      // Party Gathers
+  'C.47': 'dungeonStory',      // Adventure Begins
+  'C.48': 'dungeonStory',      // Journey
+  'C.49': 'dungeonLocations',  // Entrance - Location
+  'C.50': 'dungeonFeatures',   // Entrance - Feature
+  'C.51': 'dungeonLocations',  // Challenge 1 - Location
+  'C.52': 'dungeonFeatures',   // Challenge 1 - Feature
+  'C.53': 'dungeonLocations',  // Challenge 2 - Location
+  'C.54': 'dungeonFeatures',   // Challenge 2 - Feature
+  'C.55': 'dungeonLocations',  // Challenge 3 - Location
+  'C.56': 'dungeonFeatures',   // Challenge 3 - Feature
+  'C.57': 'dungeonFeatures',   // Treasure — Feature
+  'C.58': 'dungeonFeatures',   // Guardian — Feature
+  'C.59': 'dungeonLocations'   // Guardian — Location
+};
+
+
+const SPREAD_SLOTS = {
+  'adventure-spread': [
+    { id: 'C.00', label: 'Party Gathers' },
+    { id: 'C.01', label: 'Adventure Begins' },
+    { id: 'C.02', label: 'Journey' },
+    { id: 'C.03', label: 'Entrance' },
+    { id: 'C.04', label: 'Challenge 1' },
+    { id: 'C.05', label: 'Challenge 2' },
+    { id: 'C.06', label: 'Challenge 3' },
+    { id: 'C.07', label: 'Treasure' },
+    { id: 'C.08', label: 'Guardian' }
+  ],
+  'five-card-spread': [
+    { id: 'C.09', label: 'The Quest' },
+    { id: 'C.10', label: 'The Outcome' },
+    { id: 'C.11', label: 'The Challenge' },
+    { id: 'C.12', label: 'That Which is Hidden' },
+    { id: 'C.13', label: 'That Which is Needed' }
+  ],
+  'three-card-spread': [
+    { id: 'C.14', label: 'Past' },
+    { id: 'C.15', label: 'Present' },
+    { id: 'C.16', label: 'Future' }
+  ],
+  'journey-spread': [
+    { id: 'C.17', label: 'Stage 1 Challenge' },
+    { id: 'C.18', label: 'Stage 2 Challenge' },
+    { id: 'C.19', label: 'Stage 3 Challenge' },
+    { id: 'C.20', label: 'Stage 4 Challenge' },
+    { id: 'C.21', label: 'Stage 5 Challenge' },
+    { id: 'C.22', label: 'Stage 6 Challenge' },
+    { id: 'C.23', label: 'Stage 7 Challenge' },
+    { id: 'C.24', label: 'Stage 1 Reward' },
+    { id: 'C.25', label: 'Stage 2 Reward' },
+    { id: 'C.26', label: 'Stage 3 Reward' },
+    { id: 'C.27', label: 'Stage 4 Reward' },
+    { id: 'C.28', label: 'Stage 5 Reward' },
+    { id: 'C.29', label: 'Stage 6 Reward' },
+    { id: 'C.30', label: 'Stage 7 Reward' }
+  ],
+  'blank-slate-spread': [
+    { id: 'C.31', label: 'Slot 1' },  { id: 'C.32', label: 'Slot 2' },
+    { id: 'C.33', label: 'Slot 3' },  { id: 'C.34', label: 'Slot 4' },
+    { id: 'C.35', label: 'Slot 5' },  { id: 'C.36', label: 'Slot 6' },
+    { id: 'C.37', label: 'Slot 7' },  { id: 'C.38', label: 'Slot 8' },
+    { id: 'C.39', label: 'Slot 9' },  { id: 'C.40', label: 'Slot 10' },
+    { id: 'C.41', label: 'Slot 11' }, { id: 'C.42', label: 'Slot 12' },
+    { id: 'C.43', label: 'Slot 13' }, { id: 'C.44', label: 'Slot 14' },
+    { id: 'C.45', label: 'Slot 15' }
+  ],
+  'dungeon-spread': [
+    { id: 'C.46', label: 'Party Gathers' },
+    { id: 'C.47', label: 'Adventure Begins' },
+    { id: 'C.48', label: 'Journey' },
+    { id: 'C.49', label: 'Entrance (Location)' },
+    { id: 'C.50', label: 'Entrance (Feature)' },
+    { id: 'C.51', label: 'Challenge 1 (Location)' },
+    { id: 'C.52', label: 'Challenge 1 (Feature)' },
+    { id: 'C.53', label: 'Challenge 2 (Location)' },
+    { id: 'C.54', label: 'Challenge 2 (Feature)' },
+    { id: 'C.55', label: 'Challenge 3 (Location)' },
+    { id: 'C.56', label: 'Challenge 3 (Feature)' },
+    { id: 'C.57', label: 'Treasure (Feature)' },
+    { id: 'C.58', label: 'Guardian (Feature)' },
+    { id: 'C.59', label: 'Guardian (Location)' }
+  ]
+};
+
+// Card ID Organization:
+// All card slot IDs follow a unified naming convention:
+// - Card detail panels: card-name-C.## and card-orientation-C.##
+// - Spread tables: card-list-C.## and card-orientation-list-C.##
+// This allows universal selectors that work across all spreads:
+//   Adventure Spread:   C.00-C.08
+//   Five-Card Spread:   C.09-C.13
+//   Three-Card Spread:  C.14-C.16
+//   Journey Spread:     C.17-C.30
+//   Blank Slate Spread: C.31-C.45
+// The unified naming eliminates the need for spread-specific prefixes
+// and makes getElementById() lookups fast and efficient.
 
 async function fetchData() {
   try {
-    // Load cards and default decks in parallel
+    // STEP 1: Load card and deck data in parallel for performance
+    // 1.1 Fetch AllCards.json and deckLists.json simultaneously
     const [cardsResponse, defaultDecksResponse] = await Promise.all([
       fetch(`${CARD_DIR}/AllCards.json`),
       fetch(`${CARD_DIR}/deckLists.json`)
     ]);
 
+    // STEP 2: Validate that both primary resources loaded successfully
+    // 2.1 Check AllCards.json response status
     if (!cardsResponse.ok) throw new Error('Failed to load AllCards.json');
+    // 2.2 Check deckLists.json response status
     if (!defaultDecksResponse.ok) throw new Error('Failed to load deckLists.json');
 
+    // STEP 3: Parse both JSON responses into global variables
+    // 3.1 Parse and store all cards from AllCards.json
     allCards = await cardsResponse.json();
+    // 3.2 Parse default deck lists
     const defaultDecks = await defaultDecksResponse.json();
 
-    // Try to load custom decks (optional - may not exist)
-    let customDecks = {};
+    // STEP 4: Load local storage custom decks
+    let localCustomDecks = {};
     try {
-      const customResponse = await fetch(`${CARD_DIR}/customDecks.json`);
-      if (customResponse.ok) {
-        customDecks = await customResponse.json();
-      }
+      const saved = localStorage.getItem('userCustomDecks');
+      if (saved) localCustomDecks = JSON.parse(saved);
     } catch (e) {
-      console.log('No custom decks found (this is fine)');
+      console.warn('Failed to parse local custom decks');
     }
 
-    // Combine all deck sources (custom decks override defaults)
-    allDecks = { ...defaultDecks, ...customDecks };
+    // STEP 5: Merge all deck sources (local > default)
+    allDecks = { ...defaultDecks, ...localCustomDecks };
 
+    // STEP 6: Log initialization results for debugging
+    // 6.1 Report total card count
     console.log(`Loaded ${Object.keys(allCards.cards).length} cards`);
+    // 6.2 Report total deck type count
     console.log(`Loaded ${Object.keys(allDecks).length} deck types`);
 
+    // STEP 7: Initialize UI with all loaded data
+    // 7.1 Create array of all card names from the database
+    const allExistingCards = Object.keys(allCards.cards);
+    console.log('All existing cards:', allExistingCards);
+
+    // 7.2 Populate the Deck Forge library with card buttons
+    populateAllCardsSpread(allExistingCards);
+    // 7.3 Seed the shared datalist with all card names as an initial fallback
+    // openQuickFill() replaces these with deck-filtered options each time the panel opens
+    const datalist = document.getElementById('card-names-list');
+    if (datalist) {
+      datalist.innerHTML = allExistingCards.slice().sort().map(name => `<option value="${name}">`).join('');
+    }
+
+    // 7.5 Create deck selection dropdowns for all spreads
     populateDropdown(allDecks);
     return allDecks;
 
   } catch (error) {
+    // STEP 8: Handle any errors during data loading
+    // 8.1 Log error to console
     console.error('Failed to load card data:', error);
+    // 8.2 Re-throw error to be handled by caller
     throw error;
   }
 }
 
-// No longer needed - cards are preloaded in allCards
-// async function fetchCardData(cardName) {
-//   const responseCard = await fetch(`${CARD_DIR}/${cardName}.json`);
-//   if (!responseCard.ok) {
-//     throw new Error(`HTTP error! status: ${responseCard.status}`);
-//   }
-//   const cardData = await responseCard.json();
-//   return cardData;
-// }
+// The card-fetch helper above was deprecated once we began loading
+// the entire AllCards.json at startup.  We kept the old code here as
+// a reference during development but later removed it since every card
+// can be looked up directly from `allCards.cards`.
+// (function fetchCardData was replaced by the preloaded `allCards` lookup.)
+
+// Get the selected deck for a given spread
+function getSelectedDeckForSpread(spreadKey) {
+  return selectedDecks[spreadKey] || Object.keys(allDecks)[0];
+}
+
+// Determine which spread a card belongs to based on card number
+function getSpreadKey(cardNum) {
+  const cardNumber = parseInt(cardNum.replace('C.', ''));
+  if (cardNumber >= 0 && cardNumber <= 8) return 'adventure';
+  if (cardNumber >= 9 && cardNumber <= 13) return 'fiveCard';
+  if (cardNumber >= 14 && cardNumber <= 16) return 'threeCard';
+  if (cardNumber >= 17 && cardNumber <= 30) return 'journey';
+  if (cardNumber >= 31 && cardNumber <= 45) return 'blankSlate';
+  if (DUNGEON_CARD_DECKS[cardNum]) return DUNGEON_CARD_DECKS[cardNum];
+  return 'adventure'; // default
+}
+
+// IMPROVED: Robust initialization of working decks
+function initializeWorkingDecks() {
+  // STEP 1: Define all spread types to initialize
+  const spreads = ['adventure', 'fiveCard', 'threeCard', 'journey', 'blankSlate'];
+  
+  // STEP 2: Initialize a working copy of the deck for each spread
+  spreads.forEach(spread => {
+    // 2.1 Get the selected deck name for this spread
+    const deckName = selectedDecks[spread];
+
+    // 2.2 If the selected deck exists, create a copy for the working deck
+    if (allDecks && allDecks[deckName]) {
+      // 2.2.1 Spread operator [...] creates a shallow copy to avoid mutating original
+      workingDecks[spread] = [...allDecks[deckName]];
+    } else if (allDecks) {
+      // 2.3 Fallback: if selected deck missing, use first available deck
+      // 2.3.1 Get the first deck from all available decks
+      const firstDeck = Object.keys(allDecks)[0];
+      // 2.3.2 Create a working copy of the fallback deck
+      workingDecks[spread] = [...allDecks[firstDeck]];
+    }
+  });
+
+  // STEP 3: Initialize cascade working decks as {name, sourceDeck}[] objects
+  // Cards must carry their origin deck so the label persists through Graveyard
+  ['cascadeCurrent', 'cascadeNext'].forEach(key => {
+    const deckName = selectedDecks[key];
+    const source = (allDecks && allDecks[deckName]) ? deckName : (allDecks ? Object.keys(allDecks)[0] : null);
+    const cards = source && allDecks[source] ? allDecks[source] : [];
+    workingDecks[key] = cards.map(name => ({ name, sourceDeck: source }));
+  });
+
+  // STEP 4: Refresh the cascade column lists to reflect the new pools
+  updateCurrentList();
+  updateNextList();
+  updateCascadeCounts();
+
+  // STEP 5: Initialize the 3 fixed Dungeon Spread decks (not user-selectable —
+  // deck names come from DUNGEON_FIXED_DECKS). selectedDecks is still populated
+  // here (not just workingDecks) because generateCard() reads selectedDecks[spreadKey]
+  // to resolve the deck name in replaceable mode.
+  Object.keys(DUNGEON_FIXED_DECKS).forEach(key => {
+    const deckName = DUNGEON_FIXED_DECKS[key];
+    selectedDecks[key] = deckName;
+    workingDecks[key] = (allDecks && allDecks[deckName]) ? [...allDecks[deckName]] : [];
+  });
+  updateDungeonSidebar();
+}
+
+// Helper function to reset a specific spread's working deck
+function resetWorkingDeck(spreadKey) {
+  const deckName = getSelectedDeckForSpread(spreadKey);
+  if (allDecks && allDecks[deckName]) {
+    workingDecks[spreadKey] = [...allDecks[deckName]];
+    console.log(`Fresh deck shuffled for ${spreadKey} spread.`);
+  }
+}
 
 function populateDropdown(deckLists) {
-  // Set selectedDeck FIRST so it's valid before any event fires
-  selectedDeck = Object.keys(deckLists)[0];
+  // STEP 1: Set all spreads to use the first available deck as default
+  // 1.1 Get the name of the first deck in the available decks
+  const defaultDeck = Object.keys(deckLists)[0];
+  // 1.2 Set all spread selections to the default deck
+  selectedDecks.adventure = defaultDeck;
+  selectedDecks.fiveCard = defaultDeck;
+  selectedDecks.threeCard = defaultDeck;
+  selectedDecks.journey = defaultDeck;
+  selectedDecks.blankSlate = defaultDeck;
+  selectedDecks.cascadeCurrent = defaultDeck;
+  selectedDecks.cascadeNext = defaultDeck;
+  // 1.3 Initialize the working decks (copies for card drawing)
+  initializeWorkingDecks();
 
-  let dropdown = "<select id='deck-select'>"; // No inline onchange — we use addEventListener below
+  // STEP 2: Define metadata for each spread's deck selector
+  // 2.1 Create configuration objects with spread info and HTML IDs
+  const spreads = [
+    { key: 'adventure',      id: 'deck-select-adventure',      label: 'Adventure Spread' },
+    { key: 'fiveCard',       id: 'deck-select-fiveCard',       label: 'Five-Card Spread' },
+    { key: 'threeCard',      id: 'deck-select-threeCard',      label: 'Three-Card Spread' },
+    { key: 'journey',        id: 'deck-select-journey',        label: 'Journey Spread' },
+    { key: 'blankSlate',     id: 'deck-select-blankSlate',     label: 'Blank Slate Spread' },
+    { key: 'cascadeCurrent', id: 'deck-select-cascadeCurrent', label: '' },
+    { key: 'cascadeNext',    id: 'deck-select-cascadeNext',    label: '' }
+  ];
+
+  // STEP 3: Create dropdown selectors for each spread
+  // 3.1 Iterate through each spread and create its deck selector
+  spreads.forEach(spread => {
+    createSpreadDeckSelector(spread.key, spread.id, spread.label, deckLists);
+  });
+
+  // Step 4: Validate initial deck sizes for all spreads and update UI indicators
+  spreads.forEach(spread => validateDeckSize(spread.key));
+}
+
+// Create a deck selector for a specific spread
+function createSpreadDeckSelector(spreadKey, selectId, label, deckLists) {
+  // STEP 1: Build the HTML select element and options
+  // 1.1 Create the select element; label is omitted when empty (e.g. cascade columns where the h3 already names the deck)
+  let dropdown = label ? `<label>${label} Deck:</label>` : '';
+  dropdown += `<select id="${selectId}" class="deck-select-spread">`;
+  // 1.2 Iterate through all available decks and create option elements
   for (let deckName in deckLists) {
     dropdown += `<option value="${deckName}">${deckName}</option>`;
   }
-  dropdown += "</select>";
-  document.getElementById("dropdown").innerHTML = dropdown;
+  // 1.3 Close the select element
+  dropdown += `</select> <span id='validity-${spreadKey}' class='deck-validity' title='Valid deck selection'>✅</span>`;
+  
+  // STEP 2: Find the container element and inject the dropdown
+  // 2.1 Get the container div for this spread's selector
+  const container = document.getElementById(`${spreadKey}-deck-selector`);
+  if (container) {
+    // 2.2 Insert the HTML into the container
+    container.innerHTML = dropdown;
+    // 2.3 Get reference to the newly created select element
+    const sel = document.getElementById(selectId);
+    // 2.4 Set the current selected value from selectedDecks
+    sel.value = selectedDecks[spreadKey];
+    
+    // STEP 3: Attach change event listener to select element
+    // 3.1 Listen for deck selection changes
+    sel.addEventListener("change", function() {
+      // 3.2 Update the selectedDecks object with new choice
+      selectedDecks[spreadKey] = this.value;
+      // 3.3 Reinitialize only the changed spread's working deck, preserving
+      //     all other in-progress spread state (cascade pools, dungeon pools).
+      if (spreadKey === 'cascadeCurrent' || spreadKey === 'cascadeNext') {
+        // Cascade pools use {name, sourceDeck}[] objects; rebuild just this column.
+        const deckName = selectedDecks[spreadKey];
+        const source = (allDecks && allDecks[deckName]) ? deckName : (allDecks ? Object.keys(allDecks)[0] : null);
+        const cards = source && allDecks[source] ? allDecks[source] : [];
+        workingDecks[spreadKey] = cards.map(name => ({ name, sourceDeck: source }));
+        updateCurrentList();
+        updateNextList();
+        updateCascadeCounts();
+      } else {
+        // Regular spread: reset only this spread's working deck.
+        resetWorkingDeck(spreadKey);
+      }
+      validateDeckSize(spreadKey);
+      // 3.4 Update the deck sidebar to show cards from the new deck
+      updateDeckSidebar();
+      // 3.5 Log the change for debugging
+      console.log(`${spreadKey} spread now using deck: ${this.value}`);
+    });
+  }
+}
 
-  const sel = document.getElementById("deck-select");
-  sel.value = selectedDeck; // Now this will actually match an option
+function populateAllCardsSpread(allCardsArray) {
+  // STEP 1: Clear existing Deck Forge grid and prepare for population
+  // 1.1 Get reference to the card grid container
+  const grid = document.getElementById('deck-forge-grid');
+  // 1.2 Clear any existing content from grid
+  grid.innerHTML = ''; 
 
-  sel.addEventListener("change", function() {
-    selectedDeck = this.value;
-    // Notify the deck-theme script if present
-    sel.dispatchEvent(new Event('deck-theme-change', { bubbles: true }));
+  // STEP 2: Create library item for each card in the database
+  // 2.1 Iterate through all available card names
+  allCardsArray.forEach(cardName => {
+    // 2.2 Create safe ID by replacing spaces for use in element IDs
+    const safeId = cardName.replace(/\s+/g, '-');
+    
+    // STEP 3: Create library item container
+    // 3.1 Create the main item div container
+    const itemDiv = document.createElement('div');
+    // 3.2 Apply library item styling class
+    itemDiv.className = 'library-item';
+
+    // STEP 4: Create clickable card name button for preview panel
+    // 4.1 Create button element for card name
+    const nameBtn = document.createElement('button');
+    // 4.2 Apply styling class for library name button
+    nameBtn.className = 'library-name-btn';
+    // 4.3 Set button text to the card name
+    nameBtn.textContent = cardName;
+    // 4.4 Attach click handler to open card preview
+    nameBtn.onclick = () => openAllCardPreview(cardName);
+
+    // STEP 5: Create quantity controls (-, count, +)
+    // 5.1 Create container div for control buttons
+    const controlsDiv = document.createElement('div');
+    // 5.2 Apply styling class for controls container
+    controlsDiv.className = 'library-controls';
+
+    // 5.3 Create minus button for decreasing quantity
+    const minusBtn = document.createElement('button');
+    // 5.4 Set minus button text
+    minusBtn.textContent = '-';
+    // 5.5 Attach click handler to decrease cart quantity
+    minusBtn.onclick = () => updateCartQuantity(cardName, -1);
+
+    // 5.6 Create span to display current quantity
+    const countSpan = document.createElement('span');
+    // 5.7 Set unique ID for this card's quantity display
+    countSpan.id = `library-count-${safeId}`;
+    // 5.8 Initialize with current cart quantity or 0
+    countSpan.textContent = customDeckCart[cardName] || '0';
+
+    // 5.9 Create plus button for increasing quantity
+    const plusBtn = document.createElement('button');
+    // 5.10 Set plus button text
+    plusBtn.textContent = '+';
+    // 5.11 Attach click handler to increase cart quantity
+    plusBtn.onclick = () => updateCartQuantity(cardName, 1);
+
+    // STEP 6: Assemble controls container
+    // 6.1 Add minus button to controls
+    controlsDiv.appendChild(minusBtn);
+    // 6.2 Add quantity display to controls
+    controlsDiv.appendChild(countSpan);
+    // 6.3 Add plus button to controls
+    controlsDiv.appendChild(plusBtn);
+
+    // STEP 7: Assemble and append complete library item
+    // 7.1 Add name button to item container
+    itemDiv.appendChild(nameBtn);
+    // 7.2 Add controls container to item
+    itemDiv.appendChild(controlsDiv);
+    // 7.3 Append complete item to grid
+    grid.appendChild(itemDiv);
   });
 }
 
-function openCard(evt, cardNum) {
+// populateBlankSlateSpread() was removed. The blank slate now uses static HTML panels
+// (C.31-C.45) with a fixed 5×3 grid layout, matching the structure of all other spreads.
+
+// Updates the label on a blank slate grid button to show the placed card name,
+// or "blank" when the slot is empty. Silently no-ops for non-blank-slate slots.
+function updateBlankSlateButton(cardNum, cardName) {
+  const btn = document.getElementById(`bs-btn-${cardNum}`);
+  if (!btn) return;
+  const slotNum = parseInt(cardNum.replace('C.', '')) - 30;
+  btn.innerHTML = `${slotNum}<br>${cardName || 'blank'}`;
+}
+
+// Updated preview function: displays card details in a unified static panel instead of creating dynamic tabs
+function openAllCardPreview(cardName) {
+  // STEP 1: Retrieve and validate card data
+  // 1.1 Look up the card in the AllCards database
+  const cardData = allCards.cards[cardName];
+  // 1.2 Return early if card not found
+  if (!cardData) return;
+
+  // STEP 2: Get reference to the preview panel
+  // 2.1 Retrieve the static preview panel element
+  const panel = document.getElementById('deck-forge-preview');
+  
+  // STEP 3: Populate header and image column
+  // 3.1 Set the card name in the preview header
+  setText('preview-name', cardData.name);
+  // 3.2 Set the card description
+  setText('preview-description', cardData.description || 'No description provided.');
+  
+  // STEP 4: Define helper function to extract meanings by orientation
+  // 4.1 Create function to get meaning data based on card orientation
+  const getMeaning = (meaningData, orientation) => {
+    // 4.1.1 Return empty string if meaning data missing
+    if (!meaningData) return '';
+    // 4.1.2 Return appropriate meaning based on orientation (upright or reverse)
+    return orientation === 'upright' ? meaningData.upright : meaningData.reverse;
+  };
+
+  // STEP 5: Update upright meaning categories
+  // 5.1 Set person upright meaning
+  setText('preview-up-person', getMeaning(cardData.meanings?.person, 'upright'));
+  // 5.2 Set creature/trap upright meaning
+  setText('preview-up-creature', getMeaning(cardData.meanings?.creatureTrap, 'upright'));
+  // 5.3 Set place upright meaning
+  setText('preview-up-place', getMeaning(cardData.meanings?.place, 'upright'));
+  // 5.4 Set treasure upright meaning
+  setText('preview-up-treasure', getMeaning(cardData.meanings?.treasure, 'upright'));
+  // 5.5 Set situation upright meaning
+  setText('preview-up-situation', getMeaning(cardData.meanings?.situation, 'upright'));
+
+  // STEP 6: Update reverse meaning categories
+  // 6.1 Set person reverse meaning
+  setText('preview-rev-person', getMeaning(cardData.meanings?.person, 'reverse'));
+  // 6.2 Set creature/trap reverse meaning
+  setText('preview-rev-creature', getMeaning(cardData.meanings?.creatureTrap, 'reverse'));
+  // 6.3 Set place reverse meaning
+  setText('preview-rev-place', getMeaning(cardData.meanings?.place, 'reverse'));
+  // 6.4 Set treasure reverse meaning
+  setText('preview-rev-treasure', getMeaning(cardData.meanings?.treasure, 'reverse'));
+  // 6.5 Set situation reverse meaning
+  setText('preview-rev-situation', getMeaning(cardData.meanings?.situation, 'reverse'));
+
+  // STEP 7: Display the preview panel
+  // 7.1 Make the preview panel visible
+  panel.style.display = 'block';
+}
+
+function openCard(evt, cardNum, buttonElement) {
   var i, tabcontent, tablinks;
+  
+  // STEP 1: Hide all existing tab content
+  // 1.1 Get all tab content elements
   tabcontent = document.getElementsByClassName("tabcontent");
+  // 1.2 Iterate through and hide each tab
   for (i = 0; i < tabcontent.length; i++) {
     tabcontent[i].style.display = "none";
   }
+  
+  // STEP 2: Remove active state from all tab buttons
+  // 2.1 Get all tab link buttons
   tablinks = document.getElementsByClassName("tablinks");
+  // 2.2 Iterate through and remove active class from each
   for (i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" active", "");
   }
-  document.getElementById(cardNum).style.display = "block";
-  evt.currentTarget.className += " active";
+  
+  // STEP 3: Display the selected card's tab
+  // 3.1 Get the card element by card number
+  const cardElement = document.getElementById(cardNum);
+  if (cardElement) {
+    // 3.2 Make the card tab visible
+    cardElement.style.display = "block";
+    // 3.3 Remember this card for the active spread so we can restore it on tab switch
+    lastOpenCard[getActiveSpread()] = cardNum;
+  } else {
+    // 3.3 Log error if card element not found
+    console.error(`Card element ${cardNum} not found`);
+  }
+  
+  // STEP 4: Mark the clicked button as active
+  // 4.1 Determine which button was clicked (explicit parameter or event target)
+  let activeButton = buttonElement || (evt && (evt.target || evt.currentTarget));
+  // 4.2 Add active class to the clicked button (handle both classList and className)
+  if (activeButton && activeButton.classList) {
+    activeButton.classList.add("active");
+  } else if (activeButton) {
+    activeButton.className += " active";
+  }
 }
 
+// FIXED: Tab switching logic to ensure content is visible
 function openSpread(evt, spreadName) {
-  var i, spreadTabcontent, spreadTablinks;
-  spreadTabcontent = document.getElementsByClassName("spread-tabcontent");
-  for (i = 0; i < spreadTabcontent.length; i++) {
+  // STEP 1: Hide all spread tabs
+  // 1.1 Get all spread tab content elements
+  const spreadTabcontent = document.getElementsByClassName("spread-tabcontent");
+  // 1.2 Iterate through and hide each spread tab
+  for (let i = 0; i < spreadTabcontent.length; i++) {
     spreadTabcontent[i].style.display = "none";
   }
-  spreadTablinks = document.getElementsByClassName("spread-tablinks");
-  for (i = 0; i < spreadTablinks.length; i++) {
-    spreadTablinks[i].className = spreadTablinks[i].className.replace(" active", "");
+
+  // STEP 1.5: Close any open card detail panels — these live outside spread-tabcontent
+  // and would otherwise remain visible when switching to a different spread (including Deck Forge)
+  const openTabcontent = document.getElementsByClassName("tabcontent");
+  for (let i = 0; i < openTabcontent.length; i++) {
+    openTabcontent[i].style.display = "none";
   }
-  document.getElementById(spreadName).style.display = "block";
-  evt.currentTarget.className += " active";
+  
+  // STEP 2: Remove active state from all spread tab links
+  // 2.1 Get all spread tab buttons
+  const spreadTablinks = document.getElementsByClassName("spread-tablinks");
+  // 2.2 Iterate through and remove active class from each button
+  for (let i = 0; i < spreadTablinks.length; i++) {
+    spreadTablinks[i].classList.remove("active");
+  }
+
+  // STEP 3: Display the selected spread tab
+  // 3.1 Get the spread element by name
+  const target = document.getElementById(spreadName);
+  if (target) {
+    // 3.2 Make the spread tab visible
+    target.style.display = "block";
+    // 3.3 Mark the clicked button as active
+    evt.currentTarget.classList.add("active");
+    // 3.4 Restore last open card detail panel for this spread (hidden by STEP 1.5)
+    const lastCard = lastOpenCard[spreadName];
+    if (lastCard) {
+      const panel = document.getElementById(lastCard);
+      if (panel) panel.style.display = 'block';
+    }
+  }
+  
+  // STEP 4: Switch sidebar content based on active spread
+  const sidebarTitle       = document.getElementById('sidebar-title');
+  const sidebarInventory   = document.getElementById('sidebar-content-inventory');
+  const sidebarGraveyard   = document.getElementById('sidebar-content-graveyard');
+  const sidebarDungeon     = document.getElementById('sidebar-content-dungeon');
+  const deckSidebar        = document.getElementById('deck-sidebar');
+
+  if (spreadName === 'cascade-spread') {
+    // Show graveyard in sidebar; hide deck inventory
+    if (sidebarTitle)     sidebarTitle.textContent = 'Graveyard';
+    if (sidebarInventory) sidebarInventory.style.display = 'none';
+    if (sidebarGraveyard) sidebarGraveyard.style.display = '';
+    if (sidebarDungeon)   sidebarDungeon.style.display = 'none';
+    if (deckSidebar)      deckSidebar.style.display = '';
+  } else if (spreadName === 'dungeon-spread') {
+    // Show the 3 fixed dungeon decks; hide the single-deck inventory
+    if (sidebarTitle)     sidebarTitle.textContent = 'Dungeon Decks';
+    if (sidebarInventory) sidebarInventory.style.display = 'none';
+    if (sidebarGraveyard) sidebarGraveyard.style.display = 'none';
+    if (sidebarDungeon)   sidebarDungeon.style.display = '';
+    if (deckSidebar)      deckSidebar.style.display = '';
+  } else if (spreadName === 'deck-forge-spread') {
+    // Deck Forge needs neither — hide the sidebar
+    if (deckSidebar) deckSidebar.style.display = 'none';
+  } else {
+    // All other spreads: show deck inventory
+    if (sidebarTitle)     sidebarTitle.textContent = 'Deck Inventory';
+    if (sidebarInventory) sidebarInventory.style.display = '';
+    if (sidebarGraveyard) sidebarGraveyard.style.display = 'none';
+    if (sidebarDungeon)   sidebarDungeon.style.display = 'none';
+    if (deckSidebar)      deckSidebar.style.display = '';
+  }
+
+  // STEP 5: Update sidebar to show cards for the current spread's deck
+  // 5.1 Refresh sidebar contents when spread changes
+  updateDeckSidebar();
 }
 
 // Helper function to get the currently active spread
@@ -125,40 +661,15 @@ function getActiveSpread() {
   return "adventure-spread"; // default
 }
 
-// Helper function to get table ID prefix based on active spread
-function getTablePrefix() {
-  const activeSpread = getActiveSpread();
-  switch(activeSpread) {
-    case "five-card-spread":
-      return "card-list-five-";
-    case "three-card-spread":
-      return "card-list-three-";
-    default:
-      return "card-list-";
-  }
-}
-
-// Helper function to get orientation table ID prefix based on active spread
-function getOrientationTablePrefix() {
-  const activeSpread = getActiveSpread();
-  switch(activeSpread) {
-    case "five-card-spread":
-      return "card-orientation-list-five-";
-    case "three-card-spread":
-      return "card-orientation-list-three-";
-    default:
-      return "card-orientation-list-";
-  }
-}
-
-function redrawAll() {
-  // Legacy function - calls all spread functions
-  redrawAdventureSpread();
-  redrawFiveCardSpread();
-  redrawThreeCardSpread();
-}
 
 function redrawAdventureSpread() {
+  const deckName = getSelectedDeckForSpread('adventure');
+  const deckSize = allDecks[deckName] ? allDecks[deckName].length : 0;
+  if (!isReplaceableEnabled && deckSize < 9) {
+    alert(`Cannot draw: The "${deckName}" deck only has ${deckSize} cards, but this spread requires 9. Turn on Card Replacement or select a larger deck.`);
+    return;
+  }
+  resetWorkingDeck('adventure');
   for (let i = 0; i <= 8; i++) {
     const cardNum = i < 10 ? `C.0${i}` : `C.${i}`;
     generateCard(cardNum);
@@ -166,6 +677,13 @@ function redrawAdventureSpread() {
 }
 
 function redrawFiveCardSpread() {
+  const deckName = getSelectedDeckForSpread('fiveCard');
+  const deckSize = allDecks[deckName] ? allDecks[deckName].length : 0;
+  if (!isReplaceableEnabled && deckSize < 5) {
+    alert(`Cannot draw: The "${deckName}" deck only has ${deckSize} cards, but this spread requires 5. Turn on Card Replacement or select a larger deck.`);
+    return;
+  }
+  resetWorkingDeck('fiveCard');
   for (let i = 9; i <= 13; i++) {
     const cardNum = i < 10 ? `C.0${i}` : `C.${i}`;
     generateCard(cardNum);
@@ -173,166 +691,1529 @@ function redrawFiveCardSpread() {
 }
 
 function redrawThreeCardSpread() {
+  const deckName = getSelectedDeckForSpread('threeCard');
+  const deckSize = allDecks[deckName] ? allDecks[deckName].length : 0;
+  if (!isReplaceableEnabled && deckSize < 3) {
+    alert(`Cannot draw: The "${deckName}" deck only has ${deckSize} cards, but this spread requires 3. Turn on Card Replacement or select a larger deck.`);
+    return;
+  }
+  resetWorkingDeck('threeCard');
   for (let i = 14; i <= 16; i++) {
     const cardNum = `C.${i}`;
     generateCard(cardNum);
   }
 }
 
-// Removed early querySelectorAll - buttons are wired at bottom of script after DOM is ready
+function redrawJourneySpread() {
+  const deckName = getSelectedDeckForSpread('journey');
+  const deckSize = allDecks[deckName] ? allDecks[deckName].length : 0;
+  if (!isReplaceableEnabled && deckSize < 14) {
+    alert(`Cannot draw: The "${deckName}" deck only has ${deckSize} cards, but this spread requires 14. Turn on Card Replacement or select a larger deck.`);
+    return;
+  }
+  resetWorkingDeck('journey');
+  for (let i = 17; i <= 30; i++) {
+    const cardNum = `C.${i}`;
+    generateCard(cardNum);
+  }
+}
+
+function redrawBlankSlateSpread() {
+  const deckName = getSelectedDeckForSpread('blankSlate');
+  const deckSize = allDecks[deckName] ? allDecks[deckName].length : 0;
+  if (!isReplaceableEnabled && deckSize < 15) {
+    alert(`Cannot draw: The "${deckName}" deck only has ${deckSize} cards, but this spread requires 15. Turn on Card Replacement or select a larger deck.`);
+    return;
+  }
+  resetWorkingDeck('blankSlate');
+  for (let i = 31; i <= 45; i++) {
+    generateCard(`C.${i}`);
+  }
+}
+
+// Dungeon Spread draws from 3 fixed decks (Story, Locations, Features) instead of
+// one user-selected deck. Story needs 3 cards, Locations needs 5, Features needs 6
+// (see DUNGEON_CARD_DECKS for the full slot-to-deck breakdown).
+function redrawDungeonSpread() {
+  const requirements = [
+    { key: 'dungeonStory', label: 'Story Deck', needed: 3 },
+    { key: 'dungeonLocations', label: 'Locations Deck', needed: 5 },
+    { key: 'dungeonFeatures', label: 'Features Deck', needed: 6 }
+  ];
+
+  if (!isReplaceableEnabled) {
+    for (const { key, label, needed } of requirements) {
+      const deckName = DUNGEON_FIXED_DECKS[key];
+      const deckSize = allDecks[deckName] ? allDecks[deckName].length : 0;
+      if (deckSize < needed) {
+        alert(`Cannot draw: The "${label}" only has ${deckSize} cards, but the Dungeon Spread requires ${needed}. Turn on Card Replacement to continue.`);
+        return;
+      }
+    }
+  }
+
+  requirements.forEach(({ key }) => {
+    const deckName = DUNGEON_FIXED_DECKS[key];
+    workingDecks[key] = (allDecks[deckName] ? [...allDecks[deckName]] : []);
+  });
+
+  ['C.46', 'C.47', 'C.48', 'C.49', 'C.50', 'C.51', 'C.52', 'C.53', 'C.54', 'C.55', 'C.56', 'C.57', 'C.58', 'C.59']
+    .forEach(cardNum => generateCard(cardNum));
+}
+
+// Validates if the selected deck has enough cards for the spread
+function validateDeckSize(spreadKey) {
+  const indicator = document.getElementById(`validity-${spreadKey}`);
+  if (!indicator) return;
+
+  const deckName = selectedDecks[spreadKey];
+  const deckSize = allDecks[deckName] ? allDecks[deckName].length : 0;
+
+  // Determine required cards based on spread
+  let requiredCards = 0;
+  switch (spreadKey) {
+    case 'adventure':  requiredCards = 9;  break;
+    case 'fiveCard':   requiredCards = 5;  break;
+    case 'threeCard':  requiredCards = 3;  break;
+    case 'journey':    requiredCards = 14; break;
+    case 'blankSlate': requiredCards = 15; break;
+  }
+
+  // If replacement is ON, any deck with at least 1 card is valid
+  // If replacement is OFF, deck must meet or exceed required cards
+  if (deckSize === 0) {
+    indicator.textContent = "❌";
+    indicator.title = "Deck is completely empty!";
+  } else if (!isReplaceableEnabled && deckSize < requiredCards) {
+    indicator.textContent = "⚠️";
+    indicator.title = `Warning: Deck only has ${deckSize} cards. Need ${requiredCards} to draw full spread without replacement.`;
+  } else {
+    indicator.textContent = "✅";
+    indicator.title = "Deck size is valid for this spread.";
+  }
+}
+
+// handleButtonClick and the early querySelectorAll wiring were removed.
+// Buttons are now handled by the event delegation listener below,
+// which correctly fires after data is loaded and covers all card slots.
 /*
-function generateCard(cardNum, cardName) {
-  let randomElement = Math.floor(Math.random() * deckLists.deckName.cardName.length);
-  let cardOrientation = Math.floor(Math.random() * 2);
-  let elementType = Math.floor(Math.random() * deckLists.deckName[randomElement].cardName.length);
-
-  // Display the result in the relevant sector element
-  document.getElementById(`random-element-${cardNum}`).innerText = deckLists.deckName.cardName[randomElement].type + ' (' + randomElement + ')';
-
-  // Display the result in the relevant sector subtype
-  document.getElementById(`random-subtype-${cardNum}`).innerText = deckLists.deckName.cardName[randomElement].planetSubType[elementType];
-
-
-  let creatureType = deckLists.deckName.cardName[randomElement].creatureType.join('\n\n'); //A simpler way to do it but less formatting options 
-  // Display the result in the relevant sector creatures
-  document.getElementById(`random-creature-${cardNum}`).innerText = creatureType;
-}*/
-
-/* Assuming `cardAberration` is the JSON object from Aberration.json
-function generateCard(cardNum, cardAberration) {
-  
-  let cardOrientation = Math.floor(Math.random() * 2)
-  //const orientation = document.getElementById("card-orientation-C.00").textContent.trim();
-  
-  // Update card name and description
-  document.getElementById("card-name").textContent = cardAberration.name;
-  document.getElementById("card-description-C.00").textContent = cardAberration.description;
-  if (cardOrientation == 0) {
-    document.getElementById("card-orientation-C.00").textContent = "Upright";
-  }
-  else {
-    document.getElementById("card-orientation-C.00").textContent = "Reverse";
-  }
-
-  // Update meanings based on orientation (Upright or Reversed)
-  if (cardOrientation == 0) {
-    document.getElementById("meaning-person-C.00").textContent = cardAberration.meanings.person.upright;
-  }
-  else {
-    document.getElementById("meaning-person-C.00").textContent = cardAberration.meanings.person.reverse;
-  }
-  document.getElementById("meaning-person-C.00").textContent = cardAberration.meanings.person[cardOrientation];
-  document.getElementById("meaning-creature-C.00").textContent = cardAberration.meanings.creatureTrap[cardOrientation];
-  document.getElementById("meaning-place-C.00").textContent = cardAberration.meanings.place[cardOrientation];
-  document.getElementById("meaning-treasure-C.00").textContent = cardAberration.meanings.treasure[cardOrientation];
-  document.getElementById("meaning-situation-C.00").textContent = cardAberration.meanings.situation[cardOrientation];
-}
+  Early prototype of generateCard used hardcoded deckLists structure
+  and updated some legacy `random-element` DOM nodes.  That approach was
+  abandoned when the system was redesigned to read from `allDecks`/`allCards`
+  and populate the spread tables.  The current `generateCard(cardNum)`
+  function above handles all spreads and orientations.
 */
-function generateCard(cardNum) {
-  if (!allCards || !allDecks) {
-    console.error("Card data not yet loaded. Please wait for data to finish loading.");
-    return;
-  }
-  if (!selectedDeck || !allDecks[selectedDeck]) {
-    console.error(`No valid deck selected. selectedDeck="${selectedDeck}", available:`, Object.keys(allDecks));
-    return;
-  }
 
-  // Get the deck array for the selected deck
-  const deck = allDecks[selectedDeck];
-  
-  // Get random card from the deck
-  const randomIndex = Math.floor(Math.random() * deck.length);
-  const cardName = deck[randomIndex];
-  
-  if (!cardName) {
-    console.error(`No card found at index ${randomIndex} in deck ${selectedDeck}`);
-    return;
-  }
+/*
+  Example code from when the page was being tested with a single
+  `Aberration.json` card object.  It demonstrated populating a single
+  card slot based on a provided JSON object.  The final implementation
+  generalizes this logic in the `generateCard(cardNum)` function, which
+  now works for every card in any deck, so the specific example is no
+  longer needed.
+*/
+// Shared helper – must be module-level so openAllCard and generateCard can both use it
+function setText(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = value;
+}
 
-  // Get the card data from allCards
+// Directly place a card into a slot without random draw or deck management.
+// Used by Quick Fill so the GM can record a physical spread without touching the working deck.
+function placeCard(cardNum, cardName, orientationText) {
+  // STEP 1: Validate card exists in the database
+  // 1.1 Look up full card data from AllCards
   const cardData = allCards.cards[cardName];
+  // 1.2 Return false if card is not found — caller handles the skip
+  if (!cardData) return false;
+
+  // STEP 2: Resolve numeric orientation code from text
+  // 2.1 Map "Upright" → 0, anything else ("Reverse") → 1
+  const cardOrientation = orientationText === 'Upright' ? 0 : 1;
+
+  // STEP 3: Populate the card detail panel
+  // 3.1 Set name in the detail panel header
+  setText(`card-name-${cardNum}`, cardData.name);
+  // 3.2 Set orientation label
+  setText(`card-orientation-${cardNum}`, orientationText);
+  // 3.3 Set the flavour description
+  setText(`card-description-${cardNum}`, cardData.description || '');
+
+  // STEP 4: Update the spread summary table row for this slot
+  // 4.1 Get the name cell in the table
+  const nameCell = document.getElementById(`card-list-${cardNum}`);
+  // 4.2 Get the orientation cell in the table
+  const orientCell = document.getElementById(`card-orientation-list-${cardNum}`);
+  // 4.3 Write the card name into the table cell
+  if (nameCell) nameCell.textContent = cardData.name;
+  // 4.4 Write the orientation into the table cell
+  if (orientCell) orientCell.textContent = orientationText;
+
+  // STEP 5: Populate meaning fields for the chosen orientation
+  // 5.1 Get the meanings object from card data
+  const meanings = cardData.meanings;
+  // 5.2 Iterate through all five meaning categories
+  ['person', 'creatureTrap', 'place', 'treasure', 'situation'].forEach(cat => {
+    // 5.2.1 Map creatureTrap to the DOM id segment used in the HTML
+    const htmlId = cat === 'creatureTrap' ? 'creature' : cat;
+    // 5.2.2 Guard against missing category data
+    if (!meanings || !meanings[cat]) return;
+    // 5.2.3 Select upright or reverse text based on orientation code
+    const val = cardOrientation === 0 ? meanings[cat].upright : meanings[cat].reverse;
+    // 5.2.4 Write the meaning into the panel
+    setText(`meaning-${htmlId}-${cardNum}`, val);
+  });
+
+  // STEP 6: Update blank slate button label if this slot is on the blank slate grid
+  updateBlankSlateButton(cardNum, cardData.name);
+
+  // STEP 7: Signal success to the caller
+  return true;
+}
+
+// Count how many times each card name is currently placed in the given spread's slots.
+// Used by the sidebar to detect when the GM has placed more copies than the deck contains.
+function getPlacedCounts(spreadKey) {
+  // STEP 1: Define the slot index range for each spread
+  // 1.1 Map spread key to its inclusive [start, end] card-number range
+  const ranges = { adventure: [0, 8], fiveCard: [9, 13], threeCard: [14, 16], journey: [17, 30], blankSlate: [31, 45] };
+  // 1.2 Get this spread's range, defaulting to adventure if unknown
+  const [start, end] = ranges[spreadKey] || [0, 8];
+
+  // STEP 2: Walk through every slot and accumulate a frequency map
+  // 2.1 Initialise the count object
+  const counts = {};
+  // 2.2 Iterate through card slot indices
+  for (let i = start; i <= end; i++) {
+    // 2.2.1 Format slot id with leading zero where needed
+    const cardNum = i < 10 ? `C.0${i}` : `C.${i}`;
+    // 2.2.2 Read the current card name shown in the detail panel
+    const nameEl = document.getElementById(`card-name-${cardNum}`);
+    if (nameEl) {
+      // 2.2.3 Trim whitespace from the element text
+      const name = nameEl.textContent.trim();
+      // 2.2.4 Ignore empty slots still showing the default placeholder
+      if (name && name !== 'Card Name') counts[name] = (counts[name] || 0) + 1;
+    }
+  }
+  // STEP 3: Return the completed frequency map to the caller
+  return counts;
+}
+
+// ========== QUICK FILL FUNCTIONS ==========
+
+/*
+ * Opens the Quick Fill panel for the currently active spread.
+ * Each spread slot gets a text input (with datalist autocomplete) and a U/R toggle button.
+ * Any cards already placed in the spread are pre-populated so the GM can make corrections
+ * rather than re-entering the full spread from scratch.
+ */
+function openQuickFill() {
+  // STEP 1: Validate that the active spread supports Quick Fill
+  // 1.1 Get the id of the currently visible spread tab
+  const activeSpread = getActiveSpread();
+  // 1.2 Look up the slot definitions for that spread
+  const slots = SPREAD_SLOTS[activeSpread];
+  // 1.3 Alert and bail if the spread (e.g. Blank Slate, Deck Forge) has no slot definitions
+  if (!slots) { alert('Quick Fill is not available for this spread type.'); return; }
+  // 1.4 Guard against opening before card data has loaded
+  if (!allCards) { alert('Card data not loaded yet. Please wait.'); return; }
+
+  // STEP 2: Narrow the datalist to cards in the selected deck for this spread
+  // 2.1 Map the spread element id to the internal deck selector key
+  const spreadKey = {
+    'adventure-spread':   'adventure',
+    'five-card-spread':   'fiveCard',
+    'three-card-spread':  'threeCard',
+    'journey-spread':     'journey',
+    'blank-slate-spread': 'blankSlate'
+  }[activeSpread] || 'adventure';
+  // 2.2 Resolve which deck's cards to suggest. Dungeon Spread has 3 fixed decks
+  // instead of one user-selected deck, so union all three instead of looking up
+  // a single selectedDecks entry.
+  let deckCardNames;
+  if (activeSpread === 'dungeon-spread') {
+    const union = new Set(Object.values(DUNGEON_FIXED_DECKS).flatMap(deckName => allDecks[deckName] || []));
+    deckCardNames = [...union].sort();
+  } else {
+    const activeDeckName = getSelectedDeckForSpread(spreadKey);
+    // 2.3 Get that deck's card list, sorted alphabetically for predictable suggestion order
+    deckCardNames = (allDecks[activeDeckName] || []).slice().sort();
+  }
+  // 2.4 Replace the datalist options — inputs already reference it via list="card-names-list"
+  const datalist = document.getElementById('card-names-list');
+  if (datalist) {
+    datalist.innerHTML = deckCardNames.map(name => `<option value="${name}">`).join('');
+  }
+
+  // STEP 3: Set the panel title to reflect the active spread
+  // 3.1 Human-readable names keyed by spread element id
+  const spreadNames = {
+    'adventure-spread': 'Adventure Spread',
+    'five-card-spread': 'Five-Card Spread',
+    'three-card-spread': 'Three-Card Spread',
+    'journey-spread': 'Journey Spread',
+    'blank-slate-spread': 'Blank Slate Spread',
+    'dungeon-spread': 'Dungeon Spread'
+  };
+  // 3.2 Inject the name into the panel heading span
+  document.getElementById('qf-spread-name').textContent = spreadNames[activeSpread] || activeSpread;
+
+  // STEP 4: Build one input row per slot in the spread
+  // 4.1 Get the rows container and clear any stale rows from a previous open
+  const rowsContainer = document.getElementById('qf-rows');
+  rowsContainer.innerHTML = '';
+
+  // 4.2 Iterate through the slot definitions for this spread
+  slots.forEach(({ id, label }) => {
+    // 4.2.1 Read the card currently placed in this slot (if any)
+    const currentName = document.getElementById(`card-name-${id}`)?.textContent || '';
+    // 4.2.2 Read the current orientation
+    const currentOrient = document.getElementById(`card-orientation-${id}`)?.textContent || 'Upright';
+    // 4.2.3 Determine whether the slot currently holds a reversed card
+    const isReversed = currentOrient === 'Reverse';
+    // 4.2.4 Only pre-fill the input if a real card is present (not the default placeholder)
+    const hasCard = currentName && currentName !== 'Card Name';
+
+    // 4.3 Create the row container div and tag it with the slot id
+    const row = document.createElement('div');
+    row.className = 'qf-row';
+    row.dataset.slot = id;
+
+    // 4.4 Create the slot label (e.g. "Party Gathers")
+    const labelEl = document.createElement('span');
+    labelEl.className = 'qf-label';
+    labelEl.textContent = label;
+    labelEl.title = label; // show full label on hover in case it's truncated
+
+    // 4.5 Create the card name text input
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'qf-input';
+    // 4.5.1 Link to the shared datalist so the browser offers autocomplete suggestions
+    input.setAttribute('list', 'card-names-list');
+    input.placeholder = 'Card name...';
+    input.autocomplete = 'off';
+    // 4.5.2 Pre-populate with the current card name if one is placed
+    input.value = hasCard ? currentName : '';
+
+    // 4.6 Create the Upright/Reverse toggle button
+    const orientBtn = document.createElement('button');
+    orientBtn.type = 'button'; // prevent accidental form submission
+    orientBtn.className = 'qf-orient-btn' + (isReversed ? ' reversed' : '');
+    orientBtn.textContent = isReversed ? 'R' : 'U';
+    orientBtn.dataset.orient = isReversed ? 'Reverse' : 'Upright';
+    orientBtn.title = 'Toggle Upright / Reverse';
+    // 4.6.1 One click flips between U and R, updating text, class, and data attribute
+    orientBtn.onclick = function() {
+      const nowReversed = this.dataset.orient === 'Upright';
+      this.dataset.orient = nowReversed ? 'Reverse' : 'Upright';
+      this.textContent = nowReversed ? 'R' : 'U';
+      this.classList.toggle('reversed', nowReversed);
+    };
+
+    // 4.7 Assemble and append the row
+    row.appendChild(labelEl);
+    row.appendChild(input);
+    row.appendChild(orientBtn);
+    rowsContainer.appendChild(row);
+  });
+
+  // STEP 5: Show the overlay and focus the first empty input
+  // 5.1 Make the overlay visible (CSS handles centering)
+  document.getElementById('quick-fill-overlay').style.display = 'flex';
+  // 5.2 Find the first input that has no card name yet
+  const inputs = rowsContainer.querySelectorAll('.qf-input');
+  const firstEmpty = Array.from(inputs).find(el => !el.value) || inputs[0];
+  // 5.3 Delay focus slightly so the overlay transition completes first
+  if (firstEmpty) setTimeout(() => firstEmpty.focus(), 50);
+}
+
+/*
+ * Hides the Quick Fill overlay without applying any changes.
+ */
+function closeQuickFill() {
+  document.getElementById('quick-fill-overlay').style.display = 'none';
+}
+
+/*
+ * Closes the Quick Fill panel when the GM clicks the dark backdrop outside the panel.
+ */
+function handleQFOverlayClick(event) {
+  // Only close if the click target is the overlay itself, not a child element
+  if (event.target === document.getElementById('quick-fill-overlay')) closeQuickFill();
+}
+
+/*
+ * Reads every row in the Quick Fill panel and places valid cards into their slots.
+ * Empty rows are skipped. Invalid card names (not in AllCards.json) are collected
+ * and reported to the GM after applying the rest of the spread.
+ */
+function applyQuickFill() {
+  // STEP 1: Collect all row elements from the panel
+  const rows = document.querySelectorAll('#qf-rows .qf-row');
+  // 1.1 Track how many cards were successfully placed
+  let placed = 0;
+  // 1.2 Collect names that were entered but don't exist in the database
+  const invalid = [];
+
+  // STEP 2: Process each row
+  rows.forEach(row => {
+    // 2.1 Read the slot id stored on the row element
+    const cardNum = row.dataset.slot;
+    // 2.2 Read the card name from the text input
+    const input = row.querySelector('.qf-input');
+    // 2.3 Read the chosen orientation from the toggle button's data attribute
+    const orientBtn = row.querySelector('.qf-orient-btn');
+    // 2.4 Trim whitespace from the input value
+    const cardName = input.value.trim();
+    // 2.5 Skip rows the GM left blank
+    if (!cardName) return;
+    // 2.6 If the name isn't in the database, log it for the warning and skip
+    if (!allCards.cards[cardName]) { invalid.push(`"${cardName}" (${cardNum})`); return; }
+    // 2.7 Place the card into the slot using the shared helper
+    placeCard(cardNum, cardName, orientBtn.dataset.orient);
+    placed++;
+  });
+
+  // STEP 3: Close the panel and refresh the sidebar inventory
+  // 3.1 Hide the overlay
+  closeQuickFill();
+  // 3.2 Recalculate the sidebar so over-quota warnings update immediately
+  updateDeckSidebar();
+
+  // STEP 4: Alert the GM if any names were unrecognised
+  if (invalid.length > 0) {
+    alert(`${placed} card(s) placed.\n\nNot found in card database (skipped):\n${invalid.join('\n')}`);
+  }
+}
+
+// ========== CART MANAGEMENT FUNCTIONS ==========
+
+function updateCartQuantity(cardName, change) {
+  // STEP 1: Ensure card has entry in cart
+  // 1.1 Initialize card in cart if it doesn't exist
+  if (!customDeckCart[cardName]) customDeckCart[cardName] = 0;
   
-  if (!cardData) {
-    console.error(`Card data for "${cardName}" not found in AllCards.json`);
+  // STEP 2: Calculate new quantity with bounds checking
+  // 2.1 Add change to current quantity
+  let newVal = customDeckCart[cardName] + change;
+  // 2.2 Enforce minimum quantity of 0
+  if (newVal < 0) newVal = 0;
+  // 2.3 Enforce maximum quantity of 99
+  if (newVal > 99) newVal = 99;
+  
+  // STEP 3: Update cart state
+  // 3.1 Remove card from cart if quantity is 0
+  if (newVal === 0) {
+    delete customDeckCart[cardName];
+  } else {
+    // 3.2 Update card quantity in cart
+    customDeckCart[cardName] = newVal;
+  }
+
+  // STEP 4: Update library grid UI counter
+  // 4.1 Convert card name to safe ID format
+  const safeId = cardName.replace(/\s+/g, '-');
+  // 4.2 Get reference to the quantity display element
+  const countSpan = document.getElementById(`library-count-${safeId}`);
+  // 4.3 Update the displayed quantity if element exists
+  if (countSpan) countSpan.textContent = newVal;
+
+  // STEP 5: Refresh cart display panel
+  // 5.1 Rebuild cart UI to reflect changes
+  refreshCartUI();
+}
+
+function refreshCartUI() {
+  // STEP 1: Get references to cart UI elements
+  // 1.1 Get reference to cart items container
+  const cartContainer = document.getElementById('cart-items');
+  // 1.2 Get reference to total count display element
+  const totalSpan = document.getElementById('cart-total');
+  
+  // STEP 2: Clear and reset cart display
+  // 2.1 Clear existing cart item rows
+  cartContainer.innerHTML = '';
+  // 2.2 Initialize total cards counter
+  let totalCards = 0;
+
+  // STEP 3: Check if cart is empty
+  // 3.1 Get all entries from cart object
+  const entries = Object.entries(customDeckCart);
+  // 3.2 If no items, show empty message
+  if (entries.length === 0) {
+    // 3.2.1 Display empty cart message
+    cartContainer.innerHTML = '<p class="empty-cart-msg">No cards selected.</p>';
+    // 3.2.2 Set total count to 0
+    totalSpan.textContent = '0';
+    // 3.2.3 Return early since nothing more to do
     return;
   }
 
-  // Determines if the card is upright or reversed
-  let cardOrientation = Math.floor(Math.random() * 2);
-  const orientationText = cardOrientation === 0 ? "Upright" : "Reverse";
+  // STEP 4: Populate cart display with all selected cards
+  // 4.1 Iterate through each card in the cart
+  entries.forEach(([name, count]) => {
+    // 4.2 Add card count to running total
+    totalCards += count;
+    // 4.3 Create row element for this cart item
+    const row = document.createElement('div');
+    // 4.4 Apply styling class to row
+    row.className = 'cart-item-row';
+    // 4.5 Populate row with card name and quantity
+    row.innerHTML = `<span>${name}</span> <strong>x${count}</strong>`;
+    // 4.6 Append row to cart display
+    cartContainer.appendChild(row);
+  });
+
+  // STEP 5: Update total cards count display
+  // 5.1 Set total count element text
+  totalSpan.textContent = totalCards;
+}
+
+function clearCart() {
+  // STEP 1: Clear cart object
+  // 1.1 Reset cart to empty object
+  customDeckCart = {};
   
-  // Update card detail fields for this card slot (per-card IDs)
-  function setText(id, value) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = value;
+  // STEP 2: Update cart display
+  // 2.1 Rebuild cart UI to show empty state
+  refreshCartUI();
+  
+  // STEP 3: Reset all library grid counters
+  // 3.1 Select all quantity display elements in the library grid
+  document.querySelectorAll('[id^="library-count-"]').forEach(span => {
+    // 3.2 Set each counter back to 0
+    span.textContent = '0';
+  });
+}
+
+function saveCustomDeck() {
+  // STEP 1: Get and validate deck name input
+  // 1.1 Get reference to deck name input field
+  const nameInput = document.getElementById('custom-deck-name');
+  // 1.2 Extract and trim the name value
+  let rawName = nameInput.value.trim();
+  
+  // STEP 2: Validate deck name is provided
+  // 2.1 Check if name is empty
+  if (!rawName) {
+    // 2.2 Alert user and return if no name provided
+    alert("Please provide a name for your custom deck.");
+    return;
   }
 
-  setText(`card-name-${cardNum}`, cardData.name || cardName);
-  setText(`card-description-${cardNum}`, cardData.description || '');
-  setText(`card-orientation-${cardNum}`, orientationText);
+  // STEP 3: Validate deck is not empty
+  // 3.1 Check if cart has any cards
+  if (Object.keys(customDeckCart).length === 0) {
+    // 3.2 Alert user and return if deck is empty
+    alert("Cannot save an empty deck.");
+    return;
+  }
 
-  // Helper to resolve meanings which may be arrays or {upright,reverse}
-  const getMeaning = (meaningArray) => {
-    if (!meaningArray) return '';
-    if (Array.isArray(meaningArray)) return meaningArray[cardOrientation] || meaningArray[0] || '';
-    return cardOrientation === 0 ? (meaningArray.upright || '') : (meaningArray.reverse || '');
+  // STEP 4: Create deck name with custom prefix
+  // 4.1 Prefix name with "Custom:" to distinguish from defaults
+  const deckName = `Custom: ${rawName}`;
+  
+  // STEP 5: Flatten cart quantities into array
+  // 5.1 Create array to hold expanded deck
+  const newDeckArray = [];
+  // 5.2 Iterate through each card in cart
+  for (const [card, count] of Object.entries(customDeckCart)) {
+    // 5.3 Add card to array once per quantity
+    for (let i = 0; i < count; i++) {
+      // 5.3.1 Push card name to deck array
+      newDeckArray.push(card);
+    }
+  }
+
+  // STEP 6: Persist deck to all storage locations
+  // 6.1 Inject new deck into live allDecks object
+  allDecks[deckName] = newDeckArray;
+
+  // 6.2 Persist deck to browser localStorage
+  // 6.2.1 Get existing custom decks from storage
+  const existingLocal = JSON.parse(localStorage.getItem('userCustomDecks') || '{}');
+  // 6.2.2 Add new deck to local collection
+  existingLocal[deckName] = newDeckArray;
+  // 6.2.3 Save updated collection back to localStorage
+  localStorage.setItem('userCustomDecks', JSON.stringify(existingLocal));
+
+  // STEP 7: Rebuild UI to reflect new deck, preserving current selections and pool state
+  // 7.1 Snapshot state that populateDropdown would otherwise wipe
+  const savedSelections = { ...selectedDecks };
+  const savedPools = {
+    cascadeCurrent:   [...workingDecks.cascadeCurrent],
+    cascadeNext:      [...workingDecks.cascadeNext],
+    dungeonStory:     [...workingDecks.dungeonStory],
+    dungeonLocations: [...workingDecks.dungeonLocations],
+    dungeonFeatures:  [...workingDecks.dungeonFeatures],
   };
+  // 7.2 Rebuild all deck selection dropdowns (adds new deck to every selector)
+  populateDropdown(allDecks);
+  // 7.3 Re-apply the spread selections the user already had
+  const selectorIds = {
+    adventure:      'deck-select-adventure',
+    fiveCard:       'deck-select-fiveCard',
+    threeCard:      'deck-select-threeCard',
+    journey:        'deck-select-journey',
+    blankSlate:     'deck-select-blankSlate',
+    cascadeCurrent: 'deck-select-cascadeCurrent',
+    cascadeNext:    'deck-select-cascadeNext',
+  };
+  Object.keys(selectorIds).forEach(key => {
+    const saved = savedSelections[key];
+    if (saved && allDecks[saved]) {
+      selectedDecks[key] = saved;
+      const sel = document.getElementById(selectorIds[key]);
+      if (sel) sel.value = saved;
+    }
+  });
+  // 7.4 Restore in-progress cascade and dungeon pool state
+  Object.assign(workingDecks, savedPools);
+  updateCurrentList(); updateNextList(); updateCascadeCounts();
+  updateDungeonSidebar();
 
-  setText(`meaning-person-${cardNum}`, getMeaning(cardData.meanings?.person));
-  setText(`meaning-creature-${cardNum}`, getMeaning(cardData.meanings?.creatureTrap));
-  setText(`meaning-place-${cardNum}`, getMeaning(cardData.meanings?.place));
-  setText(`meaning-treasure-${cardNum}`, getMeaning(cardData.meanings?.treasure));
-  setText(`meaning-situation-${cardNum}`, getMeaning(cardData.meanings?.situation));
+  // STEP 8: Provide user feedback and cleanup
+  // 8.1 Alert user of successful save
+  alert(`Deck "${deckName}" saved successfully! It is now available in your dropdowns.`);
+  
+  // 8.2 Clear cart after save
+  clearCart();
+  // 8.3 Clear deck name input field
+  nameInput.value = '';
+}
 
-  // Update appropriate spread tables based on card number range
-  const cardNameText = cardData.name || cardName;
+// FIXED: generateCard now dynamically finds table cells
+function generateCard(cardNum) {
+  // STEP 1: Determine the spread and deck to use
+  // 1.1 Get the spread type based on card number
+  const spreadKey = getSpreadKey(cardNum);
+  // 1.2 Get the selected deck name for this spread
+  const deckName = selectedDecks[spreadKey];
+  // 1.3 Verify that card data and deck definitions are loaded
+  if (!allCards || !allDecks) return;
+
+  // STEP 2: Select which deck to draw from (replaceable or working)
+  // 2.1 Choose replaceable deck if enabled, otherwise use working deck
+  let deckToUse = isReplaceableEnabled ? allDecks[deckName] : workingDecks[spreadKey];
   
-  // Determine which spread this card belongs to and update its table
-  const cardNumber = parseInt(cardNum.replace('C.', ''));
-  
-  if (cardNumber >= 0 && cardNumber <= 8) {
-    // Adventure Spread (C.00-C.08)
-    const adventureNameEl = document.getElementById(`card-list-${cardNum}`);
-    const adventureOrientEl = document.getElementById(`card-orientation-list-${cardNum}`);
-    if (adventureNameEl) adventureNameEl.textContent = cardNameText;
-    if (adventureOrientEl) adventureOrientEl.textContent = orientationText;
-  } else if (cardNumber >= 9 && cardNumber <= 13) {
-    // Five-Card Spread (C.09-C.13)
-    const fiveNameEl = document.getElementById(`card-list-five-${cardNum}`);
-    const fiveOrientEl = document.getElementById(`card-orientation-list-five-${cardNum}`);
-    if (fiveNameEl) fiveNameEl.textContent = cardNameText;
-    if (fiveOrientEl) fiveOrientEl.textContent = orientationText;
-  } else if (cardNumber >= 14 && cardNumber <= 16) {
-    // Three-Card Spread (C.14-C.16)
-    const threeNameEl = document.getElementById(`card-list-three-${cardNum}`);
-    const threeOrientEl = document.getElementById(`card-orientation-list-three-${cardNum}`);
-    if (threeNameEl) threeNameEl.textContent = cardNameText;
-    if (threeOrientEl) threeOrientEl.textContent = orientationText;
+  // 2.2 Handle empty deck
+  if (!deckToUse || deckToUse.length === 0) {
+    if (isReplaceableEnabled) {
+      // Source deck itself is empty — nothing to draw from regardless of mode
+      alert(`"${deckName}" has no cards. Please select a different deck or add cards to it in Deck Forge.`);
+      return;
+    }
+    // Non-replaceable: working deck exhausted — offer to refill
+    const doRefill = confirm(`The ${deckName} deck is out of cards. Refill and draw again?`);
+    if (!doRefill) return;
+    resetWorkingDeck(spreadKey);
+    deckToUse = workingDecks[spreadKey];
+    if (!deckToUse || deckToUse.length === 0) {
+      alert(`"${deckName}" has no cards. Please select a different deck.`);
+      return;
+    }
   }
 
-  console.log(`Generated card: ${cardData.name} (${orientationText}) for slot ${cardNum}`);
+
+  // STEP 3: Draw a random card from the selected deck
+  // 4.1 Generate random index into the deck array
+  const randomIndex = Math.floor(Math.random() * deckToUse.length);
+  // 4.2 Retrieve the card name at that index
+  const cardName = deckToUse[randomIndex];
+  
+  // STEP 5: Remove card from working deck if replaceable mode is disabled
+  // 5.1 Splice out the drawn card so it cannot be drawn again
+  if (!isReplaceableEnabled) {
+    deckToUse.splice(randomIndex, 1);
+  }
+
+  // STEP 6: Prepare card data and orientation
+  // 6.1 Look up the full card data from AllCards
+  const cardData = allCards.cards[cardName];
+  // 6.2 Guard: card exists in the deck but not in AllCards (data mismatch).
+  // Without this check a TypeError on cardData.name would propagate to the
+  // redraw for-loop and stop it mid-way, leaving remaining slots undrawn.
+  if (!cardData) {
+    console.warn(`generateCard: "${cardName}" is in the "${deckName}" deck but missing from AllCards — skipping ${cardNum}.`);
+    return;
+  }
+  // 6.3 Randomly determine orientation (0=Upright, 1=Reverse)
+  const cardOrientation = Math.floor(Math.random() * 2);
+  // 6.4 Create human-readable orientation text
+  const orientationText = cardOrientation === 0 ? "Upright" : "Reverse";
+
+  // STEP 7: Update detail panel with card information
+  // 7.1 Set the card name in the detail panel
+  setText(`card-name-${cardNum}`, cardData.name);
+  // 7.2 Set the orientation in the detail panel
+  setText(`card-orientation-${cardNum}`, orientationText);
+  // 7.3 Set the description in the detail panel
+  setText(`card-description-${cardNum}`, cardData.description);
+  
+  // STEP 8: Update table cells for this card slot
+  // 8.1 Get references to the table cells using unified card ID system
+  const cardNameText = cardData.name || cardName;
+  const nameCell = document.getElementById(`card-list-${cardNum}`);
+  const orientCell = document.getElementById(`card-orientation-list-${cardNum}`);
+  
+  // 8.2 Update name cell in the spread table
+  if (nameCell) nameCell.textContent = cardNameText;
+  // 8.3 Update orientation cell in the spread table
+  if (orientCell) orientCell.textContent = orientationText;
+
+  // STEP 9: Resolve and display card meanings based on orientation
+  // 9.1 Get the meanings object from card data
+  const meanings = cardData.meanings;
+  // 9.2 Define the meaning categories to process
+  const categories = ['person', 'creatureTrap', 'place', 'treasure', 'situation'];
+
+  // 9.3 Iterate through each category and update UI
+  categories.forEach(cat => {
+    // 9.3.1 Map creatureTrap to the HTML ID 'creature'
+    const htmlId = cat === 'creatureTrap' ? 'creature' : cat;
+    // 9.3.2 Guard: skip this category if the card's data is missing it.
+    // Without this check, meanings[cat].upright throws a TypeError that
+    // propagates out of generateCard and stops the redraw for-loop mid-way.
+    if (!meanings || !meanings[cat]) return;
+    // 9.3.3 Get the appropriate meaning based on orientation
+    const val = cardOrientation === 0 ? meanings[cat].upright : meanings[cat].reverse;
+    // 9.3.4 Update the meaning text in the UI
+    setText(`meaning-${htmlId}-${cardNum}`, val);
+  });
+
+  // STEP 10: Update blank slate button label if this slot is on the blank slate grid
+  updateBlankSlateButton(cardNum, cardData.name);
+
+  // STEP 11: Refresh sidebar after all DOM writes so placed-counts read the new card name,
+  // not the stale value that was in the slot before this draw.
+  updateDeckSidebar();
 }
 
-// Initialize data
-fetchData();
+/*
+ * Wipes the UI clean and resets the internal decks
+ */
+function clearAllSpreads() {
+  // 1. Reset all 60 card UI slots (C.00-C.30 structured spreads, C.31-C.45 blank slate,
+  // C.46-C.59 dungeon spread)
+  for (let i = 0; i <= 59; i++) {
+    const cardNum = i < 10 ? `C.0${i}` : `C.${i}`;
+    
+    // 1.1 Reset Spread Tables
+    const nameCell = document.getElementById(`card-list-${cardNum}`);
+    const orientCell = document.getElementById(`card-orientation-list-${cardNum}`);
+    if (nameCell) nameCell.textContent = '—';
+    if (orientCell) orientCell.textContent = '—';
+    
+    // 1.2 Reset Detail Panels
+    setText(`card-name-${cardNum}`, 'Card Name');
+    setText(`card-orientation-${cardNum}`, 'Upright or Reversed');
+    setText(`card-description-${cardNum}`, '{@i Description of the card.}');
 
-// Get the element with id="defaultSpreadOpen" and click on it to show default spread
-if (document.getElementById("defaultSpreadOpen")) {
-  document.getElementById("defaultSpreadOpen").click();
+    const categories = ['person', 'creature', 'place', 'treasure', 'situation'];
+    categories.forEach(cat => setText(`meaning-${cat}-${cardNum}`, 'Meaning for orientation'));
+
+    // 1.3 Reset blank slate button label for blank slate slots
+    updateBlankSlateButton(cardNum, null);
+  }
+
+  // 2. Refill the internal javascript decks to full capacity
+  initializeWorkingDecks();
+
+  // 3. Reset cascade state and card memory
+  lastOpenCard = {};
+  graveyardCards = [];
+  updateGraveyardDisplay();
+  updateCurrentList();
+  updateNextList();
+  updateCascadeCounts();
+  const drawnPanel = document.getElementById('cascade-drawn-card');
+  if (drawnPanel) drawnPanel.style.display = 'none';
+
+  // 4. Refresh sidebar so it reflects the cleared/refilled state immediately
+  updateDeckSidebar();
 }
 
-// Get the element with id="defaultOpen" and click on it
-if (document.getElementById("defaultOpen")) {
-  document.getElementById("defaultOpen").click();
+/*
+ * Wrapper for the UI button so users don't accidentally wipe their reading
+ */
+function confirmAndClearBoard() {
+  if (confirm("Are you sure you want to clear the board? This will remove all drawn cards.")) {
+    clearAllSpreads();
+  }
 }
 
-// Wire generate buttons via event delegation — works regardless of load timing
-// and handles both zero-padded (C.09) and non-padded (C.9) formats
+// Initialize data and set up defaults after DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+  fetchData().then(() => {
+    // After data is loaded, open default spread and card
+    const defaultSpreadBtn = document.getElementById("defaultSpreadOpen");
+    if (defaultSpreadBtn) {
+      defaultSpreadBtn.click();
+    }
+    
+    const defaultCardBtn = document.getElementById("defaultOpen");
+    if (defaultCardBtn) {
+      defaultCardBtn.click();
+    }
+    
+    // Initialize deck sidebar with cards from the default deck
+    setTimeout(() => updateDeckSidebar(), 100);
+  }).catch(error => {
+    console.error('Failed to initialize:', error);
+  });
+});
+
+// Wire all generate buttons via event delegation.
+// This handles C.00-C.30, works after async data load, and avoids
+// the C.9 vs C.09 formatting bug that direct getElementById wiring had.
 document.addEventListener('click', function(e) {
   if (!e.target || !e.target.id) return;
   const match = e.target.id.match(/^generate-button-(C\.\d+)$/);
   if (match) {
-    generateCard(match[1]);
+    const cardNum = match[1];
+    generateCard(cardNum);
+    // Open the card detail tab to display the drawn card information
+    const cardTab = document.getElementById(cardNum);
+    if (cardTab) {
+      cardTab.style.display = 'block';
+      // Remember this card so openSpread can restore it when switching back to this spread
+      lastOpenCard[getActiveSpread()] = cardNum;
+      // Also highlight the card slot button as active if it exists
+      const tablinks = document.getElementsByClassName("tablinks");
+      for (let i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      const tabcontent = document.getElementsByClassName("tabcontent");
+      for (let i = 0; i < tabcontent.length; i++) {
+        if (tabcontent[i].id !== cardNum) {
+          tabcontent[i].style.display = "none";
+        }
+      }
+    }
   }
 });
+
+// ========== RANDOM ENCOUNTER TABLE FUNCTIONS ==========
+
+// Updates the "N cards remaining" counters under each column header
+function updateCascadeCounts() {
+  // STEP 1: Read how many cards are left in each working pool
+  const currentCount = workingDecks.cascadeCurrent ? workingDecks.cascadeCurrent.length : 0;
+  const nextCount    = workingDecks.cascadeNext    ? workingDecks.cascadeNext.length    : 0;
+
+  // STEP 2: Write count text to each column's counter element
+  setText('cascade-current-count', `${currentCount} card${currentCount !== 1 ? 's' : ''} remaining`);
+  setText('cascade-next-count',    `${nextCount} card${nextCount !== 1 ? 's' : ''} remaining`);
+}
+
+// Empties the graveyard without affecting Current or Next working decks
+function cascadeClearGraveyard() {
+  graveyardCards = [];
+  updateGraveyardDisplay();
+}
+
+// Rebuilds the graveyard list and updates its card count label
+function updateGraveyardDisplay() {
+  const list = document.getElementById('cascade-graveyard-list');
+  if (!list) return;
+
+  // STEP 1: Show placeholder when graveyard is empty
+  if (graveyardCards.length === 0) {
+    list.innerHTML = '<p class="cascade-empty-msg">No cards drawn yet.</p>';
+  } else {
+    // STEP 2: Render entries newest-first (reverse order) as name + orientation + source label
+    list.innerHTML = graveyardCards.slice().reverse().map(card =>
+      `<div class="cascade-graveyard-entry">
+        <span class="cascade-entry-name">${card.name}</span> — ${card.orientation}
+        <div class="cascade-entry-meta">From: ${card.sourceDeck}</div>
+      </div>`
+    ).join('');
+  }
+
+  // STEP 3: Update the graveyard count label
+  setText('cascade-graveyard-count', `${graveyardCards.length} card${graveyardCards.length !== 1 ? 's' : ''}`);
+}
+
+// Rebuilds the card list shown inside the Current Area column
+function updateCurrentList() {
+  const list = document.getElementById('cascade-current-list');
+  if (!list) return;
+  const cards = workingDecks.cascadeCurrent || [];
+  if (cards.length === 0) {
+    list.innerHTML = '<p class="cascade-empty-msg">No cards loaded.</p>';
+  } else {
+    // STEP 1: Render each card name; source deck label shown when it differs from selection (post-migration from Next)
+    list.innerHTML = cards.map(card =>
+      `<div class="cascade-col-list-entry">
+        <span class="cascade-entry-name">${card.name}</span>
+        <div class="cascade-entry-meta">From: ${card.sourceDeck}</div>
+      </div>`
+    ).join('');
+  }
+}
+
+// Rebuilds the card list shown inside the Next Area column
+function updateNextList() {
+  const list = document.getElementById('cascade-next-list');
+  if (!list) return;
+  const cards = workingDecks.cascadeNext || [];
+  if (cards.length === 0) {
+    list.innerHTML = '<p class="cascade-empty-msg">No cards loaded.</p>';
+  } else {
+    list.innerHTML = cards.map(card =>
+      `<div class="cascade-col-list-entry">
+        <span class="cascade-entry-name">${card.name}</span>
+        <div class="cascade-entry-meta">From: ${card.sourceDeck}</div>
+      </div>`
+    ).join('');
+  }
+}
+
+function cascadeDraw() {
+  // STEP 1: Guard — need cards in Current
+  if (!workingDecks.cascadeCurrent || workingDecks.cascadeCurrent.length === 0) {
+    alert('Current Area is empty. Use Refresh Current to refill it.');
+    return;
+  }
+
+  // STEP 2: Draw a random card from cascadeCurrent
+  const idx = Math.floor(Math.random() * workingDecks.cascadeCurrent.length);
+  const drawn = workingDecks.cascadeCurrent.splice(idx, 1)[0];
+
+  // STEP 3: Assign random orientation
+  const isUpright = Math.random() < 0.5;
+  const orientationText = isUpright ? 'Upright' : 'Reverse';
+
+  // STEP 4: Move drawn card to graveyard
+  graveyardCards.push({ name: drawn.name, orientation: orientationText, sourceDeck: drawn.sourceDeck });
+
+  // STEP 5: Pull one random card from cascadeNext into cascadeCurrent
+  if (workingDecks.cascadeNext && workingDecks.cascadeNext.length > 0) {
+    const nextIdx = Math.floor(Math.random() * workingDecks.cascadeNext.length);
+    const pulled = workingDecks.cascadeNext.splice(nextIdx, 1)[0];
+    workingDecks.cascadeCurrent.push(pulled);
+  }
+
+  // STEP 6: Populate the drawn card detail panel
+  const cardData = allCards && allCards.cards ? allCards.cards[drawn.name] : null;
+  setText('cascade-card-name', drawn.name);
+  setText('cascade-card-source', drawn.sourceDeck);
+  setText('cascade-card-orientation', orientationText);
+  setText('cascade-card-description', cardData ? (cardData.description || '—') : '—');
+
+  // STEP 7: Fill meanings for the drawn orientation
+  const meanings = cardData ? cardData.meanings : null;
+  const orientKey = isUpright ? 'upright' : 'reverse';
+  const meaningMap = { person: 'person', creatureTrap: 'creature', place: 'place', treasure: 'treasure', situation: 'situation' };
+  Object.entries(meaningMap).forEach(([srcKey, domKey]) => {
+    const val = meanings && meanings[srcKey] ? (meanings[srcKey][orientKey] || '—') : '—';
+    setText(`cascade-meaning-${domKey}`, val);
+  });
+
+  // STEP 8: Show the detail panel
+  const panel = document.getElementById('cascade-drawn-card');
+  if (panel) panel.style.display = 'block';
+
+  // STEP 9: Update all column displays and counts
+  updateGraveyardDisplay();
+  updateCurrentList();
+  updateNextList();
+  updateCascadeCounts();
+}
+
+// Refills the Current Area working deck from the currently selected deck
+// Does NOT touch the Graveyard — only the draw pool resets
+function cascadeRefreshCurrent() {
+  // STEP 1: Get the selected deck name for Current Area
+  const deckName = selectedDecks.cascadeCurrent;
+  if (!deckName || !allDecks[deckName]) return;
+
+  // STEP 2: Stamp each card with its source deck so it tracks through to Graveyard
+  workingDecks.cascadeCurrent = allDecks[deckName].map(name => ({ name, sourceDeck: deckName }));
+
+  // STEP 3: Update the count display and card list
+  updateCurrentList();
+  updateCascadeCounts();
+}
+
+// Refills the Next Area working deck from the currently selected deck
+// Does NOT touch the Graveyard or Current Area
+function cascadeRefreshNext() {
+  // STEP 1: Get the selected deck name for Next Area
+  const deckName = selectedDecks.cascadeNext;
+  if (!deckName || !allDecks[deckName]) return;
+
+  // STEP 2: Stamp each card with its source deck so it tracks when moved to Current
+  workingDecks.cascadeNext = allDecks[deckName].map(name => ({ name, sourceDeck: deckName }));
+
+  // STEP 3: Update the count display and card list
+  updateNextList();
+  updateCascadeCounts();
+}
+
+// ========== IMPORT/EXPORT FUNCTIONS ==========
+//
+// OVERVIEW: These functions allow you to save and load card readings.
+//
+// EXPORT: Takes all the cards currently displayed on screen (C.00-C.30),
+// grabs their names and orientations, packages everything into a JSON object
+// with a timestamp, and downloads it as a file. Only cards that have been
+// actually drawn are saved (skips empty slots with default text).
+//
+// IMPORT: Reads a previously exported JSON file, validates it has the right
+// format, then restores all the cards, orientations, deck selections, and
+// settings back onto the screen. If a card in the file no longer exists in
+// the current card database, it's skipped with a warning.
+//
+// The JSON structure: { version, timestamp, settings, cards }
+// Settings include: isReplaceableEnabled flag and selectedDecks for each spread
+// Cards are keyed by slot (C.00, C.01, etc.) with name and orientation info
+
+/*
+ * Export the current reading to a JSON file
+ * Captures all drawn cards, orientations, deck selections, and settings
+ */
+function exportReading() {
+  // STEP 1: Create the reading data structure with metadata
+  // 1.1 Initialize reading data object with version and timestamp
+  const readingData = {
+    version: "1.0",
+    timestamp: new Date().toISOString(),
+    // 1.2 Store current settings (replacement mode and deck selections)
+    settings: {
+      isReplaceableEnabled: isReplaceableEnabled,
+      selectedDecks: { ...selectedDecks }
+    },
+    // 1.3 Initialize empty cards object for collected card data
+    cards: {}
+  };
+
+  // STEP 2: Collect all drawn cards from C.00 to C.59
+  // 2.1 Iterate through all 60 card slots (C.00-C.30 structured spreads, C.31-C.45 blank
+  // slate, C.46-C.59 dungeon spread)
+  for (let i = 0; i <= 59; i++) {
+    // 2.2 Format card number with leading zero (C.00-C.30)
+    const cardNum = i < 10 ? `C.0${i}` : `C.${i}`;
+    
+    // 2.3 Get references to card name and orientation elements
+    const nameEl = document.getElementById(`card-name-${cardNum}`);
+    const orientEl = document.getElementById(`card-orientation-${cardNum}`);
+    
+    // 2.4 Only process if both elements exist
+    if (nameEl && orientEl) {
+      // 2.5 Extract card name and orientation text content
+      const cardName = nameEl.textContent;
+      const orientation = orientEl.textContent;
+      
+      // 2.6 Only save if a card has been drawn (skip default placeholder text)
+      if (cardName && cardName !== "Card Name" && orientation !== "Upright or Reversed") {
+        // 2.7 Add the drawn card to the export data
+        readingData.cards[cardNum] = {
+          name: cardName,
+          orientation: orientation
+        };
+      }
+    }
+  }
+
+  // STEP 3: Save Random Encounter Table state
+  // 3.1 Snapshot the graveyard array (deck selections are already in settings.selectedDecks)
+  readingData.cascade = {
+    graveyard: [...graveyardCards]
+  };
+
+  // STEP 4: Extract all custom decks into the JSON payload
+  // 4.1 Initialize empty object for custom decks
+  readingData.customDecks = {};
+  // 4.2 Iterate through all decks in the live collection
+  for (const [deckName, deckArray] of Object.entries(allDecks)) {
+    // 4.3 Add only decks prefixed with "Custom:" to the export
+    if (deckName.startsWith('Custom:')) {
+      // 4.3.1 Store the custom deck array
+      readingData.customDecks[deckName] = deckArray;
+    }
+  }
+
+  // STEP 5: Generate filename with ISO timestamp
+  // 5.1 Create timestamp and remove colons/periods for filename compatibility
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
+  // 5.2 Build filename: card-reading-YYYY-MM-DDTHH-MM-SS.json
+  const filename = `card-reading-${timestamp}.json`;
+
+  // STEP 6: Create downloadable blob from reading data
+  // 6.1 Convert reading data object to formatted JSON string
+  // 6.2 Create blob with application/json MIME type for proper file handling
+  const blob = new Blob([JSON.stringify(readingData, null, 2)], { type: 'application/json' });
+
+  // STEP 7: Trigger file download to user's device
+  // 7.1 Create a URL pointing to the blob data
+  const url = URL.createObjectURL(blob);
+  // 7.2 Create a temporary anchor element for the download
+  const a = document.createElement('a');
+  // 7.3 Set the download link to the blob URL
+  a.href = url;
+  // 7.4 Set the filename for the downloaded file
+  a.download = filename;
+  // 7.5 Add anchor to DOM (required for some browsers)
+  document.body.appendChild(a);
+  // 7.6 Simulate a click to trigger the download
+  a.click();
+  // 7.7 Remove the temporary anchor from DOM
+  document.body.removeChild(a);
+  // 7.8 Revoke the blob URL to free memory resources
+  URL.revokeObjectURL(url);
+
+  // STEP 8: Provide feedback to the user
+  // 8.1 Log export details to browser console
+  console.log(`Exported reading with ${Object.keys(readingData.cards).length} cards to ${filename}`);
+  // 8.2 Build success message with graveyard count if applicable
+  let exportMsg = `Reading exported successfully!\n${Object.keys(readingData.cards).length} cards saved.`;
+  if (graveyardCards.length > 0) {
+    exportMsg += `\n${graveyardCards.length} graveyard card${graveyardCards.length === 1 ? '' : 's'} saved.`;
+  }
+  alert(exportMsg);
+}
+
+/*
+ * Import a reading from a JSON file
+ * Restores all cards, orientations, deck selections, and settings
+ */
+function importReading(event) {
+  // STEP 1: Get the selected file from the input element
+  // 1.1 Extract file from the change event
+  const file = event.target.files[0];
+  // 1.2 Return early if no file selected
+  if (!file) return;
+
+  // STEP 2: Read the file contents using FileReader API
+  // 2.1 Create a new FileReader instance
+  const reader = new FileReader();
+  // 2.2 Define callback for when file reading completes
+  reader.onload = function(e) {
+    try {
+      // STEP 3: Parse the JSON file contents
+      // 3.1 Parse the file text to JSON object
+      const readingData = JSON.parse(e.target.result);
+      
+      // STEP 4: Validate the imported file format
+      // 4.1 Check that version exists and cards object exists
+      if (!readingData.version || !readingData.cards) {
+        throw new Error('Invalid reading file format');
+      }
+
+      // STEP 5: Restore application settings from the import file
+      // 5.1 Check if settings exist in the import file
+      if (readingData.settings) {
+        // 5.2 Restore the replaceable mode setting
+        // 5.2.1 Check if replacement setting is defined
+        if (typeof readingData.settings.isReplaceableEnabled !== 'undefined') {
+          // 5.2.2 Update the global replaceable flag
+          isReplaceableEnabled = readingData.settings.isReplaceableEnabled;
+          // 5.2.3 Update the UI toggle checkbox
+          const toggle = document.getElementById('replaceableToggle');
+          if (toggle) {
+            toggle.checked = isReplaceableEnabled;
+          }
+        }
+
+        // 5.3 Restore deck selections from the import file
+        // 5.3.1 Check if selectedDecks exist in the file
+        if (readingData.settings.selectedDecks) {
+          // 5.3.2 Copy all deck selections from file to current state
+          Object.assign(selectedDecks, readingData.settings.selectedDecks);
+          
+          // 5.3.3 Update all deck selector dropdowns in UI
+          // 5.3.3.1 Define all spread keys (cascade keys use separate selector IDs)
+          const spreads = ['adventure', 'fiveCard', 'threeCard', 'journey', 'blankSlate', 'cascadeCurrent', 'cascadeNext'];
+          // 5.3.3.2 Update each spread's deck selector
+          spreads.forEach(spread => {
+            const selectEl = document.getElementById(`deck-select-${spread}`);
+            if (selectEl && selectedDecks[spread]) {
+              selectEl.value = selectedDecks[spread];
+            }
+          });
+        }
+      }
+      // STEP 6: Restore custom decks from imported file
+      // 6.1 Check if custom decks exist in the import file
+      if (readingData.customDecks) {
+        // 6.2 Inject custom decks into live memory
+        Object.assign(allDecks, readingData.customDecks);
+        
+        // 6.3 Merge into local storage for persistence across page reloads
+        // 6.3.1 Get existing custom decks from storage
+        const savedLocal = JSON.parse(localStorage.getItem('userCustomDecks') || '{}');
+        // 6.3.2 Add imported decks to local collection
+        Object.assign(savedLocal, readingData.customDecks);
+        // 6.3.3 Save updated collection back to localStorage
+        localStorage.setItem('userCustomDecks', JSON.stringify(savedLocal));
+        
+        // 6.4 Rebuild dropdowns to show newly imported custom decks
+        populateDropdown(allDecks);
+        // 6.5 Re-apply imported deck selections — populateDropdown resets selectedDecks to defaults
+        if (readingData.settings && readingData.settings.selectedDecks) {
+          Object.assign(selectedDecks, readingData.settings.selectedDecks);
+          ['adventure', 'fiveCard', 'threeCard', 'journey', 'blankSlate', 'cascadeCurrent', 'cascadeNext'].forEach(spread => {
+            const selectEl = document.getElementById(`deck-select-${spread}`);
+            if (selectEl && selectedDecks[spread]) selectEl.value = selectedDecks[spread];
+          });
+        }
+      }
+      // STEP 7: Clear the current board before restoring
+      // 7.1 Clear all existing cards from the display
+      clearAllSpreads(); // Clear current reading before restoring
+      // 7.2 Initialize counters for import reporting
+      let cardsRestored = 0;
+      let cardsMissing = 0;
+
+      // STEP 8: Restore each card from the import file
+      // 8.1 Iterate through all cards in the import data
+      for (const [cardNum, cardInfo] of Object.entries(readingData.cards)) {
+        // 8.2 Verify the card still exists in current AllCards database
+        // 8.2.1 Check if card name exists in database
+        if (!allCards.cards[cardInfo.name]) {
+          // 8.2.2 Log and skip cards that no longer exist
+          console.warn(`Card "${cardInfo.name}" not found in current card database`);
+          cardsMissing++;
+          continue;
+        }
+
+        // 8.3 Prepare card data for restoration
+        // 8.3.1 Get full card data from database
+        const cardData = allCards.cards[cardInfo.name];
+        // 8.3.2 Get orientation from import file
+        const orientation = cardInfo.orientation;
+        // 8.3.3 Convert orientation text to numeric code (0=Upright, 1=Reverse)
+        const cardOrientation = orientation === "Upright" ? 0 : 1;
+
+        // 8.4 Update detail panel with restored card
+        // 8.4.1 Set card name in detail panel
+        setText(`card-name-${cardNum}`, cardData.name);
+        // 8.4.2 Set orientation in detail panel
+        setText(`card-orientation-${cardNum}`, orientation);
+
+        // 8.5 Update table cells with restored card
+        // 8.5.1 Get table cell elements
+        const nameCell = document.getElementById(`card-list-${cardNum}`);
+        const orientCell = document.getElementById(`card-orientation-list-${cardNum}`);
+        // 8.5.2 Update table name cell
+        if (nameCell) nameCell.textContent = cardData.name;
+        // 8.5.3 Update table orientation cell
+        if (orientCell) orientCell.textContent = orientation;
+
+        // 8.6 Restore card meanings based on orientation
+        // 8.6.1 Get all meanings for the card
+        const meanings = cardData.meanings;
+        // 8.6.2 Define meaning categories
+        const categories = ['person', 'creatureTrap', 'place', 'treasure', 'situation'];
+
+        // 8.6.3 Iterate through each meaning category
+        categories.forEach(cat => {
+          // 8.6.3.1 Map creatureTrap to HTML ID 'creature'
+          const htmlId = cat === 'creatureTrap' ? 'creature' : cat;
+          // 8.6.3.2 Guard against missing category data
+          if (!meanings || !meanings[cat]) return;
+          // 8.6.3.3 Get appropriate meaning based on orientation
+          const val = cardOrientation === 0 ? meanings[cat].upright : meanings[cat].reverse;
+          // 8.6.3.4 Update the meaning in the UI
+          setText(`meaning-${htmlId}-${cardNum}`, val);
+        });
+        // 8.7 Remove the imported card from the working deck so it can't be drawn again
+        if (!isReplaceableEnabled) {
+          const spreadKey = getSpreadKey(cardNum);
+          const index = workingDecks[spreadKey].indexOf(cardInfo.name);
+          if (index > -1) {
+            workingDecks[spreadKey].splice(index, 1);
+          }
+        }
+
+        // 8.8 Update blank slate button label if this slot is on the blank slate grid
+        updateBlankSlateButton(cardNum, cardData.name);
+
+        // 8.9 Increment counter of successfully restored cards
+        cardsRestored++;
+      }
+
+      // STEP 8.5: Restore Random Encounter Table state
+      // 8.5.1 Restore graveyard history if present (clearAllSpreads reset it above)
+      if (readingData.cascade && Array.isArray(readingData.cascade.graveyard)) {
+        graveyardCards = readingData.cascade.graveyard;
+        updateGraveyardDisplay();
+      }
+      // 8.5.2 Reinitialize cascade working decks fresh from the restored deck selections
+      // (pools are not snapshotted — they always start full on import)
+      ['cascadeCurrent', 'cascadeNext'].forEach(key => {
+        const deckName = selectedDecks[key];
+        if (deckName && allDecks[deckName]) {
+          workingDecks[key] = allDecks[deckName].map(name => ({ name, sourceDeck: deckName }));
+        }
+      });
+      updateCurrentList();
+      updateNextList();
+      updateCascadeCounts();
+
+      // STEP 9: Provide feedback to user about import results
+      // 9.1 Log import summary to console
+      console.log(`Import complete: ${cardsRestored} cards restored, ${cardsMissing} cards missing`);
+      
+      // 9.2 Build user-friendly message
+      let message = `Reading imported successfully!\n${cardsRestored} cards restored.`;
+      // 9.3 Add graveyard count if any were restored
+      if (graveyardCards.length > 0) {
+        message += `\n${graveyardCards.length} graveyard card${graveyardCards.length === 1 ? '' : 's'} restored.`;
+      }
+      // 9.4 Add warning if any cards were missing
+      if (cardsMissing > 0) {
+        message += `\n\n⚠️ ${cardsMissing} cards were not found in the current deck and were skipped.`;
+      }
+      // 9.4 Alert user with import results
+      alert(message);
+
+      // STEP 10: Refresh sidebar to show correct counts for the restored reading
+      updateDeckSidebar();
+
+      // STEP 11: Reset file input for future imports
+      // 11.1 Clear the file input value so same file can be imported again if needed
+      event.target.value = '';
+
+    } catch (error) {
+      // STEP 11: Handle any errors during import process
+      // 11.1 Log error to console
+      console.error('Failed to import reading:', error);
+      // 11.2 Alert user of the error with details
+      alert(`Failed to import reading:\n${error.message}`);
+      // 11.3 Reset file input value
+      event.target.value = '';
+    }
+  };
+
+  // STEP 12: Start reading the file
+  // 12.1 Trigger file reading as text
+  reader.readAsText(file);
+}
+
+/*
+ * Toggle whether cards can be drawn with replacement
+ * When enabled, cards can appear multiple times in the same spread
+ * When disabled, cards are removed from the deck after being drawn
+ */
+function toggleReplaceable() {
+  // STEP 1: Get the current toggle state
+  // 1.1 Get reference to the replaceable toggle checkbox
+  const toggle = document.getElementById("replaceableToggle");
+  // 1.2 Update global flag based on checkbox state
+  isReplaceableEnabled = toggle.checked;
+  
+  // STEP 2: Provide user feedback
+  // 2.1 Log the change to console showing enabled or disabled state
+  console.log(`Card replacement is now ${isReplaceableEnabled ? 'enabled' : 'disabled'}`);
+
+  // Re-validate all spread indicators based on new replacement rule
+  ['adventure', 'fiveCard', 'threeCard', 'journey', 'blankSlate'].forEach(spread => {
+    validateDeckSize(spread);
+  });
+
+  // STEP 3: Refresh the sidebar so remaining / full deck display updates
+  updateDeckSidebar();
+}
+
+// toggleManualSelection, setTargetedSlot, clearTargetedSlot, selectSidebarCard,
+// performManualAssign, and assignCardFromSidebar were removed.
+//
+// These functions implemented a sidebar-based manual card placement workflow:
+//   1. GM enables a "Manual Selection" toggle (manualSelectionToggle checkbox).
+//   2. GM clicks "Draw a Card" on a slot — instead of drawing, the slot is highlighted
+//      with a pulsing gold animation (.targeted-slot-active) and stored in targetedSlot.
+//   3. GM clicks a card name in the sidebar list — stored in pendingSidebarSelection.
+//   4. GM clicks an Assign button in a sidebar placement panel — assignCardFromSidebar
+//      reads targetedSlot + pendingSidebarSelection, places the card, and clears state.
+//
+// Why removed: The sidebar placement UI (sidebar-placement-container, assign-btn,
+// manualSelectionToggle, sidebar-placement-orientation) was never added to the HTML,
+// so all functions were silently no-oping against missing elements. Quick Fill replaced
+// this use case entirely — it provides the same manual assignment capability via a
+// cleaner overlay panel without requiring a two-global intermediate state machine.
+
+
+// ========== DECK SIDEBAR FUNCTIONS (OPTIMIZED) ==========
+
+/**
+ * High-performance sidebar population.
+ * Generates an O(N) frequency map and writes to DOM via a single template string.
+ */
+// Renders the "Dungeon Decks" sidebar section: one row per fixed deck
+// (Story, Locations, Features) showing remaining/total cards. Unlike the
+// generic single-deck sidebar, this has no over-quota detection — Dungeon
+// Spread decks are fixed and not meant to be GM-resized.
+function updateDungeonSidebar() {
+  const container = document.getElementById('sidebar-dungeon-list');
+  if (!container) return;
+
+  // Preserve which accordion sections are currently open before rebuilding
+  const openSections = new Set();
+  container.querySelectorAll('.dungeon-accordion-section').forEach(sec => {
+    if (sec.dataset.open === 'true') openSections.add(sec.dataset.key);
+  });
+
+  const html = Object.keys(DUNGEON_FIXED_DECKS).map(key => {
+    const deckName = DUNGEON_FIXED_DECKS[key];
+    const allCards_  = (allDecks && allDecks[deckName]) ? allDecks[deckName] : [];
+    const total      = allCards_.length;
+    const pool       = isReplaceableEnabled ? allCards_ : (workingDecks[key] || []);
+    const remaining  = pool.length;
+    const isOpen     = openSections.has(key);
+    const exhausted  = remaining === 0;
+
+    const cardRows = pool.length > 0
+      ? pool.map(c => `<div class="sidebar-card-item available"><span class="sidebar-card-name">${c}</span></div>`).join('')
+      : `<div class="sidebar-card-item exhausted"><span class="sidebar-card-name">Deck exhausted</span></div>`;
+
+    return `
+      <div class="dungeon-accordion-section${exhausted ? ' exhausted' : ''}" data-key="${key}" data-open="${isOpen}">
+        <div class="dungeon-accordion-header" onclick="toggleDungeonSection('${key}')">
+          <span class="dungeon-accordion-label">${deckName}</span>
+          <span class="dungeon-accordion-count">${remaining}/${total}</span>
+          <span class="dungeon-accordion-arrow">${isOpen ? '▼' : '▶'}</span>
+        </div>
+        <div class="dungeon-accordion-body" style="display:${isOpen ? 'block' : 'none'};">
+          ${cardRows}
+        </div>
+      </div>`;
+  }).join('');
+
+  container.innerHTML = html;
+}
+
+// Toggle one accordion section open/closed without rebuilding the whole list
+function toggleDungeonSection(key) {
+  const container = document.getElementById('sidebar-dungeon-list');
+  if (!container) return;
+  const section = container.querySelector(`.dungeon-accordion-section[data-key="${key}"]`);
+  if (!section) return;
+  const isOpen = section.dataset.open === 'true';
+  section.dataset.open = isOpen ? 'false' : 'true';
+  const body  = section.querySelector('.dungeon-accordion-body');
+  const arrow = section.querySelector('.dungeon-accordion-arrow');
+  if (body)  body.style.display  = isOpen ? 'none' : 'block';
+  if (arrow) arrow.textContent   = isOpen ? '▶' : '▼';
+}
+
+function updateDeckSidebar() {
+  const activeSpread = getActiveSpread();
+
+  // Dungeon Spread has 3 fixed decks instead of one user-selected deck —
+  // delegate to its own dedicated sidebar renderer instead of the single-deck logic below.
+  if (activeSpread === 'dungeon-spread') {
+    updateDungeonSidebar();
+    return;
+  }
+
+  if (activeSpread === 'cascade-spread') return;
+
+  const spreadKey = {
+    'adventure-spread':   'adventure',
+    'five-card-spread':   'fiveCard',
+    'three-card-spread':  'threeCard',
+    'journey-spread':     'journey',
+    'blank-slate-spread': 'blankSlate'
+  }[activeSpread] || 'adventure';
+  
+  const deckName = getSelectedDeckForSpread(spreadKey);
+  const fullDeckCards = allDecks[deckName] || [];
+  const remainingCards = isReplaceableEnabled ? [...fullDeckCards] : (workingDecks[spreadKey] || []);
+
+  const sidebarNameEl = document.getElementById('sidebar-deck-name');
+  const sidebarCountEl = document.getElementById('sidebar-card-count');
+  const cardListEl = document.getElementById('sidebar-card-list');
+
+  if (!sidebarNameEl || !sidebarCountEl || !cardListEl) return;
+
+  sidebarNameEl.textContent = deckName;
+  sidebarCountEl.textContent = `${remainingCards.length} cards left`;
+
+  if (fullDeckCards.length === 0) {
+    cardListEl.innerHTML = '<div class="sidebar-empty-msg">No cards in this deck</div>';
+    return;
+  }
+
+  // O(N) Frequency map generation
+  const fullCounts = {};
+  fullDeckCards.forEach(c => fullCounts[c] = (fullCounts[c] || 0) + 1);
+
+  const remainingCounts = {};
+  remainingCards.forEach(c => remainingCounts[c] = (remainingCounts[c] || 0) + 1);
+
+  // Count how many copies of each card are currently placed in the active spread's slots.
+  // This is independent of the working deck — it reads the live DOM so Quick Fill placements
+  // are reflected immediately without having touched the working deck at all.
+  const placedCounts = getPlacedCounts(spreadKey);
+
+  // Single-write template buffer to prevent layout thrashing
+  let htmlBuffer = '';
+  Object.keys(fullCounts).sort().forEach(cardName => {
+    const total = fullCounts[cardName];
+    const left = remainingCounts[cardName] || 0;
+    // How many copies of this card are on the spread right now (random draws + Quick Fill)
+    const placed = placedCounts[cardName] || 0;
+
+    let itemClass, badgeClass, badgeText, badgeTitle;
+
+    if (isReplaceableEnabled) {
+      // In replaceable mode cards are never depleted, so left/total is always N/N and meaningless.
+      // Instead show ×N only when the card has actually been placed, so the GM can spot duplicates.
+      itemClass = 'available';
+      badgeClass = placed > 0 ? 'placed' : '';
+      badgeText  = placed > 0 ? `×${placed}` : '';
+      badgeTitle = placed > 0 ? `${placed} cop${placed === 1 ? 'y' : 'ies'} in this spread` : '';
+    } else {
+      // Non-replaceable mode: show left/total with exhausted / warning / over-quota states.
+      const isExhausted = left === 0;
+      // Over-quota means the GM placed more copies than the deck contains (e.g. via Quick Fill).
+      const isOverQuota = placed > total;
+      itemClass = isExhausted ? 'exhausted' : 'available';
+      if (isOverQuota) itemClass += ' over-quota';
+      if (isOverQuota) {
+        badgeClass = 'over';
+        badgeText  = `${placed}/${total}`;
+        badgeTitle = `${placed} placed — deck only has ${total}`;
+      } else {
+        badgeClass = isExhausted ? 'empty' : (left < total ? 'warning' : '');
+        badgeText  = `${left}/${total}`;
+        badgeTitle = `${left} of ${total} remaining`;
+      }
+    }
+
+    const badgeHtml = badgeText
+      ? `<span class="sidebar-card-qty ${badgeClass}" title="${badgeTitle}">${badgeText}</span>`
+      : '';
+    htmlBuffer += `
+      <div class="sidebar-card-item ${itemClass}">
+        <span class="sidebar-card-name" title="${cardName}">${cardName}</span>
+        ${badgeHtml}
+      </div>
+    `;
+  });
+
+  cardListEl.innerHTML = htmlBuffer;
+}
+
+function toggleSidebar() {
+  const sidebar = document.getElementById('deck-sidebar');
+  const backdrop = document.getElementById('sidebar-backdrop');
+  if (window.innerWidth <= 768) {
+    sidebar.classList.toggle('mobile-open');
+    backdrop && backdrop.classList.toggle('active');
+  } else {
+    sidebar.classList.toggle('collapsed');
+    const btn = sidebar.querySelector('.sidebar-collapse-btn');
+    btn.textContent = sidebar.classList.contains('collapsed') ? '+' : '−';
+  }
+}
+
+function closeMobileSidebar() {
+  document.getElementById('deck-sidebar').classList.remove('mobile-open');
+  const backdrop = document.getElementById('sidebar-backdrop');
+  backdrop && backdrop.classList.remove('active');
+}
