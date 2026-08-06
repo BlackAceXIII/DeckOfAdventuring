@@ -32,7 +32,8 @@ The summary table at the left of each spread updates alongside the detail panels
 | Three-Card Spread | 3 | C.14–C.16 | Linear: Past, Present, Future |
 | Journey Spread | 14 | C.17–C.30 | Two rows: Stage 1–7 Challenges (C.17–C.23) and Stage 1–7 Rewards (C.24–C.30) |
 | Blank Slate Spread | 15 | C.31–C.45 | Free-form 5×3 grid of unlabelled slots. Each button shows its slot number and current card name (or "blank"). No positional meaning. |
-| Dungeon Spread | 9 buttons / 14 cards | C.46–C.59 | Fixed deck assignments per slot. Single-deck slots draw one card; two-deck slots open a dual-card panel (Location + Feature side by side). |
+| Random Encounter Table | — | — | Three-column cascade layout (Graveyard / Current Area / Next Area); per-column deck selectors. Tab: `cascade-spread`. |
+| Dungeon Spread | 9 buttons / 14 cards | C.46–C.59 | Fixed deck assignments per slot. Single-deck slots draw one card; two-deck slots open a dual-card panel (Location + Feature side by side). Tab: `dungeon-spread`. |
 | Deck Forge | All | — | Repurposed from the "All Cards" spread. Serves as a library reference and an interactive shopping-cart-style deck builder. |
 
 ### Deck Selection
@@ -203,7 +204,7 @@ A dedicated free-form spread with 15 card slots (C.31–C.45) arranged in a 5×3
 
 ---
 
-### 7. ❌ Random Encounter Table
+### 7. ✅ Random Encounter Table — Complete Implementation
 **Complexity: Moderate**
 
 A new spread tab with three columns: **Graveyard**, **Current Area**, and **Next Area**. Cards cascade on each draw: the drawn card moves from Current to Graveyard, and a random card from Next simultaneously moves into Current. Every card displays its **source deck label** regardless of which column it currently occupies.
@@ -217,38 +218,21 @@ A new spread tab with three columns: **Graveyard**, **Current Area**, and **Next
 - **Three-column layout**: Graveyard column shows a scrollable list of drawn cards (name + orientation + source deck label). Current column shows deck selector + remaining count + Draw button + drawn card panel. Next column shows deck selector + remaining count + Refresh button.
 - **No fixed positional slots**: no C.## card IDs. A new `cascadeDraw()` function handles all draw logic; `generateCard()` is not used.
 
-**What needs doing:**
-
-*Globals & state*
-- [ ] Add `cascadeCurrent` and `cascadeNext` to `selectedDecks`
-- [ ] Add `cascadeCurrent` and `cascadeNext` to `workingDecks` as `{ name, sourceDeck }[]` (not plain strings)
-- [ ] Add `graveyardCards = []` global accumulator (`{ name, orientation, sourceDeck }[]`)
-
-*Core logic*
-- [ ] Update `initializeWorkingDecks()` to populate `cascadeCurrent` and `cascadeNext`, stamping each card object with `sourceDeck` at init time
-- [ ] Write `cascadeDraw()`: splice random card from `cascadeCurrent` → push to `graveyardCards` with orientation; splice random card from `cascadeNext` → push to `cascadeCurrent`
-
-*HTML (new tab)*
-- [ ] Add `cascade-spread` tab button to the nav
-- [ ] Build three-column tab layout: Graveyard column, Current column, Next column
-- [ ] Current column: deck selector dropdown, remaining count, Draw button, drawn card detail panel (inline, not overlay)
-- [ ] Next column: deck selector dropdown, remaining count, Refresh button
-- [ ] Graveyard column: scrollable list container (each entry shows card name, orientation, source deck label)
-
-*Deck selectors*
-- [ ] Add `cascade-current-deck-selector` and `cascade-next-deck-selector`; hook into `populateDropdown()`
-
-*Updates to existing functions*
-- [ ] `updateDeckSidebar()` — add 3-row cascade state (Graveyard count, Current remaining, Next remaining) when cascade spread is active
-- [ ] `clearAllSpreads()` — reset `graveyardCards = []`, reinitialize cascade working decks, clear Graveyard column DOM
-- [ ] `exportReading()` / `importReading()` — serialize and restore `graveyardCards`, `selectedDecks.cascadeCurrent/Next`, and cascade working deck states
+**What was implemented:**
+- Global state: `cascadeCurrent` and `cascadeNext` added to `selectedDecks` and `workingDecks` (as `{ name, sourceDeck }[]` objects, not plain strings). `graveyardCards = []` accumulator tracks drawn cards with orientation and source deck label.
+- `cascadeDraw()`: splices a random card from `cascadeCurrent` into `graveyardCards` (with orientation), then splices a random card from `cascadeNext` into `cascadeCurrent`. Atomic on one button press.
+- `cascadeRefreshCurrent()` / `cascadeRefreshNext()`: refill the respective pool from the selected deck, stamping each card with its source deck.
+- HTML: `cascade-spread` tab (grouped with other spreads, not Deck Forge). Two-column layout (Current Area + Next Area) with inline deck selectors, card counts, Draw/Refresh buttons, and a drawn card detail panel below. Graveyard lives in the sidebar (swaps in when the tab is active) with a Clear button.
+- Deck selectors wired into `populateDropdown()` via `cascadeCurrent` / `cascadeNext` keys.
+- `clearAllSpreads()` resets `graveyardCards`, reinitialises cascade pools, hides the drawn-card panel.
+- `exportReading()` / `importReading()`: cascade state (graveyard array + deck selections) is fully serialised and restored. On import, cascade pools are reinitialised fresh from the restored deck selections.
 
 **Dependencies:**
 - ✅ All prerequisites are complete.
 
 ---
 
-### 8. ❌ Dungeon Spread
+### 8. ✅ Dungeon Spread — Complete Implementation
 **Complexity: Moderate–High**
 
 A new spread tab based on the Dungeon Spread from the WotC source book. Nine slot buttons draw from pre-determined, hardcoded decks — no deck selector. Single-deck slots draw one card; two-deck slots draw one card from each deck and show them in a side-by-side dual-card detail panel.
@@ -264,8 +248,8 @@ A new spread tab based on the Dungeon Spread from the WotC source book. Nine slo
 | 4 | Challenge 1 | Locations + Features | C.51, C.52 |
 | 5 | Challenge 2 | Locations + Features | C.53, C.54 |
 | 6 | Challenge 3 | Locations + Features | C.55, C.56 |
-| 7 | Guardian | Features Deck | C.57 |
-| 8 | Treasure | Features + Locations | C.58, C.59 |
+| 7 | Treasure | Features Deck | C.57 |
+| 8 | Guardian | Features + Locations | C.58, C.59 |
 
 **Key design decisions:**
 - **14 card IDs** (C.46–C.59) across 9 slot buttons. Sequential IDs only — no lettered sub-IDs.
@@ -273,27 +257,16 @@ A new spread tab based on the Dungeon Spread from the WotC source book. Nine slo
 - **Three working decks**: `dungeonStory`, `dungeonLocations`, `dungeonFeatures` — depleted independently in non-replaceable mode. Sidebar shows 3 rows when this spread is active.
 - **Deck selector greyed out** on this tab; deck assignments are fixed at the code level, not user-configurable.
 
-**What needs doing:**
-
-*Core logic*
-- [ ] Add `DUNGEON_CARD_DECKS` lookup object mapping C.46–C.59 to `'dungeonStory'`, `'dungeonLocations'`, or `'dungeonFeatures'`
-- [ ] Extend `getSpreadKey()` to use the lookup for C.46–C.59
-- [ ] Update `initializeWorkingDecks()` to populate `dungeonStory`, `dungeonLocations`, `dungeonFeatures` from hardcoded deck names (bypasses `selectedDecks`)
-- [ ] Extend `generateCard()` to detect two-card dungeon slots and draw from each of the two deck keys for that slot
-- [ ] Write `redrawDungeonSpread()`: validate all 3 deck sizes, reset 3 working decks, call `generateCard` for all 14 card IDs
-
-*HTML (new tab)*
-- [ ] Add `dungeon-spread` tab button to the nav
-- [ ] Build dungeon slot grid (9 buttons, same asymmetric layout as Adventure Spread)
-- [ ] Add static single-card detail panels for C.46, C.47, C.48, C.57
-- [ ] Add dual-card detail panels for the 5 two-card slots (C.49/C.50, C.51/C.52, C.53/C.54, C.55/C.56, C.58/C.59) — Location and Feature side by side, each with its own Redraw button
-- [ ] Add dungeon summary table (9 rows; two-card rows show both Location and Feature name/orientation)
-
-*Updates to existing functions*
-- [ ] `updateDeckSidebar()` — show 3 rows (Story, Locations, Features remaining) when dungeon spread is active; grey out deck selector dropdown
-- [ ] `openQuickFill()` — handle dungeon two-card slots (two input rows per slot, autocomplete scoped per deck)
-- [ ] `clearAllSpreads()` — reset C.46–C.59 DOM, reinitialize 3 dungeon working decks
-- [ ] `exportReading()` / `importReading()` — verify C.46–C.59 coverage; confirm dual-card slot restore works correctly
+**What was implemented:**
+- `DUNGEON_CARD_DECKS` lookup (C.46–C.59 → `dungeonStory` / `dungeonLocations` / `dungeonFeatures`); `DUNGEON_FIXED_DECKS` constant mapping pool keys to real deck names.
+- `getSpreadKey()` extended to resolve C.46–C.59 per-card via the lookup.
+- `initializeWorkingDecks()` populates the 3 dungeon pools from hardcoded deck names (bypasses `selectedDecks`).
+- `redrawDungeonSpread()` validates deck sizes, resets all 3 pools, and calls `generateCard` for all 14 card IDs.
+- HTML: `dungeon-spread` tab with 9-button asymmetric grid (mirrors Adventure Spread layout). Treasure (C.57) in row 1 col 5, Guardian (C.58, opens dual panel) in row 2 col 5. Single-card detail panels for C.46–C.48 and C.57. Dual-card detail panels for C.49/C.50, C.51/C.52, C.53/C.54, C.55/C.56, and C.58/C.59 (Feature + Location side by side, each with its own Draw button).
+- Sidebar shows an accordion when Dungeon Spread is active: three collapsible sections (Story Deck / Locations Deck / Features Deck), each showing remaining cards. `toggleDungeonSection()` opens/closes sections without rebuilding the list.
+- `openQuickFill()` handles Dungeon Spread by unioning all 3 fixed deck card lists for autocomplete; all 14 slots appear via `SPREAD_SLOTS['dungeon-spread']`.
+- `clearAllSpreads()` resets C.46–C.59 DOM and reinitialises all 3 dungeon working decks.
+- `exportReading()` / `importReading()` cover C.46–C.59 (loop runs to index 59).
 
 **Dependencies:**
 - ✅ All prerequisites are complete.
@@ -345,16 +318,14 @@ A final polish pass covering responsive layout, sizing, and visual consistency a
 ✅ **Manual Card Selection** — Fulfilled by the Quick Fill panel with per-deck autocomplete; random and manual assignment coexist freely.
 ✅ **Quick Fill Autocomplete** — Card name inputs suggest only cards from the active spread's selected deck; datalist refreshes on every open.
 ✅ **Blank Slate Spread** — 15-slot free-form 5×3 grid (C.31–C.45) with per-slot card labels, dedicated working deck, full replacement-toggle integration, Quick Fill support, and export/import coverage.
+✅ **Random Encounter Table** — Cascade draw mechanics, per-column deck selectors, graveyard sidebar with Clear, full export/import support.
+✅ **Dungeon Spread** — 14 cards across 9 slots, 3 fixed working decks, dual-card panels, accordion sidebar inventory, full export/import coverage.
 
 ## Recommended Implementation Order for Remaining Features
 
+Items 6, 7, and 8 are complete.
+
 ```
-        ├──▶ 6. Free-Form Spread (full)
-        │
-        ├──▶ 7. Random Encounter Table
-        │
-        ├──▶ 8. Dungeon Spread
-        │
         ▼
 9. CSS and Visual Improvements (final pass)
 ```

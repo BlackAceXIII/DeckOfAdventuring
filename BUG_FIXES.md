@@ -157,3 +157,35 @@ The spread tabs now display and function correctly.
 3. Error handling could be enhanced with user-facing messages instead of just console logs
 4. The per-spread deck selector feature is implemented and working
 5. The replacement toggle is implemented and working (with console logging)
+
+---
+
+## Bug #3: Tab Switch Loses Last Drawn Card (All Spreads)
+
+### Problem
+Switching from a spread with a drawn card detail panel open to another spread and back caused the card detail panel to disappear. The card data was still present in the DOM but the panel was hidden.
+
+### Root Cause
+`openSpread()` STEP 1.5 blanket-hides all `.tabcontent` card detail panels on every spread switch (correct — prevents Adventure's panel from showing while on Five-Card). Nothing re-showed the panel when switching back.
+
+### Fix Applied
+Added a `lastOpenCard` global (`spreadName → cardNum`). Updated `openCard()` and the generate-button click handler to record the last opened card per spread. In `openSpread()` step 3.4, after showing the target spread, `lastOpenCard[spreadName]` is checked and the panel is re-shown if present. `clearAllSpreads()` resets `lastOpenCard = {}`.
+
+### Files Modified
+- `cardReading.js` — `lastOpenCard` global, `openCard()`, generate-button handler, `openSpread()`, `clearAllSpreads()`
+
+---
+
+## Bug #4: Dungeon Spread Guardian Button Shows Nothing
+
+### Problem
+Clicking the Guardian grid button in the Dungeon Spread showed no card panel after Guardian was changed to a dual-card slot (C.58 Feature + C.59 Location).
+
+### Root Cause
+The grid button called `openCard(event, 'C.59', this)`. The outer tabcontent wrapper for the Guardian dual-card panel has `id="C.58"` — C.59 is a nested `<div id="meanings-C.59">` inside it. `openCard` found that inner div and set its display, but the outer panel stayed hidden.
+
+### Fix Applied
+Changed the Guardian grid button to call `openCard(event, 'C.58', this)`, which correctly targets the outer tabcontent wrapper that contains both the Feature and Location cards.
+
+### Files Modified
+- `cardReading.html` — Guardian grid button `onclick` target changed from `'C.59'` to `'C.58'`

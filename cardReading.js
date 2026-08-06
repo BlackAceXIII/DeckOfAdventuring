@@ -29,7 +29,10 @@ let workingDecks = {
   journey: [],      // C.17-C.30
   blankSlate: [],   // C.31-C.45
   cascadeCurrent: [], // {name, sourceDeck}[] — Current Area pool
-  cascadeNext: []     // {name, sourceDeck}[] — Next Area pool
+  cascadeNext: [],    // {name, sourceDeck}[] — Next Area pool
+  dungeonStory: [],      // C.46-C.48 — fixed deck, plain string array like adventure/etc
+  dungeonLocations: [],  // C.49,51,53,55,59 — fixed deck
+  dungeonFeatures: []    // C.50,52,54,56,57,58 — fixed deck
 };
 
 let graveyardCards = []; // {name, orientation, sourceDeck}[]
@@ -37,24 +40,33 @@ let lastOpenCard = {}; // spreadName -> last shown cardNum, restored when switch
 
 const CARD_DIR = './CardsJsons';
 
-const drawData = {
-  "C.00": { cType: "" }, "C.01": { cType: "" }, "C.02": { cType: "" },
-  "C.03": { cType: "" }, "C.04": { cType: "" }, "C.05": { cType: "" },
-  "C.06": { cType: "" }, "C.07": { cType: "" }, "C.08": { cType: "" },
-  "C.09": { cType: "" }, "C.10": { cType: "" }, "C.11": { cType: "" },
-  "C.12": { cType: "" }, "C.13": { cType: "" }, "C.14": { cType: "" },
-  "C.15": { cType: "" }, "C.16": { cType: "" }, "C.17": { cType: "" },
-  "C.18": { cType: "" }, "C.19": { cType: "" }, "C.20": { cType: "" },
-  "C.21": { cType: "" }, "C.22": { cType: "" }, "C.23": { cType: "" },
-  "C.24": { cType: "" }, "C.25": { cType: "" }, "C.26": { cType: "" },
-  "C.27": { cType: "" }, "C.28": { cType: "" }, "C.29": { cType: "" },
-  "C.30": { cType: "" },
-  "C.31": { cType: "" }, "C.32": { cType: "" }, "C.33": { cType: "" },
-  "C.34": { cType: "" }, "C.35": { cType: "" }, "C.36": { cType: "" },
-  "C.37": { cType: "" }, "C.38": { cType: "" }, "C.39": { cType: "" },
-  "C.40": { cType: "" }, "C.41": { cType: "" }, "C.42": { cType: "" },
-  "C.43": { cType: "" }, "C.44": { cType: "" }, "C.45": { cType: "" }
+// Dungeon Spread deck assignments are fixed at the code level — not user-selectable.
+// These deck names must exist in deckLists.json (see "Locations Deck", "Story Deck", "Features Deck").
+const DUNGEON_FIXED_DECKS = {
+  dungeonStory: 'Story Deck',
+  dungeonLocations: 'Locations Deck',
+  dungeonFeatures: 'Features Deck'
 };
+
+// Maps each Dungeon Spread card ID to which of the 3 fixed working decks it draws from.
+// Two-card slots (Entrance, Challenge 1-3, Treasure) map their two IDs to different decks.
+const DUNGEON_CARD_DECKS = {
+  'C.46': 'dungeonStory',      // Party Gathers
+  'C.47': 'dungeonStory',      // Adventure Begins
+  'C.48': 'dungeonStory',      // Journey
+  'C.49': 'dungeonLocations',  // Entrance - Location
+  'C.50': 'dungeonFeatures',   // Entrance - Feature
+  'C.51': 'dungeonLocations',  // Challenge 1 - Location
+  'C.52': 'dungeonFeatures',   // Challenge 1 - Feature
+  'C.53': 'dungeonLocations',  // Challenge 2 - Location
+  'C.54': 'dungeonFeatures',   // Challenge 2 - Feature
+  'C.55': 'dungeonLocations',  // Challenge 3 - Location
+  'C.56': 'dungeonFeatures',   // Challenge 3 - Feature
+  'C.57': 'dungeonFeatures',   // Treasure — Feature
+  'C.58': 'dungeonFeatures',   // Guardian — Feature
+  'C.59': 'dungeonLocations'   // Guardian — Location
+};
+
 
 const SPREAD_SLOTS = {
   'adventure-spread': [
@@ -65,8 +77,8 @@ const SPREAD_SLOTS = {
     { id: 'C.04', label: 'Challenge 1' },
     { id: 'C.05', label: 'Challenge 2' },
     { id: 'C.06', label: 'Challenge 3' },
-    { id: 'C.07', label: 'Guardian' },
-    { id: 'C.08', label: 'Treasure' }
+    { id: 'C.07', label: 'Treasure' },
+    { id: 'C.08', label: 'Guardian' }
   ],
   'five-card-spread': [
     { id: 'C.09', label: 'The Quest' },
@@ -105,6 +117,22 @@ const SPREAD_SLOTS = {
     { id: 'C.41', label: 'Slot 11' }, { id: 'C.42', label: 'Slot 12' },
     { id: 'C.43', label: 'Slot 13' }, { id: 'C.44', label: 'Slot 14' },
     { id: 'C.45', label: 'Slot 15' }
+  ],
+  'dungeon-spread': [
+    { id: 'C.46', label: 'Party Gathers' },
+    { id: 'C.47', label: 'Adventure Begins' },
+    { id: 'C.48', label: 'Journey' },
+    { id: 'C.49', label: 'Entrance (Location)' },
+    { id: 'C.50', label: 'Entrance (Feature)' },
+    { id: 'C.51', label: 'Challenge 1 (Location)' },
+    { id: 'C.52', label: 'Challenge 1 (Feature)' },
+    { id: 'C.53', label: 'Challenge 2 (Location)' },
+    { id: 'C.54', label: 'Challenge 2 (Feature)' },
+    { id: 'C.55', label: 'Challenge 3 (Location)' },
+    { id: 'C.56', label: 'Challenge 3 (Feature)' },
+    { id: 'C.57', label: 'Treasure (Feature)' },
+    { id: 'C.58', label: 'Guardian (Feature)' },
+    { id: 'C.59', label: 'Guardian (Location)' }
   ]
 };
 
@@ -206,6 +234,7 @@ function getSpreadKey(cardNum) {
   if (cardNumber >= 14 && cardNumber <= 16) return 'threeCard';
   if (cardNumber >= 17 && cardNumber <= 30) return 'journey';
   if (cardNumber >= 31 && cardNumber <= 45) return 'blankSlate';
+  if (DUNGEON_CARD_DECKS[cardNum]) return DUNGEON_CARD_DECKS[cardNum];
   return 'adventure'; // default
 }
 
@@ -245,6 +274,17 @@ function initializeWorkingDecks() {
   updateCurrentList();
   updateNextList();
   updateCascadeCounts();
+
+  // STEP 5: Initialize the 3 fixed Dungeon Spread decks (not user-selectable —
+  // deck names come from DUNGEON_FIXED_DECKS). selectedDecks is still populated
+  // here (not just workingDecks) because generateCard() reads selectedDecks[spreadKey]
+  // to resolve the deck name in replaceable mode.
+  Object.keys(DUNGEON_FIXED_DECKS).forEach(key => {
+    const deckName = DUNGEON_FIXED_DECKS[key];
+    selectedDecks[key] = deckName;
+    workingDecks[key] = (allDecks && allDecks[deckName]) ? [...allDecks[deckName]] : [];
+  });
+  updateDungeonSidebar();
 }
 
 // Helper function to reset a specific spread's working deck
@@ -322,9 +362,22 @@ function createSpreadDeckSelector(spreadKey, selectId, label, deckLists) {
     sel.addEventListener("change", function() {
       // 3.2 Update the selectedDecks object with new choice
       selectedDecks[spreadKey] = this.value;
-      // 3.3 Reinitialize working decks with the new deck
-      initializeWorkingDecks();
-      validateDeckSize(spreadKey); // Check if the new deck is valid for the spread and update UI
+      // 3.3 Reinitialize only the changed spread's working deck, preserving
+      //     all other in-progress spread state (cascade pools, dungeon pools).
+      if (spreadKey === 'cascadeCurrent' || spreadKey === 'cascadeNext') {
+        // Cascade pools use {name, sourceDeck}[] objects; rebuild just this column.
+        const deckName = selectedDecks[spreadKey];
+        const source = (allDecks && allDecks[deckName]) ? deckName : (allDecks ? Object.keys(allDecks)[0] : null);
+        const cards = source && allDecks[source] ? allDecks[source] : [];
+        workingDecks[spreadKey] = cards.map(name => ({ name, sourceDeck: source }));
+        updateCurrentList();
+        updateNextList();
+        updateCascadeCounts();
+      } else {
+        // Regular spread: reset only this spread's working deck.
+        resetWorkingDeck(spreadKey);
+      }
+      validateDeckSize(spreadKey);
       // 3.4 Update the deck sidebar to show cards from the new deck
       updateDeckSidebar();
       // 3.5 Log the change for debugging
@@ -563,6 +616,7 @@ function openSpread(evt, spreadName) {
   const sidebarTitle       = document.getElementById('sidebar-title');
   const sidebarInventory   = document.getElementById('sidebar-content-inventory');
   const sidebarGraveyard   = document.getElementById('sidebar-content-graveyard');
+  const sidebarDungeon     = document.getElementById('sidebar-content-dungeon');
   const deckSidebar        = document.getElementById('deck-sidebar');
 
   if (spreadName === 'cascade-spread') {
@@ -570,6 +624,14 @@ function openSpread(evt, spreadName) {
     if (sidebarTitle)     sidebarTitle.textContent = 'Graveyard';
     if (sidebarInventory) sidebarInventory.style.display = 'none';
     if (sidebarGraveyard) sidebarGraveyard.style.display = '';
+    if (sidebarDungeon)   sidebarDungeon.style.display = 'none';
+    if (deckSidebar)      deckSidebar.style.display = '';
+  } else if (spreadName === 'dungeon-spread') {
+    // Show the 3 fixed dungeon decks; hide the single-deck inventory
+    if (sidebarTitle)     sidebarTitle.textContent = 'Dungeon Decks';
+    if (sidebarInventory) sidebarInventory.style.display = 'none';
+    if (sidebarGraveyard) sidebarGraveyard.style.display = 'none';
+    if (sidebarDungeon)   sidebarDungeon.style.display = '';
     if (deckSidebar)      deckSidebar.style.display = '';
   } else if (spreadName === 'deck-forge-spread') {
     // Deck Forge needs neither — hide the sidebar
@@ -579,6 +641,7 @@ function openSpread(evt, spreadName) {
     if (sidebarTitle)     sidebarTitle.textContent = 'Deck Inventory';
     if (sidebarInventory) sidebarInventory.style.display = '';
     if (sidebarGraveyard) sidebarGraveyard.style.display = 'none';
+    if (sidebarDungeon)   sidebarDungeon.style.display = 'none';
     if (deckSidebar)      deckSidebar.style.display = '';
   }
 
@@ -666,6 +729,36 @@ function redrawBlankSlateSpread() {
   for (let i = 31; i <= 45; i++) {
     generateCard(`C.${i}`);
   }
+}
+
+// Dungeon Spread draws from 3 fixed decks (Story, Locations, Features) instead of
+// one user-selected deck. Story needs 3 cards, Locations needs 5, Features needs 6
+// (see DUNGEON_CARD_DECKS for the full slot-to-deck breakdown).
+function redrawDungeonSpread() {
+  const requirements = [
+    { key: 'dungeonStory', label: 'Story Deck', needed: 3 },
+    { key: 'dungeonLocations', label: 'Locations Deck', needed: 5 },
+    { key: 'dungeonFeatures', label: 'Features Deck', needed: 6 }
+  ];
+
+  if (!isReplaceableEnabled) {
+    for (const { key, label, needed } of requirements) {
+      const deckName = DUNGEON_FIXED_DECKS[key];
+      const deckSize = allDecks[deckName] ? allDecks[deckName].length : 0;
+      if (deckSize < needed) {
+        alert(`Cannot draw: The "${label}" only has ${deckSize} cards, but the Dungeon Spread requires ${needed}. Turn on Card Replacement to continue.`);
+        return;
+      }
+    }
+  }
+
+  requirements.forEach(({ key }) => {
+    const deckName = DUNGEON_FIXED_DECKS[key];
+    workingDecks[key] = (allDecks[deckName] ? [...allDecks[deckName]] : []);
+  });
+
+  ['C.46', 'C.47', 'C.48', 'C.49', 'C.50', 'C.51', 'C.52', 'C.53', 'C.54', 'C.55', 'C.56', 'C.57', 'C.58', 'C.59']
+    .forEach(cardNum => generateCard(cardNum));
 }
 
 // Validates if the selected deck has enough cards for the spread
@@ -835,10 +928,18 @@ function openQuickFill() {
     'journey-spread':     'journey',
     'blank-slate-spread': 'blankSlate'
   }[activeSpread] || 'adventure';
-  // 2.2 Resolve which deck is active for this spread
-  const activeDeckName = getSelectedDeckForSpread(spreadKey);
-  // 2.3 Get that deck's card list, sorted alphabetically for predictable suggestion order
-  const deckCardNames = (allDecks[activeDeckName] || []).slice().sort();
+  // 2.2 Resolve which deck's cards to suggest. Dungeon Spread has 3 fixed decks
+  // instead of one user-selected deck, so union all three instead of looking up
+  // a single selectedDecks entry.
+  let deckCardNames;
+  if (activeSpread === 'dungeon-spread') {
+    const union = new Set(Object.values(DUNGEON_FIXED_DECKS).flatMap(deckName => allDecks[deckName] || []));
+    deckCardNames = [...union].sort();
+  } else {
+    const activeDeckName = getSelectedDeckForSpread(spreadKey);
+    // 2.3 Get that deck's card list, sorted alphabetically for predictable suggestion order
+    deckCardNames = (allDecks[activeDeckName] || []).slice().sort();
+  }
   // 2.4 Replace the datalist options — inputs already reference it via list="card-names-list"
   const datalist = document.getElementById('card-names-list');
   if (datalist) {
@@ -852,7 +953,8 @@ function openQuickFill() {
     'five-card-spread': 'Five-Card Spread',
     'three-card-spread': 'Three-Card Spread',
     'journey-spread': 'Journey Spread',
-    'blank-slate-spread': 'Blank Slate Spread'
+    'blank-slate-spread': 'Blank Slate Spread',
+    'dungeon-spread': 'Dungeon Spread'
   };
   // 3.2 Inject the name into the panel heading span
   document.getElementById('qf-spread-name').textContent = spreadNames[activeSpread] || activeSpread;
@@ -1137,9 +1239,40 @@ function saveCustomDeck() {
   // 6.2.3 Save updated collection back to localStorage
   localStorage.setItem('userCustomDecks', JSON.stringify(existingLocal));
 
-  // STEP 7: Rebuild UI to reflect new deck
-  // 7.1 Rebuild all deck selection dropdowns
+  // STEP 7: Rebuild UI to reflect new deck, preserving current selections and pool state
+  // 7.1 Snapshot state that populateDropdown would otherwise wipe
+  const savedSelections = { ...selectedDecks };
+  const savedPools = {
+    cascadeCurrent:   [...workingDecks.cascadeCurrent],
+    cascadeNext:      [...workingDecks.cascadeNext],
+    dungeonStory:     [...workingDecks.dungeonStory],
+    dungeonLocations: [...workingDecks.dungeonLocations],
+    dungeonFeatures:  [...workingDecks.dungeonFeatures],
+  };
+  // 7.2 Rebuild all deck selection dropdowns (adds new deck to every selector)
   populateDropdown(allDecks);
+  // 7.3 Re-apply the spread selections the user already had
+  const selectorIds = {
+    adventure:      'deck-select-adventure',
+    fiveCard:       'deck-select-fiveCard',
+    threeCard:      'deck-select-threeCard',
+    journey:        'deck-select-journey',
+    blankSlate:     'deck-select-blankSlate',
+    cascadeCurrent: 'deck-select-cascadeCurrent',
+    cascadeNext:    'deck-select-cascadeNext',
+  };
+  Object.keys(selectorIds).forEach(key => {
+    const saved = savedSelections[key];
+    if (saved && allDecks[saved]) {
+      selectedDecks[key] = saved;
+      const sel = document.getElementById(selectorIds[key]);
+      if (sel) sel.value = saved;
+    }
+  });
+  // 7.4 Restore in-progress cascade and dungeon pool state
+  Object.assign(workingDecks, savedPools);
+  updateCurrentList(); updateNextList(); updateCascadeCounts();
+  updateDungeonSidebar();
 
   // STEP 8: Provide user feedback and cleanup
   // 8.1 Alert user of successful save
@@ -1165,15 +1298,22 @@ function generateCard(cardNum) {
   // 2.1 Choose replaceable deck if enabled, otherwise use working deck
   let deckToUse = isReplaceableEnabled ? allDecks[deckName] : workingDecks[spreadKey];
   
-  // 2.2 If using non-replaceable mode and deck is empty, silently refill it
+  // 2.2 Handle empty deck
   if (!deckToUse || deckToUse.length === 0) {
-    if (!isReplaceableEnabled) {
-      alert(`The ${deckName} deck is out of cards. Refill the deck to continue drawing, or turn on replaceable mode to draw from an infinite deck.`);
+    if (isReplaceableEnabled) {
+      // Source deck itself is empty — nothing to draw from regardless of mode
+      alert(`"${deckName}" has no cards. Please select a different deck or add cards to it in Deck Forge.`);
+      return;
     }
-    else {
-      alert(`The ${deckName} deck is out of cards. It will be refilled for the next draw.`);
+    // Non-replaceable: working deck exhausted — offer to refill
+    const doRefill = confirm(`The ${deckName} deck is out of cards. Refill and draw again?`);
+    if (!doRefill) return;
+    resetWorkingDeck(spreadKey);
+    deckToUse = workingDecks[spreadKey];
+    if (!deckToUse || deckToUse.length === 0) {
+      alert(`"${deckName}" has no cards. Please select a different deck.`);
+      return;
     }
-    return; // Halt the function if no cards are available
   }
 
 
@@ -1255,8 +1395,9 @@ function generateCard(cardNum) {
  * Wipes the UI clean and resets the internal decks
  */
 function clearAllSpreads() {
-  // 1. Reset all 46 card UI slots (C.00-C.30 structured spreads + C.31-C.45 blank slate)
-  for (let i = 0; i <= 45; i++) {
+  // 1. Reset all 60 card UI slots (C.00-C.30 structured spreads, C.31-C.45 blank slate,
+  // C.46-C.59 dungeon spread)
+  for (let i = 0; i <= 59; i++) {
     const cardNum = i < 10 ? `C.0${i}` : `C.${i}`;
     
     // 1.1 Reset Spread Tables
@@ -1443,7 +1584,7 @@ function cascadeDraw() {
 
   // STEP 3: Assign random orientation
   const isUpright = Math.random() < 0.5;
-  const orientationText = isUpright ? 'Upright' : 'Reversed';
+  const orientationText = isUpright ? 'Upright' : 'Reverse';
 
   // STEP 4: Move drawn card to graveyard
   graveyardCards.push({ name: drawn.name, orientation: orientationText, sourceDeck: drawn.sourceDeck });
@@ -1549,9 +1690,10 @@ function exportReading() {
     cards: {}
   };
 
-  // STEP 2: Collect all drawn cards from C.00 to C.45
-  // 2.1 Iterate through all 46 card slots (C.00-C.30 structured spreads + C.31-C.45 blank slate)
-  for (let i = 0; i <= 45; i++) {
+  // STEP 2: Collect all drawn cards from C.00 to C.59
+  // 2.1 Iterate through all 60 card slots (C.00-C.30 structured spreads, C.31-C.45 blank
+  // slate, C.46-C.59 dungeon spread)
+  for (let i = 0; i <= 59; i++) {
     // 2.2 Format card number with leading zero (C.00-C.30)
     const cardNum = i < 10 ? `C.0${i}` : `C.${i}`;
     
@@ -1901,8 +2043,75 @@ function toggleReplaceable() {
  * High-performance sidebar population.
  * Generates an O(N) frequency map and writes to DOM via a single template string.
  */
+// Renders the "Dungeon Decks" sidebar section: one row per fixed deck
+// (Story, Locations, Features) showing remaining/total cards. Unlike the
+// generic single-deck sidebar, this has no over-quota detection — Dungeon
+// Spread decks are fixed and not meant to be GM-resized.
+function updateDungeonSidebar() {
+  const container = document.getElementById('sidebar-dungeon-list');
+  if (!container) return;
+
+  // Preserve which accordion sections are currently open before rebuilding
+  const openSections = new Set();
+  container.querySelectorAll('.dungeon-accordion-section').forEach(sec => {
+    if (sec.dataset.open === 'true') openSections.add(sec.dataset.key);
+  });
+
+  const html = Object.keys(DUNGEON_FIXED_DECKS).map(key => {
+    const deckName = DUNGEON_FIXED_DECKS[key];
+    const allCards_  = (allDecks && allDecks[deckName]) ? allDecks[deckName] : [];
+    const total      = allCards_.length;
+    const pool       = isReplaceableEnabled ? allCards_ : (workingDecks[key] || []);
+    const remaining  = pool.length;
+    const isOpen     = openSections.has(key);
+    const exhausted  = remaining === 0;
+
+    const cardRows = pool.length > 0
+      ? pool.map(c => `<div class="sidebar-card-item available"><span class="sidebar-card-name">${c}</span></div>`).join('')
+      : `<div class="sidebar-card-item exhausted"><span class="sidebar-card-name">Deck exhausted</span></div>`;
+
+    return `
+      <div class="dungeon-accordion-section${exhausted ? ' exhausted' : ''}" data-key="${key}" data-open="${isOpen}">
+        <div class="dungeon-accordion-header" onclick="toggleDungeonSection('${key}')">
+          <span class="dungeon-accordion-label">${deckName}</span>
+          <span class="dungeon-accordion-count">${remaining}/${total}</span>
+          <span class="dungeon-accordion-arrow">${isOpen ? '▼' : '▶'}</span>
+        </div>
+        <div class="dungeon-accordion-body" style="display:${isOpen ? 'block' : 'none'};">
+          ${cardRows}
+        </div>
+      </div>`;
+  }).join('');
+
+  container.innerHTML = html;
+}
+
+// Toggle one accordion section open/closed without rebuilding the whole list
+function toggleDungeonSection(key) {
+  const container = document.getElementById('sidebar-dungeon-list');
+  if (!container) return;
+  const section = container.querySelector(`.dungeon-accordion-section[data-key="${key}"]`);
+  if (!section) return;
+  const isOpen = section.dataset.open === 'true';
+  section.dataset.open = isOpen ? 'false' : 'true';
+  const body  = section.querySelector('.dungeon-accordion-body');
+  const arrow = section.querySelector('.dungeon-accordion-arrow');
+  if (body)  body.style.display  = isOpen ? 'none' : 'block';
+  if (arrow) arrow.textContent   = isOpen ? '▶' : '▼';
+}
+
 function updateDeckSidebar() {
   const activeSpread = getActiveSpread();
+
+  // Dungeon Spread has 3 fixed decks instead of one user-selected deck —
+  // delegate to its own dedicated sidebar renderer instead of the single-deck logic below.
+  if (activeSpread === 'dungeon-spread') {
+    updateDungeonSidebar();
+    return;
+  }
+
+  if (activeSpread === 'cascade-spread') return;
+
   const spreadKey = {
     'adventure-spread':   'adventure',
     'five-card-spread':   'fiveCard',
