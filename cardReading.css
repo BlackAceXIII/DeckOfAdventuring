@@ -505,6 +505,20 @@ h1.site-title {
   box-shadow: 0 0 28px rgba(90,140,255,0.5);
 }
 
+#five-card-spread .button1 {
+  background: linear-gradient(135deg, #0a1550, #182880);
+  border-color: rgba(126,184,247,0.45);
+  color: var(--cel-text);
+  box-shadow: 0 0 14px rgba(60,100,220,0.3);
+}
+
+#five-card-spread .button1:hover {
+  background: linear-gradient(135deg, #182880, #2040b0);
+  border-color: var(--cel-accent);
+  color: #fff;
+  box-shadow: 0 0 24px rgba(90,140,255,0.45);
+}
+
 #five-card-spread .card-list {
   border-color: rgba(126,184,247,0.25);
   background: rgba(4,5,26,0.85);
@@ -587,6 +601,20 @@ h1.site-title {
 #three-card-spread .redraw-btn:hover {
   background: linear-gradient(135deg, #0e3a30, #185a48);
   box-shadow: 0 0 28px rgba(61,214,181,0.4);
+}
+
+#three-card-spread .button1 {
+  background: linear-gradient(135deg, #062018, #0e3a30);
+  border-color: rgba(61,214,181,0.4);
+  color: var(--ora-text);
+  box-shadow: 0 0 14px rgba(30,120,90,0.3);
+}
+
+#three-card-spread .button1:hover {
+  background: linear-gradient(135deg, #0e3a30, #185a48);
+  border-color: var(--ora-accent);
+  color: #d0fff5;
+  box-shadow: 0 0 24px rgba(61,214,181,0.38);
 }
 
 #three-card-spread .card-list {
