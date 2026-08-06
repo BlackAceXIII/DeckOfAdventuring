@@ -67,24 +67,6 @@ const DUNGEON_CARD_DECKS = {
   'C.59': 'dungeonLocations'   // Guardian — Location
 };
 
-const drawData = {
-  "C.00": { cType: "" }, "C.01": { cType: "" }, "C.02": { cType: "" },
-  "C.03": { cType: "" }, "C.04": { cType: "" }, "C.05": { cType: "" },
-  "C.06": { cType: "" }, "C.07": { cType: "" }, "C.08": { cType: "" },
-  "C.09": { cType: "" }, "C.10": { cType: "" }, "C.11": { cType: "" },
-  "C.12": { cType: "" }, "C.13": { cType: "" }, "C.14": { cType: "" },
-  "C.15": { cType: "" }, "C.16": { cType: "" }, "C.17": { cType: "" },
-  "C.18": { cType: "" }, "C.19": { cType: "" }, "C.20": { cType: "" },
-  "C.21": { cType: "" }, "C.22": { cType: "" }, "C.23": { cType: "" },
-  "C.24": { cType: "" }, "C.25": { cType: "" }, "C.26": { cType: "" },
-  "C.27": { cType: "" }, "C.28": { cType: "" }, "C.29": { cType: "" },
-  "C.30": { cType: "" },
-  "C.31": { cType: "" }, "C.32": { cType: "" }, "C.33": { cType: "" },
-  "C.34": { cType: "" }, "C.35": { cType: "" }, "C.36": { cType: "" },
-  "C.37": { cType: "" }, "C.38": { cType: "" }, "C.39": { cType: "" },
-  "C.40": { cType: "" }, "C.41": { cType: "" }, "C.42": { cType: "" },
-  "C.43": { cType: "" }, "C.44": { cType: "" }, "C.45": { cType: "" }
-};
 
 const SPREAD_SLOTS = {
   'adventure-spread': [
@@ -1257,9 +1239,40 @@ function saveCustomDeck() {
   // 6.2.3 Save updated collection back to localStorage
   localStorage.setItem('userCustomDecks', JSON.stringify(existingLocal));
 
-  // STEP 7: Rebuild UI to reflect new deck
-  // 7.1 Rebuild all deck selection dropdowns
+  // STEP 7: Rebuild UI to reflect new deck, preserving current selections and pool state
+  // 7.1 Snapshot state that populateDropdown would otherwise wipe
+  const savedSelections = { ...selectedDecks };
+  const savedPools = {
+    cascadeCurrent:   [...workingDecks.cascadeCurrent],
+    cascadeNext:      [...workingDecks.cascadeNext],
+    dungeonStory:     [...workingDecks.dungeonStory],
+    dungeonLocations: [...workingDecks.dungeonLocations],
+    dungeonFeatures:  [...workingDecks.dungeonFeatures],
+  };
+  // 7.2 Rebuild all deck selection dropdowns (adds new deck to every selector)
   populateDropdown(allDecks);
+  // 7.3 Re-apply the spread selections the user already had
+  const selectorIds = {
+    adventure:      'deck-select-adventure',
+    fiveCard:       'deck-select-fiveCard',
+    threeCard:      'deck-select-threeCard',
+    journey:        'deck-select-journey',
+    blankSlate:     'deck-select-blankSlate',
+    cascadeCurrent: 'deck-select-cascadeCurrent',
+    cascadeNext:    'deck-select-cascadeNext',
+  };
+  Object.keys(selectorIds).forEach(key => {
+    const saved = savedSelections[key];
+    if (saved && allDecks[saved]) {
+      selectedDecks[key] = saved;
+      const sel = document.getElementById(selectorIds[key]);
+      if (sel) sel.value = saved;
+    }
+  });
+  // 7.4 Restore in-progress cascade and dungeon pool state
+  Object.assign(workingDecks, savedPools);
+  updateCurrentList(); updateNextList(); updateCascadeCounts();
+  updateDungeonSidebar();
 
   // STEP 8: Provide user feedback and cleanup
   // 8.1 Alert user of successful save
@@ -1285,15 +1298,22 @@ function generateCard(cardNum) {
   // 2.1 Choose replaceable deck if enabled, otherwise use working deck
   let deckToUse = isReplaceableEnabled ? allDecks[deckName] : workingDecks[spreadKey];
   
-  // 2.2 If using non-replaceable mode and deck is empty, silently refill it
+  // 2.2 Handle empty deck
   if (!deckToUse || deckToUse.length === 0) {
-    if (!isReplaceableEnabled) {
-      alert(`The ${deckName} deck is out of cards. Refill the deck to continue drawing, or turn on replaceable mode to draw from an infinite deck.`);
+    if (isReplaceableEnabled) {
+      // Source deck itself is empty — nothing to draw from regardless of mode
+      alert(`"${deckName}" has no cards. Please select a different deck or add cards to it in Deck Forge.`);
+      return;
     }
-    else {
-      alert(`The ${deckName} deck is out of cards. It will be refilled for the next draw.`);
+    // Non-replaceable: working deck exhausted — offer to refill
+    const doRefill = confirm(`The ${deckName} deck is out of cards. Refill and draw again?`);
+    if (!doRefill) return;
+    resetWorkingDeck(spreadKey);
+    deckToUse = workingDecks[spreadKey];
+    if (!deckToUse || deckToUse.length === 0) {
+      alert(`"${deckName}" has no cards. Please select a different deck.`);
+      return;
     }
-    return; // Halt the function if no cards are available
   }
 
 
@@ -1564,7 +1584,7 @@ function cascadeDraw() {
 
   // STEP 3: Assign random orientation
   const isUpright = Math.random() < 0.5;
-  const orientationText = isUpright ? 'Upright' : 'Reversed';
+  const orientationText = isUpright ? 'Upright' : 'Reverse';
 
   // STEP 4: Move drawn card to graveyard
   graveyardCards.push({ name: drawn.name, orientation: orientationText, sourceDeck: drawn.sourceDeck });
@@ -2089,6 +2109,8 @@ function updateDeckSidebar() {
     updateDungeonSidebar();
     return;
   }
+
+  if (activeSpread === 'cascade-spread') return;
 
   const spreadKey = {
     'adventure-spread':   'adventure',
